@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="云脑平台开源工具中心，收录各类安全相关开源工具的快捷入口">
+    <meta name="keywords" content="安全工具,开源工具,学习资源,安全资源">
+    <title>开源工具 - 云脑平台</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../css/resources.css">
+</head>
+<body>
+    <!-- 全局导航 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="brand-logo">云脑</h1>
+                <span class="brand-slogan">最懂安全的AI智能体平台</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html">云脑</a></li>
+                <li class="nav-item"><a href="news.html">资讯</a></li>
+                <li class="nav-item"><a href="papers.html">论文</a></li>
+                <li class="nav-item active"><a href="resources.html">资源</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">登录</a>
+                <a href="register.html" class="btn btn-primary">注册</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">开源工具</h1>
+            
+            <!-- 搜索框 -->
+            <div class="search-section">
+                <input type="text" class="search-input" placeholder="搜索工具资源..." id="searchInput">
+                <button class="search-btn">搜索</button>
+                <button class="reset-btn" id="resetBtn" style="display: none;">重置</button>
+            </div>
+
+            <!-- Tab 导航 -->
+            <div class="tabs-container">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="pentest">渗透测试工具</button>
+                    <button class="tab-btn" data-tab="code-scan">代码扫描工具</button>
+                    <button class="tab-btn" data-tab="platform">综合安全平台</button>
+                </div>
+            </div>
+
+            <!-- 资源分类 -->
+            <!-- 渗透测试工具 -->
+            <section class="resources-section tab-content active" data-tab-content="pentest">
+                <!-- Web应用渗透测试 -->
+                <h3 class="subsection-title">Web应用渗透测试</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🛡️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Burp Suite Community Edition</h3>
+                            <p class="resource-desc">Web应用安全测试工具，用于拦截和修改HTTP/HTTPS请求（社区版免费）</p>
+                            <div class="resource-links">
+                                <a href="https://portswigger.net/burp/communitydownload" class="resource-btn" target="_blank">官网</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">OWASP ZAP</h3>
+                        <p class="resource-desc">OWASP开发的免费开源Web应用安全扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://www.zaproxy.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/zaproxy/zaproxy" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">💉</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">SQLMap</h3>
+                        <p class="resource-desc">自动化SQL注入检测和利用工具</p>
+                        <div class="resource-links">
+                            <a href="http://sqlmap.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/sqlmapproject/sqlmap" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔎</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Nikto</h3>
+                        <p class="resource-desc">Web服务器扫描器，用于检测危险文件、CGI等</p>
+                        <div class="resource-links">
+                            <a href="https://cirt.net/Nikto2" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/sullo/nikto" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">⚡</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Wfuzz</h3>
+                        <p class="resource-desc">Web应用模糊测试工具，用于暴力破解和参数发现</p>
+                        <div class="resource-links">
+                            <a href="https://wfuzz.readthedocs.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/xmendez/wfuzz" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 网络扫描与枚举 -->
+                <h3 class="subsection-title">网络扫描与枚举</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🌐</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Nmap</h3>
+                        <p class="resource-desc">网络发现和安全审计工具</p>
+                        <div class="resource-links">
+                            <a href="https://nmap.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/nmap/nmap" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🚀</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Masscan</h3>
+                        <p class="resource-desc">超快速网络端口扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/robertdavidgraham/masscan" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🛡️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">OpenVAS</h3>
+                        <p class="resource-desc">开源漏洞扫描和管理框架</p>
+                        <div class="resource-links">
+                            <a href="https://www.openvas.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/greenbone/openvas" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 密码破解 -->
+                <h3 class="subsection-title">密码破解</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🔓</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">John the Ripper</h3>
+                        <p class="resource-desc">快速密码破解工具</p>
+                        <div class="resource-links">
+                            <a href="https://www.openwall.com/john/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/openwall/john" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">💻</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Hashcat</h3>
+                        <p class="resource-desc">高级密码恢复工具，支持GPU加速</p>
+                        <div class="resource-links">
+                            <a href="https://hashcat.net/hashcat/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/hashcat/hashcat" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🌊</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Hydra</h3>
+                        <p class="resource-desc">网络登录暴力破解工具</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/vanhauser-thc/thc-hydra" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 漏洞利用框架 -->
+                <h3 class="subsection-title">漏洞利用框架</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🔧</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Metasploit Framework</h3>
+                        <p class="resource-desc">渗透测试框架，包含大量漏洞利用模块</p>
+                        <div class="resource-links">
+                            <a href="https://www.metasploit.com/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/rapid7/metasploit-framework" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">💾</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Exploit-DB</h3>
+                        <p class="resource-desc">漏洞利用数据库和存档</p>
+                        <div class="resource-links">
+                            <a href="https://www.exploit-db.com/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/offensive-security/exploitdb" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">SearchSploit</h3>
+                        <p class="resource-desc">Exploit-DB的命令行搜索工具</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/offensive-security/exploitdb" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 无线安全 -->
+                <h3 class="subsection-title">无线安全</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">📡</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Aircrack-ng</h3>
+                        <p class="resource-desc">WiFi安全审计工具套件</p>
+                        <div class="resource-links">
+                            <a href="https://www.aircrack-ng.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/aircrack-ng/aircrack-ng" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Wireshark</h3>
+                        <p class="resource-desc">网络协议分析器</p>
+                        <div class="resource-links">
+                            <a href="https://www.wireshark.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/wireshark/wireshark" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 社会工程学 -->
+                <h3 class="subsection-title">社会工程学</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🎭</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Social Engineering Toolkit (SET)</h3>
+                        <p class="resource-desc">社会工程学攻击工具包</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/trustedsec/social-engineer-toolkit" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🎣</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Gophish</h3>
+                        <p class="resource-desc">开源钓鱼框架</p>
+                        <div class="resource-links">
+                            <a href="https://getgophish.com/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/gophish/gophish" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 代码扫描工具 -->
+            <section class="resources-section tab-content" data-tab-content="code-scan">
+                <!-- 静态应用安全测试 (SAST) -->
+                <h3 class="subsection-title">静态应用安全测试 (SAST)</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">SonarQube</h3>
+                        <p class="resource-desc">代码质量和安全分析平台</p>
+                        <div class="resource-links">
+                            <a href="https://www.sonarqube.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/SonarSource/sonarqube" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">⚡</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Semgrep</h3>
+                        <p class="resource-desc">快速、开源的静态分析工具</p>
+                        <div class="resource-links">
+                            <a href="https://semgrep.dev/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/returntocorp/semgrep" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔎</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">CodeQL</h3>
+                        <p class="resource-desc">GitHub的语义代码分析引擎（开源CLI工具）</p>
+                        <div class="resource-links">
+                            <a href="https://codeql.github.com/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/github/codeql" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🐍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Bandit</h3>
+                        <p class="resource-desc">Python安全漏洞扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://bandit.readthedocs.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/PyCQA/bandit" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">💎</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Brakeman</h3>
+                        <p class="resource-desc">Ruby on Rails安全扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://brakemanscanner.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/presidentbeef/brakeman" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">📦</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">ESLint Security Plugin</h3>
+                        <p class="resource-desc">ESLint的安全相关规则插件</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/nodesecurity/eslint-plugin-security" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🐛</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">FindSecBugs</h3>
+                        <p class="resource-desc">FindBugs的Java安全漏洞检测插件</p>
+                        <div class="resource-links">
+                            <a href="https://find-sec-bugs.github.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/find-sec-bugs/find-sec-bugs" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔷</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Gosec</h3>
+                        <p class="resource-desc">Go语言安全扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/securego/gosec" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">SpotBugs</h3>
+                        <p class="resource-desc">Java静态分析工具</p>
+                        <div class="resource-links">
+                            <a href="https://spotbugs.github.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/spotbugs/spotbugs" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 软件组成分析 (SCA) / 依赖扫描 -->
+                <h3 class="subsection-title">软件组成分析 (SCA) / 依赖扫描</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🛡️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">OWASP Dependency-Check</h3>
+                        <p class="resource-desc">检测项目依赖中的已知漏洞</p>
+                        <div class="resource-links">
+                            <a href="https://owasp.org/www-project-dependency-check/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/jeremylong/DependencyCheck" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔐</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Snyk Open Source</h3>
+                        <p class="resource-desc">开源依赖漏洞扫描和修复（开源版本）</p>
+                        <div class="resource-links">
+                            <a href="https://snyk.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/snyk/snyk" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🤖</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">GitHub Dependabot</h3>
+                        <p class="resource-desc">GitHub的依赖更新和安全警报服务</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/dependabot" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://docs.github.com/en/code-security/dependabot" class="resource-btn" target="_blank">文档</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">📦</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">npm audit</h3>
+                        <p class="resource-desc">npm包的安全审计工具</p>
+                        <div class="resource-links">
+                            <a href="https://docs.npmjs.com/cli/v8/commands/npm-audit" class="resource-btn" target="_blank">文档</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🐍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Safety</h3>
+                        <p class="resource-desc">Python依赖安全检查工具</p>
+                        <div class="resource-links">
+                            <a href="https://pyup.io/safety/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/pyupio/safety" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">📜</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Retire.js</h3>
+                        <p class="resource-desc">JavaScript库漏洞检测</p>
+                        <div class="resource-links">
+                            <a href="https://retirejs.github.io/retire.js/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/RetireJS/retire.js" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 容器安全扫描 -->
+                <h3 class="subsection-title">容器安全扫描</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🐳</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Trivy</h3>
+                        <p class="resource-desc">容器和文件系统漏洞扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://aquasecurity.github.io/trivy/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/aquasecurity/trivy" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Clair</h3>
+                        <p class="resource-desc">容器漏洞静态分析</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/quay/clair" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">⚓</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Anchore Engine</h3>
+                        <p class="resource-desc">容器镜像安全扫描</p>
+                        <div class="resource-links">
+                            <a href="https://anchore.com/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/anchore/anchore-engine" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🐋</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Docker Bench Security</h3>
+                        <p class="resource-desc">Docker安全配置检查</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/docker/docker-bench-security" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 基础设施即代码 (IaC) 扫描 -->
+                <h3 class="subsection-title">基础设施即代码 (IaC) 扫描</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">✅</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Checkov</h3>
+                        <p class="resource-desc">基础设施即代码静态分析</p>
+                        <div class="resource-links">
+                            <a href="https://www.checkov.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/bridgecrewio/checkov" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🏔️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Terrascan</h3>
+                        <p class="resource-desc">基础设施即代码静态分析工具</p>
+                        <div class="resource-links">
+                            <a href="https://runterrascan.io/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/tenable/terrascan" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">☁️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Tfsec</h3>
+                        <p class="resource-desc">Terraform安全扫描器</p>
+                        <div class="resource-links">
+                            <a href="https://tfsec.dev/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/aquasecurity/tfsec" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">☸️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">Kube-bench</h3>
+                        <p class="resource-desc">Kubernetes CIS基准测试工具</p>
+                        <div class="resource-links">
+                            <a href="https://github.com/aquasecurity/kube-bench" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 动态应用安全测试 (DAST) -->
+                <h3 class="subsection-title">动态应用安全测试 (DAST)</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🔍</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">OWASP ZAP</h3>
+                        <p class="resource-desc">动态应用安全测试工具</p>
+                        <div class="resource-links">
+                            <a href="https://www.zaproxy.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/zaproxy/zaproxy" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 综合安全平台 -->
+            <section class="resources-section tab-content" data-tab-content="platform">
+                <!-- 漏洞管理 -->
+                <h3 class="subsection-title">漏洞管理</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🛡️</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">OpenVAS</h3>
+                        <p class="resource-desc">开源漏洞扫描和管理</p>
+                        <div class="resource-links">
+                            <a href="https://www.openvas.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/greenbone/openvas" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安全编排与自动化 -->
+                <h3 class="subsection-title">安全编排与自动化</h3>
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">🐝</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">TheHive</h3>
+                        <p class="resource-desc">安全事件响应平台</p>
+                        <div class="resource-links">
+                            <a href="https://thehive-project.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/TheHive-Project/TheHive" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="resource-card">
+                        <div class="resource-icon">🔗</div>
+                        <div class="resource-card-content">
+                            <h3 class="resource-title">MISP</h3>
+                        <p class="resource-desc">威胁情报共享平台</p>
+                        <div class="resource-links">
+                            <a href="https://www.misp-project.org/" class="resource-btn" target="_blank">官网</a>
+                            <a href="https://github.com/MISP/MISP" class="resource-btn" target="_blank">GitHub</a>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-company">云起白山AI安全联合实验室</p>
+                <p class="footer-copyright">&copy; 2025 云脑安全智能体平台. All rights reserved.</p>
+                <p class="footer-icp">ICP备案号：京ICP备2022020425号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/common.js"></script>
+    <script src="../js/resources.js"></script>
+</body>
+</html>
+

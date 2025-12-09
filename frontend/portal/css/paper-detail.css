@@ -1,0 +1,226 @@
+/* 论文详情页样式 */
+
+.breadcrumb {
+    margin: 24px 0;
+}
+
+.breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: var(--hover-color);
+}
+
+/* 论文详情 */
+.paper-detail {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--bg-primary);
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.paper-detail-header {
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.paper-detail-title {
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.paper-detail-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    font-size: 14px;
+}
+
+.meta-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-label {
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.meta-value {
+    color: var(--text-primary);
+}
+
+.meta-value a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+.meta-value a:hover {
+    text-decoration: underline;
+}
+
+/* AI全文总结 */
+.ai-summary {
+    background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+    border-left: 4px solid var(--primary-color);
+    padding: 24px;
+    margin: 32px 0;
+    border-radius: 8px;
+}
+
+.ai-summary-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ai-summary-title::before {
+    content: '🤖';
+    font-size: 24px;
+}
+
+.ai-summary-content {
+    line-height: 1.8;
+}
+
+.ai-summary-content p {
+    margin-bottom: 12px;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.ai-summary-content strong {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* 论文摘要 */
+.paper-abstract {
+    margin: 32px 0;
+    padding: 24px;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+}
+
+.paper-abstract h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.paper-abstract p {
+    line-height: 1.8;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+/* 论文正文 */
+.paper-content {
+    margin-top: 32px;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.paper-content h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 32px 0 16px;
+    color: var(--text-primary);
+}
+
+.paper-content h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 24px 0 12px;
+    color: var(--text-primary);
+}
+
+.paper-content p {
+    margin-bottom: 16px;
+    font-size: 16px;
+}
+
+/* 相关论文推荐 */
+.related-papers {
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-color);
+}
+
+.related-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--text-primary);
+}
+
+.related-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.related-item {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-size: 15px;
+    padding: 8px 0;
+    transition: color 0.3s;
+    position: relative;
+    padding-left: 20px;
+}
+
+.related-item::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--text-secondary);
+}
+
+.related-item:hover {
+    color: var(--hover-color);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .paper-detail {
+        padding: 24px 16px;
+    }
+
+    .paper-detail-title {
+        font-size: 24px;
+    }
+
+    .ai-summary {
+        padding: 16px;
+    }
+
+    .ai-summary-title {
+        font-size: 20px;
+    }
+
+    .paper-content h2 {
+        font-size: 20px;
+    }
+
+    .paper-content h3 {
+        font-size: 18px;
+    }
+}
+

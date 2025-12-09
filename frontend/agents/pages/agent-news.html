@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="安全资讯智能体 - 实时聚合安全行业动态资讯">
+    <title>安全资讯 - 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-search.css">
+    <link rel="stylesheet" href="../../css/news.css">
+</head>
+<body class="agent-detail-page agent-search-page">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                        <a href="../../dashboard.html" class="nav-item nav-item-home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-item">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-text">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav" title="我的收藏">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">📰</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">安全资讯</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.1.0</span>
+                    </div>
+                    <p class="agent-description">实时聚合安全行业动态资讯，智能推荐相关内容，帮助用户及时了解安全领域最新动态</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(856)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(3)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索资讯内容、标题或关键词...">
+                <button class="search-reset" id="searchReset" style="display: none;">✕</button>
+            </div>
+        </div>
+
+        <!-- 主内容区域：左右布局 -->
+        <div class="search-content-wrapper">
+            <!-- 左侧分类导航 -->
+            <aside class="search-categories-sidebar">
+                <div class="category-group">
+                    <div class="category-group-title">资讯专题</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item active" data-category="all">
+                            <span class="category-name">全部</span>
+                            <span class="category-count">(856)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="research">
+                            <span class="category-name">技术研究</span>
+                            <span class="category-count">(132)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="threat">
+                            <span class="category-name">安全威胁</span>
+                            <span class="category-count">(98)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="case">
+                            <span class="category-name">案例分析</span>
+                            <span class="category-count">(76)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="activity">
+                            <span class="category-name">重要活动</span>
+                            <span class="category-count">(45)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="product">
+                            <span class="category-name">新品发布</span>
+                            <span class="category-count">(54)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="opinion">
+                            <span class="category-name">行业观点</span>
+                            <span class="category-count">(89)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="incident">
+                            <span class="category-name">网安事件</span>
+                            <span class="category-count">(112)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="training">
+                            <span class="category-name">人才培训</span>
+                            <span class="category-count">(67)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="market">
+                            <span class="category-name">市场动态</span>
+                            <span class="category-count">(93)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="compliance">
+                            <span class="category-name">政策合规</span>
+                            <span class="category-count">(58)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="ai">
+                            <span class="category-name">AI 与安全</span>
+                            <span class="category-count">(42)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-group">
+                    <div class="category-group-title">资讯来源</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item" data-source="all">
+                            <span class="category-name">全部来源</span>
+                        </a>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="community">
+                                <span class="category-name">安全社区</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="community-1">FreeBuf</a>
+                                <a href="#" class="category-sub-item" data-source="community-2">安全牛</a>
+                                <a href="#" class="category-sub-item" data-source="community-3">看雪论坛</a>
+                                <a href="#" class="category-sub-item" data-source="community-4">先知社区</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="vendor">
+                                <span class="category-name">优质厂商</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="vendor-1">奇安信</a>
+                                <a href="#" class="category-sub-item" data-source="vendor-2">360安全</a>
+                                <a href="#" class="category-sub-item" data-source="vendor-3">深信服</a>
+                                <a href="#" class="category-sub-item" data-source="vendor-4">安恒信息</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="media">
+                                <span class="category-name">权威媒体</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="media-1">安全内参</a>
+                                <a href="#" class="category-sub-item" data-source="media-2">E安全</a>
+                                <a href="#" class="category-sub-item" data-source="media-3">安全419</a>
+                                <a href="#" class="category-sub-item" data-source="media-4">嘶吼</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="blog">
+                                <span class="category-name">个人博客</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="blog-1">Kali中文网</a>
+                                <a href="#" class="category-sub-item" data-source="blog-2">安全脉搏</a>
+                                <a href="#" class="category-sub-item" data-source="blog-3">安全客</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="wechat">
+                                <span class="category-name">网安公众号</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="wechat-1">安全牛</a>
+                                <a href="#" class="category-sub-item" data-source="wechat-2">FreeBuf</a>
+                                <a href="#" class="category-sub-item" data-source="wechat-3">安全内参</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 右侧资讯列表 -->
+            <div class="search-content-main">
+                <!-- 筛选栏 -->
+                <div class="search-filters">
+                    <div class="filter-left">
+                        <span class="filter-label">排序：</span>
+                        <select class="filter-select" id="sortSelect">
+                            <option value="time">最新发布</option>
+                            <option value="hot">最热门</option>
+                            <option value="relevant">最相关</option>
+                        </select>
+                    </div>
+                    <div class="filter-right">
+                        <span class="result-count">共找到 <strong>856</strong> 条资讯</span>
+                    </div>
+                </div>
+
+                <!-- 结果列表 -->
+                <section class="search-results-list">
+            <article class="result-card" data-category="threat">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=1">2024年第一季度网络安全威胁报告：APT攻击趋势分析</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-15 14:30</span>
+                        <span class="result-source">FreeBuf</span>
+                        <span class="result-tag tag-threat">威胁情报</span>
+                    </div>
+                </div>
+                <p class="result-summary">本报告深入分析了2024年第一季度的APT攻击趋势，包括主要攻击组织、攻击手法和目标行业。报告显示，金融、能源和政府部门仍然是攻击者的主要目标...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 2.3k</span>
+                        <span class="stat-item">💬 45</span>
+                        <span class="stat-item">👍 234</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="vulnerability">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=2">新型勒索软件LockBit 3.0技术分析及防护建议</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-12 10:20</span>
+                        <span class="result-source">安全牛</span>
+                        <span class="result-tag tag-incident">漏洞分析</span>
+                    </div>
+                </div>
+                <p class="result-summary">LockBit 3.0是最新版本的勒索软件，采用了更先进的加密算法和反分析技术。本文详细分析了其技术特点，并提供了针对性的防护建议...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.8k</span>
+                        <span class="stat-item">💬 32</span>
+                        <span class="stat-item">👍 189</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="research">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=3">零信任架构在云安全中的应用实践</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-10 16:45</span>
+                        <span class="result-source">奇安信</span>
+                        <span class="result-tag tag-research">技术研究</span>
+                    </div>
+                </div>
+                <p class="result-summary">随着企业数字化转型的加速，零信任架构成为云安全的重要解决方案。本文介绍了零信任架构的核心原则，以及在云环境中的具体实施方法...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.5k</span>
+                        <span class="stat-item">💬 28</span>
+                        <span class="stat-item">👍 156</span>
+                    </div>
+                    <button class="btn-collect active" title="已收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="vulnerability">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=4">CVE-2024-1234漏洞详情及修复方案</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-08 09:15</span>
+                        <span class="result-source">安全内参</span>
+                        <span class="result-tag tag-incident">漏洞分析</span>
+                    </div>
+                </div>
+                <p class="result-summary">CVE-2024-1234是一个影响广泛的高危漏洞，CVSS评分为9.8。本文详细分析了漏洞原理、影响范围和修复方案，帮助用户及时防护...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 3.1k</span>
+                        <span class="stat-item">💬 67</span>
+                        <span class="stat-item">👍 298</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="research">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=5">AI驱动的安全运营中心（SOC）建设指南</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-05 11:30</span>
+                        <span class="result-source">360安全</span>
+                        <span class="result-tag tag-research">技术研究</span>
+                    </div>
+                </div>
+                <p class="result-summary">AI技术在安全运营中心的应用正在改变传统的安全监控模式。本文介绍了如何利用AI技术提升SOC的检测能力和响应效率...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.2k</span>
+                        <span class="stat-item">💬 23</span>
+                        <span class="stat-item">👍 142</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="incident">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=6">全球最大数据泄露事件：影响超过5亿用户</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-03 15:20</span>
+                        <span class="result-source">E安全</span>
+                        <span class="result-tag tag-incident">安全事件</span>
+                    </div>
+                </div>
+                <p class="result-summary">近期发生的大规模数据泄露事件影响了全球超过5亿用户，涉及多个行业和地区。本文分析了事件原因、影响范围和应对措施...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 4.2k</span>
+                        <span class="stat-item">💬 89</span>
+                        <span class="stat-item">👍 367</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="threat">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="agent-news-detail.html?id=7">2024年网络钓鱼攻击趋势与防护策略</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-01 13:45</span>
+                        <span class="result-source">深信服</span>
+                        <span class="result-tag tag-threat">威胁情报</span>
+                    </div>
+                </div>
+                <p class="result-summary">网络钓鱼攻击在2024年呈现出新的特点和趋势，攻击者采用了更复杂的社会工程学手段。本文提供了最新的防护策略和最佳实践...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.9k</span>
+                        <span class="stat-item">💬 41</span>
+                        <span class="stat-item">👍 203</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+                </section>
+
+                <!-- 分页器 -->
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>上一页</button>
+                    <div class="pagination-pages">
+                        <button class="pagination-page active">1</button>
+                        <button class="pagination-page">2</button>
+                        <button class="pagination-page">3</button>
+                        <span class="pagination-ellipsis">...</span>
+                        <button class="pagination-page">10</button>
+                    </div>
+                    <button class="pagination-btn">下一页</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-search.js"></script>
+</body>
+</html>
+

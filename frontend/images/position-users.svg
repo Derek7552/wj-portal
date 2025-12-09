@@ -1,0 +1,99 @@
+<svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 目标用户群体图标 - 代表多种用户、社区、团队 -->
+
+  <!-- 外层圆环 - 代表社区 -->
+  <circle cx="60" cy="50" r="45" stroke="url(#userGrad1)" stroke-width="2" fill="none" opacity="0.4"/>
+  <circle cx="60" cy="50" r="38" stroke="url(#userGrad2)" stroke-width="1.5" fill="none" opacity="0.3"/>
+
+  <!-- 中心用户 - 核心用户 -->
+  <g transform="translate(60, 45)">
+    <circle cx="0" cy="-5" r="8" fill="url(#userGrad3)"/>
+    <path d="M-10 10 Q-10 5 -8 3 L-3 3 Q0 -2 3 3 L8 3 Q10 5 10 10 Z"
+          fill="url(#userGrad4)" opacity="0.9"/>
+  </g>
+
+  <!-- 左侧用户 - 安全学习者 -->
+  <g transform="translate(35, 35)">
+    <circle cx="0" cy="0" r="6" fill="url(#userGrad5)" opacity="0.85"/>
+    <path d="M-8 8 Q-8 4 -6 3 L-2 3 Q0 0 2 3 L6 3 Q8 4 8 8 Z"
+          fill="url(#userGrad6)" opacity="0.8"/>
+  </g>
+
+  <!-- 右侧用户 - 企业用户 -->
+  <g transform="translate(85, 35)">
+    <circle cx="0" cy="0" r="6" fill="url(#userGrad5)" opacity="0.85"/>
+    <path d="M-8 8 Q-8 4 -6 3 L-2 3 Q0 0 2 3 L6 3 Q8 4 8 8 Z"
+          fill="url(#userGrad6)" opacity="0.8"/>
+  </g>
+
+  <!-- 左下用户 - 研究人员 -->
+  <g transform="translate(35, 65)">
+    <circle cx="0" cy="0" r="6" fill="url(#userGrad5)" opacity="0.85"/>
+    <path d="M-8 8 Q-8 4 -6 3 L-2 3 Q0 0 2 3 L6 3 Q8 4 8 8 Z"
+          fill="url(#userGrad6)" opacity="0.8"/>
+  </g>
+
+  <!-- 右下用户 - CTF选手 -->
+  <g transform="translate(85, 65)">
+    <circle cx="0" cy="0" r="6" fill="url(#userGrad5)" opacity="0.85"/>
+    <path d="M-8 8 Q-8 4 -6 3 L-2 3 Q0 0 2 3 L6 3 Q8 4 8 8 Z"
+          fill="url(#userGrad6)" opacity="0.8"/>
+  </g>
+
+  <!-- 连接线 - 表示协作和连接 -->
+  <line x1="60" y1="50" x2="35" y2="35" stroke="url(#userGrad7)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="60" y1="50" x2="85" y2="35" stroke="url(#userGrad7)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="60" y1="50" x2="35" y2="65" stroke="url(#userGrad7)" stroke-width="1.5" opacity="0.4"/>
+  <line x1="60" y1="50" x2="85" y2="65" stroke="url(#userGrad7)" stroke-width="1.5" opacity="0.4"/>
+
+  <!-- 网状连接 -->
+  <line x1="35" y1="35" x2="85" y2="35" stroke="url(#userGrad8)" stroke-width="1" opacity="0.2"/>
+  <line x1="35" y1="65" x2="85" y2="65" stroke="url(#userGrad8)" stroke-width="1" opacity="0.2"/>
+  <line x1="35" y1="35" x2="35" y2="65" stroke="url(#userGrad8)" stroke-width="1" opacity="0.2"/>
+  <line x1="85" y1="35" x2="85" y2="65" stroke="url(#userGrad8)" stroke-width="1" opacity="0.2"/>
+
+  <!-- 底部平台线 -->
+  <path d="M30 88 L60 93 L90 88" stroke="url(#userGrad9)" stroke-width="2" fill="none" opacity="0.5"/>
+  <rect x="45" y="93" width="30" height="2" rx="1" fill="url(#userGrad9)" opacity="0.4"/>
+
+  <!-- 渐变定义 -->
+  <defs>
+    <linearGradient id="userGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1e40af;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="userGrad2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="userGrad3">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="userGrad4" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:1" />
+    </linearGradient>
+    <radialGradient id="userGrad5">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </radialGradient>
+    <linearGradient id="userGrad6" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="userGrad7" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="userGrad8" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#93c5fd;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60a5fa;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="userGrad9" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:0.5" />
+      <stop offset="50%" style="stop-color:#60a5fa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2563eb;stop-opacity:0.5" />
+    </linearGradient>
+  </defs>
+</svg>

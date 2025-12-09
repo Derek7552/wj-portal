@@ -1,0 +1,13 @@
+{
+  "name": "wj-portal",
+  "version": "1.0.0",
+  "description": "云脑门户页前端项目",
+  "scripts": {
+    "dev": "live-server frontend --port=8080 --open=/index.html --watch=frontend",
+    "start": "live-server frontend --port=8080 --open=/index.html"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
+

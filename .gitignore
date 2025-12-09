@@ -1,0 +1,30 @@
+# 依赖
+node_modules/
+package-lock.json
+
+# 编辑器配置
+.vscode/
+.cursor/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+npm-debug.log*
+
+# 环境变量
+.env
+.env.local
+
+# 临时文件
+*.tmp
+*.temp
+.cache/
+
+# 构建输出
+dist/
+build/
+*.min.js
+*.min.css

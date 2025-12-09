@@ -1,0 +1,35 @@
+/* 强制修复平台定位卡片左右布局 */
+
+/* 桌面端强制左右布局 */
+@media (min-width: 769px) {
+    .position-item {
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 40px !important;
+    }
+    
+    .position-item-left {
+        flex-shrink: 0 !important;
+        width: auto !important;
+    }
+    
+    .position-item-img-wrapper {
+        width: 140px !important;
+        height: 140px !important;
+    }
+    
+    .position-item-right {
+        flex: 1 !important;
+        width: auto !important;
+    }
+    
+    .position-item-title {
+        text-align: left !important;
+        padding-left: 16px !important;
+    }
+    
+    .position-item-title::before {
+        display: block !important;
+    }
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智能体详情 - 快速对话模式">
+    <title>智能体详情 - 快速对话 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+</head>
+<body class="agent-detail-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🔒</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">快速对话助手示例</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.0.0</span>
+                    </div>
+                    <p class="agent-description">快速对话模式的智能体示例，展示对话式交互界面和实时消息功能</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(25)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(8)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">Laravel项目安全审计</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">React应用漏洞扫描</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item active">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Python代码安全审计</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon failed">❌</span>
+                                <div class="task-name">Spring Boot应用审计</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Node.js安全咨询</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Django项目代码审查</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Vue.js安全扫描</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">PHP代码安全分析</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Angular应用审计</div>
+                            </a>
+                            <a href="agent-detail-chat.html" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Java Web安全咨询</div>
+                            </a>
+                        </div>
+
+                        <!-- 查看全部入口 -->
+                        <a href="agent-detail-tasks.html" class="view-all-tasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区域 - 快速对话 -->
+            <div class="agent-main-content">
+                <div class="chat-container">
+                    <!-- 对话/任务名称 -->
+                    <div class="chat-task-name">
+                        <span class="task-name-text">Python代码安全审计任务</span>
+                        <span class="task-time">2024-12-09 10:30</span>
+                    </div>
+                    
+                    <!-- 对话消息区域 -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- 欢迎消息 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 10:30</div>
+                                <div class="message-bubble">
+                                    <p>你好！我是快速对话助手示例。我可以帮你：</p>
+                                    <ul>
+                                        <li>检测代码中的安全漏洞</li>
+                                        <li>分析潜在的安全风险</li>
+                                        <li>提供安全修复建议</li>
+                                        <li>执行代码审计报告</li>
+                                    </ul>
+                                    <p>请上传你的代码或直接粘贴代码片段，我将为你进行安全分析。</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 用户消息示例 -->
+                        <div class="message message-user">
+                            <div class="message-avatar">👤</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 10:32</div>
+                                <div class="message-bubble">
+                                    <p>请帮我审计这段Python代码的安全性：</p>
+                                    <pre><code class="language-python">import sqlite3
+
+def get_user(username):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    query = f"SELECT * FROM users WHERE username = '{username}'"
+    cursor.execute(query)
+    result = cursor.fetchone()
+    conn.close()
+    return result</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI回复示例 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 10:33</div>
+                                <div class="message-bubble">
+                                    <p><strong>⚠️ 发现严重安全问题！</strong></p>
+                                    <h4>1. SQL注入漏洞 (高危)</h4>
+                                    <p>代码中使用了字符串拼接方式构造SQL查询，这是典型的SQL注入漏洞：</p>
+                                    <pre><code class="language-python">query = f"SELECT * FROM users WHERE username = '{username}'"</code></pre>
+
+                                    <p><strong>风险说明：</strong></p>
+                                    <ul>
+                                        <li>攻击者可以通过构造特殊的username值来执行任意SQL语句</li>
+                                        <li>可能导致数据泄露、数据篡改或删除</li>
+                                        <li>示例攻击：<code>username = "admin' OR '1'='1"</code></li>
+                                    </ul>
+
+                                    <p><strong>修复建议：</strong></p>
+                                    <pre><code class="language-python">import sqlite3
+
+def get_user(username):
+    conn = sqlite3.connect('users.db')
+    cursor = conn.cursor()
+    # 使用参数化查询，防止SQL注入
+    query = "SELECT * FROM users WHERE username = ?"
+    cursor.execute(query, (username,))
+    result = cursor.fetchone()
+    conn.close()
+    return result</code></pre>
+
+                                    <h4>2. 资源泄露 (中危)</h4>
+                                    <p>如果在执行过程中发生异常，数据库连接可能不会正确关闭。</p>
+
+                                    <p><strong>优化建议：</strong></p>
+                                    <pre><code class="language-python">import sqlite3
+
+def get_user(username):
+    # 使用上下文管理器自动管理连接
+    with sqlite3.connect('users.db') as conn:
+        cursor = conn.cursor()
+        query = "SELECT * FROM users WHERE username = ?"
+        cursor.execute(query, (username,))
+        return cursor.fetchone()</code></pre>
+
+                                    <p><strong>安全评分：</strong> <span class="score score-danger">35/100</span></p>
+                                    <p>建议立即修复SQL注入漏洞！</p>
+                                </div>
+                                <div class="message-actions">
+                                    <button class="btn-icon" title="复制">📋</button>
+                                    <button class="btn-icon" title="点赞">👍</button>
+                                    <button class="btn-icon" title="反馈">💬</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <!-- 输入框区域 -->
+                            <textarea
+                                class="chat-input"
+                                placeholder="输入您的问题或粘贴代码..."
+                                rows="3"
+                            ></textarea>
+
+                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">
+                                        📎
+                                    </button>
+                                    <button class="btn-icon" title="插入图片">
+                                        🖼️
+                                    </button>
+                                    <button class="btn-icon" title="插入代码">
+                                        💻
+                                    </button>
+                                    <button class="btn-icon" title="插入表格">
+                                        📊
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary chat-send">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-detail.js"></script>
+</body>
+</html>

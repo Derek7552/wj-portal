@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="登录云脑平台，体验最懂安全的AI智能体服务">
+    <title>登录 - 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <!-- 全局导航 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+                    <h1 class="brand-logo">云脑</h1>
+                    <span class="brand-slogan">最懂安全的AI智能体平台</span>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html">云脑</a></li>
+                <li class="nav-item"><a href="news.html">资讯</a></li>
+                <li class="nav-item"><a href="papers.html">论文</a></li>
+                <li class="nav-item"><a href="resources.html">资源</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">登录</a>
+                <a href="register.html" class="btn btn-primary">注册</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="auth-title">登录</h1>
+                    <p class="auth-subtitle">欢迎回到云脑平台</p>
+                </div>
+
+                <form class="auth-form" id="loginForm">
+                    <div class="form-group">
+                        <label for="email" class="form-label">邮箱</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="请输入您的邮箱"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">密码</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="请输入您的密码"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="remember">
+                            <span>记住我</span>
+                        </label>
+                        <a href="#" class="forgot-link">忘记密码？</a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">登录</button>
+                </form>
+
+                <!-- 测试账号提示 -->
+                <div class="test-account-info">
+                    <p class="test-account-title">测试账号（可直接使用）</p>
+                    <p class="test-account-detail">邮箱：test@seccortex.com | 密码：123456</p>
+                    <button type="button" class="btn btn-secondary btn-block" id="useTestAccount">使用测试账号登录</button>
+                </div>
+
+                <div class="auth-divider">
+                    <span>或</span>
+                </div>
+
+                <!-- 免登录选项 -->
+                <button type="button" class="btn btn-outline btn-block" id="skipLogin">免登录体验</button>
+
+                <div class="auth-footer">
+                    <p>还没有账号？<a href="register.html" class="auth-link">立即注册</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-company">云起白山AI安全联合实验室</p>
+                <p class="footer-copyright">&copy; 2025 云脑安全智能体平台. All rights reserved.</p>
+                <p class="footer-icp">ICP备案号：京ICP备2022020425号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/common.js"></script>
+    <script>
+        // 登录函数（复用）
+        function performLogin(email, password) {
+            // TODO: 这里应该调用实际的登录API
+            // 目前模拟登录成功
+            console.log('登录', { email, password });
+            
+            // 从邮箱生成用户名
+            const userName = email.split('@')[0];
+            const displayName = userName.charAt(0).toUpperCase() + userName.slice(1) + '用户';
+            
+            // 保存登录状态
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userName', displayName);
+            
+            // 跳转到首页
+            window.location.href = '../../dashboard.html';
+        }
+
+        // 表单提交处理
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            performLogin(email, password);
+        });
+
+        // 使用测试账号
+        document.getElementById('useTestAccount').addEventListener('click', function() {
+            document.getElementById('email').value = 'test@seccortex.com';
+            document.getElementById('password').value = '123456';
+            
+            // 自动提交表单
+            setTimeout(() => {
+                performLogin('test@seccortex.com', '123456');
+            }, 100);
+        });
+
+        // 免登录体验
+        document.getElementById('skipLogin').addEventListener('click', function() {
+            // 设置默认用户信息
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('userEmail', 'guest@seccortex.com');
+            localStorage.setItem('userName', '访客用户');
+            
+            // 跳转到首页
+            window.location.href = '../../dashboard.html';
+        });
+    </script>
+</body>
+</html>
+

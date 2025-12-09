@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Seccortex 安全智能体平台 - 首页">
+    <title>首页 - Seccortex</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body class="dashboard-page">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+            <button class="sidebar-toggle" id="sidebarToggle" title="展开/收起">
+                <span class="toggle-icon">◀</span>
+            </button>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                    <a href="dashboard.html" class="nav-item nav-item-home active">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="templates.html" class="nav-item">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 公告模块 -->
+        <div class="announcement-section">
+            <div class="announcement-header">
+                <span class="announcement-icon">📢</span>
+                <h3 class="announcement-title">公告</h3>
+            </div>
+            <div class="announcement-content-wrapper">
+                <div class="announcement-content" id="announcementContent">
+                    <div class="announcement-item">
+                        <div class="announcement-badge">新功能</div>
+                        <div class="announcement-body">
+                            <h4 class="announcement-item-title">威胁情报分析智能体即将上线</h4>
+                            <p class="announcement-item-desc">实时分析全球威胁情报，提供智能化的威胁评估和预警服务，预计 2025年Q2 上线</p>
+                        </div>
+                        <span class="announcement-time">2025-01-15</span>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-badge">规划中</div>
+                        <div class="announcement-body">
+                            <h4 class="announcement-item-title">代码安全审计智能体开发中</h4>
+                            <p class="announcement-item-desc">自动化代码安全扫描与分析，识别潜在漏洞和安全风险，预计 2025年Q3 上线</p>
+                        </div>
+                        <span class="announcement-time">2025-01-10</span>
+                    </div>
+                    <!-- 复制第一条用于无缝循环 -->
+                    <div class="announcement-item">
+                        <div class="announcement-badge">新功能</div>
+                        <div class="announcement-body">
+                            <h4 class="announcement-item-title">威胁情报分析智能体即将上线</h4>
+                            <p class="announcement-item-desc">实时分析全球威胁情报，提供智能化的威胁评估和预警服务，预计 2025年Q2 上线</p>
+                        </div>
+                        <span class="announcement-time">2025-01-15</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标题栏 -->
+        <div class="content-header">
+            <h2 class="content-title">
+                最懂安全的AI 智能体 <span class="agent-count">(6)</span>
+            </h2>
+        </div>
+
+        <!-- 智能体网格 -->
+        <div class="agents-grid" id="agentsGrid">
+            <!-- 智能体卡片 1: AI 漏洞猎人 -->
+            <div class="agent-card" data-id="1" data-name="AI漏洞猎人" data-category="analysis" data-level="advanced">
+                <div class="card-left">
+                    <div class="card-icon">🎯</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">AI 漏洞猎人</h3>
+                            <span class="card-level-tag level-advanced">进阶类</span>
+                            <span class="card-version">v1.2.0</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        AI驱动的漏洞发现与分析，自动化识别代码和系统中的安全隐患，提供详细的漏洞分析报告
+                    </p>
+                    <div class="card-actions">
+                        <a href="agents/pages/agent-news.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能体卡片 2: 安全论文检索 -->
+            <div class="agent-card" data-id="2" data-name="安全论文检索" data-category="paper" data-level="basic">
+                <div class="card-left">
+                    <div class="card-icon">📚</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">安全论文检索</h3>
+                            <span class="card-level-tag level-basic">基础类</span>
+                            <span class="card-version">v1.0.5</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        快速检索安全领域学术论文，精准匹配相关研究内容，支持全文检索和智能推荐
+                    </p>
+                    <div class="card-actions">
+                        <a href="agents/pages/agent-news.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能体卡片 3: 安全资讯 -->
+            <div class="agent-card" data-id="3" data-name="安全资讯" data-category="info" data-level="basic">
+                <div class="card-left">
+                    <div class="card-icon">📰</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">安全资讯</h3>
+                            <span class="card-level-tag level-basic">基础类</span>
+                            <span class="card-version">v1.1.0</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        实时聚合安全行业动态资讯，智能推荐相关内容，帮助用户及时了解安全领域最新动态
+                    </p>
+                    <div class="card-actions">
+                        <a href="agents/pages/agent-news.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能体卡片 4: 安全智库 -->
+            <div class="agent-card" data-id="4" data-name="安全智库" data-category="info" data-level="basic">
+                <div class="card-left">
+                    <div class="card-icon">🧠</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">安全智库</h3>
+                            <span class="card-level-tag level-basic">基础类</span>
+                            <span class="card-version">v1.0.3</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        安全知识库与最佳实践指南，沉淀行业经验，分享安全防护知识和实战经验
+                    </p>
+                    <div class="card-actions">
+                        <a href="agent-knowledge.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能体卡片 5: 缺陷研判 -->
+            <div class="agent-card" data-id="5" data-name="缺陷研判" data-category="analysis" data-level="advanced">
+                <div class="card-left">
+                    <div class="card-icon">⚖️</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">缺陷研判</h3>
+                            <span class="card-level-tag level-advanced">进阶类</span>
+                            <span class="card-version">v1.3.0</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        智能漏洞分析与风险评估，提供专业的缺陷研判服务，帮助用户快速评估安全风险
+                    </p>
+                    <div class="card-actions">
+                        <a href="agent-defect.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 智能体卡片 6: 论文翻译 -->
+            <div class="agent-card" data-id="6" data-name="论文翻译" data-category="paper" data-level="basic">
+                <div class="card-left">
+                    <div class="card-icon">🌐</div>
+                </div>
+                <div class="card-right">
+                    <div class="card-header">
+                        <div class="card-title-wrapper">
+                            <h3 class="card-title">论文翻译</h3>
+                            <span class="card-level-tag level-basic">基础类</span>
+                            <span class="card-version">v1.0.8</span>
+                        </div>
+                        <button class="card-favorite" data-favorite="false">⭐</button>
+                    </div>
+                    <p class="card-description">
+                        专业安全论文翻译服务，支持多语言翻译，提供准确、专业的学术论文翻译
+                    </p>
+                    <div class="card-actions">
+                        <a href="agents/pages/agent-news.html" class="btn btn-primary btn-sm">立即使用</a>
+                        <button class="btn btn-text">了解更多</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+</body>
+</html>
+

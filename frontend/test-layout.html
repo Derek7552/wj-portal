@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>布局测试</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { margin: 20px; font-family: sans-serif; }
+        
+        .position-item {
+            background: #f3f4f6;
+            border: 2px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .position-item-left {
+            flex-shrink: 0;
+        }
+        
+        .position-item-img-wrapper {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+        }
+        
+        .position-item-right {
+            flex: 1;
+        }
+        
+        .position-item-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            color: #1f2937;
+        }
+        
+        .position-item-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .position-item-list li {
+            font-size: 15px;
+            line-height: 1.9;
+            color: #4b5563;
+            margin-bottom: 16px;
+            padding-left: 32px;
+            position: relative;
+        }
+        
+        .position-item-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #2563eb;
+            font-weight: bold;
+        }
+        
+        .screen-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: #fbbf24;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="screen-info">屏幕宽度: <span id="width"></span>px</div>
+    
+    <h1>平台定位布局测试</h1>
+    <p>当前布局应该是：<strong id="layout">左右布局</strong></p>
+    
+    <div class="position-item">
+        <div class="position-item-left">
+            <div class="position-item-img-wrapper">🎯</div>
+        </div>
+        <div class="position-item-right">
+            <h4 class="position-item-title">什么是云脑智能体平台</h4>
+            <ul class="position-item-list">
+                <li>基于边缘智算的安全智能体SaaS平台，提供多样化安全智能体的发布、管理和使用服务</li>
+                <li>涵盖知识问答、代码漏洞挖掘、渗透测试等核心场景，让AI安全能力触手可及</li>
+            </ul>
+        </div>
+    </div>
+    
+    <script>
+        function updateScreenInfo() {
+            const width = window.innerWidth;
+            document.getElementById('width').textContent = width;
+            document.getElementById('layout').textContent = width >= 769 ? '左右布局（图片在左）' : '垂直布局（图片在上）';
+        }
+        updateScreenInfo();
+        window.addEventListener('resize', updateScreenInfo);
+    </script>
+</body>
+</html>

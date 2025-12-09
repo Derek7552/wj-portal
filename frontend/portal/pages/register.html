@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="注册云脑平台，开启AI安全智能体之旅">
+    <title>注册 - 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <!-- 全局导航 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" style="text-decoration: none; display: flex; align-items: center; gap: 12px;">
+                    <h1 class="brand-logo">云脑</h1>
+                    <span class="brand-slogan">最懂安全的AI智能体平台</span>
+                </a>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html">云脑</a></li>
+                <li class="nav-item"><a href="news.html">资讯</a></li>
+                <li class="nav-item"><a href="papers.html">论文</a></li>
+                <li class="nav-item"><a href="resources.html">资源</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">登录</a>
+                <a href="register.html" class="btn btn-primary">注册</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="auth-main">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h1 class="auth-title">注册</h1>
+                    <p class="auth-subtitle">加入云脑平台，开启AI安全之旅</p>
+                </div>
+
+                <form class="auth-form" id="registerForm">
+                    <div class="form-group">
+                        <label for="username" class="form-label">用户名</label>
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            class="form-input" 
+                            placeholder="请输入用户名"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="form-label">邮箱</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form-input" 
+                            placeholder="请输入您的邮箱"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password" class="form-label">密码</label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            class="form-input" 
+                            placeholder="请输入密码（至少8位）"
+                            required
+                            minlength="8"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label">确认密码</label>
+                        <input 
+                            type="password" 
+                            id="confirmPassword" 
+                            name="confirmPassword" 
+                            class="form-input" 
+                            placeholder="请再次输入密码"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="agree" required>
+                            <span>我已阅读并同意<a href="#" class="auth-link">《用户协议》</a>和<a href="#" class="auth-link">《隐私政策》</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">注册</button>
+                </form>
+
+                <div class="auth-footer">
+                    <p>已有账号？<a href="login.html" class="auth-link">立即登录</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-company">云起白山AI安全联合实验室</p>
+                <p class="footer-copyright">&copy; 2025 云脑安全智能体平台. All rights reserved.</p>
+                <p class="footer-icp">ICP备案号：京ICP备2022020425号</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../../js/common.js"></script>
+    <script>
+        // 表单提交处理
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('两次输入的密码不一致');
+                return;
+            }
+            
+            // TODO: 实现注册逻辑
+            console.log('注册表单提交');
+        });
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="信息查看检索示例 - 通用信息查看与检索模板">
+    <title>信息查看检索示例 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-search.css">
+</head>
+<body class="agent-detail-page agent-search-page">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-item">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-text">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav" title="我的收藏">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🔍</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">信息查看检索示例</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.0.0</span>
+                    </div>
+                    <p class="agent-description">智能检索和展示信息内容，支持多维度筛选和分类浏览</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(128)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(5)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索内容、标题或关键词...">
+                <button class="search-reset" id="searchReset" style="display: none;">✕</button>
+            </div>
+        </div>
+
+        <!-- 主内容区域：左右布局 -->
+        <div class="search-content-wrapper">
+            <!-- 左侧分类导航 -->
+            <aside class="search-categories-sidebar">
+                <div class="category-group">
+                    <div class="category-group-title">内容分类</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item active" data-category="all">
+                            <span class="category-name">全部</span>
+                            <span class="category-count">(326)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type1">
+                            <span class="category-name">分类一</span>
+                            <span class="category-count">(85)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type2">
+                            <span class="category-name">分类二</span>
+                            <span class="category-count">(67)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type3">
+                            <span class="category-name">分类三</span>
+                            <span class="category-count">(54)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type4">
+                            <span class="category-name">分类四</span>
+                            <span class="category-count">(42)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type5">
+                            <span class="category-name">分类五</span>
+                            <span class="category-count">(38)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="type6">
+                            <span class="category-name">分类六</span>
+                            <span class="category-count">(40)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-group">
+                    <div class="category-group-title">信息来源</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item" data-source="all">
+                            <span class="category-name">全部来源</span>
+                        </a>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="source-group1">
+                                <span class="category-name">来源分组一</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="source1-1">来源 A</a>
+                                <a href="#" class="category-sub-item" data-source="source1-2">来源 B</a>
+                                <a href="#" class="category-sub-item" data-source="source1-3">来源 C</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="source-group2">
+                                <span class="category-name">来源分组二</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="source2-1">来源 D</a>
+                                <a href="#" class="category-sub-item" data-source="source2-2">来源 E</a>
+                                <a href="#" class="category-sub-item" data-source="source2-3">来源 F</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="source-group3">
+                                <span class="category-name">来源分组三</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="source3-1">来源 G</a>
+                                <a href="#" class="category-sub-item" data-source="source3-2">来源 H</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 右侧内容列表 -->
+            <div class="search-content-main">
+                <!-- 筛选栏 -->
+                <div class="search-filters">
+                    <div class="filter-left">
+                        <span class="filter-label">排序：</span>
+                        <select class="filter-select" id="sortSelect">
+                            <option value="time">最新发布</option>
+                            <option value="hot">最热门</option>
+                            <option value="relevant">最相关</option>
+                        </select>
+                    </div>
+                    <div class="filter-right">
+                        <span class="result-count">共找到 <strong>326</strong> 条信息</span>
+                    </div>
+                </div>
+
+                <!-- 结果列表 -->
+                <section class="search-results-list">
+                    <article class="result-card" data-category="type1">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">信息标题示例：关于某个主题的深度分析报告</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-15 14:30</span>
+                                <span class="result-source">来源 A</span>
+                                <span class="result-tag tag-primary">标签一</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">这是信息内容的摘要部分，简要介绍了文章的主要内容和核心观点。通过摘要，用户可以快速了解信息的大致内容，判断是否需要查看详情...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 1.2k</span>
+                                <span class="stat-item">💬 23</span>
+                                <span class="stat-item">👍 156</span>
+                            </div>
+                            <button class="btn-collect" title="收藏">⭐</button>
+                        </div>
+                    </article>
+
+                    <article class="result-card" data-category="type2">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">另一条信息标题：技术方案与实践经验分享</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-12 10:20</span>
+                                <span class="result-source">来源 B</span>
+                                <span class="result-tag tag-success">标签二</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">本文分享了在实际项目中的技术方案选型和实践经验，包括架构设计、技术选型、实施过程中遇到的问题及解决方案等内容...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 890</span>
+                                <span class="stat-item">💬 15</span>
+                                <span class="stat-item">👍 98</span>
+                            </div>
+                            <button class="btn-collect" title="收藏">⭐</button>
+                        </div>
+                    </article>
+
+                    <article class="result-card" data-category="type1">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">第三条信息示例：行业趋势与发展方向探讨</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-10 16:45</span>
+                                <span class="result-source">来源 C</span>
+                                <span class="result-tag tag-warning">标签三</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">深入分析了行业当前的发展趋势，探讨了未来可能的技术方向和应用场景，为从业者提供了有价值的参考...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 2.1k</span>
+                                <span class="stat-item">💬 45</span>
+                                <span class="stat-item">👍 267</span>
+                            </div>
+                            <button class="btn-collect active" title="已收藏">⭐</button>
+                        </div>
+                    </article>
+
+                    <article class="result-card" data-category="type3">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">信息标题四：案例研究与经验总结</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-08 09:15</span>
+                                <span class="result-source">来源 D</span>
+                                <span class="result-tag tag-info">标签四</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">通过典型案例的深入研究，总结了成功经验和失败教训，为类似项目提供了有价值的参考依据...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 1.5k</span>
+                                <span class="stat-item">💬 32</span>
+                                <span class="stat-item">👍 189</span>
+                            </div>
+                            <button class="btn-collect" title="收藏">⭐</button>
+                        </div>
+                    </article>
+
+                    <article class="result-card" data-category="type2">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">第五条信息：最佳实践与方法论分享</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-05 11:30</span>
+                                <span class="result-source">来源 E</span>
+                                <span class="result-tag tag-primary">标签一</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">介绍了业界公认的最佳实践和方法论，帮助团队提升效率，减少错误，实现更好的项目成果...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 980</span>
+                                <span class="stat-item">💬 18</span>
+                                <span class="stat-item">👍 124</span>
+                            </div>
+                            <button class="btn-collect" title="收藏">⭐</button>
+                        </div>
+                    </article>
+
+                    <article class="result-card" data-category="type4">
+                        <div class="result-header">
+                            <h3 class="result-title">
+                                <a href="agent-detail-search-detail.html">信息标题六：新技术应用与创新探索</a>
+                            </h3>
+                            <div class="result-meta">
+                                <span class="result-date">2024-03-03 15:20</span>
+                                <span class="result-source">来源 F</span>
+                                <span class="result-tag tag-success">标签二</span>
+                            </div>
+                        </div>
+                        <p class="result-summary">探讨了新兴技术在实际场景中的应用情况，分析了创新实践的可行性和价值，为技术选型提供参考...</p>
+                        <div class="result-footer">
+                            <div class="result-stats">
+                                <span class="stat-item">👁️ 1.8k</span>
+                                <span class="stat-item">💬 28</span>
+                                <span class="stat-item">👍 215</span>
+                            </div>
+                            <button class="btn-collect" title="收藏">⭐</button>
+                        </div>
+                    </article>
+                </section>
+
+                <!-- 分页器 -->
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>上一页</button>
+                    <div class="pagination-pages">
+                        <button class="pagination-page active">1</button>
+                        <button class="pagination-page">2</button>
+                        <button class="pagination-page">3</button>
+                        <span class="pagination-ellipsis">...</span>
+                        <button class="pagination-page">8</button>
+                    </div>
+                    <button class="pagination-btn">下一页</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-search.js"></script>
+</body>
+</html>

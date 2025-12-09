@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="安全资讯详情 - 实时聚合安全行业动态资讯">
+    <title>资讯详情 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-news-detail.css">
+</head>
+<body class="agent-detail-page agent-news-detail-page">
+    <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体信息提示 -->
+        <div class="detail-agent-info">
+            <span class="agent-name-text">安全资讯</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-type-text">基础类</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-version-text">v1.1.0</span>
+        </div>
+
+        <!-- 返回列表按钮和信息标题 -->
+        <div class="detail-title-section">
+            <button class="btn-back-to-list" onclick="window.location.href='agent-news.html';" title="返回列表">
+                <span class="back-icon">←</span>
+            </button>
+            <h1 class="detail-title-main">2024年第一季度网络安全威胁报告：APT攻击趋势分析</h1>
+            <div class="detail-actions">
+                <button class="btn-action" id="collectBtn" title="收藏">
+                    <span>⭐</span>
+                    <span>收藏</span>
+                </button>
+                <button class="btn-action" title="分享">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+                <button class="btn-action" title="导出">
+                    <span>📥</span>
+                    <span>导出</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 主内容容器：左右布局 -->
+        <div class="detail-container">
+            <!-- 左侧：信息详情 -->
+            <div class="detail-content">
+                <!-- 详情页头部 -->
+                <div class="detail-header">
+                    <div class="detail-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <span>2024-03-15 14:30</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">📰</span>
+                            <span>FreeBuf</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="detail-tag tag-threat">威胁情报</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 内容摘要 -->
+                <div class="detail-summary">
+                    <div class="summary-label">📋 内容摘要</div>
+                    <p class="summary-text">本报告深入分析了2024年第一季度的APT攻击趋势，包括主要攻击组织、攻击手法和目标行业。报告显示，金融、能源和政府部门仍然是攻击者的主要目标，同时新型攻击手段不断涌现，企业需要加强防护措施。</p>
+                </div>
+
+                <!-- 文章内容 -->
+                <article class="detail-article">
+                    <h2>一、APT攻击概述</h2>
+                    <p>2024年第一季度，高级持续性威胁（APT, Advanced Persistent Threat）攻击活动呈现显著增长态势。根据安全机构的监测数据，相比2023年同期，APT攻击事件数量增长了23%，攻击手段更加隐蔽和复杂。</p>
+
+                    <h3>1.1 攻击特点</h3>
+                    <p>本季度APT攻击呈现以下主要特点：</p>
+                    <ul>
+                        <li>攻击手段多样化，包括钓鱼邮件、供应链攻击等</li>
+                        <li>攻击目标精准化，针对特定行业和组织</li>
+                        <li>隐蔽性增强，采用高级规避技术</li>
+                        <li>持续时间延长，平均驻留时间超过200天</li>
+                    </ul>
+
+                    <h3>1.2 攻击组织</h3>
+                    <p>本季度活跃的APT组织主要包括：</p>
+                    <ul>
+                        <li><strong>APT28（Fancy Bear）</strong>：针对政府和国防部门</li>
+                        <li><strong>APT29（Cozy Bear）</strong>：情报收集型攻击</li>
+                        <li><strong>Lazarus Group</strong>：朝鉴相关的攻击组织</li>
+                        <li><strong>APT41</strong>：中国关联的双重目的攻击</li>
+                    </ul>
+
+                    <h2>二、目标行业分析</h2>
+                    <p>根据监测数据，2024年第一季度APT攻击的目标行业分布如下：</p>
+
+                    <h3>2.1 金融行业（35%）</h3>
+                    <p>金融行业仍是APT攻击的首要目标。攻击者通过窃取金融数据、操纵交易系统等方式获取经济利益。本季度发现多起针对银行系统的定向攻击。</p>
+
+                    <h3>2.2 能源行业（28%）</h3>
+                    <p>能源基础设施成为热门攻击目标。攻击者试图破坏关键基础设施，造成经济和社会影响。</p>
+
+                    <h3>2.3 政府部门（22%）</h3>
+                    <p>政府机构遭受APT攻击主要目的是情报收集。攻击者长期潜伏，窃取敏感政治信息。</p>
+
+                    <h3>2.4 医疗行业（15%）</h3>
+                    <p>医疗数据的价值使其成为攻击者关注的重点，勒索软件攻击频发。</p>
+
+                    <h2>三、攻击手法分析</h2>
+
+                    <h3>3.1 初始入侵</h3>
+                    <p>攻击者主要采用以下初始入侵方法：</p>
+                    <ul>
+                        <li>钓鱼邮件（45%）</li>
+                        <li>漏洞利用（30%）</li>
+                        <li>供应链攻击（15%）</li>
+                        <li>水坑攻击（10%）</li>
+                    </ul>
+
+                    <h3>3.2 横向移动</h3>
+                    <p>APT组织在获得初始访问权限后，通常采用：</p>
+                    <ul>
+                        <li>凭证窃取</li>
+                        <li>权限提升</li>
+                        <li>内网扫描</li>
+                        <li>远程执行</li>
+                    </ul>
+
+                    <h3>3.3 数据窃取</h3>
+                    <p>攻击者主要采用隐蔽通道进行数据外传：</p>
+                    <ul>
+                        <li>加密隧道传输</li>
+                        <li>云存储利用</li>
+                        <li>合法工具滥用</li>
+                        <li>分段传输策略</li>
+                    </ul>
+
+                    <h2>四、防护建议</h2>
+
+                    <h3>4.1 技术防护</h3>
+                    <p>企业应当建立完善的技术防护体系：</p>
+                    <ul>
+                        <li>部署多层次安全防护措施</li>
+                        <li>启用终端检测与响应（EDR）解决方案</li>
+                        <li>实施网络分段和访问控制</li>
+                        <li>采用多因素认证（MFA）</li>
+                        <li>定期进行渗透测试</li>
+                    </ul>
+
+                    <h3>4.2 管理措施</h3>
+                    <ul>
+                        <li>建立完善的安全管理制度</li>
+                        <li>加强员工安全意识培训</li>
+                        <li>制定应急响应预案</li>
+                        <li>定期进行情报共享</li>
+                    </ul>
+
+                    <h2>五、结论</h2>
+                    <p>2024年第一季度的APT攻击形势依然严峻，攻击手段不断演进。企业组织需要持续关注威胁动态，加强技术防护能力，提升安全运营水平，才能有效应对APT威胁。建议各组织根据自身业务特点，制定针对性的安全策略和防护方案。</p>
+                </article>
+
+                <!-- 相关推荐 -->
+                <div class="detail-related">
+                    <h3 class="related-title">📚 相关推荐</h3>
+                    <div class="related-list">
+                        <a href="agent-news-detail.html?id=2" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">新型勒索软件LockBit 3.0技术分析及防护建议</span>
+                        </a>
+                        <a href="agent-news-detail.html?id=3" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">零信任架构在云安全中的应用实践</span>
+                        </a>
+                        <a href="agent-news-detail.html?id=7" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">2024年网络钓鱼攻击趋势与防护策略</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：对话区域 -->
+            <div class="detail-chat">
+                <div class="chat-container">
+                    <!-- 对话头部 -->
+                    <div class="chat-header">
+                        <div class="chat-header-main">
+                            <span class="chat-icon">🤖</span>
+                            <span class="chat-title">AI 智能助手</span>
+                        </div>
+                        <button class="btn-icon" id="clearChat" title="清空对话">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- 对话消息区域 -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- 欢迎消息 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 15:20</div>
+                                <div class="message-bubble">
+                                    <p>您好！我是AI智能助手，我可以帮助您深入分析这篇APT攻击报告。</p>
+                                    <p>您可以向我提问关于报告的任何问题，例如：</p>
+                                    <ul>
+                                        <li>详解某个APT组织的特点？</li>
+                                        <li>行业如何应对这些威胁？</li>
+                                        <li>推荐哪些具体的防护技术方案？</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="向AI提问关于这篇资讯的问题..."
+                                rows="3"
+                            ></textarea>
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">📎</button>
+                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-news-detail.js"></script>
+</body>
+</html>

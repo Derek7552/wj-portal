@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="信息详情 - 通用信息详情页模板">
+    <title>信息详情 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-news-detail.css">
+</head>
+<body class="agent-detail-page agent-news-detail-page">
+    <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体信息提示 -->
+        <div class="detail-agent-info">
+            <span class="agent-name-text">信息查看检索示例</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-type-text">基础类</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-version-text">v1.0.0</span>
+        </div>
+
+        <!-- 返回列表按钮和信息标题 -->
+        <div class="detail-title-section">
+            <button class="btn-back-to-list" onclick="window.location.href='agent-detail-search.html';" title="返回列表">
+                <span class="back-icon">←</span>
+            </button>
+            <h1 class="detail-title-main">信息标题示例：关于某个主题的深度分析报告</h1>
+            <div class="detail-actions">
+                <button class="btn-action" id="collectBtn" title="收藏">
+                    <span>⭐</span>
+                    <span>收藏</span>
+                </button>
+                <button class="btn-action" title="分享">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+                <button class="btn-action" title="导出">
+                    <span>📥</span>
+                    <span>导出</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 主内容容器：左右布局 -->
+        <div class="detail-container">
+            <!-- 左侧：信息详情 -->
+            <div class="detail-content">
+                <!-- 详情页头部 -->
+                <div class="detail-header">
+                    <div class="detail-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <span>2024-03-15 14:30</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">📰</span>
+                            <span>来源 A</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="detail-tag tag-primary">标签一</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 内容摘要 -->
+                <div class="detail-summary">
+                    <div class="summary-label">📋 内容摘要</div>
+                    <p class="summary-text">这是信息内容的摘要部分，简要介绍了文章的主要内容和核心观点。通过摘要，用户可以快速了解信息的大致内容和价值，判断是否需要深入阅读全文。</p>
+                </div>
+
+                <!-- 文章内容 -->
+                <article class="detail-article">
+                    <h2>一、引言</h2>
+                    <p>本报告对相关主题进行了系统的分析和研究，涵盖了背景介绍、现状分析、问题探讨和解决方案等多个方面。通过详实的数据和案例，为读者提供全面的参考信息。</p>
+
+                    <h3>1.1 背景介绍</h3>
+                    <p>在当前的发展环境下，该主题受到了广泛的关注。本节将介绍相关背景信息，帮助读者了解研究的起点和意义。</p>
+
+                    <h3>1.2 研究目的</h3>
+                    <p>本研究的主要目的包括：</p>
+                    <ul>
+                        <li>全面分析当前状况和存在的问题</li>
+                        <li>探讨可行的解决方案和实施路径</li>
+                        <li>提供具有参考价值的建议和展望</li>
+                        <li>为相关决策提供数据支持</li>
+                    </ul>
+
+                    <h2>二、现状分析</h2>
+                    <p>通过对现有情况的深入调研和分析，我们发现了以下几个方面的特点和趋势。</p>
+
+                    <h3>2.1 主要特点</h3>
+                    <p>当前的主要特点包括：</p>
+                    <ul>
+                        <li><strong>特点一</strong>：描述具体特点及其表现形式</li>
+                        <li><strong>特点二</strong>：分析相关影响和意义</li>
+                        <li><strong>特点三</strong>：总结发展规律和趋势</li>
+                    </ul>
+
+                    <h3>2.2 数据分析</h3>
+                    <p>根据收集到的数据显示，主要指标呈现出以下特征：</p>
+                    <ul>
+                        <li>指标一：相关数据和分析结果</li>
+                        <li>指标二：变化趋势和影响因素</li>
+                        <li>指标三：对比分析和结论</li>
+                    </ul>
+
+                    <h2>三、问题与挑战</h2>
+
+                    <h3>3.1 主要问题</h3>
+                    <p>在发展过程中，我们识别出以下主要问题：</p>
+                    <ul>
+                        <li>问题一：具体描述和影响分析</li>
+                        <li>问题二：原因探讨和相关性分析</li>
+                        <li>问题三：潜在风险和应对考虑</li>
+                    </ul>
+
+                    <h3>3.2 面临的挑战</h3>
+                    <p>未来可能面临的主要挑战包括：</p>
+                    <ul>
+                        <li>技术层面的挑战</li>
+                        <li>资源配置的优化</li>
+                        <li>协调机制的建立</li>
+                        <li>持续发展的保障</li>
+                    </ul>
+
+                    <h2>四、解决方案</h2>
+
+                    <h3>4.1 短期措施</h3>
+                    <p>针对当前存在的问题，建议采取以下短期措施：</p>
+                    <ul>
+                        <li>措施一：具体实施方案和预期效果</li>
+                        <li>措施二：资源需求和时间安排</li>
+                        <li>措施三：风险控制和应急预案</li>
+                    </ul>
+
+                    <h3>4.2 长期规划</h3>
+                    <p>从长远发展考虑，应当建立系统的规划体系：</p>
+                    <ul>
+                        <li>战略目标的设定</li>
+                        <li>实施路径的规划</li>
+                        <li>资源保障机制</li>
+                        <li>评估反馈体系</li>
+                    </ul>
+
+                    <h2>五、结论与建议</h2>
+                    <p>综合以上分析，我们得出以下结论：研究主题具有重要的现实意义和应用价值，通过系统的规划和实施，可以有效解决现存问题，实现预期目标。建议相关方面高度重视，采取切实有效的措施，确保各项工作顺利推进。</p>
+
+                    <h3>5.1 主要建议</h3>
+                    <ul>
+                        <li>加强顶层设计，完善制度体系</li>
+                        <li>注重资源整合，提升整体效能</li>
+                        <li>强化过程管理，确保实施质量</li>
+                        <li>建立评估机制，及时调整优化</li>
+                    </ul>
+                </article>
+
+                <!-- 相关推荐 -->
+                <div class="detail-related">
+                    <h3 class="related-title">📚 相关推荐</h3>
+                    <div class="related-list">
+                        <a href="#" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">相关主题的延伸阅读：实践案例分享</span>
+                        </a>
+                        <a href="#" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">相关主题的最新进展：研究报告更新</span>
+                        </a>
+                        <a href="#" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">相关主题的应用指南：操作手册说明</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：对话区域 -->
+            <div class="detail-chat">
+                <div class="chat-container">
+                    <!-- 对话头部 -->
+                    <div class="chat-header">
+                        <div class="chat-header-main">
+                            <span class="chat-icon">🤖</span>
+                            <span class="chat-title">AI 智能助手</span>
+                        </div>
+                        <button class="btn-icon" id="clearChat" title="清空对话">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- 对话消息区域 -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- 欢迎消息 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 15:20</div>
+                                <div class="message-bubble">
+                                    <p>您好！我是AI智能助手，我可以帮助您深入理解这篇内容。</p>
+                                    <p>您可以向我提问任何相关问题，例如：</p>
+                                    <ul>
+                                        <li>详细解释某个概念或观点？</li>
+                                        <li>如何应用这些建议到实际场景？</li>
+                                        <li>与其他相关主题有什么联系？</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="向AI提问关于这篇内容的问题..."
+                                rows="3"
+                            ></textarea>
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">📎</button>
+                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-news-detail.js"></script>
+</body>
+</html>

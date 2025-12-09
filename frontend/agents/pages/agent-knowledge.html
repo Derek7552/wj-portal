@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="安全智库智能体 - 安全知识库与最佳实践指南">
+    <title>安全智库 - Seccortex</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/agent-page.css">
+    <link rel="stylesheet" href="css/agent-knowledge.css">
+</head>
+<body class="agent-page">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                    <a href="dashboard.html" class="nav-item nav-item-home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="dashboard.html" class="home-menu-item">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-text">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav" title="我的收藏">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🧠</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">AI漏洞猎人</h2>
+                        <span class="agent-type">进阶类</span>
+                        <span class="agent-version">v1.0.3</span>
+                    </div>
+                    <p class="agent-description">安全知识库与最佳实践指南，沉淀行业经验，分享安全防护知识和实战经验</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 知识库广场弹窗 -->
+        <div class="kb-plaza-modal" id="kbPlazaModal">
+            <div class="kb-plaza-overlay"></div>
+            <div class="kb-plaza-content">
+                <div class="kb-plaza-header">
+                    <h2 class="kb-plaza-title">知识库广场</h2>
+                    <button class="kb-plaza-close" id="kbPlazaClose">✕</button>
+                </div>
+                
+                <!-- 搜索框 -->
+                <div class="kb-plaza-search">
+                    <input type="text" class="kb-search-input" id="kbSearchInput" placeholder="搜索知识库名称、描述或标签...">
+                    <button class="kb-search-reset" id="kbSearchReset" style="display: none;">✕</button>
+                </div>
+
+                <!-- 知识库广场内容区域 -->
+                <div class="kb-plaza-body">
+                    <!-- 已收藏的知识库 -->
+                    <div class="kb-plaza-section">
+                        <div class="kb-section-header">
+                            <h3 class="kb-section-title">已收藏的知识库</h3>
+                            <span class="kb-section-count" id="favoriteKbCount">0</span>
+                        </div>
+                        <div class="kb-plaza-grid" id="favoriteKbGrid">
+                            <div class="kb-plaza-empty">
+                                <p>暂无收藏的知识库</p>
+                                <p class="kb-empty-hint">在下方知识库列表中点击星标即可收藏</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 全部知识库 -->
+                    <div class="kb-plaza-section">
+                        <div class="kb-section-header">
+                            <h3 class="kb-section-title">全部知识库</h3>
+                            <span class="kb-section-count" id="allKbCount">0</span>
+                        </div>
+                        <div class="kb-plaza-grid" id="allKbGrid">
+                            <!-- 知识库卡片将通过JavaScript动态生成 -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 主内容区域：对话界面和侧边栏 -->
+        <div class="knowledge-content-wrapper">
+            <!-- 左侧：对话界面 -->
+            <div class="knowledge-chat-area">
+                <!-- 对话历史 -->
+                <div class="chat-messages" id="chatMessages">
+                    <!-- 欢迎消息 -->
+                    <div class="message message-assistant">
+                        <div class="message-avatar">🧠</div>
+                        <div class="message-content">
+                            <div class="message-text">
+                                <p><strong>您好！我是安全智库智能体</strong></p>
+                                <p>我专注于安全知识库与最佳实践指南，可以为您提供专业的安全咨询和知识服务。</p>
+                                <p><strong>我可以帮您：</strong></p>
+                                <ul>
+                                    <li>查询安全防护知识和最佳实践</li>
+                                    <li>解答安全技术和管理问题</li>
+                                    <li>提供安全方案设计和实施建议</li>
+                                    <li>分享行业经验与案例分析</li>
+                                    <li>解读安全标准和合规要求</li>
+                                </ul>
+                                <p>您可以直接在下方输入问题，或点击下方示例问题快速开始对话。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 示例问题 -->
+                    <div class="example-questions" id="exampleQuestions">
+                        <div class="example-questions-title">💡 试试这些问题：</div>
+                        <div class="example-questions-grid">
+                            <button class="example-question-btn" data-question="如何建立完善的安全防护体系？">
+                                如何建立完善的安全防护体系？
+                            </button>
+                            <button class="example-question-btn" data-question="Web应用常见的安全漏洞有哪些？如何防护？">
+                                Web应用常见的安全漏洞有哪些？如何防护？
+                            </button>
+                            <button class="example-question-btn" data-question="数据安全合规需要注意哪些要点？">
+                                数据安全合规需要注意哪些要点？
+                            </button>
+                            <button class="example-question-btn" data-question="安全事件应急响应流程是什么？">
+                                安全事件应急响应流程是什么？
+                            </button>
+                            <button class="example-question-btn" data-question="如何评估和选择安全产品？">
+                                如何评估和选择安全产品？
+                            </button>
+                            <button class="example-question-btn" data-question="云安全最佳实践有哪些？">
+                                云安全最佳实践有哪些？
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 输入区域 -->
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <textarea 
+                            class="chat-input" 
+                            id="chatInput" 
+                            placeholder="输入您的问题，按 Enter 发送，Shift+Enter 换行..."
+                            rows="1"
+                        ></textarea>
+                        <button class="chat-send-btn" id="chatSendBtn" title="发送">
+                            <span class="send-icon">➤</span>
+                        </button>
+                    </div>
+                    <div class="chat-actions">
+                        <button class="chat-action-btn" id="clearChatBtn" title="清空对话">
+                            <span class="action-icon">🗑️</span>
+                            <span class="action-text">清空对话</span>
+                        </button>
+                        <button class="chat-action-btn" id="saveChatBtn" title="保存对话">
+                            <span class="action-icon">💾</span>
+                            <span class="action-text">保存对话</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：任务记录和设置 -->
+            <div class="knowledge-sidebar">
+                <!-- 标签页切换 -->
+                <div class="knowledge-tabs">
+                    <button class="knowledge-tab active" data-tab="tasks">任务记录</button>
+                    <button class="knowledge-tab" data-tab="settings">智能体设置</button>
+                </div>
+
+                <!-- 任务记录 -->
+                <div class="knowledge-tab-content active" id="tasksTab">
+                    <div class="tasks-header">
+                        <h3 class="tasks-title">任务记录</h3>
+                        <button class="tasks-filter-btn" id="tasksFilterBtn" title="筛选">
+                            <span>筛选</span>
+                        </button>
+                    </div>
+                    <div class="tasks-list" id="tasksList">
+                        <div class="tasks-empty">
+                            <p>暂无任务记录</p>
+                            <p class="tasks-hint">开始对话后，任务记录将显示在这里</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 智能体设置 -->
+                <div class="knowledge-tab-content" id="settingsTab">
+                    <div class="settings-section">
+                        <h3 class="settings-title">模型设置</h3>
+                        <div class="settings-item">
+                            <label class="settings-label">模型版本</label>
+                            <select class="settings-select" id="modelVersion">
+                                <option value="v1.0.3">v1.0.3 (默认)</option>
+                                <option value="v1.0.2">v1.0.2</option>
+                                <option value="v1.0.1">v1.0.1</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <label class="settings-label">温度参数</label>
+                            <input type="range" class="settings-range" id="temperature" min="0" max="1" step="0.1" value="0.7">
+                            <span class="settings-value" id="temperatureValue">0.7</span>
+                        </div>
+                        <div class="settings-item">
+                            <label class="settings-label">最大回复长度</label>
+                            <input type="number" class="settings-input" id="maxTokens" min="100" max="4000" step="100" value="2000">
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">对话设置</h3>
+                        <div class="settings-item">
+                            <label class="settings-checkbox">
+                                <input type="checkbox" id="enableHistory" checked>
+                                <span>启用对话历史</span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <label class="settings-checkbox">
+                                <input type="checkbox" id="autoSave" checked>
+                                <span>自动保存对话</span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <label class="settings-checkbox">
+                                <input type="checkbox" id="showTimestamps">
+                                <span>显示时间戳</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3 class="settings-title">知识库设置</h3>
+                        <div class="settings-item">
+                            <label class="settings-label">知识库范围</label>
+                            <select class="settings-select" id="knowledgeScope">
+                                <option value="all">全部知识库</option>
+                                <option value="best-practices">最佳实践</option>
+                                <option value="case-studies">案例分析</option>
+                                <option value="technical-docs">技术文档</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <label class="settings-label">检索深度</label>
+                            <input type="range" class="settings-range" id="retrievalDepth" min="1" max="10" step="1" value="5">
+                            <span class="settings-value" id="retrievalDepthValue">5</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-actions">
+                        <button class="btn btn-primary btn-sm" id="saveSettingsBtn">保存设置</button>
+                        <button class="btn btn-text btn-sm" id="resetSettingsBtn">重置默认</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/agent-knowledge.js"></script>
+</body>
+</html>
+

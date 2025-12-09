@@ -1,0 +1,661 @@
+/* ==========================================
+   模板展示页面样式
+   ========================================== */
+
+.templates-page .main-content-area {
+    padding: 32px 24px;
+    width: 100%;
+}
+
+/* 移除之前添加的导航栏折叠样式，使用dashboard.css的默认样式 */
+
+/* 页面标题区 */
+.page-header-section {
+    text-align: center;
+    margin-bottom: 48px;
+}
+
+.page-main-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #262626;
+    margin: 0 0 12px 0;
+}
+
+.page-subtitle {
+    font-size: 16px;
+    color: #8c8c8c;
+    margin: 0;
+}
+
+/* 模板分类导航 */
+.template-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+}
+
+.template-nav-btn {
+    padding: 10px 24px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #595959;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.template-nav-btn:hover {
+    border-color: #1890ff;
+    color: #1890ff;
+}
+
+.template-nav-btn.active {
+    background: #1890ff;
+    color: white;
+    border-color: #1890ff;
+}
+
+/* 模板网格 */
+.templates-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    gap: 24px;
+    margin-bottom: 48px;
+    width: 100%;
+}
+
+/* 限制最大列数，避免卡片在超宽屏上过于分散 */
+@media (min-width: 1920px) {
+    .templates-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1919px) {
+    .templates-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* 模板卡片 */
+.template-card {
+    background: white;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.template-card:hover {
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    transform: translateY(-4px);
+}
+
+/* 模板预览区 */
+.template-preview {
+    position: relative;
+    height: 240px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    overflow: hidden;
+}
+
+.preview-placeholder {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-layout {
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 6px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.preview-sidebar {
+    width: 25%;
+    background: #f5f5f5;
+    border-right: 1px solid #e8e8e8;
+}
+
+.preview-content {
+    flex: 1;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 对话预览 */
+.preview-chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.preview-message {
+    height: 24px;
+    border-radius: 12px;
+    background: #e8e8e8;
+}
+
+.preview-message-left {
+    width: 70%;
+    align-self: flex-start;
+}
+
+.preview-message-right {
+    width: 60%;
+    align-self: flex-end;
+    background: #91d5ff;
+}
+
+.preview-input {
+    height: 36px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    margin-top: 8px;
+}
+
+/* 列表预览 */
+.preview-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.preview-list-item {
+    height: 40px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+
+/* 搜索预览 */
+.preview-search {
+    margin-bottom: 12px;
+}
+
+.preview-search-bar {
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.preview-filters {
+    display: flex;
+    gap: 6px;
+}
+
+.preview-filters::before,
+.preview-filters::after {
+    content: '';
+    height: 20px;
+    width: 50px;
+    background: #e8e8e8;
+    border-radius: 4px;
+}
+
+/* 上传预览 */
+.preview-upload {
+    height: 80px;
+    border: 2px dashed #d9d9d9;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 12px;
+}
+
+.preview-upload-icon {
+    font-size: 24px;
+    opacity: 0.5;
+}
+
+.preview-upload-text {
+    width: 60%;
+    height: 8px;
+    background: #e8e8e8;
+    border-radius: 4px;
+}
+
+.preview-files {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.preview-file {
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+/* 网格预览 */
+.preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+}
+
+.preview-grid-item {
+    height: 60px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+
+/* 统计预览 */
+.preview-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.preview-stat-card {
+    height: 40px;
+    background: linear-gradient(90deg, #e6f7ff 0%, #bae7ff 100%);
+    border-radius: 6px;
+}
+
+.preview-chart {
+    flex: 1;
+    background: #f5f5f5;
+    border-radius: 6px;
+    margin-top: 4px;
+}
+
+/* 表单预览 */
+.preview-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.preview-form-group {
+    height: 32px;
+    background: #f5f5f5;
+    border-radius: 6px;
+}
+
+.preview-form-actions {
+    height: 36px;
+    background: #1890ff;
+    border-radius: 6px;
+    opacity: 0.8;
+}
+
+/* 左右分栏预览（信息详情页） */
+.preview-split {
+    flex-direction: row;
+    gap: 8px;
+    padding: 8px;
+}
+
+.preview-detail-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px;
+    background: white;
+    border-radius: 4px;
+}
+
+.preview-detail-header {
+    height: 28px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.preview-detail-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.preview-text-line {
+    height: 6px;
+    background: #e8e8e8;
+    border-radius: 3px;
+}
+
+.preview-text-line:first-child {
+    width: 90%;
+}
+
+.preview-text-line:nth-child(2) {
+    width: 85%;
+}
+
+.preview-text-line:last-child {
+    width: 75%;
+}
+
+.preview-detail-right {
+    width: 120px;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.preview-chat-header {
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    flex-shrink: 0;
+}
+
+.preview-detail-right .preview-chat {
+    flex: 1;
+    padding: 6px;
+    background: #fafafa;
+}
+
+.preview-detail-right .preview-message {
+    height: 16px;
+}
+
+.preview-detail-right .preview-input {
+    height: 24px;
+    margin: 0 6px 6px 6px;
+}
+
+/* 模板覆盖层 */
+.template-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.template-card:hover .template-overlay {
+    opacity: 1;
+}
+
+/* 多按钮布局 */
+.template-overlay-buttons {
+    display: flex;
+    gap: 12px;
+    transform: translateY(10px);
+    transition: transform 0.3s;
+}
+
+.template-card:hover .template-overlay-buttons {
+    transform: translateY(0);
+}
+
+/* 单按钮兼容 */
+.template-overlay .btn:not(.btn-sm) {
+    transform: translateY(10px);
+    transition: transform 0.3s;
+}
+
+.template-card:hover .template-overlay .btn:not(.btn-sm) {
+    transform: translateY(0);
+}
+
+/* 模板信息区 */
+.template-info {
+    padding: 20px;
+}
+
+.template-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #262626;
+    margin: 0 0 8px 0;
+}
+
+.template-description {
+    font-size: 14px;
+    color: #595959;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+}
+
+.template-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+}
+
+.template-tags .tag {
+    font-size: 11px;
+    padding: 3px 10px;
+}
+
+.tag-success {
+    background: #f6ffed;
+    color: #52c41a;
+}
+
+.tag-warning {
+    background: #fffbe6;
+    color: #faad14;
+}
+
+.template-meta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    font-size: 12px;
+    color: #8c8c8c;
+    font-family: 'Monaco', 'Consolas', monospace;
+}
+
+/* ==========================================
+   设计说明区域
+   ========================================== */
+
+.design-notes {
+    background: white;
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.notes-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #262626;
+    margin: 0 0 24px 0;
+}
+
+.notes-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.note-section h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #262626;
+    margin: 0 0 12px 0;
+}
+
+.note-section ul {
+    margin: 0;
+    padding-left: 24px;
+}
+
+.note-section li {
+    margin: 8px 0;
+    line-height: 1.6;
+    color: #595959;
+}
+
+.note-section li strong {
+    color: #262626;
+}
+
+.note-section p {
+    margin: 0;
+    line-height: 1.6;
+    color: #595959;
+}
+
+.note-section a {
+    color: #1890ff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.note-section a:hover {
+    text-decoration: underline;
+}
+
+/* 文件列表 */
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: #fafafa;
+    border-radius: 6px;
+    border: 1px solid #f0f0f0;
+}
+
+.file-icon {
+    font-size: 20px;
+}
+
+.file-name {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+    color: #262626;
+    font-weight: 500;
+    min-width: 250px;
+}
+
+.file-desc {
+    font-size: 13px;
+    color: #8c8c8c;
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+@media (min-width: 1200px) and (max-width: 1439px) {
+    .templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+    .templates-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .templates-page .main-content-area {
+        padding: 24px 16px;
+    }
+
+    .page-main-title {
+        font-size: 28px;
+    }
+
+    .page-subtitle {
+        font-size: 14px;
+    }
+
+    .templates-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .template-preview {
+        height: 200px;
+    }
+
+    .design-notes {
+        padding: 24px 16px;
+    }
+
+    .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .file-name {
+        min-width: auto;
+    }
+}
+
+/* ==========================================
+   动画效果
+   ========================================== */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.template-card {
+    animation: fadeIn 0.5s ease-out;
+}
+
+.template-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.template-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.template-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.template-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+.template-card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+
+.template-card:nth-child(6) {
+    animation-delay: 0.6s;
+}

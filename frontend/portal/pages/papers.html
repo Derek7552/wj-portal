@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="云脑平台安全研究论文聚合中心，展示收录的行业安全研究论文">
+    <meta name="keywords" content="安全论文,学术研究,安全研究,论文,云脑论文">
+    <title>安全论文 - 云脑平台</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../css/papers.css">
+</head>
+<body>
+    <!-- 全局导航 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="brand-logo">云脑</h1>
+                <span class="brand-slogan">最懂安全的AI智能体平台</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html">云脑</a></li>
+                <li class="nav-item"><a href="news.html">资讯</a></li>
+                <li class="nav-item active"><a href="papers.html">论文</a></li>
+                <li class="nav-item"><a href="resources.html">资源</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">登录</a>
+                <a href="register.html" class="btn btn-primary">注册</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">安全研究论文</h1>
+            
+            <!-- 筛选器 -->
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label>分类：</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>密码学</option>
+                        <option>网络安全</option>
+                        <option>恶意软件分析</option>
+                        <option>漏洞研究</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>作者：</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>张三</option>
+                        <option>李四</option>
+                        <option>王五</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>时间：</label>
+                    <select class="filter-select">
+                        <option>全部</option>
+                        <option>2024年</option>
+                        <option>2023年</option>
+                        <option>2022年</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 论文列表 -->
+            <section class="papers-list">
+                <article class="paper-card">
+                    <div class="paper-header">
+                        <h2 class="paper-title"><a href="paper-detail.html?id=1">基于深度学习的恶意软件检测方法研究</a></h2>
+                        <div class="paper-meta">
+                            <div class="paper-authors">
+                                <span class="meta-label">作者：</span>
+                                <span>张三, 李四, 王五</span>
+                            </div>
+                            <div class="paper-date">
+                                <span class="meta-label">发表时间：</span>
+                                <span>2024-02-15</span>
+                            </div>
+                            <div class="paper-category">
+                                <span class="paper-tag">恶意软件分析</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="paper-abstract">本文提出了一种基于深度学习的恶意软件检测方法，通过分析PE文件的静态特征和动态行为，构建了高效的检测模型。实验结果表明，该方法在检测准确率和误报率方面都优于传统方法...</p>
+                    <div class="paper-actions">
+                        <a href="paper-detail.html?id=1" class="btn btn-primary btn-small">查看详情</a>
+                        <a href="paper-detail.html?id=1#ai-summary" class="btn btn-outline btn-small">AI总结</a>
+                    </div>
+                </article>
+
+                <article class="paper-card">
+                    <div class="paper-header">
+                        <h2 class="paper-title"><a href="paper-detail.html?id=2">零信任架构下的网络访问控制机制</a></h2>
+                        <div class="paper-meta">
+                            <div class="paper-authors">
+                                <span class="meta-label">作者：</span>
+                                <span>赵六, 孙七</span>
+                            </div>
+                            <div class="paper-date">
+                                <span class="meta-label">发表时间：</span>
+                                <span>2024-01-20</span>
+                            </div>
+                            <div class="paper-category">
+                                <span class="paper-tag">网络安全</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="paper-abstract">随着企业数字化转型的推进，传统的边界安全模型已无法满足现代网络环境的需求。本文研究了零信任架构下的网络访问控制机制，提出了基于身份和上下文的动态访问控制策略...</p>
+                    <div class="paper-actions">
+                        <a href="paper-detail.html?id=2" class="btn btn-primary btn-small">查看详情</a>
+                        <a href="paper-detail.html?id=2#ai-summary" class="btn btn-outline btn-small">AI总结</a>
+                    </div>
+                </article>
+
+                <article class="paper-card">
+                    <div class="paper-header">
+                        <h2 class="paper-title"><a href="paper-detail.html?id=3">侧信道攻击在密码学实现中的分析与防护</a></h2>
+                        <div class="paper-meta">
+                            <div class="paper-authors">
+                                <span class="meta-label">作者：</span>
+                                <span>周八, 吴九, 郑十</span>
+                            </div>
+                            <div class="paper-date">
+                                <span class="meta-label">发表时间：</span>
+                                <span>2023-12-10</span>
+                            </div>
+                            <div class="paper-category">
+                                <span class="paper-tag">密码学</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="paper-abstract">侧信道攻击是密码学实现中的重要威胁。本文分析了常见的侧信道攻击方法，包括时序攻击、功耗分析和电磁辐射分析，并提出了相应的防护措施和实现建议...</p>
+                    <div class="paper-actions">
+                        <a href="paper-detail.html?id=3" class="btn btn-primary btn-small">查看详情</a>
+                        <a href="paper-detail.html?id=3#ai-summary" class="btn btn-outline btn-small">AI总结</a>
+                    </div>
+                </article>
+
+                <article class="paper-card">
+                    <div class="paper-header">
+                        <h2 class="paper-title"><a href="paper-detail.html?id=4">基于机器学习的漏洞挖掘技术研究</a></h2>
+                        <div class="paper-meta">
+                            <div class="paper-authors">
+                                <span class="meta-label">作者：</span>
+                                <span>钱一, 钱二</span>
+                            </div>
+                            <div class="paper-date">
+                                <span class="meta-label">发表时间：</span>
+                                <span>2023-11-25</span>
+                            </div>
+                            <div class="paper-category">
+                                <span class="paper-tag">漏洞研究</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="paper-abstract">传统的漏洞挖掘方法效率低下，难以应对日益复杂的软件系统。本文提出了一种基于机器学习的漏洞挖掘技术，通过分析源代码和二进制文件，自动识别潜在的漏洞模式...</p>
+                    <div class="paper-actions">
+                        <a href="paper-detail.html?id=4" class="btn btn-primary btn-small">查看详情</a>
+                        <a href="paper-detail.html?id=4#ai-summary" class="btn btn-outline btn-small">AI总结</a>
+                    </div>
+                </article>
+            </section>
+
+            <!-- 分页器 -->
+            <div class="pagination">
+                <button class="pagination-btn" disabled>上一页</button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">下一页</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 云脑平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/common.js"></script>
+</body>
+</html>
+

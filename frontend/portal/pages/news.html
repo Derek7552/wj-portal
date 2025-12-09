@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="云脑平台安全资讯聚合中心，实时展示最新的行业安全资讯内容">
+    <meta name="keywords" content="安全资讯,网络安全,安全动态,云脑资讯">
+    <title>安全资讯 - 云脑平台</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../css/news.css">
+</head>
+<body>
+    <!-- 全局导航 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <div class="brand-logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="brand-logo">云脑</h1>
+                <span class="brand-slogan">最懂安全的AI智能体平台</span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item"><a href="index.html">云脑</a></li>
+                <li class="nav-item active"><a href="news.html">资讯</a></li>
+                <li class="nav-item"><a href="papers.html">论文</a></li>
+                <li class="nav-item"><a href="resources.html">资源</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="login.html" class="btn btn-outline">登录</a>
+                <a href="register.html" class="btn btn-primary">注册</a>
+            </div>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="container">
+            <h1 class="page-title">安全资讯</h1>
+            
+            <!-- 筛选器 -->
+            <div class="filter-section">
+                <div class="filter-tags">
+                    <button class="filter-tag active">全部</button>
+                    <button class="filter-tag">漏洞分析</button>
+                    <button class="filter-tag">安全事件</button>
+                    <button class="filter-tag">威胁情报</button>
+                    <button class="filter-tag">技术研究</button>
+                </div>
+            </div>
+
+            <!-- 资讯列表 -->
+            <section class="news-list">
+                <article class="news-card">
+                    <div class="news-header">
+                        <h2 class="news-title"><a href="news-detail.html?id=1">2024年第一季度网络安全威胁报告：APT攻击趋势分析</a></h2>
+                        <div class="news-meta">
+                            <span class="news-date">2024-03-15</span>
+                            <span class="news-tag">威胁情报</span>
+                        </div>
+                    </div>
+                    <p class="news-summary">本报告深入分析了2024年第一季度的APT攻击趋势，包括主要攻击组织、攻击手法和目标行业。报告显示，金融、能源和政府部门仍然是攻击者的主要目标...</p>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-header">
+                        <h2 class="news-title"><a href="news-detail.html?id=2">新型勒索软件LockBit 3.0技术分析及防护建议</a></h2>
+                        <div class="news-meta">
+                            <span class="news-date">2024-03-12</span>
+                            <span class="news-tag">漏洞分析</span>
+                        </div>
+                    </div>
+                    <p class="news-summary">LockBit 3.0是最新版本的勒索软件，采用了更先进的加密算法和反分析技术。本文详细分析了其技术特点，并提供了针对性的防护建议...</p>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-header">
+                        <h2 class="news-title"><a href="news-detail.html?id=3">零信任架构在云安全中的应用实践</a></h2>
+                        <div class="news-meta">
+                            <span class="news-date">2024-03-10</span>
+                            <span class="news-tag">技术研究</span>
+                        </div>
+                    </div>
+                    <p class="news-summary">随着企业数字化转型的加速，零信任架构成为云安全的重要解决方案。本文介绍了零信任架构的核心原则，以及在云环境中的具体实施方法...</p>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-header">
+                        <h2 class="news-title"><a href="news-detail.html?id=4">CVE-2024-1234漏洞详情及修复方案</a></h2>
+                        <div class="news-meta">
+                            <span class="news-date">2024-03-08</span>
+                            <span class="news-tag">漏洞分析</span>
+                        </div>
+                    </div>
+                    <p class="news-summary">CVE-2024-1234是一个影响广泛的高危漏洞，CVSS评分为9.8。本文详细分析了漏洞原理、影响范围和修复方案，帮助用户及时防护...</p>
+                </article>
+
+                <article class="news-card">
+                    <div class="news-header">
+                        <h2 class="news-title"><a href="news-detail.html?id=5">AI驱动的安全运营中心（SOC）建设指南</a></h2>
+                        <div class="news-meta">
+                            <span class="news-date">2024-03-05</span>
+                            <span class="news-tag">技术研究</span>
+                        </div>
+                    </div>
+                    <p class="news-summary">AI技术在安全运营中心的应用正在改变传统的安全监控模式。本文介绍了如何利用AI技术提升SOC的检测能力和响应效率...</p>
+                </article>
+            </section>
+
+            <!-- 分页器 -->
+            <div class="pagination">
+                <button class="pagination-btn" disabled>上一页</button>
+                <button class="pagination-btn active">1</button>
+                <button class="pagination-btn">2</button>
+                <button class="pagination-btn">3</button>
+                <button class="pagination-btn">下一页</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 云脑平台. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="../../js/common.js"></script>
+</body>
+</html>
+

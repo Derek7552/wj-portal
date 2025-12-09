@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="UI模板库 - 云脑智能体平台">
+    <title>UI模板库 | 云脑</title>
+    <link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/templates.css">
+</head>
+<body class="templates-page">
+    <!-- 左侧主导航栏 -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+            <button class="sidebar-toggle" id="sidebarToggle" title="展开/收起">
+                <span class="toggle-icon">◀</span>
+            </button>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                    <a href="dashboard.html" class="nav-item nav-item-home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav" title="我的收藏">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="templates.html" class="nav-item active">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 页面标题 -->
+        <div class="page-header-section">
+            <h1 class="page-main-title">📐 UI模板库</h1>
+            <p class="page-subtitle">智能体详情页面的前端布局模板展示</p>
+        </div>
+
+        <!-- 模板分类导航 -->
+        <div class="template-nav">
+            <button class="template-nav-btn active" data-category="all">
+                全部模板
+            </button>
+            <button class="template-nav-btn" data-category="core">
+                核心功能
+            </button>
+            <button class="template-nav-btn" data-category="management">
+                智能体管理
+            </button>
+        </div>
+
+        <!-- 模板网格 -->
+        <div class="templates-grid">
+            <!-- 模板卡片 1 - 快速对话 -->
+            <div class="template-card" data-category="core">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-chat">
+                                    <div class="preview-message preview-message-left"></div>
+                                    <div class="preview-message preview-message-right"></div>
+                                    <div class="preview-message preview-message-left"></div>
+                                </div>
+                                <div class="preview-input"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="templates/pages/agent-detail-empty.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">💬 快速对话模式</h3>
+                    <p class="template-description">
+                        对话式交互界面，支持实时消息、代码高亮、Markdown渲染
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-primary">核心功能</span>
+                        <span class="tag tag-secondary">对话式</span>
+                        <span class="tag tag-secondary">默认激活</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-empty.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 2 - 信息查看/检索 -->
+            <div class="template-card" data-category="core">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-search">
+                                    <div class="preview-search-bar"></div>
+                                    <div class="preview-filters"></div>
+                                </div>
+                                <div class="preview-list">
+                                    <div class="preview-list-item"></div>
+                                    <div class="preview-list-item"></div>
+                                    <div class="preview-list-item"></div>
+                                    <div class="preview-list-item"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="templates/pages/agent-detail-search.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">🔍 信息查看/检索模式</h3>
+                    <p class="template-description">
+                        信息展示和检索界面，支持多维度筛选、关键词搜索、结果列表展示
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-primary">核心功能</span>
+                        <span class="tag tag-secondary">信息检索</span>
+                        <span class="tag tag-secondary">列表视图</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-search.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 3 - 信息预览/对话模式 -->
+            <div class="template-card" data-category="core">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-info-preview">
+                                    <div class="preview-info-content"></div>
+                                </div>
+                                <div class="preview-chat">
+                                    <div class="preview-message preview-message-left"></div>
+                                    <div class="preview-message preview-message-right"></div>
+                                </div>
+                                <div class="preview-input"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="#" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">📋 信息预览/对话模式</h3>
+                    <p class="template-description">
+                        结合信息预览与对话交互，支持内容展示和实时对话，适用于详情页场景
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-primary">核心功能</span>
+                        <span class="tag tag-secondary">信息预览</span>
+                        <span class="tag tag-secondary">对话模式</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-preview-chat.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 4 - 知识库管理 -->
+            <div class="template-card" data-category="management">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-upload">
+                                    <div class="preview-upload-icon">📤</div>
+                                    <div class="preview-upload-text"></div>
+                                </div>
+                                <div class="preview-files">
+                                    <div class="preview-file"></div>
+                                    <div class="preview-file"></div>
+                                    <div class="preview-file"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="agent-detail-knowledge.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">📚 知识库管理</h3>
+                    <p class="template-description">
+                        文档上传、管理、向量化状态跟踪，支持拖拽上传和批量操作
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-success">智能体管理</span>
+                        <span class="tag tag-secondary">文件管理</span>
+                        <span class="tag tag-secondary">显示数量</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-knowledge.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 5 - 工具插件 -->
+            <div class="template-card" data-category="management">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-grid">
+                                    <div class="preview-grid-item"></div>
+                                    <div class="preview-grid-item"></div>
+                                    <div class="preview-grid-item"></div>
+                                    <div class="preview-grid-item"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="agent-detail-tools.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">🔧 工具插件管理</h3>
+                    <p class="template-description">
+                        工具市场、已安装工具、配置授权，网格布局展示插件卡片
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-success">智能体管理</span>
+                        <span class="tag tag-secondary">网格布局</span>
+                        <span class="tag tag-secondary">显示数量</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-tools.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 6 - 智能体设置 -->
+            <div class="template-card" data-category="management">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-form">
+                                    <div class="preview-form-group"></div>
+                                    <div class="preview-form-group"></div>
+                                    <div class="preview-form-group"></div>
+                                    <div class="preview-form-actions"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="agent-detail-settings.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">⚙️ 智能体设置</h3>
+                    <p class="template-description">
+                        基础信息、模型配置、提示词设置、高级配置，表单布局
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-success">智能体管理</span>
+                        <span class="tag tag-secondary">表单</span>
+                        <span class="tag tag-secondary">保存确认</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-settings.html</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设计说明 -->
+        <div class="design-notes">
+            <h2 class="notes-title">📝 设计说明</h2>
+            <div class="notes-content">
+                <div class="note-section">
+                    <h3>布局结构</h3>
+                    <ul>
+                        <li><strong>左侧主导航（240px）：</strong>全局导航，包含首页、智能体、资讯等主要功能入口</li>
+                        <li><strong>智能体侧导航（200px）：</strong>智能体详情的二级导航，按功能分组展示</li>
+                        <li><strong>主内容区（自适应）：</strong>根据选择的功能展示不同内容</li>
+                    </ul>
+                </div>
+
+                <div class="note-section">
+                    <h3>侧导航分组</h3>
+                    <ul>
+                        <li><strong>核心功能区：</strong>快速对话、信息检索（包含列表+详情）</li>
+                        <li><strong>智能体管理：</strong>知识库、工具插件、智能体设置</li>
+                    </ul>
+                </div>
+
+                <div class="note-section">
+                    <h3>交互特性</h3>
+                    <ul>
+                        <li>侧导航支持折叠/展开，响应式适配</li>
+                        <li>知识库和工具显示资源数量</li>
+                        <li>对话模式支持Markdown和代码高亮</li>
+                        <li>信息检索支持多级分类筛选和关键词搜索</li>
+                        <li>信息检索包含列表页和详情页（详情页左右布局+AI对话）</li>
+                        <li>所有表单支持保存/取消确认</li>
+                    </ul>
+                </div>
+
+                <div class="note-section">
+                    <h3>文件列表</h3>
+                    <div class="file-list">
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-detail-chat.html</span>
+                            <span class="file-desc">快速对话模式</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-news.html</span>
+                            <span class="file-desc">信息检索列表页（示例）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-news-detail.html</span>
+                            <span class="file-desc">信息检索详情页（示例）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-detail-knowledge.html</span>
+                            <span class="file-desc">知识库管理（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-detail-tools.html</span>
+                            <span class="file-desc">工具插件管理（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-detail-analytics.html</span>
+                            <span class="file-desc">数据统计分析（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agent-detail-settings.html</span>
+                            <span class="file-desc">配置设置（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">🎨</span>
+                            <span class="file-name">css/agent-detail.css</span>
+                            <span class="file-desc">样式文件（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">🎨</span>
+                            <span class="file-name">css/agent-news-detail.css</span>
+                            <span class="file-desc">信息详情页样式</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name">js/agent-detail.js</span>
+                            <span class="file-desc">交互脚本（待创建）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name">js/agent-news-detail.js</span>
+                            <span class="file-desc">信息详情页交互</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="note-section">
+                    <h3>参考文档</h3>
+                    <p>
+                        详细的布局设计方案请查看：
+                        <a href="../产品设计文档/前端UI框架布局设计方案.md" target="_blank">
+                            前端UI框架布局设计方案.md
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/dashboard.js"></script>
+    <script src="js/templates.js"></script>
+</body>
+</html>
