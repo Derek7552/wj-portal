@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智能体详情 - 自规划模式">
+    <title>智能体详情 - 自规划 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-detail-planning.css">
+</head>
+<body class="agent-detail-page agent-detail-planning-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🎯</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">自规划任务执行助手</h2>
+                        <span class="agent-type">高级类</span>
+                        <span class="agent-version">v2.0.0</span>
+                    </div>
+                    <p class="agent-description">智能分解复杂任务，自主规划执行步骤，实时反馈进度，支持人工干预和调整</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(156)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(23)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat" id="btnNewTask">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <a href="#" class="recent-task-item active"
+                               data-task-id="1"
+                               data-task-name="开发用户认证系统"
+                               data-task-status="running">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">开发用户认证系统</div>
+                            </a>
+
+                            <a href="#" class="recent-task-item"
+                               data-task-id="2"
+                               data-task-name="数据分析报告生成"
+                               data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">数据分析报告生成</div>
+                            </a>
+
+                            <a href="#" class="recent-task-item"
+                               data-task-id="3"
+                               data-task-name="API接口文档编写"
+                               data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">API接口文档编写</div>
+                            </a>
+
+                            <a href="#" class="recent-task-item"
+                               data-task-id="4"
+                               data-task-name="前端性能优化"
+                               data-task-status="failed">
+                                <span class="task-status-icon failed">❌</span>
+                                <div class="task-name">前端性能优化</div>
+                            </a>
+
+                            <a href="#" class="recent-task-item"
+                               data-task-id="5"
+                               data-task-name="数据库优化方案"
+                               data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">数据库优化方案</div>
+                            </a>
+                        </div>
+
+                        <!-- 查看全部任务入口 -->
+                        <a href="#" class="view-all-tasks" id="viewAllTasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主要内容区域 -->
+            <div class="agent-main-content">
+                <!-- 空状态 - 新任务输入 -->
+                <div class="empty-state-container" id="emptyStateContainer" style="display: none;">
+                    <!-- 智能体名称 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">自规划任务执行助手</span>
+                    </div>
+
+                    <!-- 引导文案 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">开始创建新任务</p>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <!-- 输入框区域 -->
+                            <textarea
+                                class="chat-input"
+                                id="newTaskInput"
+                                placeholder="描述您的任务需求，AI将自动分解并规划执行步骤..."
+                                rows="5"
+                            ></textarea>
+
+                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">
+                                        📎
+                                    </button>
+                                    <button class="btn-icon" title="插入图片">
+                                        🖼️
+                                    </button>
+                                    <button class="btn-icon" title="插入代码">
+                                        💻
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="createTaskBtn">
+                                    <span>创建任务</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 任务详情容器 -->
+                <div class="task-details-container" id="taskDetailsContainer">
+                    <!-- 任务头部信息 -->
+                    <div class="task-header">
+                    <div class="task-header-left">
+                        <h3 class="task-title">开发用户认证系统</h3>
+                        <div class="task-meta">
+                            <span class="task-meta-item">
+                                <span class="meta-icon">📅</span>
+                                <span>创建于 2024-12-09 14:30</span>
+                            </span>
+                            <span class="task-meta-item">
+                                <span class="meta-icon">⏱️</span>
+                                <span>已运行 2小时15分</span>
+                            </span>
+                            <span class="task-meta-item">
+                                <span class="meta-icon">📊</span>
+                                <span>进度 3/5</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="task-header-right">
+                        <button class="btn btn-secondary btn-sm" id="btnPauseTask">
+                            <span>⏸️</span>
+                            <span>暂停</span>
+                        </button>
+                        <button class="btn btn-danger btn-sm" id="btnStopTask">
+                            <span>⏹️</span>
+                            <span>停止</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 任务进度条 -->
+                <div class="task-progress-bar">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 60%;"></div>
+                    </div>
+                    <div class="progress-bar-text">60% 完成 (3/5 步骤)</div>
+                </div>
+
+                <!-- Tab切换 -->
+                <div class="task-tabs">
+                    <button class="task-tab active" data-tab="dialog">
+                        <span class="tab-icon">💬</span>
+                        <span class="tab-text">对话记录</span>
+                    </button>
+                    <button class="task-tab" data-tab="logs">
+                        <span class="tab-icon">📝</span>
+                        <span class="tab-text">关键日志</span>
+                    </button>
+                </div>
+
+                <!-- 对话记录区域 -->
+                <div class="task-content-area" id="dialogArea">
+                    <div class="messages-container" id="messagesContainer">
+                        <!-- 系统消息 -->
+                        <div class="message message-system">
+                            <div class="message-avatar">🎯</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 14:30</div>
+                                <div class="message-bubble">
+                                    <p>任务已创建：开发用户认证系统</p>
+                                    <p>我已为您自动规划了5个执行步骤，现在开始执行...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 任务分解 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 14:30</div>
+                                <div class="message-bubble">
+                                    <p><strong>任务分解完成</strong></p>
+                                    <div class="task-breakdown">
+                                        <div class="task-step completed">
+                                            <span class="step-number">✓</span>
+                                            <span class="step-text">分析需求，确定技术方案</span>
+                                        </div>
+                                        <div class="task-step completed">
+                                            <span class="step-number">✓</span>
+                                            <span class="step-text">设计数据库表结构</span>
+                                        </div>
+                                        <div class="task-step completed">
+                                            <span class="step-number">✓</span>
+                                            <span class="step-text">实现用户注册和登录API</span>
+                                        </div>
+                                        <div class="task-step running">
+                                            <span class="step-number">4</span>
+                                            <span class="step-text">开发JWT令牌验证中间件</span>
+                                        </div>
+                                        <div class="task-step pending">
+                                            <span class="step-number">5</span>
+                                            <span class="step-text">编写单元测试和集成测试</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 步骤1 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 14:31</div>
+                                <div class="message-bubble">
+                                    <p><strong>步骤1：分析需求，确定技术方案</strong></p>
+                                    <p>已完成需求分析，确定使用以下技术栈：</p>
+                                    <ul>
+                                        <li>后端框架：Express.js</li>
+                                        <li>数据库：PostgreSQL</li>
+                                        <li>认证方式：JWT + Refresh Token</li>
+                                        <li>密码加密：bcrypt</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 步骤2 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 14:45</div>
+                                <div class="message-bubble">
+                                    <p><strong>步骤2：设计数据库表结构</strong></p>
+                                    <p>已创建用户表（users）和会话表（sessions）：</p>
+                                    <pre><code>CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(50) UNIQUE NOT NULL,
+  email VARCHAR(100) UNIQUE NOT NULL,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE sessions (
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES users(id),
+  refresh_token VARCHAR(255) NOT NULL,
+  expires_at TIMESTAMP NOT NULL,
+  created_at TIMESTAMP DEFAULT NOW()
+);</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 用户消息 -->
+                        <div class="message message-user">
+                            <div class="message-avatar">👤</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 15:00</div>
+                                <div class="message-bubble">
+                                    <p>请添加用户角色字段，需要区分普通用户和管理员</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 调整方案 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 15:01</div>
+                                <div class="message-bubble">
+                                    <p>好的，我已调整数据库设计，添加了role字段：</p>
+                                    <pre><code>ALTER TABLE users ADD COLUMN role VARCHAR(20) DEFAULT 'user';
+-- role 可选值: 'user', 'admin'</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 步骤3 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 15:30</div>
+                                <div class="message-bubble">
+                                    <p><strong>步骤3：实现用户注册和登录API</strong></p>
+                                    <p>已完成以下API接口：</p>
+                                    <ul>
+                                        <li>POST /api/auth/register - 用户注册</li>
+                                        <li>POST /api/auth/login - 用户登录</li>
+                                        <li>POST /api/auth/refresh - 刷新访问令牌</li>
+                                        <li>POST /api/auth/logout - 用户登出</li>
+                                    </ul>
+                                    <p>代码已保存至右侧"产物"标签页 →</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 - 步骤4进行中 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-09 16:40</div>
+                                <div class="message-bubble">
+                                    <p><strong>步骤4：开发JWT令牌验证中间件</strong></p>
+                                    <p>正在实现中间件功能...</p>
+                                    <div class="progress-indicator">
+                                        <div class="spinner"></div>
+                                        <span>处理中...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="input-area">
+                        <div class="input-wrapper">
+                            <textarea class="input-textarea" id="messageInput"
+                                      placeholder="您可以随时干预，提出建议或调整方向..."
+                                      rows="3"></textarea>
+                            <div class="input-toolbar">
+                                <div class="input-actions">
+                                    <button class="btn-icon" title="上传文件">📎</button>
+                                    <button class="btn-icon" title="插入代码">💻</button>
+                                </div>
+                                <button class="btn btn-primary" id="sendMessage">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 关键日志区域（默认隐藏） -->
+                <div class="task-content-area" id="logsArea" style="display: none;">
+                    <div class="logs-container">
+                        <div class="log-entry log-success">
+                            <div class="log-time">2024-12-09 14:31:05</div>
+                            <div class="log-level">SUCCESS</div>
+                            <div class="log-message">步骤1完成 - 技术方案确定</div>
+                        </div>
+                        <div class="log-entry log-info">
+                            <div class="log-time">2024-12-09 14:45:12</div>
+                            <div class="log-level">INFO</div>
+                            <div class="log-message">开始执行步骤2 - 数据库表结构设计</div>
+                        </div>
+                        <div class="log-entry log-success">
+                            <div class="log-time">2024-12-09 14:50:30</div>
+                            <div class="log-level">SUCCESS</div>
+                            <div class="log-message">步骤2完成 - 数据库表创建成功</div>
+                        </div>
+                        <div class="log-entry log-warning">
+                            <div class="log-time">2024-12-09 15:00:45</div>
+                            <div class="log-level">WARNING</div>
+                            <div class="log-message">用户请求调整 - 添加角色字段</div>
+                        </div>
+                        <div class="log-entry log-info">
+                            <div class="log-time">2024-12-09 15:01:20</div>
+                            <div class="log-level">INFO</div>
+                            <div class="log-message">方案已调整 - 添加role字段</div>
+                        </div>
+                        <div class="log-entry log-success">
+                            <div class="log-time">2024-12-09 15:35:50</div>
+                            <div class="log-level">SUCCESS</div>
+                            <div class="log-message">步骤3完成 - 所有API接口实现完毕</div>
+                        </div>
+                        <div class="log-entry log-info">
+                            <div class="log-time">2024-12-09 16:40:10</div>
+                            <div class="log-level">INFO</div>
+                            <div class="log-message">开始执行步骤4 - JWT中间件开发</div>
+                        </div>
+                        <div class="log-entry log-info">
+                            <div class="log-time">2024-12-09 16:42:35</div>
+                            <div class="log-level">INFO</div>
+                            <div class="log-message">正在编写令牌验证逻辑...</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 任务详情容器结束 -->
+                </div>
+            </div>
+
+            <!-- 右侧面板 -->
+            <aside class="task-sidebar">
+                <!-- Tab切换 -->
+                <div class="sidebar-tabs">
+                    <button class="sidebar-tab active" data-sidebar-tab="files">
+                        <span class="tab-icon">📁</span>
+                        <span class="tab-text">文件</span>
+                        <span class="tab-badge">3</span>
+                    </button>
+                    <button class="sidebar-tab" data-sidebar-tab="outputs">
+                        <span class="tab-icon">📦</span>
+                        <span class="tab-text">产物</span>
+                        <span class="tab-badge">5</span>
+                    </button>
+                </div>
+
+                <!-- 文件Tab内容 -->
+                <div class="sidebar-content" id="filesTab">
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">相关文档</div>
+                        <div class="file-list">
+                            <div class="file-item">
+                                <div class="file-icon">📄</div>
+                                <div class="file-info">
+                                    <div class="file-name">需求文档.md</div>
+                                    <div class="file-meta">128 KB · 2024-12-09</div>
+                                </div>
+                                <button class="btn-file-action" title="下载">⬇️</button>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">📊</div>
+                                <div class="file-info">
+                                    <div class="file-name">API设计文档.pdf</div>
+                                    <div class="file-meta">256 KB · 2024-12-09</div>
+                                </div>
+                                <button class="btn-file-action" title="下载">⬇️</button>
+                            </div>
+                            <div class="file-item">
+                                <div class="file-icon">🖼️</div>
+                                <div class="file-info">
+                                    <div class="file-name">系统架构图.png</div>
+                                    <div class="file-meta">512 KB · 2024-12-09</div>
+                                </div>
+                                <button class="btn-file-action" title="下载">⬇️</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">
+                            <span>上传文件</span>
+                        </div>
+                        <div class="upload-area">
+                            <input type="file" id="fileInput" multiple style="display: none;">
+                            <button class="btn-upload" id="btnUpload">
+                                <span class="upload-icon">📤</span>
+                                <span class="upload-text">点击上传</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 产物Tab内容（默认隐藏） -->
+                <div class="sidebar-content" id="outputsTab" style="display: none;">
+                    <div class="sidebar-section">
+                        <div class="sidebar-section-title">生成的代码</div>
+                        <div class="output-list">
+                            <div class="output-item">
+                                <div class="output-header">
+                                    <div class="output-icon">💻</div>
+                                    <div class="output-info">
+                                        <div class="output-name">auth.controller.js</div>
+                                        <div class="output-meta">步骤3生成 · 2.5 KB</div>
+                                    </div>
+                                </div>
+                                <div class="output-actions">
+                                    <button class="btn-output-action" title="查看">👁️</button>
+                                    <button class="btn-output-action" title="复制">📋</button>
+                                    <button class="btn-output-action" title="下载">⬇️</button>
+                                </div>
+                            </div>
+
+                            <div class="output-item">
+                                <div class="output-header">
+                                    <div class="output-icon">💻</div>
+                                    <div class="output-info">
+                                        <div class="output-name">user.model.js</div>
+                                        <div class="output-meta">步骤2生成 · 1.8 KB</div>
+                                    </div>
+                                </div>
+                                <div class="output-actions">
+                                    <button class="btn-output-action" title="查看">👁️</button>
+                                    <button class="btn-output-action" title="复制">📋</button>
+                                    <button class="btn-output-action" title="下载">⬇️</button>
+                                </div>
+                            </div>
+
+                            <div class="output-item">
+                                <div class="output-header">
+                                    <div class="output-icon">🗄️</div>
+                                    <div class="output-info">
+                                        <div class="output-name">schema.sql</div>
+                                        <div class="output-meta">步骤2生成 · 1.2 KB</div>
+                                    </div>
+                                </div>
+                                <div class="output-actions">
+                                    <button class="btn-output-action" title="查看">👁️</button>
+                                    <button class="btn-output-action" title="复制">📋</button>
+                                    <button class="btn-output-action" title="下载">⬇️</button>
+                                </div>
+                            </div>
+
+                            <div class="output-item">
+                                <div class="output-header">
+                                    <div class="output-icon">📝</div>
+                                    <div class="output-info">
+                                        <div class="output-name">API文档.md</div>
+                                        <div class="output-meta">步骤3生成 · 3.2 KB</div>
+                                    </div>
+                                </div>
+                                <div class="output-actions">
+                                    <button class="btn-output-action" title="查看">👁️</button>
+                                    <button class="btn-output-action" title="复制">📋</button>
+                                    <button class="btn-output-action" title="下载">⬇️</button>
+                                </div>
+                            </div>
+
+                            <div class="output-item">
+                                <div class="output-header">
+                                    <div class="output-icon">⚙️</div>
+                                    <div class="output-info">
+                                        <div class="output-name">.env.example</div>
+                                        <div class="output-meta">步骤1生成 · 0.5 KB</div>
+                                    </div>
+                                </div>
+                                <div class="output-actions">
+                                    <button class="btn-output-action" title="查看">👁️</button>
+                                    <button class="btn-output-action" title="复制">📋</button>
+                                    <button class="btn-output-action" title="下载">⬇️</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-detail-planning.js"></script>
+</body>
+</html>

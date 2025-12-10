@@ -247,7 +247,52 @@
                 </div>
             </div>
 
-            <!-- 模板卡片 4 - 知识库管理 -->
+            <!-- 模板卡片 4 - 自规划模式 -->
+            <div class="template-card" data-category="core">
+                <div class="template-preview">
+                    <div class="preview-placeholder">
+                        <div class="preview-layout">
+                            <div class="preview-sidebar"></div>
+                            <div class="preview-content">
+                                <div class="preview-planning">
+                                    <div class="preview-planning-header"></div>
+                                    <div class="preview-task-list">
+                                        <div class="preview-task-item"></div>
+                                        <div class="preview-task-item"></div>
+                                        <div class="preview-task-item"></div>
+                                    </div>
+                                </div>
+                                <div class="preview-chat">
+                                    <div class="preview-message preview-message-left"></div>
+                                    <div class="preview-message preview-message-right"></div>
+                                </div>
+                                <div class="preview-input"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="template-overlay">
+                        <a href="agents/pages/agent-detail-planning.html" class="btn btn-primary" target="_blank">
+                            预览模板
+                        </a>
+                    </div>
+                </div>
+                <div class="template-info">
+                    <h3 class="template-title">🎯 自规划模式</h3>
+                    <p class="template-description">
+                        智能体自主规划任务，展示任务列表、执行状态、实时反馈，支持用户干预和调整
+                    </p>
+                    <div class="template-tags">
+                        <span class="tag tag-primary">核心功能</span>
+                        <span class="tag tag-secondary">任务规划</span>
+                        <span class="tag tag-secondary">自主执行</span>
+                    </div>
+                    <div class="template-meta">
+                        <span class="meta-item">📄 agent-detail-planning.html</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 模板卡片 5 - 知识库管理 -->
             <div class="template-card" data-category="management">
                 <div class="template-preview">
                     <div class="preview-placeholder">
@@ -288,7 +333,7 @@
                 </div>
             </div>
 
-            <!-- 模板卡片 5 - 工具插件 -->
+            <!-- 模板卡片 6 - 工具插件 -->
             <div class="template-card" data-category="management">
                 <div class="template-preview">
                     <div class="preview-placeholder">
@@ -326,7 +371,7 @@
                 </div>
             </div>
 
-            <!-- 模板卡片 6 - 智能体设置 -->
+            <!-- 模板卡片 7 - 智能体设置 -->
             <div class="template-card" data-category="management">
                 <div class="template-preview">
                     <div class="preview-placeholder">
@@ -372,17 +417,52 @@
                 <div class="note-section">
                     <h3>布局结构</h3>
                     <ul>
-                        <li><strong>左侧主导航（240px）：</strong>全局导航，包含首页、智能体、资讯等主要功能入口</li>
-                        <li><strong>智能体侧导航（200px）：</strong>智能体详情的二级导航，按功能分组展示</li>
-                        <li><strong>主内容区（自适应）：</strong>根据选择的功能展示不同内容</li>
+                        <li><strong>左侧主导航（240px，可折叠）：</strong>全局导航，包含首页、智能体、资讯等主要功能入口，底部有UI模板入口</li>
+                        <li><strong>智能体侧导航（200px）：</strong>智能体详情的二级导航，顶部有"新对话"按钮，下方按功能分组展示</li>
+                        <li><strong>主内容区（自适应）：</strong>根据选择的功能展示不同内容，支持多种布局模式</li>
                     </ul>
                 </div>
 
                 <div class="note-section">
-                    <h3>侧导航分组</h3>
+                    <h3>模板分类</h3>
                     <ul>
-                        <li><strong>核心功能区：</strong>快速对话、信息检索（包含列表+详情）</li>
-                        <li><strong>智能体管理：</strong>知识库、工具插件、智能体设置</li>
+                        <li><strong>核心功能：</strong>
+                            <ul>
+                                <li>💬 快速对话模式 - 对话式交互界面，支持实时消息、代码高亮、Markdown渲染</li>
+                                <li>🔍 信息查看/检索模式 - 信息展示和检索界面，支持多维度筛选、关键词搜索、结果列表展示（包含列表页和详情页）</li>
+                                <li>📋 信息预览/对话模式 - 结合信息预览与对话交互，支持内容展示和实时对话，适用于详情页场景</li>
+                                <li>🎯 自规划模式 - 智能体自主规划任务，展示任务列表、执行状态、实时反馈，支持用户干预和调整</li>
+                            </ul>
+                        </li>
+                        <li><strong>智能体管理：</strong>
+                            <ul>
+                                <li>📚 知识库管理 - 文档上传、管理、向量化状态跟踪，支持拖拽上传和批量操作</li>
+                                <li>🔧 工具插件管理 - 工具市场、已安装工具、配置授权，网格布局展示插件卡片</li>
+                                <li>⚙️ 智能体设置 - 基础信息、模型配置、提示词设置、高级配置，表单布局</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="note-section">
+                    <h3>目录结构</h3>
+                    <p>UI模板库采用模版与实际应用分离的目录结构：</p>
+                    <ul>
+                        <li><strong>模版目录（templates/）：</strong>通用、脱敏的模板页面，用于UI模板库预览
+                            <ul>
+                                <li><code>templates/pages/</code> - 模板HTML页面</li>
+                                <li><code>templates/css/</code> - 模板专用样式</li>
+                                <li><code>templates/js/</code> - 模板专用脚本</li>
+                                <li><code>templates/*.md</code> - 模板设计文档</li>
+                            </ul>
+                        </li>
+                        <li><strong>实际应用目录（agents/）：</strong>包含具体业务内容和数据的实际运行页面
+                            <ul>
+                                <li><code>agents/pages/</code> - 实际应用HTML页面</li>
+                                <li><code>agents/css/</code> - 实际应用样式</li>
+                                <li><code>agents/js/</code> - 实际应用脚本</li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
 
@@ -390,83 +470,165 @@
                     <h3>交互特性</h3>
                     <ul>
                         <li>侧导航支持折叠/展开，响应式适配</li>
-                        <li>知识库和工具显示资源数量</li>
-                        <li>对话模式支持Markdown和代码高亮</li>
-                        <li>信息检索支持多级分类筛选和关键词搜索</li>
-                        <li>信息检索包含列表页和详情页（详情页左右布局+AI对话）</li>
-                        <li>所有表单支持保存/取消确认</li>
+                        <li>知识库和工具显示资源数量（如：知识库(128)）</li>
+                        <li>对话模式支持Markdown渲染、代码高亮、实时消息流</li>
+                        <li>信息检索支持多级分类筛选、关键词搜索、结果列表展示</li>
+                        <li>信息检索包含列表页和详情页（详情页采用左右布局+AI对话）</li>
+                        <li>信息预览/对话模式支持上下文关联，点击"讨论"按钮将信息加载到对话区</li>
+                        <li>自规划模式支持任务列表展示、执行状态跟踪、用户干预</li>
+                        <li>所有表单支持保存/取消确认，防止误操作</li>
+                        <li>模板卡片支持悬停预览，点击"预览模板"在新窗口打开</li>
                     </ul>
                 </div>
 
                 <div class="note-section">
-                    <h3>文件列表</h3>
+                    <h3>模板文件列表</h3>
                     <div class="file-list">
                         <div class="file-item">
                             <span class="file-icon">📄</span>
-                            <span class="file-name">agent-detail-chat.html</span>
-                            <span class="file-desc">快速对话模式</span>
+                            <span class="file-name">templates/pages/agent-detail-empty.html</span>
+                            <span class="file-desc">✅ 快速对话模式模板</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
-                            <span class="file-name">agent-news.html</span>
-                            <span class="file-desc">信息检索列表页（示例）</span>
+                            <span class="file-name">templates/pages/agent-detail-search.html</span>
+                            <span class="file-desc">✅ 信息查看/检索模式（列表页）模板</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
-                            <span class="file-name">agent-news-detail.html</span>
-                            <span class="file-desc">信息检索详情页（示例）</span>
+                            <span class="file-name">templates/pages/agent-detail-search-detail.html</span>
+                            <span class="file-desc">✅ 信息查看/检索模式（详情页）模板</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
-                            <span class="file-name">agent-detail-knowledge.html</span>
-                            <span class="file-desc">知识库管理（待创建）</span>
+                            <span class="file-name">agents/pages/agent-detail-preview.html</span>
+                            <span class="file-desc">✅ 信息预览/对话模式（实际应用）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agents/pages/agent-detail-planning.html</span>
+                            <span class="file-desc">✅ 自规划模式（实际应用 - v1.3.0新增空状态）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agents/pages/agent-detail-chat.html</span>
+                            <span class="file-desc">✅ 快速对话模式（实际应用）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agents/pages/agent-detail-tasks.html</span>
+                            <span class="file-desc">✅ 近期任务列表（实际应用）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">agents/pages/agent-knowledge.html</span>
+                            <span class="file-desc">✅ 知识库管理（实际应用）</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
                             <span class="file-name">agent-detail-tools.html</span>
-                            <span class="file-desc">工具插件管理（待创建）</span>
-                        </div>
-                        <div class="file-item">
-                            <span class="file-icon">📄</span>
-                            <span class="file-name">agent-detail-analytics.html</span>
-                            <span class="file-desc">数据统计分析（待创建）</span>
+                            <span class="file-desc">⏳ 工具插件管理（待创建）</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
                             <span class="file-name">agent-detail-settings.html</span>
-                            <span class="file-desc">配置设置（待创建）</span>
+                            <span class="file-desc">⏳ 智能体设置（待创建）</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">🎨</span>
-                            <span class="file-name">css/agent-detail.css</span>
-                            <span class="file-desc">样式文件（待创建）</span>
+                            <span class="file-name">templates/css/agent-detail.css</span>
+                            <span class="file-desc">✅ 智能体详情通用样式</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">🎨</span>
-                            <span class="file-name">css/agent-news-detail.css</span>
-                            <span class="file-desc">信息详情页样式</span>
+                            <span class="file-name">templates/css/agent-search.css</span>
+                            <span class="file-desc">✅ 信息检索页面样式</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">🎨</span>
+                            <span class="file-name">templates/css/agent-news-detail.css</span>
+                            <span class="file-desc">✅ 信息详情页样式</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">🎨</span>
+                            <span class="file-name">agents/css/agent-detail-preview.css</span>
+                            <span class="file-desc">✅ 信息预览/对话模式专用样式</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">⚙️</span>
-                            <span class="file-name">js/agent-detail.js</span>
-                            <span class="file-desc">交互脚本（待创建）</span>
+                            <span class="file-name">templates/js/agent-detail.js</span>
+                            <span class="file-desc">✅ 智能体详情通用脚本</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">⚙️</span>
-                            <span class="file-name">js/agent-news-detail.js</span>
-                            <span class="file-desc">信息详情页交互</span>
+                            <span class="file-name">templates/js/agent-search.js</span>
+                            <span class="file-desc">✅ 信息检索页面脚本</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name">templates/js/agent-news-detail.js</span>
+                            <span class="file-desc">✅ 信息详情页交互脚本</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name">agents/js/agent-detail-preview.js</span>
+                            <span class="file-desc">✅ 信息预览/对话模式交互脚本</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📚</span>
+                            <span class="file-name">templates/quick-chat-agent-template.md</span>
+                            <span class="file-desc">✅ 快速对话模式设计文档</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📚</span>
+                            <span class="file-name">templates/info-search-agent-template.md</span>
+                            <span class="file-desc">✅ 信息检索模式设计文档</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📚</span>
+                            <span class="file-name">templates/info-preview-chat-agent-template.md</span>
+                            <span class="file-desc">✅ 信息预览/对话模式设计文档</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📚</span>
+                            <span class="file-name">templates/planning-agent-template.md</span>
+                            <span class="file-desc">✅ 自规划模式设计文档</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="note-section">
+                    <h3>使用说明</h3>
+                    <ul>
+                        <li><strong>预览模板：</strong>鼠标悬停在模板卡片上，点击"预览模板"按钮可在新窗口查看完整模板效果</li>
+                        <li><strong>筛选模板：</strong>使用顶部分类按钮（全部模板、核心功能、智能体管理）筛选不同类型的模板</li>
+                        <li><strong>模板位置：</strong>模板文件位于 <code>frontend/templates/</code> 目录，实际应用位于 <code>frontend/agents/</code> 目录</li>
+                        <li><strong>设计文档：</strong>每个模板都有对应的Markdown设计文档，详细说明页面结构、组件、交互和定制方法</li>
+                    </ul>
+                </div>
+
+                <div class="note-section">
                     <h3>参考文档</h3>
-                    <p>
-                        详细的布局设计方案请查看：
-                        <a href="../产品设计文档/前端UI框架布局设计方案.md" target="_blank">
-                            前端UI框架布局设计方案.md
-                        </a>
-                    </p>
+                    <ul>
+                        <li>
+                            <a href="../产品设计文档/UI设计/前端UI框架布局设计方案.md" target="_blank">
+                                前端UI框架布局设计方案.md
+                            </a>
+                            - 详细的布局设计方案
+                        </li>
+                        <li>
+                            <a href="../产品设计文档/UI设计/UI模板访问指南.md" target="_blank">
+                                UI模板访问指南.md
+                            </a>
+                            - 模板访问方式和使用说明
+                        </li>
+                        <li>
+                            <a href="../目录结构说明-模版目录.md" target="_blank">
+                                目录结构说明-模版目录.md
+                            </a>
+                            - 模板目录结构说明
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

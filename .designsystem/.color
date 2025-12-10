@@ -1,0 +1,445 @@
+# Clouditera 设计规范 - 颜色
+
+> Clouditera 云脑智能体平台设计系统
+> 更新时间：2024-12-10
+
+---
+
+## 一、色彩体系概述
+
+Clouditera 设计系统的色彩体系分为两个层面：
+- **系统级色彩体系**：定义基础色板、中性色板和数据可视化色板
+- **产品级色彩体系**：基于系统色彩定义符合 Clouditera 产品调性以及功能诉求的颜色
+
+### 色彩模型
+
+Clouditera 设计系统采用 **HSB 色彩模型**进行设计，该模型便于设计师在调整色彩时对于颜色有明确的心理预期，同时也方便团队间的沟通。
+
+---
+
+## 二、系统级色彩体系
+
+### 2.1 基础色板
+
+Clouditera 的基础色板共计 **120 个颜色**，包含 **12 个主色**以及衍生色。每个主色有 10 个衍生色（0-9），其中第 6 个颜色（index 5）通常作为主色使用。
+
+#### 12 个主色及其语义
+
+| 主色 | 名称 | 语义 | 主色值（index 5） |
+|------|------|------|------------------|
+| **Red** | 薄暮 | 斗志、奔放 | `#ff4d4f` |
+| **Volcano** | 火山 | 醒目、澎湃 | `#ff7a45` |
+| **Orange** | 日暮 | 温暖、欢快 | `#ffa940` |
+| **Gold** | 金盏花 | 活力、积极 | `#ffc53d` |
+| **Yellow** | 日出 | 出生、阳光 | `#ffec3d` |
+| **Lime** | 青柠 | 自然、生机 | `#a0d911` |
+| **Green** | 极光绿 | 健康、创新 | `#52c41a` |
+| **Cyan** | 明青 | 希望、坚强 | `#13c2c2` |
+| **Blue** | 云脑蓝 | 包容、科技、智能 | `#298CFF` |
+| **Geekblue** | 极客蓝 | 探索、钻研 | `#2f54eb` |
+| **Purple** | 酱紫 | 优雅、浪漫 | `#722ed1` |
+| **Magenta** | 法式洋红 | 明快、感性 | `#eb2f96` |
+
+#### 基础色板完整色值
+
+**Red（薄暮）**
+- red-0: `#fff1f0`
+- red-1: `#ffccc7`
+- red-2: `#ffa39e`
+- red-3: `#ff7875`
+- red-4: `#ff4d4f`
+- red-5: `#f5222d` ⭐ 主色
+- red-6: `#cf1322`
+- red-7: `#a8071a`
+- red-8: `#820014`
+- red-9: `#5c0011`
+
+**Volcano（火山）**
+- volcano-0: `#fff2e8`
+- volcano-1: `#ffd8bf`
+- volcano-2: `#ffbb96`
+- volcano-3: `#ff9c6e`
+- volcano-4: `#ff7a45`
+- volcano-5: `#fa541c` ⭐ 主色
+- volcano-6: `#d4380d`
+- volcano-7: `#ad2102`
+- volcano-8: `#871400`
+- volcano-9: `#610b00`
+
+**Orange（日暮）**
+- orange-0: `#fff7e6`
+- orange-1: `#ffe7ba`
+- orange-2: `#ffd591`
+- orange-3: `#ffc069`
+- orange-4: `#ffa940`
+- orange-5: `#fa8c16` ⭐ 主色
+- orange-6: `#d46b08`
+- orange-7: `#ad4e00`
+- orange-8: `#873800`
+- orange-9: `#612500`
+
+**Gold（金盏花）**
+- gold-0: `#fffbe6`
+- gold-1: `#fff1b8`
+- gold-2: `#ffe58f`
+- gold-3: `#ffd666`
+- gold-4: `#ffc53d`
+- gold-5: `#faad14` ⭐ 主色
+- gold-6: `#d48806`
+- gold-7: `#ad6800`
+- gold-8: `#874d00`
+- gold-9: `#613400`
+
+**Yellow（日出）**
+- yellow-0: `#feffe6`
+- yellow-1: `#ffffb8`
+- yellow-2: `#fffb8f`
+- yellow-3: `#fff566`
+- yellow-4: `#ffec3d`
+- yellow-5: `#fadb14` ⭐ 主色
+- yellow-6: `#d4b106`
+- yellow-7: `#ad8b00`
+- yellow-8: `#876800`
+- yellow-9: `#614700`
+
+**Lime（青柠）**
+- lime-0: `#fcffe6`
+- lime-1: `#f4ffb8`
+- lime-2: `#eaff8f`
+- lime-3: `#d3f261`
+- lime-4: `#bae637`
+- lime-5: `#a0d911` ⭐ 主色
+- lime-6: `#7cb305`
+- lime-7: `#5b8c00`
+- lime-8: `#3f6600`
+- lime-9: `#254000`
+
+**Green（极光绿）**
+- green-0: `#f6ffed`
+- green-1: `#d9f7be`
+- green-2: `#b7eb8f`
+- green-3: `#95de64`
+- green-4: `#73d13d`
+- green-5: `#52c41a` ⭐ 主色
+- green-6: `#389e0d`
+- green-7: `#237804`
+- green-8: `#135200`
+- green-9: `#092b00`
+
+**Cyan（明青）**
+- cyan-0: `#e6fffb`
+- cyan-1: `#b5f5ec`
+- cyan-2: `#87e8de`
+- cyan-3: `#5cdbd3`
+- cyan-4: `#36cfc9`
+- cyan-5: `#13c2c2` ⭐ 主色
+- cyan-6: `#08979c`
+- cyan-7: `#006d75`
+- cyan-8: `#00474f`
+- cyan-9: `#002329`
+
+**Blue（云脑蓝）**
+- blue-0: `#e6f4ff`
+- blue-1: `#bae0ff`
+- blue-2: `#91caff`
+- blue-3: `#69b1ff`
+- blue-4: `#4096ff`
+- blue-5: `#298CFF` ⭐ 主色（品牌色）
+- blue-6: `#0958d9`
+- blue-7: `#003eb3`
+- blue-8: `#002c8c`
+- blue-9: `#001d66`
+
+**Geekblue（极客蓝）**
+- geekblue-0: `#f0f5ff`
+- geekblue-1: `#d6e4ff`
+- geekblue-2: `#adc6ff`
+- geekblue-3: `#85a5ff`
+- geekblue-4: `#597ef7`
+- geekblue-5: `#2f54eb` ⭐ 主色
+- geekblue-6: `#1d39c4`
+- geekblue-7: `#10239e`
+- geekblue-8: `#061178`
+- geekblue-9: `#030852`
+
+**Purple（酱紫）**
+- purple-0: `#f9f0ff`
+- purple-1: `#efdbff`
+- purple-2: `#d3adf7`
+- purple-3: `#b37feb`
+- purple-4: `#9254de`
+- purple-5: `#722ed1` ⭐ 主色
+- purple-6: `#531dab`
+- purple-7: `#391085`
+- purple-8: `#22075e`
+- purple-9: `#120338`
+
+**Magenta（法式洋红）**
+- magenta-0: `#fff0f6`
+- magenta-1: `#ffd6e7`
+- magenta-2: `#ffadd2`
+- magenta-3: `#ff85c0`
+- magenta-4: `#f759ab`
+- magenta-5: `#eb2f96` ⭐ 主色
+- magenta-6: `#c41d7f`
+- magenta-7: `#9e1068`
+- magenta-8: `#780650`
+- magenta-9: `#520339`
+
+### 2.2 中性色板
+
+中性色包含了黑、白、灰。在 Clouditera 平台的设计中被大量使用，合理地选择中性色能够令页面信息具备良好的主次关系，助力阅读体验。Clouditera 的中性色板一共包含了从白到黑的 **13 个颜色**。
+
+| 色阶 | 色值 | 用途说明 |
+|------|------|----------|
+| gray-0 | `#ffffff` | 纯白 |
+| gray-1 | `#fafafa` | 浅灰背景 |
+| gray-2 | `#f5f5f5` | 布局背景 |
+| gray-3 | `#f0f0f0` | 分割线背景 |
+| gray-4 | `#d9d9d9` | 一级边框 |
+| gray-5 | `#bfbfbf` | 禁用状态 |
+| gray-6 | `#8c8c8c` | 辅助文字 |
+| gray-7 | `#595959` | 常规文字 |
+| gray-8 | `#434343` | 次要文字 |
+| gray-9 | `#262626` | 标题文字 |
+| gray-10 | `#1f1f1f` | 深色背景 |
+| gray-11 | `#141414` | 深色背景 |
+| gray-12 | `#000000` | 纯黑 |
+
+### 2.3 数据可视化色板
+
+数据可视化色板基于基础色板以及中性色板，遵循「有效、清晰、准确、美观」的原则，适用于图表、数据展示等场景。
+
+---
+
+## 三、产品级色彩体系
+
+### 3.1 品牌色
+
+**品牌色值：`#298CFF`**（Blue-5 - 云脑蓝）
+
+品牌色是体现 Clouditera 产品特性和传播理念最直观的视觉元素之一。云脑蓝代表了科技、智能、包容与创新，是 Clouditera 平台的核心识别色。
+
+**应用场景：**
+- 关键行动点（按钮、链接）
+- 操作状态（激活、选中）
+- 重要信息高亮
+- 品牌标识和图形化元素
+- 导航和交互反馈
+
+### 3.2 功能色
+
+功能色代表了明确的信息以及状态，比如成功、出错、失败、提醒、链接等。功能色的选取需要遵守用户对色彩的基本认知，在 Clouditera 平台中保持一致性。
+
+| 功能 | 颜色 | 色值 | 语义 | 使用场景 |
+|------|------|------|------|----------|
+| **成功** | Green | `#52c41a` | 操作成功、完成状态 | 成功提示、完成标记、进度完成 |
+| **警告** | Gold | `#faad14` | 警告信息、需要关注 | 警告提示、注意事项、待处理状态 |
+| **错误** | Red | `#ff4d4f` | 错误信息、危险操作 | 错误提示、失败状态、危险操作警告 |
+| **信息** | Blue | `#298CFF` | 提示信息、一般说明 | 信息提示、帮助说明、一般通知 |
+| **链接** | Blue | `#298CFF` | 可点击链接 | 文本链接、导航链接、跳转链接 |
+
+### 3.3 中性色（文本与边框）
+
+Clouditera 的中性色主要被大量的应用在界面的文字部分，此外背景、边框、分割线等场景中也非常常见。产品中性色的定义需要考虑深色背景以及浅色背景的差异，同时结合 **WCAG 2.0 标准**，确保良好的可访问性。
+
+#### 浅色主题（Light Theme）
+
+| 用途 | 色值 | 透明度 | 说明 |
+|------|------|--------|------|
+| **标题字体** | `#000000` | 87% (E0) | 主要标题、页面标题 |
+| **一级文本** | `#000000` | 87% (E0) | 正文内容、主要信息 |
+| **二级文本** | `#000000` | 65% (A6) | 次要信息、辅助说明 |
+| **禁用字体** | `#000000` | 25% (40) | 禁用状态文字 |
+| **一级边框** | `#d9d9d9` | 100% | 输入框边框、卡片边框 |
+| **分割线** | `#050505` | 6% (0F) | 区域分割、列表分隔 |
+| **布局背景** | `#f5f5f5` | 100% | 页面背景、容器背景 |
+
+#### 深色主题（Dark Theme）
+
+| 用途 | 色值 | 透明度 | 说明 |
+|------|------|--------|------|
+| **标题字体** | `#ffffff` | 87% (D9) | 主要标题、页面标题 |
+| **一级文本** | `#ffffff` | 87% (D9) | 正文内容、主要信息 |
+| **二级文本** | `#ffffff` | 65% (A6) | 次要信息、辅助说明 |
+| **禁用字体** | `#ffffff` | 25% (40) | 禁用状态文字 |
+| **一级边框** | `#424242` | 100% | 输入框边框、卡片边框 |
+| **分割线** | `#fdfdfd` | 12% (1F) | 区域分割、列表分隔 |
+| **布局背景** | `#000000` | 100% | 页面背景、容器背景 |
+
+---
+
+## 四、色彩使用原则
+
+### 4.1 Clouditera 产品设计中的色彩应用
+
+在 Clouditera 平台的设计中，我们对于色彩的态度是**克制的**。色彩在使用时更多的是基于以下目的：
+
+1. **信息传递**：通过颜色区分信息的重要性和类型
+2. **操作引导**：突出关键操作按钮和链接
+3. **交互反馈**：通过颜色变化反馈操作状态
+4. **品牌识别**：通过品牌色强化 Clouditera 的品牌认知
+
+### 4.2 使用原则
+
+- ✅ **理性选择颜色**：在不破坏操作效率、影响信息的清晰传达的原则之上
+- ✅ **保持一致性**：功能色尽量保持一致，不要有过多的自定义
+- ✅ **遵循认知**：功能色的选取需要遵守用户对色彩的基本认知
+- ✅ **品牌优先**：品牌色 `#298CFF` 应优先用于关键交互和品牌元素
+- ⚠️ **适当打破**：在配图插画以及展示性页面中可以适当打破常规思路
+
+### 4.3 色彩对比度要求
+
+为确保良好的可访问性，文本与背景的对比度应满足：
+- **正常文本**：至少 4.5:1
+- **大文本（18pt+）**：至少 3:1
+- **非文本元素**（如图标、按钮）：至少 3:1
+
+---
+
+## 五、代码中使用
+
+### 5.1 CSS 变量定义
+
+在 Clouditera 项目中，建议使用 CSS 变量来管理颜色，便于统一维护和主题切换。
+
+```css
+:root {
+  /* 品牌色 */
+  --clouditera-primary: #298CFF;
+  --clouditera-primary-hover: #4096ff;
+  --clouditera-primary-active: #0958d9;
+  
+  /* 功能色 */
+  --clouditera-success: #52c41a;
+  --clouditera-warning: #faad14;
+  --clouditera-error: #ff4d4f;
+  --clouditera-info: #298CFF;
+  
+  /* 中性色 - 文本 */
+  --clouditera-text-primary: rgba(0, 0, 0, 0.87);
+  --clouditera-text-secondary: rgba(0, 0, 0, 0.65);
+  --clouditera-text-disabled: rgba(0, 0, 0, 0.25);
+  
+  /* 中性色 - 边框与背景 */
+  --clouditera-border: #d9d9d9;
+  --clouditera-divider: rgba(5, 5, 5, 0.06);
+  --clouditera-background: #f5f5f5;
+  --clouditera-background-light: #fafafa;
+}
+```
+
+### 5.2 使用示例
+
+```css
+/* 按钮使用品牌色 */
+.btn-primary {
+  background-color: var(--clouditera-primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--clouditera-primary-hover);
+}
+
+/* 文本使用中性色 */
+.text-primary {
+  color: var(--clouditera-text-primary);
+}
+
+.text-secondary {
+  color: var(--clouditera-text-secondary);
+}
+
+/* 成功提示使用功能色 */
+.alert-success {
+  background-color: var(--clouditera-success);
+  color: white;
+}
+```
+
+### 5.3 JavaScript 中使用
+
+```javascript
+// 定义颜色常量
+const COLORS = {
+  primary: '#298CFF',
+  success: '#52c41a',
+  warning: '#faad14',
+  error: '#ff4d4f',
+  info: '#298CFF',
+  text: {
+    primary: 'rgba(0, 0, 0, 0.87)',
+    secondary: 'rgba(0, 0, 0, 0.65)',
+    disabled: 'rgba(0, 0, 0, 0.25)'
+  },
+  border: '#d9d9d9',
+  background: '#f5f5f5'
+};
+
+// 使用示例
+element.style.color = COLORS.primary;
+```
+
+---
+
+## 六、快速参考
+
+### 常用颜色速查
+
+```css
+/* 品牌色 */
+--clouditera-primary: #298CFF;
+
+/* 功能色 */
+--clouditera-success: #52c41a;
+--clouditera-warning: #faad14;
+--clouditera-error: #ff4d4f;
+--clouditera-info: #298CFF;
+
+/* 中性色 - 文本 */
+--clouditera-text-primary: rgba(0, 0, 0, 0.87);
+--clouditera-text-secondary: rgba(0, 0, 0, 0.65);
+--clouditera-text-disabled: rgba(0, 0, 0, 0.25);
+
+/* 中性色 - 边框与背景 */
+--clouditera-border: #d9d9d9;
+--clouditera-divider: rgba(5, 5, 5, 0.06);
+--clouditera-background: #f5f5f5;
+```
+
+### 颜色使用场景速查
+
+| 场景 | 推荐颜色 | 色值 |
+|------|----------|------|
+| 主要按钮 | 品牌色 | `#298CFF` |
+| 成功提示 | 成功色 | `#52c41a` |
+| 警告提示 | 警告色 | `#faad14` |
+| 错误提示 | 错误色 | `#ff4d4f` |
+| 文本链接 | 品牌色 | `#298CFF` |
+| 主要文本 | 一级文本 | `rgba(0, 0, 0, 0.87)` |
+| 次要文本 | 二级文本 | `rgba(0, 0, 0, 0.65)` |
+| 输入框边框 | 一级边框 | `#d9d9d9` |
+| 页面背景 | 布局背景 | `#f5f5f5` |
+
+---
+
+## 七、版本信息
+
+- **设计系统版本**：1.0.0
+- **文档更新时间**：2024-12-10
+- **维护团队**：Clouditera 设计团队
+
+---
+
+## 八、更新日志
+
+### v1.0.0 (2024-12-10)
+- 初始版本发布
+- 定义品牌色为 `#298CFF`
+- 建立完整的色彩体系
+- 制定色彩使用原则和规范
+
+---
+
+**维护说明**：此文档为 Clouditera 设计系统的颜色规范，如有更新请及时同步到团队。
