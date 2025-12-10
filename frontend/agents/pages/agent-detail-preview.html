@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="智能体详情 - 信息预览/对话模式">
+    <title>智能体详情 - 信息预览 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-detail-preview.css">
+</head>
+<body class="agent-detail-page agent-detail-preview-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">📄</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">信息预览分析助手</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.0.0</span>
+                    </div>
+                    <p class="agent-description">支持文档上传、内容分析和智能对话的信息预览模式智能体</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(25)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(8)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat" id="btnNewTask">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <div class="recent-task-item" 
+                                 data-task-id="1"
+                                 data-task-name="文档安全分析任务"
+                                 data-task-time="2024-12-09 14:30"
+                                 data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">文档安全分析任务</div>
+                            </div>
+                            <div class="recent-task-item"
+                                 data-task-id="2"
+                                 data-task-name="代码审计报告生成"
+                                 data-task-time="2024-12-09 13:15"
+                                 data-task-status="running">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">代码审计报告生成</div>
+                            </div>
+                            <div class="recent-task-item"
+                                 data-task-id="3"
+                                 data-task-name="安全策略文档分析"
+                                 data-task-time="2024-12-09 11:20"
+                                 data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">安全策略文档分析</div>
+                            </div>
+                            <div class="recent-task-item"
+                                 data-task-id="4"
+                                 data-task-name="漏洞报告解读"
+                                 data-task-time="2024-12-09 10:05"
+                                 data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">漏洞报告解读</div>
+                            </div>
+                            <div class="recent-task-item"
+                                 data-task-id="5"
+                                 data-task-name="合规性检查文档"
+                                 data-task-time="2024-12-08 16:45"
+                                 data-task-status="completed">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">合规性检查文档</div>
+                            </div>
+                        </div>
+
+                        <!-- 查看全部入口 -->
+                        <a href="agent-detail-tasks.html" class="view-all-tasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区域 -->
+            <div class="agent-main-content">
+                <!-- 新任务初始状态页 -->
+                <div class="empty-state-container" id="previewEmptyState">
+                    <!-- 智能体名称 - 优先级最高 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">信息预览分析助手</span>
+                    </div>
+
+                    <!-- 引导文案 - 次要优先级 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">开始给智能体分配任务</p>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <!-- 输入框区域 -->
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="输入您的问题、上传文档或粘贴内容，智能体将为您进行内容分析和解读..."
+                                rows="3"
+                            ></textarea>
+
+                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.md,.py,.js,.java,.cpp,.c,.html,.css" style="display: none;">
+                                    <button class="btn-icon" title="上传文件" id="btnUploadFile">📎</button>
+                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                    <button class="btn-icon" title="插入代码">💻</button>
+                                    <button class="btn-icon" title="插入表格">📊</button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 已上传文件列表（隐藏，通过JS控制显示） -->
+                    <div class="uploaded-files" id="uploadedFiles" style="display: none; margin-top: 24px; width: 60%; max-width: 100%;">
+                        <div class="uploaded-files-header">
+                            <span class="files-count">已选择 <span id="filesCount">0</span> 个文件</span>
+                            <button class="btn-text btn-clear-files" id="btnClearFiles">清空</button>
+                        </div>
+                        <div class="uploaded-files-list" id="uploadedFilesList"></div>
+                    </div>
+                </div>
+
+                <!-- 任务详情页面（左右分栏） -->
+                <div class="preview-task-detail" id="previewTaskDetail" style="display: none;">
+                    <!-- 任务头部 -->
+                    <div class="task-detail-header">
+                        <div class="task-header-info">
+                            <h3 class="task-title" id="taskTitle">文档安全分析任务</h3>
+                            <div class="task-meta">
+                                <span class="task-time" id="taskTime">2024-12-09 14:30</span>
+                                <span class="task-status-badge completed">已完成</span>
+                            </div>
+                        </div>
+                        <div class="task-header-actions">
+                            <button class="btn-icon" title="导出报告">📥</button>
+                            <button class="btn-icon" title="分享">🔗</button>
+                            <button class="btn-icon" title="更多操作">⋯</button>
+                        </div>
+                    </div>
+
+                    <!-- 左右分栏容器 -->
+                    <div class="preview-detail-container">
+                        <!-- 左侧：文档展示 + 分析产物（Tab切换） -->
+                        <div class="preview-detail-left">
+                            <!-- 主Tab切换 -->
+                            <div class="main-tabs">
+                                <div class="main-tabs-header">
+                                    <button class="main-tab-btn active" data-main-tab="document">
+                                        <span class="tab-icon">📄</span>
+                                        <span class="tab-text">文档内容</span>
+                                    </button>
+                                    <button class="main-tab-btn" data-main-tab="analysis">
+                                        <span class="tab-icon">📊</span>
+                                        <span class="tab-text">分析产物</span>
+                                    </button>
+                                </div>
+                                
+                                <div class="main-tabs-content">
+                                    <!-- 文档内容Tab -->
+                                    <div class="main-tab-content active" id="mainTabDocument">
+                                        <div class="document-viewer">
+                                            <div class="document-viewer-header">
+                                                <h4 class="viewer-title">📄 文档内容</h4>
+                                                <div class="viewer-actions">
+                                                    <button class="btn-icon" title="全屏">⛶</button>
+                                                    <button class="btn-icon" title="下载">⬇</button>
+                                                </div>
+                                            </div>
+                                            <div class="document-viewer-content" id="documentViewerContent">
+                                                <!-- 文档内容将在这里显示 -->
+                                                <div class="document-placeholder">
+                                                    <p>文档内容预览区域</p>
+                                                    <p class="placeholder-hint">上传的文档将在这里显示</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 分析产物Tab -->
+                                    <div class="main-tab-content" id="mainTabAnalysis">
+                                        <div class="analysis-results">
+                                            <div class="analysis-results-header">
+                                                <h4 class="results-title">📊 分析产物</h4>
+                                                <div class="results-tabs">
+                                                    <button class="tab-btn active" data-tab="summary">摘要</button>
+                                                    <button class="tab-btn" data-tab="insights">洞察</button>
+                                                    <button class="tab-btn" data-tab="recommendations">建议</button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="analysis-results-content">
+                                                <!-- 摘要标签页 -->
+                                                <div class="tab-content active" id="tabSummary">
+                                                    <div class="summary-section">
+                                                        <h5 class="section-title">内容摘要</h5>
+                                                        <p class="summary-text">这是一份关于网络安全最佳实践的技术文档。文档详细介绍了当前网络环境中常见的安全威胁类型，包括恶意软件、钓鱼攻击、数据泄露等，并提供了相应的防护策略和应对措施。</p>
+                                                    </div>
+                                                    <div class="summary-section">
+                                                        <h5 class="section-title">关键信息</h5>
+                                                        <ul class="key-points">
+                                                            <li>文档类型：技术规范文档</li>
+                                                            <li>主要主题：网络安全防护</li>
+                                                            <li>文档长度：约5000字</li>
+                                                            <li>章节数量：8个主要章节</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 洞察标签页 -->
+                                                <div class="tab-content" id="tabInsights">
+                                                    <div class="insight-item">
+                                                        <div class="insight-icon">💡</div>
+                                                        <div class="insight-content">
+                                                            <h5 class="insight-title">安全威胁识别</h5>
+                                                            <p class="insight-text">文档中识别出15种常见安全威胁类型，其中恶意软件和钓鱼攻击被重点提及。</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="insight-item">
+                                                        <div class="insight-icon">🔍</div>
+                                                        <div class="insight-content">
+                                                            <h5 class="insight-title">防护策略分析</h5>
+                                                            <p class="insight-text">文档提供了多层次防护策略，包括技术防护、管理防护和人员培训三个方面。</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="insight-item">
+                                                        <div class="insight-icon">📈</div>
+                                                        <div class="insight-content">
+                                                            <h5 class="insight-title">实施建议</h5>
+                                                            <p class="insight-text">建议按照文档中的优先级顺序逐步实施防护措施，重点关注高风险领域。</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- 建议标签页 -->
+                                                <div class="tab-content" id="tabRecommendations">
+                                                    <div class="recommendation-item">
+                                                        <div class="recommendation-priority high">高</div>
+                                                        <div class="recommendation-content">
+                                                            <h5 class="recommendation-title">加强身份认证机制</h5>
+                                                            <p class="recommendation-text">建议实施多因素认证（MFA），提高账户安全性。</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="recommendation-item">
+                                                        <div class="recommendation-priority medium">中</div>
+                                                        <div class="recommendation-content">
+                                                            <h5 class="recommendation-title">定期安全审计</h5>
+                                                            <p class="recommendation-text">建议每季度进行一次全面的安全审计，及时发现和修复漏洞。</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="recommendation-item">
+                                                        <div class="recommendation-priority low">低</div>
+                                                        <div class="recommendation-content">
+                                                            <h5 class="recommendation-title">员工安全意识培训</h5>
+                                                            <p class="recommendation-text">建议定期组织安全培训，提高员工的安全意识和应对能力。</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右侧：AI对话区域 -->
+                        <div class="preview-detail-right">
+                            <div class="detail-chat">
+                                <div class="chat-container">
+                                    <!-- 对话头部 -->
+                                    <div class="chat-header">
+                                        <div class="chat-header-main">
+                                            <span class="chat-icon">🤖</span>
+                                            <span class="chat-title">AI 智能助手</span>
+                                        </div>
+                                        <button class="btn-icon" id="clearChat" title="清空对话">
+                                            🗑️
+                                        </button>
+                                    </div>
+
+                                    <!-- 对话消息区域 -->
+                                    <div class="chat-messages" id="chatMessages">
+                                        <!-- 欢迎消息 -->
+                                        <div class="message message-ai">
+                                            <div class="message-avatar">🤖</div>
+                                            <div class="message-content">
+                                                <div class="message-time">2024-12-09 14:30</div>
+                                                <div class="message-bubble">
+                                                    <p>您好！我已经完成了文档分析，可以为您解答关于文档的任何问题。</p>
+                                                    <p>您可以向我提问，例如：</p>
+                                                    <ul>
+                                                        <li>文档中的关键要点是什么？</li>
+                                                        <li>如何实施文档中提到的安全措施？</li>
+                                                        <li>文档中提到的风险有哪些？</li>
+                                                        <li>有哪些最佳实践建议？</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 输入区域 -->
+                                    <div class="chat-input-container">
+                                        <div class="chat-input-wrapper">
+                                            <textarea
+                                                class="chat-input"
+                                                id="chatInput"
+                                                placeholder="向AI提问关于文档的问题..."
+                                                rows="3"
+                                            ></textarea>
+                                            <div class="chat-input-toolbar">
+                                                <div class="chat-input-actions">
+                                                    <button class="btn-icon" title="上传文件">📎</button>
+                                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                                </div>
+                                                <button class="btn btn-primary chat-send" id="chatSend">
+                                                    <span>发送</span>
+                                                    <span class="send-shortcut">Shift+Enter</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/agent-detail.js"></script>
+    <script src="../js/agent-detail-preview.js"></script>
+</body>
+</html>

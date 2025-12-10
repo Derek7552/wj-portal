@@ -405,6 +405,7 @@
     gap: 10px;
     padding: 10px 8px;
     text-decoration: none;
+    cursor: pointer;
     border-radius: 6px;
     transition: background 0.2s;
     margin: 2px 0;

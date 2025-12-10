@@ -8,10 +8,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     const btnNewChat = document.querySelector('.btn-new-chat');
     if (btnNewChat) {
-        btnNewChat.addEventListener('click', function() {
-            // 跳转到空状态页面（新任务）
-            window.location.href = 'agent-detail-empty.html';
-        });
+        // 检查是否是信息预览页面，如果是则不执行跳转（由 agent-detail-preview.js 处理）
+        const isPreviewPage = document.body.classList.contains('agent-detail-preview-page') || 
+                             document.querySelector('.preview-empty-state') || 
+                             document.querySelector('.preview-task-detail');
+        
+        if (!isPreviewPage) {
+            btnNewChat.addEventListener('click', function() {
+                // 跳转到空状态页面（新任务）
+                window.location.href = 'agent-detail-empty.html';
+            });
+        }
     }
 
     // ==========================================
