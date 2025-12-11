@@ -1,0 +1,905 @@
+# 导航样式设计模式
+
+本文档整理了前端代码中的导航样式设计模式，包括顶部导航栏和侧边栏导航的完整样式规范。
+
+---
+
+## 一、顶部导航栏（Header Navigation）
+
+### 1.1 基本结构
+
+顶部导航栏用于门户页面（如登录页、注册页、首页等），采用水平布局，包含品牌标识、导航菜单和操作按钮。
+
+#### CSS 变量
+```css
+:root {
+    --primary-color: #2563eb;
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --border-color: #e5e7eb;
+    --hover-color: #3b82f6;
+    --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+```
+
+#### 容器样式
+```css
+/* 导航栏容器 */
+.header {
+    background-color: var(--bg-primary);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+}
+```
+
+#### 品牌标识
+```css
+.nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.brand-logo-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-logo-icon svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+}
+
+.brand-logo {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+}
+
+.brand-slogan {
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+```
+
+#### 导航菜单
+```css
+.nav-menu {
+    display: flex;
+    list-style: none;
+    gap: 32px;
+    align-items: center;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 8px 0;
+    position: relative;
+}
+
+.nav-item a:hover {
+    color: var(--primary-color);
+}
+
+.nav-item.active a {
+    color: var(--primary-color);
+}
+
+.nav-item.active a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+```
+
+#### 操作按钮区
+```css
+.nav-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+```
+
+#### 移动端菜单切换按钮
+```css
+.mobile-menu-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+.mobile-menu-toggle span {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: all 0.3s;
+}
+```
+
+### 1.2 HTML 结构示例
+
+```html
+<header class="header">
+    <nav class="nav-container">
+        <div class="nav-brand">
+            <div class="brand-logo-icon">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                    <!-- SVG 内容 -->
+                </svg>
+            </div>
+            <h1 class="brand-logo">云脑</h1>
+            <span class="brand-slogan">最懂安全的AI智能体平台</span>
+        </div>
+        <ul class="nav-menu" id="navMenu">
+            <li class="nav-item active"><a href="index.html">云脑</a></li>
+            <li class="nav-item"><a href="news.html">资讯</a></li>
+            <li class="nav-item"><a href="papers.html">论文</a></li>
+            <li class="nav-item"><a href="resources.html">资源</a></li>
+        </ul>
+        <div class="nav-actions">
+            <a href="login.html" class="btn btn-outline">登录</a>
+            <a href="register.html" class="btn btn-primary">注册</a>
+        </div>
+        <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="菜单">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+</header>
+```
+
+### 1.3 响应式设计
+
+```css
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--bg-primary);
+        flex-direction: column;
+        padding: 20px;
+        box-shadow: var(--shadow-lg);
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+        gap: 0;
+    }
+
+    .nav-menu.active {
+        transform: translateX(0);
+    }
+
+    .nav-item {
+        width: 100%;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .nav-actions {
+        display: none;
+    }
+
+    .mobile-menu-toggle {
+        display: flex;
+    }
+
+    .container {
+        padding: 0 16px;
+    }
+}
+```
+
+---
+
+## 二、侧边栏导航（Sidebar Navigation）
+
+### 2.1 基本结构
+
+侧边栏导航用于应用内部页面（如 Dashboard、模板页等），采用垂直布局，支持展开/收起功能。
+
+#### CSS 变量
+```css
+:root {
+    --sidebar-width: 220px;
+    --primary-color: #2563EB;
+    --text-primary: #0F172A;
+    --text-secondary: #64748B;
+    --bg-page: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --border-color: #E2E8F0;
+    --hover-bg: #F8FAFC;
+    --active-bg: #EFF6FF;
+    --active-color: #2563EB;
+}
+```
+
+#### 侧边栏容器
+```css
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: var(--bg-card);
+    border-right: 1px solid var(--border-color);
+    position: fixed;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    transition: width 0.3s ease;
+}
+
+.sidebar.collapsed {
+    width: 64px;
+    overflow: hidden;
+}
+```
+
+#### Logo 区域
+```css
+.sidebar-logo {
+    padding: 19px 20px;
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    box-sizing: border-box;
+    overflow: hidden;
+    min-height: 70px;
+    height: 70px;
+}
+
+.sidebar-logo a,
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-decoration: none;
+    color: inherit;
+    box-sizing: border-box;
+    overflow: hidden;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    pointer-events: auto;
+}
+
+.logo-icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+}
+
+.logo-icon svg {
+    width: 32px;
+    height: 32px;
+    display: block;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.logo-text {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0;
+    transition: opacity 0.3s ease, width 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.sidebar.collapsed .logo-text {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+```
+
+#### 展开/收起按钮
+```css
+.sidebar-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.sidebar-toggle:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.toggle-icon {
+    font-size: 12px;
+    transition: transform 0.3s ease;
+    display: inline-block;
+}
+
+.sidebar.collapsed .toggle-icon {
+    transform: rotate(180deg);
+}
+```
+
+#### 导航菜单
+```css
+.sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.sidebar-nav {
+    padding: 16px 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-nav-bottom {
+    padding: 16px 0;
+    border-top: 1px solid var(--border-color);
+    flex-shrink: 0;
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.sidebar.collapsed .sidebar-nav-bottom {
+    align-items: center;
+}
+```
+
+#### 导航项
+```css
+.nav-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    justify-content: flex-start;
+    box-sizing: border-box;
+}
+
+.sidebar.collapsed .nav-item {
+    justify-content: center;
+    align-items: center;
+    padding: 12px 22px;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+}
+
+.nav-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.nav-item.active {
+    background-color: var(--active-bg);
+    color: var(--active-color);
+    border-left: 3px solid var(--active-color);
+}
+
+.sidebar.collapsed .nav-item.active {
+    border-left: none;
+    border-top: 3px solid var(--active-color);
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-right: 12px;
+    width: 20px;
+    text-align: center;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.sidebar.collapsed .nav-icon {
+    margin: 0;
+    margin-right: 0;
+    padding: 0;
+    width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+.nav-text {
+    margin-left: 12px;
+    transition: opacity 0.3s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    flex: 1;
+}
+
+.sidebar.collapsed .nav-text {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+```
+
+### 2.2 特殊导航组件
+
+#### 首页菜单（悬停显示）
+```css
+.nav-item-home-wrapper {
+    position: relative;
+}
+
+.home-menu {
+    display: none;
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    max-width: 280px;
+    overflow: hidden;
+    z-index: 1000;
+    pointer-events: auto;
+}
+
+/* 收起状态下，hover首页图标时显示菜单 */
+.sidebar.collapsed .nav-item-home-wrapper:hover .home-menu {
+    display: block;
+}
+
+/* 展开状态下不显示菜单 */
+.sidebar:not(.collapsed) .home-menu {
+    display: none !important;
+}
+
+.home-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    gap: 12px;
+}
+
+.home-menu-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+```
+
+#### 用户菜单
+```css
+.nav-item-user-wrapper {
+    position: relative;
+}
+
+.nav-item-user {
+    padding: 12px 16px;
+}
+
+.user-avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), #3B82F6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-right: 12px;
+}
+
+.sidebar.collapsed .user-avatar {
+    margin-right: 0;
+}
+
+.user-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .user-name {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    margin: 0;
+}
+
+.user-menu {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    margin-bottom: 8px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.nav-item-user-wrapper:hover .user-menu {
+    display: block;
+}
+
+/* 收起状态下，用户菜单显示在右侧 */
+.sidebar.collapsed .nav-item-user-wrapper:hover .user-menu {
+    left: 100%;
+    bottom: auto;
+    top: 0;
+    margin-left: 12px;
+    margin-bottom: 0;
+    min-width: 120px;
+}
+
+.user-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+}
+
+.user-menu-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.nav-item-logout {
+    color: var(--text-secondary);
+}
+
+.nav-item-logout:hover {
+    background-color: #FEE2E2;
+    color: #DC2626;
+}
+```
+
+#### 收藏列表
+```css
+.favorites-nav {
+    flex-direction: column;
+    padding: 0;
+    align-items: stretch;
+    width: 100%;
+    position: relative;
+}
+
+.nav-item-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    width: 100%;
+}
+
+.favorites-header {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 400;
+    opacity: 0.8;
+}
+
+.favorites-list {
+    overflow-y: auto;
+    max-height: 400px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.sidebar.collapsed .favorites-list {
+    display: none;
+}
+
+.favorite-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 8px 16px;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.favorite-item:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+
+.favorite-item-icon {
+    font-size: 16px;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.favorite-item-name {
+    flex: 0 1 auto;
+    text-align: left;
+}
+```
+
+### 2.3 HTML 结构示例
+
+```html
+<aside class="sidebar" id="sidebar">
+    <!-- Logo 区 -->
+    <div class="sidebar-logo">
+        <a href="dashboard.html" class="logo-link">
+            <div class="logo-icon">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- SVG 内容 -->
+                </svg>
+            </div>
+            <h1 class="logo-text">云脑</h1>
+        </a>
+        <button class="sidebar-toggle" id="sidebarToggle" title="展开/收起">
+            <span class="toggle-icon">◀</span>
+        </button>
+    </div>
+
+    <!-- 主导航菜单 -->
+    <div class="sidebar-content">
+        <nav class="sidebar-nav">
+            <div class="nav-item-home-wrapper">
+                <a href="dashboard.html" class="nav-item nav-item-home active">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-text">首页</span>
+                </a>
+                <div class="home-menu" id="homeMenu">
+                    <!-- 首页菜单内容 -->
+                </div>
+            </div>
+
+            <!-- 我的收藏 -->
+            <div class="nav-item favorites-nav">
+                <div class="nav-item-header favorites-header">
+                    <span class="nav-text">我的收藏</span>
+                </div>
+                <div class="favorites-list" id="favoritesList">
+                    <!-- 收藏列表内容 -->
+                </div>
+            </div>
+        </nav>
+
+        <!-- 底部导航 -->
+        <nav class="sidebar-nav-bottom">
+            <a href="templates.html" class="nav-item">
+                <span class="nav-icon">📐</span>
+                <span class="nav-text">UI模板</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">💬</span>
+                <span class="nav-text">用户反馈</span>
+            </a>
+
+            <a href="#" class="nav-item">
+                <span class="nav-icon">❓</span>
+                <span class="nav-text">帮助中心</span>
+            </a>
+
+            <div class="nav-item-user-wrapper">
+                <a href="#" class="nav-item nav-item-user" id="userNavItem">
+                    <div class="user-avatar" id="userAvatar">T</div>
+                    <span class="user-name" id="userName">测试用户</span>
+                </a>
+                <div class="user-menu" id="userMenu">
+                    <a href="#" class="user-menu-item">
+                        <span class="nav-icon">👤</span>
+                        <span class="nav-text">个人中心</span>
+                    </a>
+                    <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                        <span class="nav-icon">🚪</span>
+                        <span class="nav-text">退出登录</span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </div>
+</aside>
+```
+
+### 2.4 主内容区适配
+
+```css
+.main-content-area {
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    padding: 24px;
+    width: calc(100vw - var(--sidebar-width));
+    min-width: 0;
+    box-sizing: border-box;
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content-area,
+body:has(.sidebar.collapsed) .main-content-area {
+    margin-left: 64px;
+    width: calc(100vw - 64px);
+}
+```
+
+### 2.5 响应式设计
+
+```css
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s;
+    }
+    
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    
+    .main-content-area {
+        margin-left: 0;
+        max-width: 100vw;
+    }
+}
+```
+
+---
+
+## 三、设计规范总结
+
+### 3.1 颜色规范
+
+- **主色调**: `#2563EB` (蓝色)
+- **文本主色**: `#1f2937` / `#0F172A` (深灰)
+- **文本次色**: `#6b7280` / `#64748B` (中灰)
+- **背景色**: `#ffffff` (白色)
+- **悬停背景**: `#F8FAFC` (浅灰)
+- **激活背景**: `#EFF6FF` (浅蓝)
+
+### 3.2 尺寸规范
+
+- **顶部导航高度**: 70px
+- **侧边栏宽度（展开）**: 220px
+- **侧边栏宽度（收起）**: 64px
+- **Logo 图标**: 32px × 32px
+- **导航图标**: 20px × 20px
+- **用户头像**: 28px × 28px
+
+### 3.3 间距规范
+
+- **导航项内边距**: 12px 16px
+- **导航项间距**: 32px (顶部导航) / 0 (侧边栏)
+- **Logo 区域高度**: 70px
+- **容器最大宽度**: 1200px
+- **容器内边距**: 20px
+
+### 3.4 交互规范
+
+- **过渡动画**: 0.2s - 0.3s ease
+- **悬停效果**: 背景色变化 + 文字颜色变化
+- **激活状态**: 背景色 + 边框/下划线指示
+- **收起状态**: 仅显示图标，文字隐藏
+
+### 3.5 响应式断点
+
+- **移动端**: `max-width: 768px`
+- **平板端**: `max-width: 1024px`
+- **桌面端**: `min-width: 1200px`
+
+---
+
+## 四、使用建议
+
+1. **顶部导航栏**：适用于门户页面、营销页面等需要突出品牌和主要导航的场景
+2. **侧边栏导航**：适用于应用内部页面、管理后台等需要多层级导航的场景
+3. **响应式设计**：确保在不同设备上都有良好的用户体验
+4. **一致性**：在同一应用中保持导航样式的一致性
+5. **可访问性**：确保导航具有良好的键盘导航和屏幕阅读器支持
+
+---
+
+*最后更新: 2025年12月10日*
