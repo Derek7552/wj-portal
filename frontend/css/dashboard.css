@@ -453,6 +453,15 @@ body {
     display: none !important;
 }
 
+/* 确保home-menu内部的nav-text在collapsed模式下也能显示 */
+.sidebar.collapsed .home-menu .nav-text {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin-left: 8px;
+}
+
 .home-menu-item {
     display: flex;
     align-items: center;

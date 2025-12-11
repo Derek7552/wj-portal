@@ -5,7 +5,7 @@
 /* 页面布局 */
 .agent-detail-planning-page .content-container {
     display: grid;
-    grid-template-columns: 220px 1fr 320px;
+    grid-template-columns: 220px 1fr;
     gap: 24px;
     /* 计算高度：100vh - main-content-area上下padding(48px) - agent-header高度和margin(约100px) - 底部间距(24px) */
     height: calc(100vh - 172px);
@@ -139,6 +139,16 @@
    中间内容区域
    ========================================== */
 
+/* 对话区和右侧面板的容器 - 左右布局 */
+.content-with-sidebar {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    min-height: 0;
+    overflow: hidden;
+}
+
 /* 确保主内容区占满容器高度 */
 .agent-detail-planning-page .agent-main-content {
     display: flex;
@@ -196,6 +206,7 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     border: 1px solid #e8e8e8;
     min-height: 0; /* 允许 flex 子元素收缩 */
+    min-width: 0; /* 防止flex项目溢出 */
 }
 
 /* 消息容器 */
@@ -1412,13 +1423,11 @@
     }
 }
 
-/* 输入区域 - 固定在底部，与快速对话助手一致 */
+/* 输入区域 - 固定在对话区底部 */
 .chat-input-container {
     flex-shrink: 0; /* 不允许收缩，固定在底部 */
     border-top: 1px solid #f0f0f0;
-    padding: 16px 24px 24px 24px;
-    display: flex;
-    justify-content: center;
+    padding: 16px 24px;
     background: white;
 }
 
@@ -1428,7 +1437,7 @@
     border: 1px solid #d9d9d9;
     border-radius: 8px;
     transition: border-color 0.2s;
-    width: 60%;
+    width: 100%; /* 占满对话区宽度 */
     max-width: 100%;
 }
 
@@ -1522,6 +1531,8 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     height: 100%;
     min-height: 0; /* 允许 flex 子元素收缩 */
+    width: 320px; /* 固定宽度 */
+    flex-shrink: 0; /* 不允许收缩 */
 }
 
 /* 侧边栏Tab */
@@ -2130,23 +2141,6 @@
     padding-top: 0;
 }
 
-.chat-input-container {
-    border-top: 1px solid #f0f0f0;
-    padding: 16px 24px 24px 24px;
-    display: flex;
-    justify-content: center;
-}
-
-.chat-input-wrapper {
-    position: relative;
-    background-color: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    transition: border-color 0.2s;
-    width: 60%;
-    max-width: 100%;
-}
-
 .chat-input-wrapper:focus-within {
     border-color: #1890ff;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
@@ -2220,21 +2214,29 @@
 
 @media (max-width: 1200px) {
     .agent-detail-planning-page .content-container {
-        grid-template-columns: 200px 1fr 280px;
+        grid-template-columns: 200px 1fr;
+    }
+
+    .task-sidebar {
+        width: 280px;
     }
 }
 
 @media (max-width: 1200px) {
     .agent-detail-planning-page .content-container {
-        grid-template-columns: 200px 1fr 280px;
+        grid-template-columns: 200px 1fr;
         gap: 16px;
     }
 }
 
 @media (max-width: 992px) {
     .agent-detail-planning-page .content-container {
-        grid-template-columns: 180px 1fr 260px;
+        grid-template-columns: 180px 1fr;
         gap: 12px;
+    }
+
+    .task-sidebar {
+        width: 260px;
     }
 }
 
@@ -2242,7 +2244,7 @@
 @media (max-width: 768px) {
     .agent-detail-planning-page .content-container {
         grid-template-columns: 1fr;
-        grid-template-rows: auto 1fr auto;
+        grid-template-rows: auto 1fr;
         height: auto;
         min-height: calc(100vh - 172px);
     }
@@ -2259,8 +2261,13 @@
         height: auto;
     }
 
+    /* 对话区和右侧面板在小屏幕上改为垂直布局 */
+    .content-with-sidebar {
+        flex-direction: column;
+    }
+
     .task-sidebar {
-        order: 3;
+        width: 100%;
         min-height: 400px;
         height: auto;
     }

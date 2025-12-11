@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>布局测试</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .content-with-sidebar {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            height: 500px;
+            border: 3px solid red;
+            padding: 10px;
+        }
+
+        .task-content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: lightblue;
+            border: 2px solid blue;
+        }
+
+        .messages-container {
+            flex: 1;
+            overflow-y: auto;
+            background: white;
+            padding: 10px;
+        }
+
+        .chat-input-container {
+            flex-shrink: 0;
+            background: lightgray;
+            padding: 10px;
+        }
+
+        .task-sidebar {
+            width: 320px;
+            flex-shrink: 0;
+            background: lightgreen;
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+    <h1>布局测试 - 如果对话区(蓝色)和右侧面板(绿色)左右并列,说明CSS正确</h1>
+
+    <div class="content-with-sidebar">
+        <div class="task-content-area">
+            <div class="messages-container">
+                <p>消息1</p>
+                <p>消息2</p>
+                <p>消息3</p>
+            </div>
+            <div class="chat-input-container">
+                输入框区域
+            </div>
+        </div>
+
+        <aside class="task-sidebar">
+            右侧面板 - 文件/日志/产物
+        </aside>
+    </div>
+</body>
+</html>

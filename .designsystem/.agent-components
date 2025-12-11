@@ -1,0 +1,593 @@
+# 智能体页面组件设计规范
+
+本文档整理了智能体详情页面的核心组件设计偏好和规范，确保所有智能体页面保持一致的设计语言和用户体验。
+
+---
+
+## 一、左侧主导航（Sidebar Navigation）
+
+### 1.1 基本规范
+
+**状态**：智能体详情页默认使用 `collapsed` 收起状态
+
+**结构层级**：
+```
+sidebar (collapsed)
+├── Logo区
+├── 主导航菜单 (.sidebar-content)
+│   ├── 首页导航 (.nav-item-home-wrapper)
+│   │   ├── 首页icon + hover显示快捷菜单
+│   │   └── 收藏快捷入口 (.home-menu)
+│   └── 我的收藏 (.favorites-nav)
+└── 底部导航 (.sidebar-nav-bottom)
+    ├── UI模板
+    ├── 帮助中心
+    ├── 用户反馈
+    └── 用户菜单
+```
+
+### 1.2 首页导航设计
+
+**功能要求**：
+- 🏠 首页icon必须可见
+- hover时显示收藏快捷菜单
+- 菜单内必须显示完整文字（icon + 文字）
+
+**HTML结构**：
+```html
+<div class="nav-item-home-wrapper">
+    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-text">首页</span>
+    </a>
+    <div class="home-menu" id="homeMenu">
+        <a href="../../dashboard.html" class="home-menu-item">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-text">首页</span>
+        </a>
+        <div class="home-menu-favorites" id="homeMenuFavorites">
+            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                <p class="home-menu-empty-text">暂无收藏</p>
+            </div>
+            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+        </div>
+    </div>
+</div>
+```
+
+**CSS关键规则**：
+```css
+/* 确保home-menu内部的nav-text在collapsed模式下也能显示 */
+.sidebar.collapsed .home-menu .nav-text {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin-left: 8px;
+}
+
+/* 收起状态下，hover首页图标时显示菜单 */
+.sidebar.collapsed .nav-item-home-wrapper:hover .home-menu {
+    display: block;
+}
+```
+
+### 1.3 交互功能
+
+**JavaScript必需功能**：
+```javascript
+function initNavigation() {
+    // 1. 首页导航 - hover显示收藏快捷入口
+    const homeWrapper = document.querySelector('.nav-item-home-wrapper');
+    const homeMenu = document.getElementById('homeMenu');
+
+    homeWrapper.addEventListener('mouseenter', () => {
+        homeMenu.style.display = 'block';
+    });
+
+    homeWrapper.addEventListener('mouseleave', () => {
+        homeMenu.style.display = 'none';
+    });
+
+    // 2. 用户菜单 - 点击展开/收起
+    const userNavItem = document.getElementById('userNavItem');
+    const userMenu = document.getElementById('userMenu');
+
+    userNavItem.addEventListener('click', (e) => {
+        e.preventDefault();
+        const isVisible = userMenu.style.display === 'block';
+        userMenu.style.display = isVisible ? 'none' : 'block';
+    });
+
+    // 3. 点击外部关闭用户菜单
+    document.addEventListener('click', (e) => {
+        if (!userNavItem.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.style.display = 'none';
+        }
+    });
+}
+```
+
+---
+
+## 二、智能体侧导航（Agent Sidebar）
+
+### 2.1 布局规范
+
+**位置**：主内容区的左侧第一栏
+**宽度**：固定 220px（通过页面级CSS覆盖agent-detail.css的默认200px）
+**布局方式**：flex 布局，垂直排列
+
+### 2.2 结构规范（标准化结构）
+
+**所有智能体侧导航必须使用统一的HTML结构**：
+
+```html
+<aside class="agent-sidebar">
+    <nav class="agent-nav">
+        <!-- 新建按钮 -->
+        <button class="btn-new-chat" id="btnNewTask">
+            <span class="btn-icon">✨</span>
+            <span class="btn-text">新任务</span>
+        </button>
+
+        <!-- 分组导航 -->
+        <div class="nav-group">
+            <div class="nav-group-title">近期任务</div>
+            <div class="recent-tasks-list">
+                <a href="#" class="recent-task-item active">
+                    <span class="task-status-icon running">⏳</span>
+                    <div class="task-name">开发用户认证系统</div>
+                </a>
+                <a href="#" class="recent-task-item">
+                    <span class="task-status-icon completed">✅</span>
+                    <div class="task-name">数据库优化方案</div>
+                </a>
+            </div>
+        </div>
+
+        <!-- 底部链接 -->
+        <a href="#" class="view-all-tasks" id="viewAllTasks">
+            查看全部任务记录 →
+        </a>
+    </nav>
+</aside>
+```
+
+**关键class名称**：
+- `.agent-sidebar` - 侧导航容器
+- `.agent-nav` - 导航内容容器
+- `.btn-new-chat` - 新建按钮（统一命名，不同模式可能是"新任务"、"新对话"等）
+- `.nav-group` - 导航分组容器
+- `.nav-group-title` - 分组标题
+- `.recent-tasks-list` / `.recent-chats-list` - 列表容器（根据模式不同）
+- `.recent-task-item` / `.recent-chat-item` - 列表项（根据模式不同）
+- `.view-all-tasks` - 底部"查看全部"链接（统一使用此class）
+
+### 2.3 CSS样式规范
+
+**基础样式**：统一在 `agent-detail.css` 中定义
+
+**页面特定调整**：在页面专用CSS中添加（如 `agent-planning.css`）
+
+```css
+/* 宽度调整（如需220px而非默认200px） */
+.agent-planning-page .agent-sidebar {
+    width: 220px;
+}
+
+/* 特定状态图标样式 */
+.task-status-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+```
+
+**禁止在页面专用CSS中重写以下基础样式**：
+- `.agent-sidebar`
+- `.agent-nav`
+- `.nav-group`
+- `.nav-group-title`
+- `.btn-new-chat`
+- `.recent-tasks-list` / `.recent-chats-list`
+- `.recent-task-item` / `.recent-chat-item`
+- `.view-all-tasks`
+
+---
+
+## 三、智能体描述模块（Agent Header）
+
+### 3.1 统一规范
+
+**所有智能体页面必须保持一致的描述模块样式**
+
+### 3.2 HTML结构（标准模板）
+
+```html
+<div class="agent-header">
+    <div class="agent-header-main">
+        <!-- Icon：直接放emoji，不嵌套额外容器 -->
+        <div class="agent-icon">🎯</div>
+
+        <!-- 基本信息 -->
+        <div class="agent-info">
+            <div class="agent-title-wrapper">
+                <!-- 标题：使用h2标签 -->
+                <h2 class="agent-title">智能体名称</h2>
+
+                <!-- 类型：仅限"基础类"或"进阶类" -->
+                <span class="agent-type">进阶类</span>
+
+                <!-- 版本：统一格式 v主.次.修订 -->
+                <span class="agent-version">v1.0.0</span>
+            </div>
+
+            <!-- 描述：简短的功能说明 -->
+            <p class="agent-description">智能体的功能描述文字</p>
+        </div>
+    </div>
+
+    <!-- 管理功能按钮组 -->
+    <div class="agent-header-actions">
+        <button class="btn-agent-action" title="知识库">
+            <span class="action-icon">📚</span>
+            <span class="action-text">知识库</span>
+            <span class="action-count">(0)</span>
+        </button>
+        <button class="btn-agent-action" title="工具插件">
+            <span class="action-icon">🔧</span>
+            <span class="action-text">工具插件</span>
+            <span class="action-count">(3)</span>
+        </button>
+        <button class="btn-agent-action" title="智能体设置">
+            <span class="action-icon">⚙️</span>
+            <span class="action-text">设置</span>
+        </button>
+        <button class="btn btn-primary btn-sm">
+            <span>🔗</span>
+            <span>分享</span>
+        </button>
+    </div>
+</div>
+```
+
+### 3.3 关键设计要点
+
+#### ❌ 错误示例（不要这样做）
+
+```html
+<!-- 错误1：使用header标签 -->
+<header class="agent-header">
+
+<!-- 错误2：icon嵌套容器 -->
+<div class="agent-icon">
+    <div class="agent-icon-inner">🎯</div>
+</div>
+
+<!-- 错误3：使用h1标签 -->
+<h1 class="agent-title">...</h1>
+
+<!-- 错误4：不一致的命名 -->
+<div class="agent-title-row">
+<span class="agent-type-tag">自规划模式</span>
+
+<!-- 错误5：不标准的按钮 -->
+<div class="agent-header-right">
+    <button class="btn btn-secondary">⚙️ 设置</button>
+</div>
+```
+
+#### ✅ 正确示例
+
+```html
+<!-- 正确1：使用div标签 -->
+<div class="agent-header">
+
+<!-- 正确2：icon直接放emoji -->
+<div class="agent-icon">🎯</div>
+
+<!-- 正确3：使用h2标签 -->
+<h2 class="agent-title">...</h2>
+
+<!-- 正确4：统一命名 -->
+<div class="agent-title-wrapper">
+<span class="agent-type">进阶类</span>
+
+<!-- 正确5：标准按钮组 -->
+<div class="agent-header-actions">
+    <button class="btn-agent-action">...</button>
+</div>
+```
+
+### 3.4 智能体类型规范
+
+**仅限两种类型**：
+- **基础类**：适用于基础功能的智能体
+  - 示例：信息查看检索示例、快速对话模式
+- **进阶类**：适用于复杂功能的智能体
+  - 示例：自规划任务执行助手、信息预览/对话模式
+
+**❌ 禁止使用的类型标签**：
+- "自规划模式"
+- "检索模式"
+- "对话模式"
+- 其他自定义类型
+
+### 3.5 CSS样式来源
+
+**统一使用**：`frontend/templates/css/agent-detail.css` 或 `frontend/agents/css/agent-detail.css`
+
+**禁止在页面专用CSS中重写以下样式**：
+- `.agent-header`
+- `.agent-header-main`
+- `.agent-icon`
+- `.agent-info`
+- `.agent-title-wrapper`
+- `.agent-title`
+- `.agent-type`
+- `.agent-version`
+- `.agent-description`
+- `.agent-header-actions`
+- `.btn-agent-action`
+
+---
+
+## 四、布局结构规范
+
+### 4.1 三栏布局（标准布局）
+
+适用于需要侧导航的智能体页面（如自规划任务执行助手）
+
+```
+┌─────────────────────────────────────────────────┐
+│  主内容区 (.content-container)                  │
+│  ┌──────────┬─────────────────┬──────────────┐ │
+│  │ 左侧导航 │   中间内容区    │  右侧工具栏  │ │
+│  │ 220px   │   flex: 1       │  320px      │ │
+│  │         │                 │             │ │
+│  └──────────┴─────────────────┴──────────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+**CSS实现**：
+```css
+.content-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+}
+
+/* 左侧导航 */
+.agent-sidebar {
+    width: 220px;
+    flex-shrink: 0;
+}
+
+/* 中间内容区 */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+/* 右侧工具栏 */
+.tools-panel {
+    width: 320px;
+    flex-shrink: 0;
+}
+```
+
+**注意**：
+- `.content-container` 不应该设置 padding，padding 由 `.main-content-area` 统一管理
+- gap 使用 24px 与其他页面保持一致
+- 宽度由页面级CSS覆盖（如需调整默认的200px为220px）
+
+### 4.2 对话区内部结构
+
+**中间对话区必须包含**：
+1. 对话头部（任务名称、时间等）
+2. 消息容器（可垂直滚动，消息垂直排列）
+3. 输入框（固定在对话区底部，不是页面底部）
+
+```css
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;  /* 垂直布局 */
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;  /* 可滚动 */
+    display: flex;
+    flex-direction: column;  /* 消息垂直排列 */
+}
+
+.chat-input-container {
+    flex-shrink: 0;  /* 固定在底部 */
+}
+```
+
+---
+
+## 五、文件组织规范
+
+### 5.1 模板页面位置
+
+**UI模板**：存放在 `frontend/templates/` 目录
+```
+frontend/templates/
+├── pages/
+│   ├── agent-detail-planning.html      # 自规划任务执行助手
+│   ├── agent-detail-search.html        # 信息查看检索示例
+│   └── agent-detail-empty.html         # 空状态示例
+├── css/
+│   ├── agent-detail.css                # 智能体页面通用样式
+│   ├── agent-planning.css              # 自规划模式专用样式
+│   └── agent-search.css                # 检索模式专用样式
+└── js/
+    ├── agent-planning.js               # 自规划模式交互
+    └── agent-search.js                 # 检索模式交互
+```
+
+**实际应用**：存放在 `frontend/agents/` 目录
+```
+frontend/agents/
+├── pages/
+│   ├── agent-detail-chat.html
+│   ├── agent-detail-preview.html
+│   └── ...
+├── css/
+└── js/
+```
+
+### 5.2 CSS引用顺序
+
+```html
+<link rel="stylesheet" href="../../css/common.css">
+<link rel="stylesheet" href="../../css/dashboard.css">
+<link rel="stylesheet" href="../css/agent-detail.css">   <!-- 通用样式 -->
+<link rel="stylesheet" href="../css/agent-planning.css"> <!-- 页面专用样式 -->
+```
+
+---
+
+## 六、响应式设计规范
+
+### 6.1 断点定义
+
+```css
+/* 桌面端（默认） */
+@media (min-width: 993px) {
+    /* 三栏左右布局 */
+}
+
+/* 平板端 */
+@media (max-width: 992px) {
+    /* 适当调整宽度 */
+    .agent-sidebar { width: 180px; }
+    .tools-panel { width: 260px; }
+}
+
+/* 移动端 */
+@media (max-width: 768px) {
+    /* 改为垂直堆叠 */
+    .content-container {
+        flex-direction: column;
+    }
+    .agent-sidebar,
+    .tools-panel {
+        width: 100%;
+    }
+}
+```
+
+---
+
+## 七、检查清单
+
+使用此清单确保新建的智能体页面符合设计规范：
+
+### 左侧主导航
+- [ ] 使用 `collapsed` 状态
+- [ ] 包含完整的首页导航结构
+- [ ] 首页hover显示收藏快捷菜单
+- [ ] 菜单内文字完整显示（icon + 文字）
+- [ ] 包含我的收藏区域
+- [ ] 包含底部导航（UI模板、帮助中心、用户反馈、用户菜单）
+- [ ] JavaScript交互功能正常
+
+### 智能体描述模块
+- [ ] 使用 `<div class="agent-header">`（不是header）
+- [ ] 使用 `agent-header-main` 和 `agent-header-actions`
+- [ ] icon直接放emoji，无嵌套
+- [ ] 使用 `<h2 class="agent-title">`
+- [ ] 使用 `agent-title-wrapper`
+- [ ] 类型仅使用"基础类"或"进阶类"
+- [ ] 版本格式：v主.次.修订（如 v1.0.0）
+- [ ] 包含标准的按钮组（知识库、工具插件、设置、分享）
+- [ ] 不在页面CSS中重写agent-header相关样式
+
+### 智能体侧导航
+- [ ] 使用标准 `.agent-sidebar` 容器
+- [ ] 使用 `.agent-nav` 导航容器
+- [ ] 使用 `.btn-new-chat` 作为新建按钮
+- [ ] 使用 `.nav-group` 和 `.nav-group-title` 组织分组
+- [ ] 使用 `.recent-tasks-list` 或 `.recent-chats-list` 作为列表容器
+- [ ] 使用 `.recent-task-item` 或 `.recent-chat-item` 作为列表项
+- [ ] 使用 `.view-all-tasks` 作为底部链接（文字格式：查看全部任务记录 →）
+- [ ] 如需220px宽度，在页面CSS中添加特定覆盖
+- [ ] 列表项状态明确（active/hover）
+- [ ] 不重写基础样式类
+
+### 三栏布局
+- [ ] 左侧导航：220px，flex-shrink: 0
+- [ ] 中间内容：flex: 1
+- [ ] 右侧面板：320px，flex-shrink: 0
+- [ ] 对话区消息垂直排列
+- [ ] 输入框固定在对话区底部
+
+### 文件组织
+- [ ] HTML文件在正确的目录（templates/ 或 agents/）
+- [ ] CSS引用顺序正确
+- [ ] 不与通用样式冲突
+
+---
+
+## 八、常见问题
+
+### Q1: 为什么首页菜单内的文字不显示？
+
+**原因**：`.sidebar.collapsed .nav-text` 会隐藏所有nav-text，包括菜单内的。
+
+**解决方案**：添加覆盖规则
+```css
+.sidebar.collapsed .home-menu .nav-text {
+    opacity: 1;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    margin-left: 8px;
+}
+```
+
+### Q2: 对话区和右侧面板为什么是上下布局而不是左右布局？
+
+**原因**：输入框放在了错误的位置（在content-with-sidebar之外）
+
+**解决方案**：确保结构如下
+```html
+<div class="content-with-sidebar">
+    <div class="chat-area">
+        <div class="chat-messages">...</div>
+        <div class="chat-input">...</div>  <!-- 在chat-area内部 -->
+    </div>
+    <aside class="tools-panel">...</aside>
+</div>
+```
+
+### Q3: 如何确保智能体描述模块样式统一？
+
+**方案**：
+1. 使用标准HTML结构（见3.2节）
+2. 引用 `agent-detail.css`
+3. 不在页面专用CSS中重写相关样式
+4. 使用检查清单验证
+
+---
+
+## 修订历史
+
+| 版本 | 日期 | 修订内容 | 修订人 |
+|------|------|---------|--------|
+| v1.0 | 2024-12-11 | 初始版本，整理设计规范 | Claude |
+| v1.1 | 2024-12-11 | 标准化智能体侧导航结构，统一使用.agent-sidebar | Claude |
+
+---
+
+**最后更新**：2024-12-11
+**适用范围**：所有智能体详情页面
+**维护者**：产品设计团队
