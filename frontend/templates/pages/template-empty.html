@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="智能体详情 - 快速对话模式">
-    <title>智能体详情 - 快速对话 | 云脑</title>
+    <meta name="description" content="智能体详情 - 空状态">
+    <title>智能体详情 | 云脑</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
-    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/template-detail.css">
 </head>
 <body class="agent-detail-page">
     <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
@@ -143,161 +143,67 @@
 
                         <!-- 近期任务列表 -->
                         <div class="recent-tasks-list">
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
                                 <div class="task-name">Laravel项目安全审计</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
                                 <div class="task-name">React应用漏洞扫描</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item active">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Python代码安全审计</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon failed">❌</span>
                                 <div class="task-name">Spring Boot应用审计</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Node.js安全咨询</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Django项目代码审查</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Vue.js安全扫描</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">PHP代码安全分析</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Angular应用审计</div>
                             </a>
-                            <a href="agent-detail-chat.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
                                 <div class="task-name">Java Web安全咨询</div>
                             </a>
                         </div>
 
                         <!-- 查看全部入口 -->
-                        <a href="agent-detail-tasks.html" class="view-all-tasks">
+                        <a href="#" class="view-all-tasks">
                             查看全部任务记录 →
                         </a>
                     </div>
                 </nav>
             </aside>
 
-            <!-- 主内容区域 - 快速对话 -->
+            <!-- 主内容区域 - 空状态 -->
             <div class="agent-main-content">
-                <div class="chat-container">
-                    <!-- 对话/任务名称 -->
-                    <div class="chat-task-name">
-                        <span class="task-name-text">Python代码安全审计任务</span>
-                        <span class="task-time">2024-12-09 10:30</span>
+                <div class="empty-state-container">
+                    <!-- 智能体名称 - 优先级最高 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">快速对话助手示例</span>
                     </div>
-                    
-                    <!-- 对话消息区域 -->
-                    <div class="chat-messages" id="chatMessages">
-                        <!-- 欢迎消息 -->
-                        <div class="message message-ai">
-                            <div class="message-avatar">🤖</div>
-                            <div class="message-content">
-                                <div class="message-time">2024-12-09 10:30</div>
-                                <div class="message-bubble">
-                                    <p>你好！我是快速对话助手示例。我可以帮你：</p>
-                                    <ul>
-                                        <li>检测代码中的安全漏洞</li>
-                                        <li>分析潜在的安全风险</li>
-                                        <li>提供安全修复建议</li>
-                                        <li>执行代码审计报告</li>
-                                    </ul>
-                                    <p>请上传你的代码或直接粘贴代码片段，我将为你进行安全分析。</p>
-                                </div>
-                            </div>
-                        </div>
 
-                        <!-- 用户消息示例 -->
-                        <div class="message message-user">
-                            <div class="message-avatar">👤</div>
-                            <div class="message-content">
-                                <div class="message-time">2024-12-09 10:32</div>
-                                <div class="message-bubble">
-                                    <p>请帮我审计这段Python代码的安全性：</p>
-                                    <pre><code class="language-python">import sqlite3
-
-def get_user(username):
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    query = f"SELECT * FROM users WHERE username = '{username}'"
-    cursor.execute(query)
-    result = cursor.fetchone()
-    conn.close()
-    return result</code></pre>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- AI回复示例 -->
-                        <div class="message message-ai">
-                            <div class="message-avatar">🤖</div>
-                            <div class="message-content">
-                                <div class="message-time">2024-12-09 10:33</div>
-                                <div class="message-bubble">
-                                    <p><strong>⚠️ 发现严重安全问题！</strong></p>
-                                    <h4>1. SQL注入漏洞 (高危)</h4>
-                                    <p>代码中使用了字符串拼接方式构造SQL查询，这是典型的SQL注入漏洞：</p>
-                                    <pre><code class="language-python">query = f"SELECT * FROM users WHERE username = '{username}'"</code></pre>
-
-                                    <p><strong>风险说明：</strong></p>
-                                    <ul>
-                                        <li>攻击者可以通过构造特殊的username值来执行任意SQL语句</li>
-                                        <li>可能导致数据泄露、数据篡改或删除</li>
-                                        <li>示例攻击：<code>username = "admin' OR '1'='1"</code></li>
-                                    </ul>
-
-                                    <p><strong>修复建议：</strong></p>
-                                    <pre><code class="language-python">import sqlite3
-
-def get_user(username):
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    # 使用参数化查询，防止SQL注入
-    query = "SELECT * FROM users WHERE username = ?"
-    cursor.execute(query, (username,))
-    result = cursor.fetchone()
-    conn.close()
-    return result</code></pre>
-
-                                    <h4>2. 资源泄露 (中危)</h4>
-                                    <p>如果在执行过程中发生异常，数据库连接可能不会正确关闭。</p>
-
-                                    <p><strong>优化建议：</strong></p>
-                                    <pre><code class="language-python">import sqlite3
-
-def get_user(username):
-    # 使用上下文管理器自动管理连接
-    with sqlite3.connect('users.db') as conn:
-        cursor = conn.cursor()
-        query = "SELECT * FROM users WHERE username = ?"
-        cursor.execute(query, (username,))
-        return cursor.fetchone()</code></pre>
-
-                                    <p><strong>安全评分：</strong> <span class="score score-danger">35/100</span></p>
-                                    <p>建议立即修复SQL注入漏洞！</p>
-                                </div>
-                                <div class="message-actions">
-                                    <button class="btn-icon" title="复制">📋</button>
-                                    <button class="btn-icon" title="点赞">👍</button>
-                                    <button class="btn-icon" title="反馈">💬</button>
-                                </div>
-                            </div>
-                        </div>
+                    <!-- 引导文案 - 次要优先级 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">开始给智能体分配任务</p>
                     </div>
 
                     <!-- 输入区域 -->
@@ -306,6 +212,7 @@ def get_user(username):
                             <!-- 输入框区域 -->
                             <textarea
                                 class="chat-input"
+                                id="chatInput"
                                 placeholder="输入您的问题或粘贴代码..."
                                 rows="3"
                             ></textarea>
@@ -326,7 +233,7 @@ def get_user(username):
                                         📊
                                     </button>
                                 </div>
-                                <button class="btn btn-primary chat-send">
+                                <button class="btn btn-primary chat-send" id="chatSend">
                                     <span>发送</span>
                                     <span class="send-shortcut">Shift+Enter</span>
                                 </button>
@@ -339,6 +246,26 @@ def get_user(username):
     </main>
 
     <script src="../../js/dashboard.js"></script>
-    <script src="../js/agent-detail.js"></script>
+    <script src="../js/template-detail.js"></script>
+    <script>
+        // 快速提示填充功能
+        function fillPrompt(text) {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+            }
+        }
+
+        // 发送后跳转到有对话的页面
+        document.getElementById('chatSend').addEventListener('click', function() {
+            const input = document.getElementById('chatInput');
+            if (input.value.trim()) {
+                // 模拟发送，实际应该调用API
+                // window.location.href = 'agent-detail-chat.html';
+                console.log('发送消息:', input.value);
+            }
+        });
+    </script>
 </body>
 </html>

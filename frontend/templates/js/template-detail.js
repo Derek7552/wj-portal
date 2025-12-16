@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (btnNewChat) {
         btnNewChat.addEventListener('click', function() {
             // 跳转到空状态页面（新任务）
-            window.location.href = 'agent-detail-empty.html';
+            window.location.href = 'template-empty.html';
         });
     }
 

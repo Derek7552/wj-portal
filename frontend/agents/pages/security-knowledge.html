@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="安全智库智能体 - 安全知识库与最佳实践指南">
+    <title>安全智库 - 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/agent-search.css">
+    <link rel="stylesheet" href="../../css/news.css">
+</head>
+<body class="agent-detail-page agent-search-page">
+    <!-- 左侧导航栏 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <div class="nav-item-home-wrapper">
+                        <a href="../../dashboard.html" class="nav-item nav-item-home">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-item">
+                            <span class="nav-icon">🏠</span>
+                            <span class="nav-text">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 我的收藏 -->
+                <div class="nav-item favorites-nav" title="我的收藏">
+                    <div class="nav-item-header favorites-header">
+                        <span class="nav-text">我的收藏</span>
+                    </div>
+                    <div class="favorites-list" id="favoritesList">
+                        <div class="favorites-empty" id="favoritesEmpty">
+                            <p>暂无收藏的智能体</p>
+                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
+                        </div>
+                        <div class="favorites-items" id="favoritesItems"></div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🧠</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">安全智库</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.0.3</span>
+                    </div>
+                    <p class="agent-description">安全知识库与最佳实践指南，沉淀行业经验，分享安全防护知识和实战经验</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(428)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(5)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-section">
+            <div class="search-wrapper">
+                <input type="text" class="search-input" id="searchInput" placeholder="搜索知识库内容、标题或关键词...">
+                <button class="search-reset" id="searchReset" style="display: none;">✕</button>
+            </div>
+        </div>
+
+        <!-- 主内容区域：左右布局 -->
+        <div class="search-content-wrapper">
+            <!-- 左侧分类导航 -->
+            <aside class="search-categories-sidebar">
+                <div class="category-group">
+                    <div class="category-group-title">知识分类</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item active" data-category="all">
+                            <span class="category-name">全部</span>
+                            <span class="category-count">(428)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="best-practice">
+                            <span class="category-name">最佳实践</span>
+                            <span class="category-count">(98)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="guide">
+                            <span class="category-name">技术指南</span>
+                            <span class="category-count">(76)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="standard">
+                            <span class="category-name">安全规范</span>
+                            <span class="category-count">(54)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="defense">
+                            <span class="category-name">防护方案</span>
+                            <span class="category-count">(67)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="case-study">
+                            <span class="category-name">案例研究</span>
+                            <span class="category-count">(45)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="tool">
+                            <span class="category-name">工具使用</span>
+                            <span class="category-count">(38)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="framework">
+                            <span class="category-name">安全框架</span>
+                            <span class="category-count">(32)</span>
+                        </a>
+                        <a href="#" class="category-item" data-category="compliance">
+                            <span class="category-name">合规要求</span>
+                            <span class="category-count">(18)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="category-group">
+                    <div class="category-group-title">知识来源</div>
+                    <div class="category-list">
+                        <a href="#" class="category-item" data-source="all">
+                            <span class="category-name">全部来源</span>
+                        </a>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="official">
+                                <span class="category-name">官方文档</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="official-1">OWASP</a>
+                                <a href="#" class="category-sub-item" data-source="official-2">NIST</a>
+                                <a href="#" class="category-sub-item" data-source="official-3">ISO 27001</a>
+                                <a href="#" class="category-sub-item" data-source="official-4">CIS Controls</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="industry">
+                                <span class="category-name">行业标准</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="industry-1">等保2.0</a>
+                                <a href="#" class="category-sub-item" data-source="industry-2">ISO 27001</a>
+                                <a href="#" class="category-sub-item" data-source="industry-3">GDPR</a>
+                                <a href="#" class="category-sub-item" data-source="industry-4">PCI DSS</a>
+                            </div>
+                        </div>
+                        <div class="category-item-parent">
+                            <a href="#" class="category-item category-item-expandable" data-source="expert">
+                                <span class="category-name">专家经验</span>
+                                <span class="category-expand">›</span>
+                            </a>
+                            <div class="category-sub-list">
+                                <a href="#" class="category-sub-item" data-source="expert-1">安全专家</a>
+                                <a href="#" class="category-sub-item" data-source="expert-2">技术博客</a>
+                                <a href="#" class="category-sub-item" data-source="expert-3">实战经验</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 右侧知识库列表 -->
+            <div class="search-content-main">
+                <!-- 筛选栏 -->
+                <div class="search-filters">
+                    <div class="filter-left">
+                        <span class="filter-label">排序：</span>
+                        <select class="filter-select" id="sortSelect">
+                            <option value="time">最新更新</option>
+                            <option value="hot">最热门</option>
+                            <option value="relevant">最相关</option>
+                        </select>
+                    </div>
+                    <div class="filter-right">
+                        <span class="result-count">共找到 <strong>428</strong> 条知识</span>
+                    </div>
+                </div>
+
+                <!-- 结果列表 -->
+                <section class="search-results-list">
+            <article class="result-card" data-category="best-practice">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=1">Web应用安全开发最佳实践指南</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-15 14:30</span>
+                        <span class="result-source">OWASP</span>
+                        <span class="result-tag tag-research">最佳实践</span>
+                    </div>
+                </div>
+                <p class="result-summary">本指南详细介绍了Web应用开发过程中的安全最佳实践，包括输入验证、身份认证、会话管理、加密传输等关键安全措施，帮助开发团队构建更安全的Web应用...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 3.2k</span>
+                        <span class="stat-item">💬 56</span>
+                        <span class="stat-item">👍 312</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="guide">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=2">零信任架构实施技术指南</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-12 10:20</span>
+                        <span class="result-source">NIST</span>
+                        <span class="result-tag tag-research">技术指南</span>
+                    </div>
+                </div>
+                <p class="result-summary">零信任架构是现代企业安全的重要策略。本指南提供了零信任架构的核心原则、实施步骤、技术选型和最佳实践，帮助企业构建零信任安全体系...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 2.5k</span>
+                        <span class="stat-item">💬 43</span>
+                        <span class="stat-item">👍 267</span>
+                    </div>
+                    <button class="btn-collect active" title="已收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="standard">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=3">ISO 27001信息安全管理体系实施规范</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-10 16:45</span>
+                        <span class="result-source">ISO</span>
+                        <span class="result-tag tag-research">安全规范</span>
+                    </div>
+                </div>
+                <p class="result-summary">ISO 27001是国际信息安全管理标准，本文档详细解读了标准要求、实施步骤、审核要点和持续改进方法，帮助企业建立完善的信息安全管理体系...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.8k</span>
+                        <span class="stat-item">💬 34</span>
+                        <span class="stat-item">👍 198</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="defense">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=4">API安全防护方案与实践</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-08 09:15</span>
+                        <span class="result-source">安全专家</span>
+                        <span class="result-tag tag-research">防护方案</span>
+                    </div>
+                </div>
+                <p class="result-summary">API安全是微服务架构中的重要环节。本文档提供了API安全威胁分析、认证授权机制、速率限制、数据加密等防护方案，以及实际项目中的实施经验...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 2.1k</span>
+                        <span class="stat-item">💬 52</span>
+                        <span class="stat-item">👍 245</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="case-study">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=5">金融行业安全防护案例研究</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-05 11:30</span>
+                        <span class="result-source">实战经验</span>
+                        <span class="result-tag tag-research">案例研究</span>
+                    </div>
+                </div>
+                <p class="result-summary">基于真实金融项目的安全防护实践，分析了金融行业面临的安全挑战、防护策略选择、实施过程和效果评估，为类似项目提供参考...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.6k</span>
+                        <span class="stat-item">💬 28</span>
+                        <span class="stat-item">👍 176</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="tool">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=6">安全工具使用手册：Burp Suite实战指南</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-03 15:20</span>
+                        <span class="result-source">技术博客</span>
+                        <span class="result-tag tag-research">工具使用</span>
+                    </div>
+                </div>
+                <p class="result-summary">Burp Suite是Web安全测试的常用工具。本手册详细介绍了Burp Suite的功能模块、使用技巧、插件开发和实战案例，帮助安全测试人员提升工作效率...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 2.8k</span>
+                        <span class="stat-item">💬 67</span>
+                        <span class="stat-item">👍 389</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+
+            <article class="result-card" data-category="framework">
+                <div class="result-header">
+                    <h3 class="result-title">
+                        <a href="security-knowledge-detail.html?id=7">DevSecOps安全框架与实践</a>
+                    </h3>
+                    <div class="result-meta">
+                        <span class="result-date">2024-03-01 13:45</span>
+                        <span class="result-source">CIS Controls</span>
+                        <span class="result-tag tag-research">安全框架</span>
+                    </div>
+                </div>
+                <p class="result-summary">DevSecOps将安全融入DevOps流程，实现安全左移。本文档介绍了DevSecOps的核心概念、实施框架、工具链集成和最佳实践，帮助企业构建安全高效的开发流程...</p>
+                <div class="result-footer">
+                    <div class="result-stats">
+                        <span class="stat-item">👁️ 1.9k</span>
+                        <span class="stat-item">💬 41</span>
+                        <span class="stat-item">👍 223</span>
+                    </div>
+                    <button class="btn-collect" title="收藏">⭐</button>
+                </div>
+            </article>
+                </section>
+
+                <!-- 分页器 -->
+                <div class="pagination">
+                    <button class="pagination-btn" disabled>上一页</button>
+                    <div class="pagination-pages">
+                        <button class="pagination-page active">1</button>
+                        <button class="pagination-page">2</button>
+                        <button class="pagination-page">3</button>
+                        <span class="pagination-ellipsis">...</span>
+                        <button class="pagination-page">8</button>
+                    </div>
+                    <button class="pagination-btn">下一页</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/security-knowledge.js"></script>
+</body>
+</html>

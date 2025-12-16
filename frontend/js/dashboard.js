@@ -142,7 +142,23 @@ function initLogout() {
 // 收藏功能
 function initFavorites() {
     // 从 localStorage 读取收藏列表
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let favoriteData = JSON.parse(localStorage.getItem('favoriteData') || '{}');
+    
+    // 已删除的智能体ID列表（AI漏洞猎人、安全论文检索、缺陷研判、论文翻译）
+    const deletedAgentIds = ['1', '2', '5', '6'];
+    
+    // 过滤掉已删除的智能体
+    const hasDeleted = deletedAgentIds.some(id => favorites.includes(id));
+    if (hasDeleted) {
+        favorites = favorites.filter(id => !deletedAgentIds.includes(id));
+        deletedAgentIds.forEach(id => {
+            delete favoriteData[id];
+        });
+        // 保存清理后的数据
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        localStorage.setItem('favoriteData', JSON.stringify(favoriteData));
+    }
     
     // 更新所有卡片的收藏状态
     document.querySelectorAll('.agent-card').forEach(card => {
@@ -234,8 +250,15 @@ function toggleFavorite(btn) {
 }
 
 function updateFavoritesList() {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const favoriteData = JSON.parse(localStorage.getItem('favoriteData') || '{}');
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let favoriteData = JSON.parse(localStorage.getItem('favoriteData') || '{}');
+    
+    // 已删除的智能体ID列表
+    const deletedAgentIds = ['1', '2', '5', '6'];
+    
+    // 过滤掉已删除的智能体
+    favorites = favorites.filter(id => !deletedAgentIds.includes(id));
+    
     const favoritesItems = document.getElementById('favoritesItems');
     const favoritesEmpty = document.getElementById('favoritesEmpty');
     
@@ -278,8 +301,15 @@ function updateFavoritesList() {
 
 // 更新首页菜单中的收藏列表
 function updateHomeMenuFavorites() {
-    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-    const favoriteData = JSON.parse(localStorage.getItem('favoriteData') || '{}');
+    let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    let favoriteData = JSON.parse(localStorage.getItem('favoriteData') || '{}');
+    
+    // 已删除的智能体ID列表
+    const deletedAgentIds = ['1', '2', '5', '6'];
+    
+    // 过滤掉已删除的智能体
+    favorites = favorites.filter(id => !deletedAgentIds.includes(id));
+    
     const homeMenuFavoritesList = document.getElementById('homeMenuFavoritesList');
     const homeMenuFavoritesEmpty = document.getElementById('homeMenuFavoritesEmpty');
     
@@ -307,12 +337,8 @@ function updateHomeMenuFavorites() {
 // 获取智能体URL
 function getAgentUrl(cardId) {
     const urlMap = {
-        '1': 'dashboard.html', // AI漏洞猎人
-        '2': 'dashboard.html', // 安全论文检索
-        '3': 'agent-news.html', // 安全资讯
-        '4': 'agent-knowledge.html', // 安全智库
-        '5': 'agent-defect.html', // 缺陷研判
-        '6': 'dashboard.html' // 论文翻译
+        '3': 'security-news.html', // 安全资讯
+        '4': 'security-knowledge.html' // 安全智库
     };
     return urlMap[cardId] || 'dashboard.html';
 }
