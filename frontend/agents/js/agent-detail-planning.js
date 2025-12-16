@@ -149,7 +149,7 @@ function showEmptyState() {
         emptyStateContainer.style.display = 'flex';
         taskDetailsContainer.style.display = 'none';
 
-        // 隐藏右侧面板（文件、产物）
+        // 隐藏右侧面板（文件）
         if (taskSidebar) {
             taskSidebar.style.display = 'none';
         }
@@ -181,7 +181,7 @@ function showTaskDetails() {
         emptyStateContainer.style.display = 'none';
         taskDetailsContainer.style.display = 'flex';
 
-        // 显示右侧面板（文件、产物）
+        // 显示右侧面板（文件）
         if (taskSidebar) {
             taskSidebar.style.display = '';
         }
@@ -302,11 +302,30 @@ function initSidebarTabs() {
     const sidebarTabs = document.querySelectorAll('.sidebar-tab');
     const filesTab = document.getElementById('filesTab');
     const logsTab = document.getElementById('logsTab');
-    const outputsTab = document.getElementById('outputsTab');
 
     sidebarTabs.forEach(tab => {
         tab.addEventListener('click', function() {
             // 移除所有active状态
+            sidebarTabs.forEach(t => t.classList.remove('active'));
+
+            // 添加当前tab的active状态
+            this.classList.add('active');
+
+            // 切换内容区域
+            const tabName = this.dataset.sidebarTab;
+
+            if (tabName === 'files') {
+                filesTab.style.display = 'block';
+                logsTab.style.display = 'none';
+                // 重新初始化文件树
+                initFileTree();
+            } else if (tabName === 'logs') {
+                filesTab.style.display = 'none';
+                logsTab.style.display = 'block';
+            }
+        });
+    });
+}
             sidebarTabs.forEach(t => t.classList.remove('active'));
 
             // 添加当前tab的active状态
@@ -914,11 +933,14 @@ function initTaskControls() {
    文件上传
    ========================================== */
 
+// 文件上传初始化标志
+let fileUploadInitialized = false;
+
 function initFileUpload() {
     const btnUpload = document.getElementById('btnUpload');
     const fileInput = document.getElementById('fileInput');
 
-    if (btnUpload && fileInput) {
+    if (btnUpload && fileInput && !fileUploadInitialized) {
         btnUpload.addEventListener('click', function() {
             fileInput.click();
         });
@@ -935,39 +957,52 @@ function initFileUpload() {
             // 清空input
             fileInput.value = '';
         });
+
+        fileUploadInitialized = true;
     }
 
-    // 文件操作按钮
-    const fileActions = document.querySelectorAll('.btn-file-action');
-    fileActions.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const fileName = this.closest('.file-item').querySelector('.file-name').textContent;
-            showToast(`下载文件: ${fileName}`);
-            // 这里应该调用API下载文件
-        });
-    });
+    // 初始化文件目录树
+    initFileTree();
+}
 
-    // 产物操作按钮
-    const outputActions = document.querySelectorAll('.btn-output-action');
-    outputActions.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            const action = this.title;
-            const outputName = this.closest('.output-item').querySelector('.output-name').textContent;
+// 文件树初始化标志
+let fileTreeInitialized = false;
 
-            if (action === '查看') {
-                showToast(`查看产物: ${outputName}`);
-                // 打开代码查看器
-            } else if (action === '复制') {
-                showToast(`已复制到剪贴板`);
-                // 复制到剪贴板
-            } else if (action === '下载') {
-                showToast(`下载产物: ${outputName}`);
-                // 下载文件
+function initFileTree() {
+    const filesTab = document.getElementById('filesTab');
+    if (!filesTab || fileTreeInitialized) return;
+
+    // 文件目录树折叠/展开 - 使用事件委托
+    filesTab.addEventListener('click', function(e) {
+        const header = e.target.closest('.file-tree-header');
+        if (header) {
+            e.preventDefault();
+            const folder = header.closest('.file-tree-folder');
+            if (folder) {
+                folder.classList.toggle('expanded');
             }
-        });
+        }
     });
+
+    // 文件操作按钮 - 使用事件委托
+    filesTab.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-file-action');
+        if (btn) {
+            e.stopPropagation();
+            const fileItem = btn.closest('.file-tree-file') || btn.closest('.file-item');
+            if (fileItem) {
+                const fileName = fileItem.querySelector('.file-tree-name')?.textContent || 
+                               fileItem.querySelector('.file-name')?.textContent;
+                showToast(`下载文件: ${fileName}`);
+                // 这里应该调用API下载文件
+            }
+        }
+    });
+
+    fileTreeInitialized = true;
+}
+
+
 }
 
 function uploadFile(file) {
@@ -978,19 +1013,31 @@ function uploadFile(file) {
     setTimeout(() => {
         showToast(`上传成功: ${file.name}`);
 
-        // 添加到文件列表
-        const fileList = document.querySelector('.file-list');
-        const fileHtml = `
-            <div class="file-item">
-                <div class="file-icon">📄</div>
-                <div class="file-info">
-                    <div class="file-name">${file.name}</div>
-                    <div class="file-meta">${formatFileSize(file.size)} · ${getCurrentDate()}</div>
-                </div>
-                <button class="btn-file-action" title="下载">⬇️</button>
-            </div>
-        `;
-        fileList.insertAdjacentHTML('beforeend', fileHtml);
+        // 添加到"user"目录
+        const userFolder = document.querySelector('[data-folder="user"]');
+        if (userFolder) {
+            const folderItem = userFolder.closest('.file-tree-folder');
+            const children = folderItem.querySelector('.file-tree-children');
+            if (children) {
+                const fileHtml = `
+                    <div class="file-tree-item file-tree-file">
+                        <span class="file-tree-name">${file.name}</span>
+                        <span class="file-tree-meta">${formatFileSize(file.size)}</span>
+                        <button class="btn-file-action" title="下载">⬇️</button>
+                    </div>
+                `;
+                children.insertAdjacentHTML('beforeend', fileHtml);
+                
+                // 重新绑定事件
+                const newFileAction = children.lastElementChild.querySelector('.btn-file-action');
+                if (newFileAction) {
+                    newFileAction.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        showToast(`下载文件: ${file.name}`);
+                    });
+                }
+            }
+        }
 
         // 重新初始化文件上传
         initFileUpload();

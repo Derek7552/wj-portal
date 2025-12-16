@@ -1109,46 +1109,91 @@
                                 <span class="tab-icon">📋</span>
                                 <span class="tab-text">日志</span>
                             </button>
-                            <button class="sidebar-tab" data-sidebar-tab="outputs">
-                                <span class="tab-icon">📦</span>
-                                <span class="tab-text">产物</span>
-                                <span class="tab-badge">5</span>
-                            </button>
                         </div>
 
                         <!-- 文件Tab内容 -->
                         <div class="sidebar-content" id="filesTab">
-                            <div class="sidebar-section">
-                                <div class="sidebar-section-title">相关文档</div>
-                                <div class="file-list">
-                                    <div class="file-item">
-                                        <div class="file-icon">📄</div>
-                                        <div class="file-info">
-                                            <div class="file-name">需求文档.md</div>
-                                            <div class="file-meta">128 KB · 2024-12-09</div>
-                                        </div>
-                                        <button class="btn-file-action" title="下载">⬇️</button>
+                            <!-- 文件目录树 -->
+                            <div class="file-tree">
+                                <!-- vulnex 目录 -->
+                                <div class="file-tree-item file-tree-folder expanded">
+                                    <div class="file-tree-header" data-folder="vulnex">
+                                        <span class="file-tree-icon">📁</span>
+                                        <span class="file-tree-name">vulnex</span>
                                     </div>
-                                    <div class="file-item">
-                                        <div class="file-icon">📊</div>
-                                        <div class="file-info">
-                                            <div class="file-name">API设计文档.pdf</div>
-                                            <div class="file-meta">256 KB · 2024-12-09</div>
+                                    <div class="file-tree-children">
+                                        <!-- 项目记忆目录 -->
+                                        <div class="file-tree-item file-tree-folder expanded">
+                                            <div class="file-tree-header" data-folder="memory">
+                                                <span class="file-tree-icon">📁</span>
+                                                <span class="file-tree-name">项目记忆</span>
+                                            </div>
+                                            <div class="file-tree-children">
+                                                <div class="file-tree-item file-tree-file">
+                                                    <span class="file-tree-name">工程功能记忆文件.md</span>
+                                                    <span class="file-tree-meta">3.1 KB</span>
+                                                    <button class="btn-file-action" title="下载">⬇️</button>
+                                                </div>
+                                                <div class="file-tree-item file-tree-file">
+                                                    <span class="file-tree-name">工程记忆文件.md</span>
+                                                    <span class="file-tree-meta">4.5 KB</span>
+                                                    <button class="btn-file-action" title="下载">⬇️</button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button class="btn-file-action" title="下载">⬇️</button>
+                                        <!-- 漏洞报告目录 -->
+                                        <div class="file-tree-item file-tree-folder expanded">
+                                            <div class="file-tree-header" data-folder="vulnerabilities">
+                                                <span class="file-tree-icon">📁</span>
+                                                <span class="file-tree-name">漏洞报告</span>
+                                            </div>
+                                            <div class="file-tree-children">
+                                                <div class="file-tree-item file-tree-file">
+                                                    <span class="file-tree-name">漏洞报告-001.md</span>
+                                                    <span class="file-tree-meta">1.2 KB</span>
+                                                    <button class="btn-file-action" title="下载">⬇️</button>
+                                                </div>
+                                                <div class="file-tree-item file-tree-file">
+                                                    <span class="file-tree-name">漏洞报告-002.md</span>
+                                                    <span class="file-tree-meta">0.8 KB</span>
+                                                    <button class="btn-file-action" title="下载">⬇️</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 总结报告目录 -->
+                                        <div class="file-tree-item file-tree-folder expanded">
+                                            <div class="file-tree-header" data-folder="summary">
+                                                <span class="file-tree-icon">📁</span>
+                                                <span class="file-tree-name">总结报告</span>
+                                            </div>
+                                            <div class="file-tree-children">
+                                                <div class="file-tree-item file-tree-file">
+                                                    <span class="file-tree-name">工程总结报告.md</span>
+                                                    <span class="file-tree-meta">5.2 KB</span>
+                                                    <button class="btn-file-action" title="下载">⬇️</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="file-item">
-                                        <div class="file-icon">🖼️</div>
-                                        <div class="file-info">
-                                            <div class="file-name">系统架构图.png</div>
-                                            <div class="file-meta">512 KB · 2024-12-09</div>
+                                </div>
+                                <!-- user 目录 -->
+                                <div class="file-tree-item file-tree-folder expanded">
+                                    <div class="file-tree-header" data-folder="user">
+                                        <span class="file-tree-icon">📁</span>
+                                        <span class="file-tree-name">user</span>
+                                    </div>
+                                    <div class="file-tree-children">
+                                        <div class="file-tree-item file-tree-file">
+                                            <span class="file-tree-name">project.zip</span>
+                                            <span class="file-tree-meta">2.5 MB</span>
+                                            <button class="btn-file-action" title="下载">⬇️</button>
                                         </div>
-                                        <button class="btn-file-action" title="下载">⬇️</button>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="sidebar-section">
+                            <!-- 上传文件区域 -->
+                            <div class="sidebar-section" style="margin-top: 16px;">
                                 <div class="sidebar-section-title">
                                     <span>上传文件</span>
                                 </div>
@@ -1181,88 +1226,6 @@
                             </div>
                         </div>
 
-                        <!-- 产物Tab内容(默认隐藏) -->
-                        <div class="sidebar-content" id="outputsTab" style="display: none;">
-                            <div class="sidebar-section">
-                                <div class="sidebar-section-title">生成的代码</div>
-                                <div class="output-list">
-                                    <div class="output-item">
-                                        <div class="output-header">
-                                            <div class="output-icon">💻</div>
-                                            <div class="output-info">
-                                                <div class="output-name">auth.controller.js</div>
-                                                <div class="output-meta">步骤3生成 · 2.5 KB</div>
-                                            </div>
-                                        </div>
-                                        <div class="output-actions">
-                                            <button class="btn-output-action" title="查看">👁️</button>
-                                            <button class="btn-output-action" title="复制">📋</button>
-                                            <button class="btn-output-action" title="下载">⬇️</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="output-item">
-                                        <div class="output-header">
-                                            <div class="output-icon">💻</div>
-                                            <div class="output-info">
-                                                <div class="output-name">user.model.js</div>
-                                                <div class="output-meta">步骤2生成 · 1.8 KB</div>
-                                            </div>
-                                        </div>
-                                        <div class="output-actions">
-                                            <button class="btn-output-action" title="查看">👁️</button>
-                                            <button class="btn-output-action" title="复制">📋</button>
-                                            <button class="btn-output-action" title="下载">⬇️</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="output-item">
-                                        <div class="output-header">
-                                            <div class="output-icon">🗄️</div>
-                                            <div class="output-info">
-                                                <div class="output-name">schema.sql</div>
-                                                <div class="output-meta">步骤2生成 · 1.2 KB</div>
-                                            </div>
-                                        </div>
-                                        <div class="output-actions">
-                                            <button class="btn-output-action" title="查看">👁️</button>
-                                            <button class="btn-output-action" title="复制">📋</button>
-                                            <button class="btn-output-action" title="下载">⬇️</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="output-item">
-                                        <div class="output-header">
-                                            <div class="output-icon">📝</div>
-                                            <div class="output-info">
-                                                <div class="output-name">API文档.md</div>
-                                                <div class="output-meta">步骤3生成 · 3.2 KB</div>
-                                            </div>
-                                        </div>
-                                        <div class="output-actions">
-                                            <button class="btn-output-action" title="查看">👁️</button>
-                                            <button class="btn-output-action" title="复制">📋</button>
-                                            <button class="btn-output-action" title="下载">⬇️</button>
-                                        </div>
-                                    </div>
-
-                                    <div class="output-item">
-                                        <div class="output-header">
-                                            <div class="output-icon">⚙️</div>
-                                            <div class="output-info">
-                                                <div class="output-name">.env.example</div>
-                                                <div class="output-meta">步骤1生成 · 0.5 KB</div>
-                                            </div>
-                                        </div>
-                                        <div class="output-actions">
-                                            <button class="btn-output-action" title="查看">👁️</button>
-                                            <button class="btn-output-action" title="复制">📋</button>
-                                            <button class="btn-output-action" title="下载">⬇️</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </aside>
                 </div>
                 <!-- 对话区和右侧面板的容器结束 -->

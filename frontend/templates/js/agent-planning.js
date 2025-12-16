@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initChatInput();
     initEventClickHandlers();
     initPhaseProgress();
+    initFileTree();
 });
 
 /* ==========================================
@@ -800,4 +801,44 @@ function initPhaseProgress() {
             this.classList.add('current');
         });
     });
+}
+
+/* ==========================================
+   文件目录树
+   ========================================== */
+
+// 文件树初始化标志
+let fileTreeInitialized = false;
+
+function initFileTree() {
+    const filesTab = document.getElementById('tabFiles');
+    if (!filesTab || fileTreeInitialized) return;
+
+    // 文件目录树折叠/展开 - 使用事件委托
+    filesTab.addEventListener('click', function(e) {
+        const header = e.target.closest('.file-tree-header');
+        if (header) {
+            e.preventDefault();
+            const folder = header.closest('.file-tree-folder');
+            if (folder) {
+                folder.classList.toggle('expanded');
+            }
+        }
+    });
+
+    // 文件操作按钮 - 使用事件委托
+    filesTab.addEventListener('click', function(e) {
+        const btn = e.target.closest('.btn-file-action');
+        if (btn) {
+            e.stopPropagation();
+            const fileItem = btn.closest('.file-tree-file');
+            if (fileItem) {
+                const fileName = fileItem.querySelector('.file-tree-name')?.textContent;
+                console.log(`下载文件: ${fileName}`);
+                // 这里应该调用API下载文件
+            }
+        }
+    });
+
+    fileTreeInitialized = true;
 }

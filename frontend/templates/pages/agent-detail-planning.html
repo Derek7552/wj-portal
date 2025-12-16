@@ -742,38 +742,96 @@
 
                     <!-- 文件Tab -->
                     <div class="tools-tab-content" id="tabFiles">
-                        <div class="file-list">
-                            <div class="file-item">
-                                <span class="file-icon">📄</span>
-                                <div class="file-info">
-                                    <div class="file-name">模块分析总结.md</div>
-                                    <div class="file-meta">8 KB · 14:32</div>
+                        <!-- 文件目录树 -->
+                        <div class="file-tree">
+                            <!-- vulnex 目录 -->
+                            <div class="file-tree-item file-tree-folder expanded">
+                                <div class="file-tree-header" data-folder="vulnex">
+                                    <span class="file-tree-icon">📁</span>
+                                    <span class="file-tree-name">vulnex</span>
                                 </div>
-                                <button class="btn-icon">⬇️</button>
+                                <div class="file-tree-children">
+                                    <!-- 项目记忆目录 -->
+                                    <div class="file-tree-item file-tree-folder expanded">
+                                        <div class="file-tree-header" data-folder="memory">
+                                            <span class="file-tree-icon">📁</span>
+                                            <span class="file-tree-name">项目记忆</span>
+                                        </div>
+                                        <div class="file-tree-children">
+                                            <div class="file-tree-item file-tree-file">
+                                                <span class="file-tree-name">工程功能记忆文件.md</span>
+                                                <span class="file-tree-meta">3.1 KB</span>
+                                                <button class="btn-file-action" title="下载">⬇️</button>
+                                            </div>
+                                            <div class="file-tree-item file-tree-file">
+                                                <span class="file-tree-name">工程记忆文件.md</span>
+                                                <span class="file-tree-meta">4.5 KB</span>
+                                                <button class="btn-file-action" title="下载">⬇️</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 漏洞报告目录 -->
+                                    <div class="file-tree-item file-tree-folder expanded">
+                                        <div class="file-tree-header" data-folder="vulnerabilities">
+                                            <span class="file-tree-icon">📁</span>
+                                            <span class="file-tree-name">漏洞报告</span>
+                                        </div>
+                                        <div class="file-tree-children">
+                                            <div class="file-tree-item file-tree-file">
+                                                <span class="file-tree-name">漏洞报告-001.md</span>
+                                                <span class="file-tree-meta">1.2 KB</span>
+                                                <button class="btn-file-action" title="下载">⬇️</button>
+                                            </div>
+                                            <div class="file-tree-item file-tree-file">
+                                                <span class="file-tree-name">漏洞报告-002.md</span>
+                                                <span class="file-tree-meta">0.8 KB</span>
+                                                <button class="btn-file-action" title="下载">⬇️</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 总结报告目录 -->
+                                    <div class="file-tree-item file-tree-folder expanded">
+                                        <div class="file-tree-header" data-folder="summary">
+                                            <span class="file-tree-icon">📁</span>
+                                            <span class="file-tree-name">总结报告</span>
+                                        </div>
+                                        <div class="file-tree-children">
+                                            <div class="file-tree-item file-tree-file">
+                                                <span class="file-tree-name">工程总结报告.md</span>
+                                                <span class="file-tree-meta">5.2 KB</span>
+                                                <button class="btn-file-action" title="下载">⬇️</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="file-item">
-                                <span class="file-icon">🧠</span>
-                                <div class="file-info">
-                                    <div class="file-name">工程记忆.md</div>
-                                    <div class="file-meta">9 KB · 14:40</div>
+                            <!-- user 目录 -->
+                            <div class="file-tree-item file-tree-folder expanded">
+                                <div class="file-tree-header" data-folder="user">
+                                    <span class="file-tree-icon">📁</span>
+                                    <span class="file-tree-name">user</span>
                                 </div>
-                                <button class="btn-icon">⬇️</button>
+                                <div class="file-tree-children">
+                                    <div class="file-tree-item file-tree-file">
+                                        <span class="file-tree-name">project.zip</span>
+                                        <span class="file-tree-meta">2.5 MB</span>
+                                        <button class="btn-file-action" title="下载">⬇️</button>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="file-item">
-                                <span class="file-icon">📋</span>
-                                <div class="file-info">
-                                    <div class="file-name">漏洞报告.md</div>
-                                    <div class="file-meta">12 KB · 14:41</div>
-                                </div>
-                                <button class="btn-icon">⬇️</button>
+                        </div>
+
+                        <!-- 上传文件区域 -->
+                        <div class="sidebar-section" style="margin-top: 16px;">
+                            <div class="sidebar-section-title">
+                                <span>上传文件</span>
                             </div>
-                            <div class="file-item">
-                                <span class="file-icon">📊</span>
-                                <div class="file-info">
-                                    <div class="file-name">安全评估报告.md</div>
-                                    <div class="file-meta">18 KB · 14:43</div>
-                                </div>
-                                <button class="btn-icon">⬇️</button>
+                            <div class="upload-area">
+                                <input type="file" id="fileInput" multiple style="display: none;">
+                                <button class="btn-upload" id="btnUpload">
+                                    <span class="upload-icon">📤</span>
+                                    <span class="upload-text">点击上传</span>
+                                </button>
                             </div>
                         </div>
                     </div>
