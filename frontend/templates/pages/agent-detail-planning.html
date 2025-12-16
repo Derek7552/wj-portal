@@ -380,7 +380,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="event-item event-tool" data-tool-id="tool-6">
+                                    <div class="event-item event-tool active" data-tool-id="tool-6">
                                         <span class="event-icon">🔧</span>
                                         <div class="event-content">
                                             <div class="event-text">深入分析数据库查询代码</div>
@@ -665,18 +665,81 @@
             <!-- 右栏：工具面板 (320px) -->
             <aside class="tools-panel">
                 <div class="tools-tabs">
+                    <button class="tools-tab active" data-tab="logs">
+                        <span>📋</span>
+                        <span>日志</span>
+                    </button>
                     <button class="tools-tab" data-tab="files">
                         <span>📁</span>
                         <span>文件</span>
                         <span class="badge">4</span>
                     </button>
-                    <button class="tools-tab active" data-tab="logs">
-                        <span>📋</span>
-                        <span>日志</span>
-                    </button>
                 </div>
 
                 <div class="tools-content">
+                    <!-- 日志Tab -->
+                    <div class="tools-tab-content active" id="tabLogs">
+                        <div class="log-content-wrapper">
+                            <div class="log-placeholder" id="logPlaceholder" style="display: none;">
+                                <div class="empty-icon">📋</div>
+                                <div class="empty-text">点击对话中的工具调用或文档查看详细信息</div>
+                            </div>
+                            <div class="log-detail" id="logDetail">
+                                <!-- 默认显示一条示例日志 -->
+                                <div class="log-detail-content">
+                                    <div class="log-description">
+                                        <div class="log-desc-content">
+                                            <div class="log-desc-tool">使用 <code>read_file</code> 工具</div>
+                                            <div class="log-desc-purpose">读取 <code>UserRepository.java</code> 的第 <code>45-78</code> 行</div>
+                                        </div>
+                                    </div>
+                                    <div class="log-output">
+                                        <div class="log-content-title">UserRepository.java</div>
+                                        <div class="log-code">45: public User findByUsername(String username) {
+46:     String sql = "SELECT * FROM users WHERE username = '" + username + "'";
+47:     // 直接字符串拼接，存在SQL注入风险！
+48:     return jdbcTemplate.queryForObject(sql, new UserRowMapper());
+49: }</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 阶段进度看板 -->
+                        <div class="phase-progress-panel">
+                            <div class="phase-progress-header">
+                                <span class="phase-progress-icon">📊</span>
+                                <span class="phase-progress-title">阶段进度</span>
+                            </div>
+                            <div class="phase-progress-timeline">
+                                <div class="phase-progress-item completed" data-phase="1">
+                                    <div class="phase-progress-marker">
+                                        <span class="phase-progress-status">✓</span>
+                                    </div>
+                                    <div class="phase-progress-content">
+                                        <div class="phase-progress-name">工程功能模块分析</div>
+                                    </div>
+                                </div>
+                                <div class="phase-progress-item completed" data-phase="2">
+                                    <div class="phase-progress-marker">
+                                        <span class="phase-progress-status">✓</span>
+                                    </div>
+                                    <div class="phase-progress-content">
+                                        <div class="phase-progress-name">威胁建模与漏洞分析</div>
+                                    </div>
+                                </div>
+                                <div class="phase-progress-item completed current" data-phase="3">
+                                    <div class="phase-progress-marker">
+                                        <span class="phase-progress-status">✓</span>
+                                    </div>
+                                    <div class="phase-progress-content">
+                                        <div class="phase-progress-name">分析总结报告生成</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 文件Tab -->
                     <div class="tools-tab-content" id="tabFiles">
                         <div class="file-list">
@@ -712,17 +775,6 @@
                                 </div>
                                 <button class="btn-icon">⬇️</button>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- 日志Tab -->
-                    <div class="tools-tab-content active" id="tabLogs">
-                        <div class="log-placeholder" id="logPlaceholder">
-                            <div class="empty-icon">📋</div>
-                            <div class="empty-text">点击对话中的工具调用或文档查看详细信息</div>
-                        </div>
-                        <div class="log-detail" id="logDetail" style="display: none;">
-                            <!-- 日志详情内容将通过JavaScript动态填充 -->
                         </div>
                     </div>
                 </div>

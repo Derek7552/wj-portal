@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initTaskList();
     initChatInput();
     initEventClickHandlers();
+    initPhaseProgress();
 });
 
 /* ==========================================
@@ -493,25 +494,48 @@ function showToolLog(toolId, element) {
     logPlaceholder.style.display = 'none';
     logDetail.style.display = 'block';
 
+    // 生成描述文本
+    let toolText = `使用 <code>${log.function}</code> 工具`;
+    let purposeText = '';
+    let contentTitle = '';
+    const params = log.params || {};
+
+    if (log.function === 'read_file') {
+        const path = params.path || '';
+        const lines = params.lines ? ` 的第 <code>${params.lines}</code> 行` : '';
+        purposeText = `读取 <code>${path}</code>${lines}`;
+        contentTitle = path || '文件内容';
+    } else if (log.function === 'list_directory') {
+        const path = params.path || '';
+        purposeText = `列出目录 <code>${path}</code> 的内容`;
+        contentTitle = path || '目录内容';
+    } else if (log.function === 'edit_file') {
+        const path = params.path || '';
+        const action = params.action || '编辑';
+        purposeText = `${action}文件 <code>${path}</code>`;
+        contentTitle = path || '文件内容';
+    } else if (log.function === 'visit_url' || log.function === 'fetch_url') {
+        const url = params.url || '';
+        purposeText = `访问 <code>${url}</code>`;
+        contentTitle = url || '网页内容';
+    } else {
+        // 默认格式
+        const paramsStr = Object.entries(params).map(([k, v]) => `<code>${k}: ${v}</code>`).join(', ');
+        purposeText = `执行操作${paramsStr ? `，参数：${paramsStr}` : ''}`;
+        contentTitle = log.title || '执行结果';
+    }
+
     // 填充日志详情
     logDetail.innerHTML = `
-        <div class="log-detail-header">
-            <span class="log-detail-title">${log.title}</span>
-            <button class="log-detail-close" onclick="closeLogDetail()">✕</button>
-        </div>
         <div class="log-detail-content">
-            <div class="log-meta">
-                <div class="log-meta-item">
-                    <span class="log-meta-label">函数</span>
-                    <span class="log-meta-value">${log.function}</span>
-                </div>
-                <div class="log-meta-item">
-                    <span class="log-meta-label">参数</span>
-                    <span class="log-meta-value">${JSON.stringify(log.params)}</span>
+            <div class="log-description">
+                <div class="log-desc-content">
+                    <div class="log-desc-tool">${toolText}</div>
+                    <div class="log-desc-purpose">${purposeText}</div>
                 </div>
             </div>
-            <div class="log-section">
-                <div class="log-section-title">输出</div>
+            <div class="log-output">
+                <div class="log-content-title">${contentTitle}</div>
                 <div class="log-code">${log.output}</div>
             </div>
         </div>
@@ -529,25 +553,22 @@ function showDocumentLog(docId, element) {
     logPlaceholder.style.display = 'none';
     logDetail.style.display = 'block';
 
+    // 生成描述文本
+    const toolText = '生成文档';
+    const purposeText = `<code>${doc.filename}</code>，大小为 <code>${doc.size}</code>`;
+    const contentTitle = doc.filename || '文档内容';
+
     // 填充文档详情
     logDetail.innerHTML = `
-        <div class="log-detail-header">
-            <span class="log-detail-title">${doc.title}</span>
-            <button class="log-detail-close" onclick="closeLogDetail()">✕</button>
-        </div>
         <div class="log-detail-content">
-            <div class="log-meta">
-                <div class="log-meta-item">
-                    <span class="log-meta-label">文件名</span>
-                    <span class="log-meta-value">${doc.filename}</span>
-                </div>
-                <div class="log-meta-item">
-                    <span class="log-meta-label">大小</span>
-                    <span class="log-meta-value">${doc.size}</span>
+            <div class="log-description doc-description">
+                <div class="log-desc-content">
+                    <div class="log-desc-tool">${toolText}</div>
+                    <div class="log-desc-purpose">${purposeText}</div>
                 </div>
             </div>
-            <div class="log-section">
-                <div class="log-section-title">文档内容</div>
+            <div class="log-output">
+                <div class="log-content-title">${contentTitle}</div>
                 <div class="log-code">${doc.content}</div>
             </div>
         </div>
@@ -733,4 +754,50 @@ function sendMessage() {
     chatInput.style.height = 'auto';
 
     // 这里可以添加消息到聊天区域
+}
+
+/* ==========================================
+   阶段进度看板
+   ========================================== */
+
+function initPhaseProgress() {
+    const phaseItems = document.querySelectorAll('.phase-progress-item');
+    const chatMessages = document.getElementById('chatMessages');
+
+    phaseItems.forEach(item => {
+        item.addEventListener('click', function() {
+            const phaseNumber = this.dataset.phase;
+
+            // 查找对话区中对应的阶段卡片
+            const phaseCards = document.querySelectorAll('.phase-card');
+            let targetCard = null;
+
+            phaseCards.forEach(card => {
+                const phaseBadge = card.querySelector('.phase-badge');
+                if (phaseBadge && phaseBadge.textContent.includes(phaseNumber)) {
+                    targetCard = card.closest('.message');
+                }
+            });
+
+            // 滚动到目标阶段
+            if (targetCard && chatMessages) {
+                targetCard.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+
+                // 添加高亮效果
+                targetCard.style.transition = 'background 0.3s';
+                targetCard.style.background = '#e6f7ff';
+
+                setTimeout(() => {
+                    targetCard.style.background = '';
+                }, 2000);
+            }
+
+            // 更新当前阶段高亮
+            phaseItems.forEach(i => i.classList.remove('current'));
+            this.classList.add('current');
+        });
+    });
 }

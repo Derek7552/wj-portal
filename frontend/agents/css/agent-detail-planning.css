@@ -197,7 +197,7 @@
 
 /* 任务内容区域 - 对话框容器 */
 .task-content-area {
-    flex: 1;
+    flex: 2; /* 占主内容区的2/3 */
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -941,21 +941,23 @@
 }
 
 .tool-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: #262626;
-    min-width: 120px;
+    font-size: 12px;
+    font-weight: 400;
+    color: #8c8c8c;
+    min-width: 100px;
     flex-shrink: 0;
 }
 
 .tool-result {
     flex: 1;
-    font-size: 13px;
-    color: #595959;
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
 }
 
 .tool-result.running {
     color: #298CFF;
+    font-weight: 600;
 }
 
 /* 漏洞产物样式 */
@@ -989,8 +991,9 @@
 .vulnerability-output .output-name {
     flex: 1;
     font-size: 13px;
-    font-weight: 500;
-    color: #262626;
+    font-weight: 400;
+    color: #595959;
+    font-family: 'Monaco', 'Consolas', monospace;
 }
 
 .vulnerability-output .output-meta {
@@ -1531,8 +1534,9 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     height: 100%;
     min-height: 0; /* 允许 flex 子元素收缩 */
-    width: 320px; /* 固定宽度 */
+    flex: 1; /* 占主内容区的1/3 */
     flex-shrink: 0; /* 不允许收缩 */
+    min-width: 0; /* 防止flex项目溢出 */
 }
 
 /* 侧边栏Tab */
@@ -1723,9 +1727,10 @@
 }
 
 .log-tool-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #262626;
+    font-size: 13px;
+    font-weight: 400;
+    color: #595959;
+    font-family: 'Monaco', 'Consolas', monospace;
 }
 
 .log-tool-status {
@@ -1805,9 +1810,10 @@
 }
 
 .log-file-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: #262626;
+    font-size: 13px;
+    font-weight: 400;
+    color: #595959;
+    font-family: 'Monaco', 'Consolas', monospace;
     flex: 1;
 }
 
@@ -2052,8 +2058,8 @@
 
 .output-name {
     font-size: 13px;
-    font-weight: 500;
-    color: #262626;
+    font-weight: 400;
+    color: #595959;
     font-family: 'Monaco', 'Consolas', monospace;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -2217,8 +2223,9 @@
         grid-template-columns: 200px 1fr;
     }
 
+    /* 保持1/3比例 */
     .task-sidebar {
-        width: 280px;
+        flex: 1;
     }
 }
 
@@ -2235,8 +2242,9 @@
         gap: 12px;
     }
 
+    /* 保持1/3比例 */
     .task-sidebar {
-        width: 260px;
+        flex: 1;
     }
 }
 
