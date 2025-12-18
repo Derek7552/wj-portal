@@ -4,7 +4,16 @@
   "description": "云脑门户页前端项目",
   "scripts": {
     "dev": "live-server frontend --port=8080 --open=/index.html --watch=frontend",
-    "start": "live-server frontend --port=8080 --open=/index.html"
+    "start": "live-server frontend --port=8080 --open=/index.html",
+    "ds:quick": "node scripts/update-ds.js quick",
+    "ds:spacing": "node scripts/update-ds.js spacing",
+    "ds:readme": "node scripts/update-ds.js readme",
+    "ds:checklist": "node scripts/update-ds.js checklist",
+    "ds:tokens": "node scripts/update-ds.js tokens",
+    "ds:rules": "node scripts/update-ds.js rules",
+    "ds:list": "node scripts/update-ds.js list",
+    "ds:open": "node scripts/update-ds.js open",
+    "ds:help": "node scripts/update-ds.js help"
   },
   "devDependencies": {
     "live-server": "^1.2.2"

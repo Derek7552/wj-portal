@@ -261,12 +261,48 @@ Clouditera 设计系统提供了三种内置间距尺寸：
 }
 ```
 
+### 5. 页面利用率优化
+
+**原则**：优先考虑空间利用效率，在保持视觉清晰的前提下，采用紧凑布局。
+
+```css
+/* ✅ 推荐：紧凑布局，减少不必要的换行 */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;  /* 使用 large 间距 */
+}
+
+/* ✅ 推荐：相关信息横向排列 */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ✅ 推荐：次要信息在同一行显示 */
+.meta-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;  /* 空间不足时自动换行 */
+}
+```
+
+**关键原则**：
+- 减少垂直空间浪费：优先使用横向布局
+- 合理使用间距：使用 `large` (16px) 作为主要间距
+- 信息层级清晰：通过字体大小、字重和颜色建立层次
+
 ## 🚫 避免事项
 
 1. ❌ **不要使用非 8px 倍数的间距值**（如 5px, 7px, 9px, 11px, 13px, 15px, 17px, 19px, 21px, 23px, 25px）
 2. ❌ **不要手动设置 margin 来创建间距**，应使用 `gap` 属性统一管理
 3. ❌ **不要随意使用自定义间距值**，优先使用内置尺寸（small、default、large）
 4. ❌ **不要在同一页面中使用过多不同的间距值**
+5. ❌ **避免过大的垂直间距**（>24px），除非是页面级分隔
+6. ❌ **避免不必要的换行**，优先横向排列相关信息
 
 ## 📊 间距值对照表
 

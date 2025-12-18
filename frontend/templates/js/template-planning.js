@@ -2,6 +2,110 @@
    自规划任务执行助手 - 交互逻辑
    ========================================== */
 
+// 任务列表相关变量（需要在函数定义之前初始化）
+let currentPage = 1;
+const pageSize = 6; // 每页显示6个任务
+
+// 模拟任务数据
+const mockTasks = [
+    {
+        id: 'task-001',
+        name: '代码安全漏洞挖掘任务',
+        status: 'completed',
+        createTime: '2024-12-11 14:30',
+        findings: {
+            total: 8,
+            high: 3,
+            medium: 4,
+            low: 1
+        }
+    },
+    {
+        id: 'task-002',
+        name: '开发用户认证系统',
+        status: 'running',
+        createTime: '2024-12-11 10:15',
+        findings: {
+            total: 5,
+            high: 1,
+            medium: 3,
+            low: 1
+        }
+    },
+    {
+        id: 'task-003',
+        name: '数据库优化方案',
+        status: 'completed',
+        createTime: '2024-12-10 16:45',
+        findings: {
+            total: 12,
+            high: 2,
+            medium: 7,
+            low: 3
+        }
+    },
+    {
+        id: 'task-004',
+        name: 'API接口文档生成',
+        status: 'failed',
+        createTime: '2024-12-10 09:20',
+        findings: {
+            total: 0,
+            high: 0,
+            medium: 0,
+            low: 0
+        }
+    },
+    {
+        id: 'task-005',
+        name: '前端性能优化分析',
+        status: 'completed',
+        createTime: '2024-12-09 15:30',
+        findings: {
+            total: 6,
+            high: 1,
+            medium: 4,
+            low: 1
+        }
+    },
+    {
+        id: 'task-006',
+        name: '系统架构设计评审',
+        status: 'running',
+        createTime: '2024-12-09 11:00',
+        findings: {
+            total: 3,
+            high: 0,
+            medium: 2,
+            low: 1
+        }
+    },
+    {
+        id: 'task-007',
+        name: '安全配置检查',
+        status: 'completed',
+        createTime: '2024-12-08 14:20',
+        findings: {
+            total: 10,
+            high: 4,
+            medium: 5,
+            low: 1
+        }
+    },
+    {
+        id: 'task-008',
+        name: '代码重构建议',
+        status: 'completed',
+        createTime: '2024-12-08 10:10',
+        findings: {
+            total: 7,
+            high: 1,
+            medium: 4,
+            low: 2
+        }
+    }
+];
+
 document.addEventListener('DOMContentLoaded', function() {
     initNavigation();
     initToolsTabs();
@@ -112,6 +216,12 @@ function initTaskList() {
 
             // 这里可以加载任务详情
             console.log('切换任务');
+            
+            // 恢复显示右侧工具面板
+            const toolsPanel = document.querySelector('.tools-panel');
+            if (toolsPanel) {
+                toolsPanel.style.display = '';
+            }
         });
     });
 
@@ -129,7 +239,7 @@ function initTaskList() {
     if (viewAllTasks) {
         viewAllTasks.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('查看全部任务');
+            showAllTasksList();
         });
     }
 }
@@ -763,6 +873,12 @@ function initTaskList() {
 
             // 这里可以加载任务详情
             console.log('切换任务');
+            
+            // 恢复显示右侧工具面板
+            const toolsPanel = document.querySelector('.tools-panel');
+            if (toolsPanel) {
+                toolsPanel.style.display = '';
+            }
         });
     });
 
@@ -777,11 +893,25 @@ function initTaskList() {
 
     // 查看全部任务按钮
     const viewAllTasks = document.getElementById('viewAllTasks');
+    console.log('查找 viewAllTasks 元素:', viewAllTasks);
     if (viewAllTasks) {
         viewAllTasks.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log('查看全部任务');
+            console.log('点击查看全部任务记录按钮');
+            console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
+            if (typeof showAllTasksList === 'function') {
+                try {
+                    showAllTasksList();
+                } catch (error) {
+                    console.error('调用 showAllTasksList 时出错:', error);
+                }
+            } else {
+                console.error('showAllTasksList 函数未定义');
+            }
         });
+        console.log('已绑定 viewAllTasks 点击事件');
+    } else {
+        console.warn('未找到 viewAllTasks 元素');
     }
 }
 
@@ -1024,4 +1154,228 @@ function initLogNavigation() {
 
     // 初始化时显示第一条日志（任务清单）
     updateLogDisplay();
+}
+
+/* ==========================================
+   查看全部任务记录
+   ========================================== */
+
+function showAllTasksList() {
+    console.log('showAllTasksList 函数被调用');
+    const chatArea = document.querySelector('.chat-area');
+    if (!chatArea) {
+        console.error('未找到 .chat-area 元素');
+        return;
+    }
+    console.log('找到 chatArea 元素:', chatArea);
+
+    // 生成任务列表HTML
+    const tasksHtml = generateTasksListHTML(currentPage);
+    console.log('生成的任务列表HTML长度:', tasksHtml.length);
+    
+    // 替换对话区内容
+    chatArea.innerHTML = `
+        <div class="tasks-list-container">
+            <div class="tasks-list-header">
+                <h2 class="tasks-list-title">全部任务记录</h2>
+            </div>
+            <div class="tasks-list-content">
+                ${tasksHtml}
+            </div>
+            ${generatePaginationHTML()}
+        </div>
+    `;
+
+    // 隐藏右侧工具面板（日志和文件）
+    const toolsPanel = document.querySelector('.tools-panel');
+    if (toolsPanel) {
+        toolsPanel.style.display = 'none';
+    }
+
+    // 绑定分页事件
+    bindPaginationEvents();
+}
+
+function generateTasksListHTML(page) {
+    const startIndex = (page - 1) * pageSize;
+    const endIndex = startIndex + pageSize;
+    const pageTasks = mockTasks.slice(startIndex, endIndex);
+
+    if (pageTasks.length === 0) {
+        return '<div class="tasks-empty">暂无任务记录</div>';
+    }
+
+    return pageTasks.map(task => {
+        const statusConfig = getStatusConfig(task.status);
+        return `
+            <div class="task-record-card" data-task-id="${task.id}">
+                <!-- 第一行：任务名称和状态/时间 -->
+                <div class="task-record-header">
+                    <div class="task-record-name">${task.name}</div>
+                    <div class="task-record-meta">
+                        <div class="task-record-status">
+                            <span class="task-status-badge ${task.status}">${statusConfig.icon}</span>
+                            <span class="task-status-text">${statusConfig.text}</span>
+                        </div>
+                        <div class="task-record-time">${task.createTime}</div>
+                    </div>
+                </div>
+                
+                <!-- 第二行：关键发现统计（紧凑布局） -->
+                <div class="task-record-findings">
+                    ${task.findings.total > 0 ? `
+                        <span class="finding-label">关键发现</span>
+                        <span class="finding-value">共 ${task.findings.total} 项</span>
+                        <div class="finding-details">
+                            ${task.findings.high > 0 ? `<span class="finding-item high">高危 ${task.findings.high}</span>` : ''}
+                            ${task.findings.medium > 0 ? `<span class="finding-item medium">中危 ${task.findings.medium}</span>` : ''}
+                            ${task.findings.low > 0 ? `<span class="finding-item low">低危 ${task.findings.low}</span>` : ''}
+                        </div>
+                    ` : `
+                        <span class="finding-label">关键发现</span>
+                        <span class="finding-value">暂无发现</span>
+                    `}
+                </div>
+            </div>
+        `;
+    }).join('');
+}
+
+function getStatusConfig(status) {
+    const configs = {
+        'running': { icon: '⏳', text: '进行中' },
+        'completed': { icon: '✅', text: '已完成' },
+        'failed': { icon: '❌', text: '失败' }
+    };
+    return configs[status] || { icon: '⏸️', text: '未知' };
+}
+
+function generatePaginationHTML() {
+    const totalPages = Math.ceil(mockTasks.length / pageSize);
+    
+    if (totalPages <= 1) {
+        return '';
+    }
+
+    let pagesHTML = '';
+    
+    // 上一页按钮
+    pagesHTML += `
+        <button class="pagination-btn prev" ${currentPage === 1 ? 'disabled' : ''}>
+            上一页
+        </button>
+    `;
+
+    // 页码按钮
+    pagesHTML += '<div class="pagination-pages">';
+    
+    // 显示页码逻辑
+    if (totalPages <= 7) {
+        // 如果总页数少于等于7，显示所有页码
+        for (let i = 1; i <= totalPages; i++) {
+            pagesHTML += `
+                <button class="pagination-page ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                    ${i}
+                </button>
+            `;
+        }
+    } else {
+        // 如果总页数大于7，显示省略号
+        if (currentPage <= 3) {
+            // 前3页
+            for (let i = 1; i <= 4; i++) {
+                pagesHTML += `
+                    <button class="pagination-page ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+            pagesHTML += '<span class="pagination-ellipsis">...</span>';
+            pagesHTML += `
+                <button class="pagination-page" data-page="${totalPages}">
+                    ${totalPages}
+                </button>
+            `;
+        } else if (currentPage >= totalPages - 2) {
+            // 后3页
+            pagesHTML += `
+                <button class="pagination-page" data-page="1">1</button>
+            `;
+            pagesHTML += '<span class="pagination-ellipsis">...</span>';
+            for (let i = totalPages - 3; i <= totalPages; i++) {
+                pagesHTML += `
+                    <button class="pagination-page ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+        } else {
+            // 中间页
+            pagesHTML += `
+                <button class="pagination-page" data-page="1">1</button>
+            `;
+            pagesHTML += '<span class="pagination-ellipsis">...</span>';
+            for (let i = currentPage - 1; i <= currentPage + 1; i++) {
+                pagesHTML += `
+                    <button class="pagination-page ${i === currentPage ? 'active' : ''}" data-page="${i}">
+                        ${i}
+                    </button>
+                `;
+            }
+            pagesHTML += '<span class="pagination-ellipsis">...</span>';
+            pagesHTML += `
+                <button class="pagination-page" data-page="${totalPages}">
+                    ${totalPages}
+                </button>
+            `;
+        }
+    }
+    
+    pagesHTML += '</div>';
+
+    // 下一页按钮
+    pagesHTML += `
+        <button class="pagination-btn next" ${currentPage === totalPages ? 'disabled' : ''}>
+            下一页
+        </button>
+    `;
+
+    return `<div class="pagination">${pagesHTML}</div>`;
+}
+
+function bindPaginationEvents() {
+    // 上一页/下一页按钮
+    const prevBtn = document.querySelector('.pagination-btn.prev');
+    const nextBtn = document.querySelector('.pagination-btn.next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            if (currentPage > 1) {
+                currentPage--;
+                showAllTasksList();
+            }
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            const totalPages = Math.ceil(mockTasks.length / pageSize);
+            if (currentPage < totalPages) {
+                currentPage++;
+                showAllTasksList();
+            }
+        });
+    }
+
+    // 页码按钮
+    const pageBtns = document.querySelectorAll('.pagination-page');
+    pageBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const page = parseInt(this.dataset.page);
+            if (page && page !== currentPage) {
+                currentPage = page;
+                showAllTasksList();
+            }
+        });
+    });
 }

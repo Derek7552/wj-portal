@@ -351,6 +351,52 @@ a { color: var(--clouditera-semantic-link); }
 
 详细说明请参考 [间距设计规范](./SPACING.md)。
 
+## 📊 页面利用率偏好
+
+### 设计原则
+
+**优先考虑空间利用效率，在保持视觉清晰的前提下，采用紧凑布局。**
+
+### 布局优化建议
+
+```css
+/* ✅ 推荐：紧凑布局，减少不必要的换行 */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;  /* 使用 large 间距，避免过度留白 */
+}
+
+/* ✅ 推荐：相关信息横向排列 */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+/* ✅ 推荐：次要信息在同一行显示 */
+.meta-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;  /* 空间不足时自动换行 */
+}
+```
+
+### 关键原则
+
+1. **减少垂直空间浪费**：优先使用横向布局，将相关信息放在同一行
+2. **合理使用间距**：使用 `large` (16px) 作为主要间距，避免过度留白
+3. **信息层级清晰**：通过字体大小、字重和颜色建立层次，而非过度依赖间距
+4. **响应式处理**：使用 `flex-wrap` 确保小屏幕下自动换行，不影响可读性
+
+### 避免事项
+
+- ❌ 避免过大的垂直间距（>24px），除非是页面级分隔
+- ❌ 避免不必要的换行，优先横向排列相关信息
+- ❌ 避免为了"美观"而牺牲信息密度
+
 ## 📚 完整变量列表
 
 查看 `tokens.json` 或 `frontend/css/tokens.css` 获取完整的变量列表。
