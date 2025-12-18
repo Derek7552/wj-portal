@@ -1,0 +1,258 @@
+/**
+ * Clouditera Design Tokens - CSS Variables
+ * 自动生成于 tokens.json
+ * 版本: 1.0.0
+ * 
+ * 使用方式：
+ * 1. 在 HTML 中引入此文件：<link rel="stylesheet" href="css/tokens.css">
+ * 2. 在 CSS 中使用：color: var(--clouditera-brand-primary);
+ */
+
+:root {
+  /* ============================================
+   * 品牌色
+   * ============================================ */
+  --clouditera-brand-primary: #298CFF;
+  --clouditera-brand-primary-hover: #4096ff;
+  --clouditera-brand-primary-active: #0958d9;
+
+  /* ============================================
+   * 功能色（语义色）
+   * ============================================ */
+  --clouditera-semantic-success: #52c41a;
+  --clouditera-semantic-warning: #faad14;
+  --clouditera-semantic-error: #ff4d4f;
+  --clouditera-semantic-info: #298CFF;
+  --clouditera-semantic-link: #298CFF;
+
+  /* ============================================
+   * 中性色 - 文本
+   * ============================================ */
+  --clouditera-neutral-text-primary: rgba(0, 0, 0, 0.87);
+  --clouditera-neutral-text-secondary: rgba(0, 0, 0, 0.65);
+  --clouditera-neutral-text-disabled: rgba(0, 0, 0, 0.25);
+  --clouditera-neutral-text-title: rgba(0, 0, 0, 0.87);
+
+  /* ============================================
+   * 中性色 - 边框
+   * ============================================ */
+  --clouditera-neutral-border-primary: #d9d9d9;
+  --clouditera-neutral-border-secondary: #e8e8e8;
+
+  /* ============================================
+   * 中性色 - 分割线
+   * ============================================ */
+  --clouditera-neutral-divider: rgba(5, 5, 5, 0.06);
+
+  /* ============================================
+   * 中性色 - 背景
+   * ============================================ */
+  --clouditera-neutral-background-primary: #f5f5f5;
+  --clouditera-neutral-background-secondary: #fafafa;
+  --clouditera-neutral-background-tertiary: #f0f0f0;
+  --clouditera-neutral-background-white: #ffffff;
+
+  /* ============================================
+   * 中性色 - 灰度色板
+   * ============================================ */
+  --clouditera-neutral-gray-0: #ffffff;
+  --clouditera-neutral-gray-1: #fafafa;
+  --clouditera-neutral-gray-2: #f5f5f5;
+  --clouditera-neutral-gray-3: #f0f0f0;
+  --clouditera-neutral-gray-4: #d9d9d9;
+  --clouditera-neutral-gray-5: #bfbfbf;
+  --clouditera-neutral-gray-6: #8c8c8c;
+  --clouditera-neutral-gray-7: #595959;
+  --clouditera-neutral-gray-8: #434343;
+  --clouditera-neutral-gray-9: #262626;
+  --clouditera-neutral-gray-10: #1f1f1f;
+  --clouditera-neutral-gray-11: #141414;
+  --clouditera-neutral-gray-12: #000000;
+
+  /* ============================================
+   * 基础色板 - Red（薄暮）
+   * ============================================ */
+  --clouditera-palette-red-0: #fff1f0;
+  --clouditera-palette-red-1: #ffccc7;
+  --clouditera-palette-red-2: #ffa39e;
+  --clouditera-palette-red-3: #ff7875;
+  --clouditera-palette-red-4: #ff4d4f;
+  --clouditera-palette-red-5: #f5222d;
+  --clouditera-palette-red-6: #cf1322;
+  --clouditera-palette-red-7: #a8071a;
+  --clouditera-palette-red-8: #820014;
+  --clouditera-palette-red-9: #5c0011;
+
+  /* ============================================
+   * 基础色板 - Volcano（火山）
+   * ============================================ */
+  --clouditera-palette-volcano-0: #fff2e8;
+  --clouditera-palette-volcano-1: #ffd8bf;
+  --clouditera-palette-volcano-2: #ffbb96;
+  --clouditera-palette-volcano-3: #ff9c6e;
+  --clouditera-palette-volcano-4: #ff7a45;
+  --clouditera-palette-volcano-5: #fa541c;
+  --clouditera-palette-volcano-6: #d4380d;
+  --clouditera-palette-volcano-7: #ad2102;
+  --clouditera-palette-volcano-8: #871400;
+  --clouditera-palette-volcano-9: #610b00;
+
+  /* ============================================
+   * 基础色板 - Orange（日暮）
+   * ============================================ */
+  --clouditera-palette-orange-0: #fff7e6;
+  --clouditera-palette-orange-1: #ffe7ba;
+  --clouditera-palette-orange-2: #ffd591;
+  --clouditera-palette-orange-3: #ffc069;
+  --clouditera-palette-orange-4: #ffa940;
+  --clouditera-palette-orange-5: #fa8c16;
+  --clouditera-palette-orange-6: #d46b08;
+  --clouditera-palette-orange-7: #ad4e00;
+  --clouditera-palette-orange-8: #873800;
+  --clouditera-palette-orange-9: #612500;
+
+  /* ============================================
+   * 基础色板 - Gold（金盏花）
+   * ============================================ */
+  --clouditera-palette-gold-0: #fffbe6;
+  --clouditera-palette-gold-1: #fff1b8;
+  --clouditera-palette-gold-2: #ffe58f;
+  --clouditera-palette-gold-3: #ffd666;
+  --clouditera-palette-gold-4: #ffc53d;
+  --clouditera-palette-gold-5: #faad14;
+  --clouditera-palette-gold-6: #d48806;
+  --clouditera-palette-gold-7: #ad6800;
+  --clouditera-palette-gold-8: #874d00;
+  --clouditera-palette-gold-9: #613400;
+
+  /* ============================================
+   * 基础色板 - Yellow（日出）
+   * ============================================ */
+  --clouditera-palette-yellow-0: #feffe6;
+  --clouditera-palette-yellow-1: #ffffb8;
+  --clouditera-palette-yellow-2: #fffb8f;
+  --clouditera-palette-yellow-3: #fff566;
+  --clouditera-palette-yellow-4: #ffec3d;
+  --clouditera-palette-yellow-5: #fadb14;
+  --clouditera-palette-yellow-6: #d4b106;
+  --clouditera-palette-yellow-7: #ad8b00;
+  --clouditera-palette-yellow-8: #876800;
+  --clouditera-palette-yellow-9: #614700;
+
+  /* ============================================
+   * 基础色板 - Lime（青柠）
+   * ============================================ */
+  --clouditera-palette-lime-0: #fcffe6;
+  --clouditera-palette-lime-1: #f4ffb8;
+  --clouditera-palette-lime-2: #eaff8f;
+  --clouditera-palette-lime-3: #d3f261;
+  --clouditera-palette-lime-4: #bae637;
+  --clouditera-palette-lime-5: #a0d911;
+  --clouditera-palette-lime-6: #7cb305;
+  --clouditera-palette-lime-7: #5b8c00;
+  --clouditera-palette-lime-8: #3f6600;
+  --clouditera-palette-lime-9: #254000;
+
+  /* ============================================
+   * 基础色板 - Green（极光绿）
+   * ============================================ */
+  --clouditera-palette-green-0: #f6ffed;
+  --clouditera-palette-green-1: #d9f7be;
+  --clouditera-palette-green-2: #b7eb8f;
+  --clouditera-palette-green-3: #95de64;
+  --clouditera-palette-green-4: #73d13d;
+  --clouditera-palette-green-5: #52c41a;
+  --clouditera-palette-green-6: #389e0d;
+  --clouditera-palette-green-7: #237804;
+  --clouditera-palette-green-8: #135200;
+  --clouditera-palette-green-9: #092b00;
+
+  /* ============================================
+   * 基础色板 - Cyan（明青）
+   * ============================================ */
+  --clouditera-palette-cyan-0: #e6fffb;
+  --clouditera-palette-cyan-1: #b5f5ec;
+  --clouditera-palette-cyan-2: #87e8de;
+  --clouditera-palette-cyan-3: #5cdbd3;
+  --clouditera-palette-cyan-4: #36cfc9;
+  --clouditera-palette-cyan-5: #13c2c2;
+  --clouditera-palette-cyan-6: #08979c;
+  --clouditera-palette-cyan-7: #006d75;
+  --clouditera-palette-cyan-8: #00474f;
+  --clouditera-palette-cyan-9: #002329;
+
+  /* ============================================
+   * 基础色板 - Blue（云脑蓝）
+   * ============================================ */
+  --clouditera-palette-blue-0: #e6f4ff;
+  --clouditera-palette-blue-1: #bae0ff;
+  --clouditera-palette-blue-2: #91caff;
+  --clouditera-palette-blue-3: #69b1ff;
+  --clouditera-palette-blue-4: #4096ff;
+  --clouditera-palette-blue-5: #298CFF;
+  --clouditera-palette-blue-6: #0958d9;
+  --clouditera-palette-blue-7: #003eb3;
+  --clouditera-palette-blue-8: #002c8c;
+  --clouditera-palette-blue-9: #001d66;
+
+  /* ============================================
+   * 基础色板 - Geekblue（极客蓝）
+   * ============================================ */
+  --clouditera-palette-geekblue-0: #f0f5ff;
+  --clouditera-palette-geekblue-1: #d6e4ff;
+  --clouditera-palette-geekblue-2: #adc6ff;
+  --clouditera-palette-geekblue-3: #85a5ff;
+  --clouditera-palette-geekblue-4: #597ef7;
+  --clouditera-palette-geekblue-5: #2f54eb;
+  --clouditera-palette-geekblue-6: #1d39c4;
+  --clouditera-palette-geekblue-7: #10239e;
+  --clouditera-palette-geekblue-8: #061178;
+  --clouditera-palette-geekblue-9: #030852;
+
+  /* ============================================
+   * 基础色板 - Purple（酱紫）
+   * ============================================ */
+  --clouditera-palette-purple-0: #f9f0ff;
+  --clouditera-palette-purple-1: #efdbff;
+  --clouditera-palette-purple-2: #d3adf7;
+  --clouditera-palette-purple-3: #b37feb;
+  --clouditera-palette-purple-4: #9254de;
+  --clouditera-palette-purple-5: #722ed1;
+  --clouditera-palette-purple-6: #531dab;
+  --clouditera-palette-purple-7: #391085;
+  --clouditera-palette-purple-8: #22075e;
+  --clouditera-palette-purple-9: #120338;
+
+  /* ============================================
+   * 基础色板 - Magenta（法式洋红）
+   * ============================================ */
+  --clouditera-palette-magenta-0: #fff0f6;
+  --clouditera-palette-magenta-1: #ffd6e7;
+  --clouditera-palette-magenta-2: #ffadd2;
+  --clouditera-palette-magenta-3: #ff85c0;
+  --clouditera-palette-magenta-4: #f759ab;
+  --clouditera-palette-magenta-5: #eb2f96;
+  --clouditera-palette-magenta-6: #c41d7f;
+  --clouditera-palette-magenta-7: #9e1068;
+  --clouditera-palette-magenta-8: #780650;
+  --clouditera-palette-magenta-9: #520339;
+
+  /* ============================================
+   * 兼容性别名（向后兼容）
+   * ============================================ */
+  --clouditera-primary: var(--clouditera-brand-primary);
+  --clouditera-primary-hover: var(--clouditera-brand-primary-hover);
+  --clouditera-primary-active: var(--clouditera-brand-primary-active);
+  --clouditera-success: var(--clouditera-semantic-success);
+  --clouditera-warning: var(--clouditera-semantic-warning);
+  --clouditera-error: var(--clouditera-semantic-error);
+  --clouditera-info: var(--clouditera-semantic-info);
+  --clouditera-text-primary: var(--clouditera-neutral-text-primary);
+  --clouditera-text-secondary: var(--clouditera-neutral-text-secondary);
+  --clouditera-text-disabled: var(--clouditera-neutral-text-disabled);
+  --clouditera-border: var(--clouditera-neutral-border-primary);
+  --clouditera-divider: var(--clouditera-neutral-divider);
+  --clouditera-background: var(--clouditera-neutral-background-primary);
+  --clouditera-background-light: var(--clouditera-neutral-background-secondary);
+}
+

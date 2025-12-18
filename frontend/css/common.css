@@ -5,15 +5,19 @@
     box-sizing: border-box;
 }
 
+/* 引入设计系统 Token */
+@import url('./tokens.css');
+
 :root {
-    --primary-color: #2563eb;
-    --secondary-color: #1e40af;
-    --text-primary: #1f2937;
-    --text-secondary: #6b7280;
-    --bg-primary: #ffffff;
-    --bg-secondary: #f9fafb;
-    --border-color: #e5e7eb;
-    --hover-color: #3b82f6;
+    /* 使用设计系统 Token */
+    --primary-color: var(--clouditera-brand-primary);
+    --secondary-color: var(--clouditera-brand-primary-active);
+    --text-primary: var(--clouditera-neutral-text-primary);
+    --text-secondary: var(--clouditera-neutral-text-secondary);
+    --bg-primary: var(--clouditera-neutral-background-white);
+    --bg-secondary: var(--clouditera-neutral-background-secondary);
+    --border-color: var(--clouditera-neutral-border-primary);
+    --hover-color: var(--clouditera-brand-primary-hover);
     --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
