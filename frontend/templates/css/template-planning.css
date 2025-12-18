@@ -1874,7 +1874,8 @@
     transition: all 0.2s;
     cursor: pointer;
     display: flex;
-    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
     gap: 16px;
 }
 
@@ -1883,12 +1884,26 @@
     border-color: var(--clouditera-brand-primary);
 }
 
-/* 第一行：任务名称和状态/时间（紧凑布局） */
+/* 左侧：任务信息和统计 */
+.task-record-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* 上方：任务状态 + 任务名称 */
 .task-record-header {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-record-status {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
 .task-record-name {
@@ -1899,19 +1914,6 @@
     margin: 0;
     flex: 1;
     min-width: 0;
-}
-
-.task-record-meta {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-shrink: 0;
-}
-
-.task-record-status {
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .task-status-badge {
@@ -1944,45 +1946,91 @@
     white-space: nowrap;
 }
 
+/* 下方：统计信息 */
+.task-record-statistics {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-start; /* 靠左对齐，保持亲和性 */
+}
+
+/* 右侧：时间和操作按钮 */
+.task-record-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
 .task-record-time {
     font-size: 14px;
     color: var(--clouditera-neutral-text-secondary);
     font-weight: 400;
     white-space: nowrap;
+    transition: opacity 0.2s, visibility 0.2s;
 }
 
-/* 第二行：关键发现统计（紧凑布局，全部在一行） */
-.task-record-findings {
+.task-record-actions {
     display: flex;
     align-items: center;
     gap: 8px;
-    flex-wrap: wrap;
-    padding-top: 16px;
-    border-top: 1px solid var(--clouditera-neutral-border-secondary);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
 }
 
-.finding-label {
+/* hover时：时间隐藏，显示操作按钮 */
+.task-record-card:hover .task-record-time {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.task-record-card:hover .task-record-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-action-btn {
+    padding: 4px 12px;
     font-size: 14px;
-    color: var(--clouditera-neutral-text-secondary);
-    font-weight: 400;
+    font-weight: 500;
+    color: var(--clouditera-brand-primary);
+    background: transparent;
+    border: 1px solid var(--clouditera-brand-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
     white-space: nowrap;
 }
 
-.finding-value {
+.task-action-btn:hover {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+}
+
+.statistics-label {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-weight: 600; /* 标签文字使用中等字重，符合设计系统规范 */
+    white-space: nowrap;
+}
+
+.statistics-value {
     font-size: 14px;
     font-weight: 600;
     color: var(--clouditera-neutral-text-primary);
     white-space: nowrap;
 }
 
-.finding-details {
+.statistics-details {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-left: auto;
 }
 
-.finding-item {
+.statistics-item {
     display: inline-flex;
     align-items: center;
     padding: 4px 8px;
@@ -1992,17 +2040,17 @@
     white-space: nowrap;
 }
 
-.finding-item.high {
+.statistics-item.type-a {
     background: var(--clouditera-palette-red-0);
     color: var(--clouditera-semantic-error);
 }
 
-.finding-item.medium {
+.statistics-item.type-b {
     background: var(--clouditera-palette-orange-0);
     color: var(--clouditera-palette-orange-5);
 }
 
-.finding-item.low {
+.statistics-item.type-c {
     background: var(--clouditera-palette-yellow-0);
     color: var(--clouditera-palette-yellow-5);
 }

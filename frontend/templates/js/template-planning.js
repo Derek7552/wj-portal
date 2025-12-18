@@ -13,11 +13,11 @@ const mockTasks = [
         name: '代码安全漏洞挖掘任务',
         status: 'completed',
         createTime: '2024-12-11 14:30',
-        findings: {
+        statistics: {
             total: 8,
-            high: 3,
-            medium: 4,
-            low: 1
+            typeA: 3,
+            typeB: 4,
+            typeC: 1
         }
     },
     {
@@ -25,11 +25,11 @@ const mockTasks = [
         name: '开发用户认证系统',
         status: 'running',
         createTime: '2024-12-11 10:15',
-        findings: {
+        statistics: {
             total: 5,
-            high: 1,
-            medium: 3,
-            low: 1
+            typeA: 1,
+            typeB: 3,
+            typeC: 1
         }
     },
     {
@@ -37,11 +37,11 @@ const mockTasks = [
         name: '数据库优化方案',
         status: 'completed',
         createTime: '2024-12-10 16:45',
-        findings: {
+        statistics: {
             total: 12,
-            high: 2,
-            medium: 7,
-            low: 3
+            typeA: 2,
+            typeB: 7,
+            typeC: 3
         }
     },
     {
@@ -49,11 +49,11 @@ const mockTasks = [
         name: 'API接口文档生成',
         status: 'failed',
         createTime: '2024-12-10 09:20',
-        findings: {
+        statistics: {
             total: 0,
-            high: 0,
-            medium: 0,
-            low: 0
+            typeA: 0,
+            typeB: 0,
+            typeC: 0
         }
     },
     {
@@ -61,11 +61,11 @@ const mockTasks = [
         name: '前端性能优化分析',
         status: 'completed',
         createTime: '2024-12-09 15:30',
-        findings: {
+        statistics: {
             total: 6,
-            high: 1,
-            medium: 4,
-            low: 1
+            typeA: 1,
+            typeB: 4,
+            typeC: 1
         }
     },
     {
@@ -73,11 +73,11 @@ const mockTasks = [
         name: '系统架构设计评审',
         status: 'running',
         createTime: '2024-12-09 11:00',
-        findings: {
+        statistics: {
             total: 3,
-            high: 0,
-            medium: 2,
-            low: 1
+            typeA: 0,
+            typeB: 2,
+            typeC: 1
         }
     },
     {
@@ -85,11 +85,11 @@ const mockTasks = [
         name: '安全配置检查',
         status: 'completed',
         createTime: '2024-12-08 14:20',
-        findings: {
+        statistics: {
             total: 10,
-            high: 4,
-            medium: 5,
-            low: 1
+            typeA: 4,
+            typeB: 5,
+            typeC: 1
         }
     },
     {
@@ -97,16 +97,17 @@ const mockTasks = [
         name: '代码重构建议',
         status: 'completed',
         createTime: '2024-12-08 10:10',
-        findings: {
+        statistics: {
             total: 7,
-            high: 1,
-            medium: 4,
-            low: 2
+            typeA: 1,
+            typeB: 4,
+            typeC: 2
         }
     }
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOMContentLoaded 事件触发');
     initNavigation();
     initToolsTabs();
     initTaskList();
@@ -115,6 +116,20 @@ document.addEventListener('DOMContentLoaded', function() {
     initPhaseProgress();
     initFileTree();
     initLogNavigation();
+    
+    // 额外检查 viewAllTasks 按钮（确保事件绑定成功）
+    setTimeout(function() {
+        const viewAllTasks = document.getElementById('viewAllTasks');
+        if (viewAllTasks) {
+            console.log('延迟检查: viewAllTasks 元素存在');
+            // 检查是否已有事件监听器
+            const hasListener = viewAllTasks.onclick !== null || 
+                               viewAllTasks.getAttribute('data-listener-bound') === 'true';
+            console.log('viewAllTasks 是否已有监听器:', hasListener);
+        } else {
+            console.warn('延迟检查: 未找到 viewAllTasks 元素');
+        }
+    }, 100);
 });
 
 /* ==========================================
@@ -214,13 +229,33 @@ function initTaskList() {
             // 添加当前任务的active状态
             this.classList.add('active');
 
-            // 这里可以加载任务详情
-            console.log('切换任务');
+            // 加载任务详情
+            const taskId = this.dataset.taskId;
+            console.log('侧边栏任务项点击, taskId:', taskId);
             
-            // 恢复显示右侧工具面板
-            const toolsPanel = document.querySelector('.tools-panel');
-            if (toolsPanel) {
-                toolsPanel.style.display = '';
+            if (taskId) {
+                console.log('通过 taskId 加载任务详情:', taskId);
+                loadTaskDetail(taskId);
+            } else {
+                // 如果没有 taskId，尝试根据任务名称查找
+                const taskName = this.querySelector('.task-name')?.textContent?.trim();
+                console.log('通过任务名称查找任务:', taskName);
+                if (taskName) {
+                    const task = mockTasks.find(t => t.name === taskName);
+                    if (task) {
+                        console.log('找到任务, id:', task.id);
+                        loadTaskDetail(task.id);
+                    } else {
+                        console.warn('未找到匹配的任务:', taskName);
+                        // 恢复显示右侧工具面板
+                        const toolsPanel = document.querySelector('.tools-panel');
+                        if (toolsPanel) {
+                            toolsPanel.style.display = '';
+                        }
+                    }
+                } else {
+                    console.warn('无法获取任务名称');
+                }
             }
         });
     });
@@ -234,13 +269,53 @@ function initTaskList() {
         });
     }
 
-    // 查看全部任务按钮
+    // 查看全部任务按钮 - 使用事件委托
+    const agentSidebar = document.querySelector('.agent-sidebar');
+    if (agentSidebar) {
+        agentSidebar.addEventListener('click', function(e) {
+            // 检查是否点击的是 viewAllTasks 按钮或其子元素
+            const viewAllTasks = e.target.closest('#viewAllTasks, .view-all-tasks');
+            if (viewAllTasks) {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log('点击查看全部任务记录按钮（事件委托）');
+                console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
+                if (typeof showAllTasksList === 'function') {
+                    try {
+                        showAllTasksList();
+                    } catch (error) {
+                        console.error('调用 showAllTasksList 时出错:', error);
+                    }
+                } else {
+                    console.error('showAllTasksList 函数未定义');
+                }
+            }
+        });
+        console.log('已使用事件委托绑定 viewAllTasks 点击事件');
+    }
+    
+    // 也直接绑定一次（双重保险）
     const viewAllTasks = document.getElementById('viewAllTasks');
+    console.log('查找 viewAllTasks 元素:', viewAllTasks);
     if (viewAllTasks) {
         viewAllTasks.addEventListener('click', function(e) {
             e.preventDefault();
-            showAllTasksList();
+            e.stopPropagation();
+            console.log('点击查看全部任务记录按钮（直接绑定）');
+            console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
+            if (typeof showAllTasksList === 'function') {
+                try {
+                    showAllTasksList();
+                } catch (error) {
+                    console.error('调用 showAllTasksList 时出错:', error);
+                }
+            } else {
+                console.error('showAllTasksList 函数未定义');
+            }
         });
+        console.log('已直接绑定 viewAllTasks 点击事件');
+    } else {
+        console.warn('未找到 viewAllTasks 元素');
     }
 }
 
@@ -858,62 +933,8 @@ function capitalize(str) {
    任务列表
    ========================================== */
 
-function initTaskList() {
-    const taskItems = document.querySelectorAll('.recent-task-item');
-
-    taskItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
-
-            // 移除其他任务的active状态
-            taskItems.forEach(t => t.classList.remove('active'));
-
-            // 添加当前任务的active状态
-            this.classList.add('active');
-
-            // 这里可以加载任务详情
-            console.log('切换任务');
-            
-            // 恢复显示右侧工具面板
-            const toolsPanel = document.querySelector('.tools-panel');
-            if (toolsPanel) {
-                toolsPanel.style.display = '';
-            }
-        });
-    });
-
-    // 新任务按钮
-    const btnNewTask = document.getElementById('btnNewTask');
-    if (btnNewTask) {
-        btnNewTask.addEventListener('click', function() {
-            // 显示新任务输入界面
-            console.log('创建新任务');
-        });
-    }
-
-    // 查看全部任务按钮
-    const viewAllTasks = document.getElementById('viewAllTasks');
-    console.log('查找 viewAllTasks 元素:', viewAllTasks);
-    if (viewAllTasks) {
-        viewAllTasks.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('点击查看全部任务记录按钮');
-            console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
-            if (typeof showAllTasksList === 'function') {
-                try {
-                    showAllTasksList();
-                } catch (error) {
-                    console.error('调用 showAllTasksList 时出错:', error);
-                }
-            } else {
-                console.error('showAllTasksList 函数未定义');
-            }
-        });
-        console.log('已绑定 viewAllTasks 点击事件');
-    } else {
-        console.warn('未找到 viewAllTasks 元素');
-    }
-}
+// 注意：这个函数是重复的，应该删除。任务列表初始化已经在第204行的 initTaskList() 中处理
+// 如果这个函数被调用，说明有其他地方也在调用它，需要检查
 
 /* ==========================================
    聊天输入
@@ -1194,6 +1215,9 @@ function showAllTasksList() {
 
     // 绑定分页事件
     bindPaginationEvents();
+    
+    // 绑定任务卡片点击事件
+    bindTaskCardEvents();
 }
 
 function generateTasksListHTML(page) {
@@ -1209,32 +1233,38 @@ function generateTasksListHTML(page) {
         const statusConfig = getStatusConfig(task.status);
         return `
             <div class="task-record-card" data-task-id="${task.id}">
-                <!-- 第一行：任务名称和状态/时间 -->
-                <div class="task-record-header">
-                    <div class="task-record-name">${task.name}</div>
-                    <div class="task-record-meta">
+                <!-- 左侧：任务信息和统计 -->
+                <div class="task-record-left">
+                    <!-- 上方：任务状态 + 任务名称 -->
+                    <div class="task-record-header">
                         <div class="task-record-status">
                             <span class="task-status-badge ${task.status}">${statusConfig.icon}</span>
-                            <span class="task-status-text">${statusConfig.text}</span>
                         </div>
-                        <div class="task-record-time">${task.createTime}</div>
+                        <div class="task-record-name">${task.name}</div>
+                    </div>
+                    <!-- 下方：统计信息 -->
+                    <div class="task-record-statistics">
+                        ${task.statistics && task.statistics.total > 0 ? `
+                            <span class="statistics-label">统计信息</span>
+                            <span class="statistics-value">共 ${task.statistics.total} 项</span>
+                            <div class="statistics-details">
+                                ${task.statistics.typeA > 0 ? `<span class="statistics-item type-a">类型A ${task.statistics.typeA}</span>` : ''}
+                                ${task.statistics.typeB > 0 ? `<span class="statistics-item type-b">类型B ${task.statistics.typeB}</span>` : ''}
+                                ${task.statistics.typeC > 0 ? `<span class="statistics-item type-c">类型C ${task.statistics.typeC}</span>` : ''}
+                            </div>
+                        ` : `
+                            <span class="statistics-label">统计信息</span>
+                            <span class="statistics-value">暂无数据</span>
+                        `}
                     </div>
                 </div>
-                
-                <!-- 第二行：关键发现统计（紧凑布局） -->
-                <div class="task-record-findings">
-                    ${task.findings.total > 0 ? `
-                        <span class="finding-label">关键发现</span>
-                        <span class="finding-value">共 ${task.findings.total} 项</span>
-                        <div class="finding-details">
-                            ${task.findings.high > 0 ? `<span class="finding-item high">高危 ${task.findings.high}</span>` : ''}
-                            ${task.findings.medium > 0 ? `<span class="finding-item medium">中危 ${task.findings.medium}</span>` : ''}
-                            ${task.findings.low > 0 ? `<span class="finding-item low">低危 ${task.findings.low}</span>` : ''}
-                        </div>
-                    ` : `
-                        <span class="finding-label">关键发现</span>
-                        <span class="finding-value">暂无发现</span>
-                    `}
+                <!-- 右侧：时间（hover时显示操作按钮） -->
+                <div class="task-record-right">
+                    <div class="task-record-time">${task.createTime}</div>
+                    <div class="task-record-actions">
+                        <button class="task-action-btn" title="查看详情">查看</button>
+                        <button class="task-action-btn" title="删除任务">删除</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -1377,5 +1407,679 @@ function bindPaginationEvents() {
                 showAllTasksList();
             }
         });
+    });
+}
+
+function bindTaskCardEvents() {
+    // 使用事件委托，在父容器上绑定事件
+    const tasksListContent = document.querySelector('.tasks-list-content');
+    if (!tasksListContent) {
+        console.warn('未找到 .tasks-list-content 元素');
+        return;
+    }
+    
+    // 在父容器上绑定事件委托（每次重新绑定，因为HTML是重新生成的）
+    tasksListContent.addEventListener('click', function(e) {
+        // 查找被点击的任务卡片
+        const card = e.target.closest('.task-record-card');
+        if (!card) {
+            return;
+        }
+        
+        // 如果点击的是操作按钮
+        if (e.target.closest('.task-action-btn')) {
+            const btn = e.target.closest('.task-action-btn');
+            if (btn.title === '查看详情' || btn.textContent.trim() === '查看') {
+                e.preventDefault();
+                e.stopPropagation();
+                const taskId = card.dataset.taskId;
+                console.log('点击查看详情按钮, taskId:', taskId);
+                if (taskId) {
+                    loadTaskDetail(taskId);
+                }
+            }
+            return;
+        }
+        
+        // 点击任务卡片本身
+        e.preventDefault();
+        e.stopPropagation();
+        const taskId = card.dataset.taskId;
+        console.log('点击任务卡片, taskId:', taskId);
+        if (taskId) {
+            loadTaskDetail(taskId);
+        } else {
+            console.warn('任务卡片没有 taskId 属性');
+        }
+    });
+    
+    console.log('任务卡片事件已绑定, 卡片数量:', document.querySelectorAll('.task-record-card').length);
+}
+
+// 获取 task-001 的完整内容（与初始化时一致）
+function getTask001FullContent() {
+    // 从HTML模板中读取完整内容
+    const template = document.querySelector('#task-001-template');
+    if (template) {
+        return template.innerHTML;
+    }
+    
+    // 如果没有模板，返回完整的HTML字符串
+    return `
+        <div class="chat-header">
+            <span class="chat-title">代码安全漏洞挖掘任务</span>
+            <span class="chat-time">2024-12-11 14:30</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- 系统消息 -->
+            <div class="message message-system">
+                <div class="message-avatar">🎯</div>
+                <div class="message-content">
+                    <div class="message-time">14:30</div>
+                    <div class="message-text">任务已创建：对项目进行安全代码审计，识别潜在漏洞</div>
+                </div>
+            </div>
+            <!-- 任务意图识别 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:30</div>
+                    <div class="intent-card">
+                        <div class="intent-header">
+                            <span class="intent-icon">🎯</span>
+                            <span class="intent-title">任务意图识别</span>
+                        </div>
+                        <div class="intent-content">
+                            <p><strong>任务类型：</strong>代码安全漏洞挖掘</p>
+                            <p><strong>分析对象：</strong>Web应用项目（Java Spring Boot）</p>
+                            <p><strong>预期目标：</strong>识别安全漏洞、生成漏洞报告、提供修复建议</p>
+                        </div>
+                    </div>
+                    <!-- 任务规划 -->
+                    <div class="planning-card">
+                        <div class="planning-header">
+                            <span class="planning-icon">📋</span>
+                            <span class="planning-title">任务执行规划</span>
+                        </div>
+                        <div class="planning-stages">
+                            <div class="stage-item">
+                                <span class="stage-number">1</span>
+                                <span class="stage-name">工程功能模块分析</span>
+                            </div>
+                            <div class="stage-item">
+                                <span class="stage-number">2</span>
+                                <span class="stage-name">威胁建模与漏洞分析</span>
+                            </div>
+                            <div class="stage-item">
+                                <span class="stage-number">3</span>
+                                <span class="stage-name">分析总结报告生成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 阶段1：工程功能模块分析 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:31</div>
+                    <div class="phase-card">
+                        <div class="phase-header">
+                            <span class="phase-badge">阶段 1</span>
+                            <span class="phase-title">工程功能模块分析</span>
+                            <span class="phase-status completed">✓ 已完成</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">分析项目结构，识别核心功能模块和关键代码路径...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-1">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取项目目录结构</div>
+                                    <div class="event-meta">list_directory • src/</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-2">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取配置文件</div>
+                                    <div class="event-meta">read_file • application.yml</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">识别到用户认证、权限管理、数据访问三个核心模块，需要重点关注输入验证和访问控制...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-3">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取认证控制器代码</div>
+                                    <div class="event-meta">read_file • AuthController.java</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-4">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取数据访问层代码</div>
+                                    <div class="event-meta">read_file • UserRepository.java</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-document" data-doc-id="doc-1">
+                                <span class="event-icon">📄</span>
+                                <div class="event-content">
+                                    <div class="event-text">工程功能模块分析总结</div>
+                                    <div class="event-meta">生成文档 • 模块分析总结.md</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-document" data-doc-id="doc-2">
+                                <span class="event-icon">📄</span>
+                                <div class="event-content">
+                                    <div class="event-text">工程功能记忆文件</div>
+                                    <div class="event-meta">生成文档 • 工程记忆.md</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 阶段2：威胁建模与漏洞分析 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:35</div>
+                    <div class="phase-card">
+                        <div class="phase-header">
+                            <span class="phase-badge">阶段 2</span>
+                            <span class="phase-title">威胁建模与漏洞分析</span>
+                            <span class="phase-status completed">✓ 已完成</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">基于功能模块分析，构建威胁模型，识别潜在攻击面...</div>
+                            </div>
+                            <div class="task-planning-event">
+                                <div class="task-planning-header">
+                                    <span class="task-planning-icon">📝</span>
+                                    <span class="task-planning-title">规划新任务</span>
+                                    <span class="task-count">6个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">SQL注入漏洞检测</span>
+                                    </div>
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">XSS跨站脚本检测</span>
+                                    </div>
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">CSRF漏洞检测</span>
+                                    </div>
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">认证授权缺陷检测</span>
+                                    </div>
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">敏感数据暴露检测</span>
+                                    </div>
+                                    <div class="task-list-item pending">
+                                        <span class="task-status-indicator">⏸️</span>
+                                        <span class="task-name">不安全的反序列化检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-update-event start">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">▶️</span>
+                                    <span class="task-update-title">开始执行任务</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item running">
+                                        <span class="task-status-indicator">🔄</span>
+                                        <span class="task-name">SQL注入漏洞检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">检查SQL注入风险：UserRepository中存在字符串拼接构建SQL的情况...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-5">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">查看工程记忆文件</div>
+                                    <div class="event-meta">read_file • 工程记忆.md</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-tool active" data-tool-id="tool-6">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">深入分析数据库查询代码</div>
+                                    <div class="event-meta">read_file • UserRepository.java:45-78</div>
+                                </div>
+                            </div>
+                            <div class="vulnerability-finding">
+                                <div class="vuln-header">
+                                    <span class="vuln-severity high">高危</span>
+                                    <span class="vuln-title">SQL注入漏洞</span>
+                                </div>
+                                <div class="vuln-location">UserRepository.java:67</div>
+                                <div class="vuln-description">用户输入未经过滤直接拼接到SQL语句中，可导致SQL注入攻击</div>
+                            </div>
+                            <div class="task-update-event end">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">✅</span>
+                                    <span class="task-update-title">任务执行结束</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item completed">
+                                        <span class="task-status-indicator">✓</span>
+                                        <span class="task-name">SQL注入漏洞检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-update-event start">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">▶️</span>
+                                    <span class="task-update-title">开始执行任务</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item running">
+                                        <span class="task-status-indicator">🔄</span>
+                                        <span class="task-name">XSS跨站脚本检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">检查XSS风险：前端模板未对用户输入进行HTML转义...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-7">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取前端模板文件</div>
+                                    <div class="event-meta">read_file • user-profile.html</div>
+                                </div>
+                            </div>
+                            <div class="vulnerability-finding">
+                                <div class="vuln-header">
+                                    <span class="vuln-severity medium">中危</span>
+                                    <span class="vuln-title">存储型XSS漏洞</span>
+                                </div>
+                                <div class="vuln-location">user-profile.html:23</div>
+                                <div class="vuln-description">用户昵称未进行HTML转义直接渲染，可导致XSS攻击</div>
+                            </div>
+                            <div class="task-update-event end">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">✅</span>
+                                    <span class="task-update-title">任务执行结束</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item completed">
+                                        <span class="task-status-indicator">✓</span>
+                                        <span class="task-name">XSS跨站脚本检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-update-event start">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">▶️</span>
+                                    <span class="task-update-title">开始执行任务</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item running">
+                                        <span class="task-status-indicator">🔄</span>
+                                        <span class="task-name">认证授权缺陷检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">检查认证授权机制：发现权限校验存在绕过风险...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-8">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">分析权限校验逻辑</div>
+                                    <div class="event-meta">read_file • SecurityConfig.java</div>
+                                </div>
+                            </div>
+                            <div class="vulnerability-finding">
+                                <div class="vuln-header">
+                                    <span class="vuln-severity high">高危</span>
+                                    <span class="vuln-title">越权访问漏洞</span>
+                                </div>
+                                <div class="vuln-location">SecurityConfig.java:34</div>
+                                <div class="vuln-description">部分管理接口未配置权限校验，普通用户可越权访问</div>
+                            </div>
+                            <div class="task-update-event end">
+                                <div class="task-update-header">
+                                    <span class="task-update-icon">✅</span>
+                                    <span class="task-update-title">任务执行结束</span>
+                                    <span class="task-count">1个任务</span>
+                                </div>
+                                <div class="task-list">
+                                    <div class="task-list-item completed">
+                                        <span class="task-status-indicator">✓</span>
+                                        <span class="task-name">认证授权缺陷检测</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="task-progress">
+                                <div class="progress-header">
+                                    <span class="progress-text">漏洞分析进度</span>
+                                    <span class="progress-percent">100%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                                <div class="progress-stats">
+                                    <span>已分析 18 个文件</span>
+                                    <span>发现 8 个漏洞</span>
+                                </div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-9">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">更新工程记忆文件</div>
+                                    <div class="event-meta">edit_file • 工程记忆.md</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-document" data-doc-id="doc-3">
+                                <span class="event-icon">📄</span>
+                                <div class="event-content">
+                                    <div class="event-text">漏洞详细报告</div>
+                                    <div class="event-meta">生成文档 • 漏洞报告.md</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 阶段3：分析总结报告生成 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:42</div>
+                    <div class="phase-card">
+                        <div class="phase-header">
+                            <span class="phase-badge">阶段 3</span>
+                            <span class="phase-title">分析总结报告生成</span>
+                            <span class="phase-status completed">✓ 已完成</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-text">整合分析结果，生成综合性安全评估报告...</div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-10">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取工程记忆文件</div>
+                                    <div class="event-meta">read_file • 工程记忆.md</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-tool" data-tool-id="tool-11">
+                                <span class="event-icon">🔧</span>
+                                <div class="event-content">
+                                    <div class="event-text">读取漏洞报告</div>
+                                    <div class="event-meta">read_file • 漏洞报告.md</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-document" data-doc-id="doc-4">
+                                <span class="event-icon">📄</span>
+                                <div class="event-content">
+                                    <div class="event-text">工程安全评估总结报告</div>
+                                    <div class="event-meta">生成文档 • 安全评估报告.md</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 最终回复 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:45</div>
+                    <div class="final-response">
+                        <div class="response-header">
+                            <h3>分析概览与核心发现</h3>
+                        </div>
+                        <div class="response-summary">
+                            <p>已完成对该项目的全面安全代码审计。通过工程功能模块分析、威胁建模与漏洞深度挖掘，共发现 <strong>8个安全漏洞</strong>，其中高危漏洞3个、中危漏洞4个、低危漏洞1个。主要风险集中在SQL注入、越权访问和XSS攻击方面。</p>
+                        </div>
+                        <div class="vulnerability-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>漏洞名称</th>
+                                        <th>危险等级</th>
+                                        <th>位置</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>SQL注入</td>
+                                        <td><span class="severity-badge high">高危</span></td>
+                                        <td>UserRepository.java:67</td>
+                                    </tr>
+                                    <tr>
+                                        <td>越权访问</td>
+                                        <td><span class="severity-badge high">高危</span></td>
+                                        <td>SecurityConfig.java:34</td>
+                                    </tr>
+                                    <tr>
+                                        <td>硬编码密钥</td>
+                                        <td><span class="severity-badge high">高危</span></td>
+                                        <td>JwtUtil.java:12</td>
+                                    </tr>
+                                    <tr>
+                                        <td>存储型XSS</td>
+                                        <td><span class="severity-badge medium">中危</span></td>
+                                        <td>user-profile.html:23</td>
+                                    </tr>
+                                    <tr>
+                                        <td>CSRF防护缺失</td>
+                                        <td><span class="severity-badge medium">中危</span></td>
+                                        <td>SecurityConfig.java:45</td>
+                                    </tr>
+                                    <tr>
+                                        <td>敏感信息泄露</td>
+                                        <td><span class="severity-badge medium">中危</span></td>
+                                        <td>ErrorHandler.java:28</td>
+                                    </tr>
+                                    <tr>
+                                        <td>不安全的随机数</td>
+                                        <td><span class="severity-badge medium">中危</span></td>
+                                        <td>TokenGenerator.java:15</td>
+                                    </tr>
+                                    <tr>
+                                        <td>弱密码策略</td>
+                                        <td><span class="severity-badge low">低危</span></td>
+                                        <td>PasswordValidator.java:8</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="key-documents">
+                            <h4>关键文档</h4>
+                            <div class="doc-cards">
+                                <div class="doc-card" data-doc-id="doc-3">
+                                    <div class="doc-card-icon">📋</div>
+                                    <div class="doc-card-content">
+                                        <div class="doc-card-title">漏洞详细报告</div>
+                                        <div class="doc-card-meta">8个漏洞 • 12 KB</div>
+                                    </div>
+                                    <button class="doc-card-action">查看</button>
+                                </div>
+                                <div class="doc-card" data-doc-id="doc-4">
+                                    <div class="doc-card-icon">📊</div>
+                                    <div class="doc-card-content">
+                                        <div class="doc-card-title">安全评估报告</div>
+                                        <div class="doc-card-meta">综合分析 • 18 KB</div>
+                                    </div>
+                                    <button class="doc-card-action">查看</button>
+                                </div>
+                                <div class="doc-card" data-doc-id="doc-2">
+                                    <div class="doc-card-icon">🧠</div>
+                                    <div class="doc-card-content">
+                                        <div class="doc-card-title">工程记忆文件</div>
+                                        <div class="doc-card-meta">项目分析 • 9 KB</div>
+                                    </div>
+                                    <button class="doc-card-action">查看</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 输入框（固定在对话区底部） -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea
+                    class="chat-input"
+                    placeholder="您可以随时干预，提出建议或调整方向..."
+                    rows="3"
+                ></textarea>
+                <div class="chat-input-toolbar">
+                    <div class="chat-input-actions">
+                        <button class="btn-icon" title="上传文件">📎</button>
+                        <button class="btn-icon" title="插入图片">🖼️</button>
+                    </div>
+                    <button class="btn btn-primary">
+                        <span>发送</span>
+                        <span class="shortcut">⇧↵</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+function loadTaskDetail(taskId) {
+    console.log('loadTaskDetail 被调用, taskId:', taskId);
+    
+    // 查找任务数据
+    const task = mockTasks.find(t => t.id === taskId);
+    if (!task) {
+        console.error('未找到任务:', taskId);
+        return;
+    }
+    
+    console.log('找到任务:', task);
+    
+    const chatArea = document.querySelector('.chat-area');
+    if (!chatArea) {
+        console.error('未找到 .chat-area 元素');
+        return;
+    }
+    
+    console.log('准备更新 chatArea 内容');
+    
+    // 如果是 task-001，使用完整内容
+    let taskDetailHTML;
+    if (taskId === 'task-001') {
+        taskDetailHTML = getTask001FullContent();
+    } else {
+        // 其他任务使用简化的任务详情
+        const statusConfig = getStatusConfig(task.status);
+        taskDetailHTML = `
+        <div class="chat-header">
+            <span class="chat-title">${task.name}</span>
+            <span class="chat-time">${task.createTime}</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+            <!-- 系统消息 -->
+            <div class="message message-system">
+                <div class="message-avatar">🎯</div>
+                <div class="message-content">
+                    <div class="message-time">${task.createTime.split(' ')[1] || ''}</div>
+                    <div class="message-text">任务已创建：${task.name}</div>
+                </div>
+            </div>
+            <!-- 任务状态信息 -->
+            <div class="message message-ai">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">${task.createTime.split(' ')[1] || ''}</div>
+                    <div class="message-text">
+                        <div class="task-status-info">
+                            <span class="task-status-badge ${task.status}">${statusConfig.icon}</span>
+                            <span class="task-status-text">${statusConfig.text}</span>
+                        </div>
+                        ${task.statistics && task.statistics.total > 0 ? `
+                            <div class="task-statistics-info">
+                                <p>统计信息：共 ${task.statistics.total} 项</p>
+                                <div class="statistics-tags">
+                                    ${task.statistics.typeA > 0 ? `<span class="statistics-item type-a">类型A ${task.statistics.typeA}</span>` : ''}
+                                    ${task.statistics.typeB > 0 ? `<span class="statistics-item type-b">类型B ${task.statistics.typeB}</span>` : ''}
+                                    ${task.statistics.typeC > 0 ? `<span class="statistics-item type-c">类型C ${task.statistics.typeC}</span>` : ''}
+                                </div>
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 输入框（固定在对话区底部） -->
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <textarea
+                    class="chat-input"
+                    placeholder="您可以随时干预，提出建议或调整方向..."
+                    rows="3"
+                ></textarea>
+                <div class="chat-input-toolbar">
+                    <div class="chat-input-actions">
+                        <button class="btn-icon" title="上传文件">📎</button>
+                        <button class="btn-icon" title="插入图片">🖼️</button>
+                    </div>
+                    <button class="btn btn-primary">
+                        <span>发送</span>
+                        <span class="shortcut">⇧↵</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    }
+    
+    // 替换对话区内容
+    console.log('更新 chatArea 内容, HTML长度:', taskDetailHTML.length);
+    chatArea.innerHTML = taskDetailHTML;
+    
+    // 重新初始化聊天输入框事件（因为HTML被替换了）
+    initChatInput();
+    console.log('chatArea 内容已更新, 当前内容长度:', chatArea.innerHTML.length);
+    
+    // 显示右侧工具面板
+    const toolsPanel = document.querySelector('.tools-panel');
+    if (toolsPanel) {
+        toolsPanel.style.display = 'flex';
+        console.log('右侧工具面板已显示');
+    } else {
+        console.warn('未找到右侧工具面板');
+    }
+    
+    // 更新侧边栏任务项的active状态
+    const taskItems = document.querySelectorAll('.recent-task-item');
+    taskItems.forEach(item => {
+        if (item.dataset.taskId === taskId) {
+            item.classList.add('active');
+        } else {
+            item.classList.remove('active');
+        }
     });
 }
