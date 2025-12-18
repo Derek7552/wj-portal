@@ -31,8 +31,8 @@
 
 .search-btn {
     padding: 12px 24px;
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
     border: none;
     border-radius: 6px;
     font-size: 14px;

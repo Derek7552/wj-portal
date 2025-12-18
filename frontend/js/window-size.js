@@ -22,17 +22,6 @@
         const width = window.innerWidth;
         const height = window.innerHeight;
         sizeDisplay.textContent = `窗口: ${width} × ${height}px`;
-        
-        // 根据宽度显示布局提示
-        let layout = '';
-        if (width < 768) {
-            layout = ' (移动端 - 单列)';
-        } else if (width >= 769 && width <= 1024) {
-            layout = ' (平板端 - 三列)';
-        } else {
-            layout = ' (桌面端 - 三列)';
-        }
-        sizeDisplay.textContent += layout;
     }
     
     // 初始显示

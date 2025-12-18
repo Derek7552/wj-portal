@@ -8,13 +8,24 @@
 
 ```
 .designsystem/
-├── .color              # 颜色设计规范文档
-├── tokens.json         # Design Token 定义（JSON 格式）
-└── README.md          # 本文件
+├── tokens.json              # Design Token 定义（JSON 格式）
+├── README.md               # 本文件 - 设计系统完整文档
+├── QUICK_REFERENCE.md      # 快速参考指南 - 常用模式和示例
+├── CODE_CHECKLIST.md       # 代码规范检查清单
+├── SPACING.md              # 间距设计规范
+└── .cursorrules            # AI 助手规范 - 指导 AI 编写代码
 
 frontend/css/
-└── tokens.css         # 自动生成的 CSS 变量文件
+└── tokens.css              # 自动生成的 CSS 变量文件
 ```
+
+## 文档说明
+
+- **README.md**：设计系统完整文档，包含所有 token 的详细说明
+- **QUICK_REFERENCE.md**：快速参考指南，提供常用模式和代码示例
+- **CODE_CHECKLIST.md**：代码规范检查清单，用于代码审查
+- **SPACING.md**：间距设计规范，包含间距体系和使用规范
+- **.cursorrules**：AI 助手规范，确保 AI 编写代码时遵循设计系统
 
 ## 使用方法
 
@@ -196,7 +207,22 @@ Token 采用层级命名结构：
 - **当前版本**: 1.0.0
 - **最后更新**: 2024-12-10
 
+## 相关文档
+
+- [快速参考指南](./QUICK_REFERENCE.md) - 常用模式和代码示例
+- [代码规范检查清单](./CODE_CHECKLIST.md) - 代码审查检查项
+- [间距设计规范](./SPACING.md) - 间距体系和使用规范
+- [AI 助手规范](./.cursorrules) - AI 编写代码时的规范
+
 ## 维护说明
 
 如有问题或建议，请联系 Clouditera 设计团队。
+
+## 更新日志
+
+### v1.0.0 (2024-12-18)
+- 初始版本
+- 建立完整的设计系统文档结构
+- 创建快速参考指南和代码检查清单
+- 建立 AI 助手规范机制
 

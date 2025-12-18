@@ -37,9 +37,9 @@
 }
 
 .filter-tag.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
 }
 
 /* 资讯列表 */
@@ -113,23 +113,23 @@
 
 /* 安全资讯特定标签颜色 */
 .tag-threat {
-    background: #fff1f0;
-    color: #ff4d4f;
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-semantic-error);
 }
 
 .tag-research {
-    background: #e6f7ff;
-    color: #1890ff;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
 }
 
 .tag-incident {
-    background: #fff7e6;
-    color: #fa8c16;
+    background: var(--clouditera-palette-orange-0);
+    color: var(--clouditera-palette-orange-5);
 }
 
 .tag-case {
-    background: #f6ffed;
-    color: #52c41a;
+    background: var(--clouditera-palette-green-0);
+    color: var(--clouditera-semantic-success);
 }
 
 .news-summary {
@@ -163,9 +163,9 @@
 }
 
 .pagination-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
 }
 
 .pagination-btn:disabled {

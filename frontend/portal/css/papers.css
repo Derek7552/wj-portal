@@ -157,9 +157,9 @@
 }
 
 .pagination-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
+    background-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
 }
 
 .pagination-btn:disabled {

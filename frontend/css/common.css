@@ -38,11 +38,12 @@ body {
 
 /* 导航栏样式 */
 .header {
-    background-color: var(--bg-primary);
+    background-color: var(--clouditera-neutral-background-white);
     box-shadow: var(--shadow);
     position: sticky;
     top: 0;
     z-index: 1000;
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
 }
 
 .nav-container {
@@ -159,8 +160,9 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--primary-color);
-    color: white;
+    background-color: var(--clouditera-brand-primary) !important;
+    color: var(--clouditera-neutral-background-white) !important;
+    border: 1px solid var(--clouditera-brand-primary);
 }
 
 .btn-primary:hover {
