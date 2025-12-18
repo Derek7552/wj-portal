@@ -110,9 +110,10 @@ Token 采用层级命名结构：
 
 - **neutral**: 中性色
   - **text**: 文本色
-    - `--clouditera-neutral-text-primary`: 主要文本
-    - `--clouditera-neutral-text-secondary`: 次要文本
-    - `--clouditera-neutral-text-disabled`: 禁用文本
+    - `--clouditera-neutral-text-primary`: 主要文本 (rgba(0, 0, 0, 0.87)) - 用于标题、主要内容、重要信息
+    - `--clouditera-neutral-text-secondary`: 次要文本 (rgba(0, 0, 0, 0.65)) - 用于描述、辅助信息、次要内容
+    - `--clouditera-neutral-text-disabled`: 禁用文本 - 用于禁用状态
+    - **使用原则**：页面文字仅使用 `text-primary` 和 `text-secondary` 两种颜色，禁止使用灰度色板（gray-6、gray-7、gray-9 等）作为文本颜色
   - **border**: 边框色
     - `--clouditera-neutral-border-primary`: 一级边框
     - `--clouditera-neutral-border-secondary`: 二级边框
@@ -219,6 +220,13 @@ Token 采用层级命名结构：
 如有问题或建议，请联系 Clouditera 设计团队。
 
 ## 更新日志
+
+### v1.1.0 (2024-12-18)
+- **新增**：文本颜色优先级体系规范
+  - 明确主要文本和次要文本的使用场景
+  - 禁止使用灰度色板作为文本颜色
+  - 通过颜色和字重建立清晰的视觉层次
+- **优化**：完善代码审查检查点，增加文本颜色使用检查项
 
 ### v1.0.0 (2024-12-18)
 - 初始版本

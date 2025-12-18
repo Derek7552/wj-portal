@@ -25,16 +25,44 @@
 - 链接：`var(--clouditera-semantic-link)` - 用于链接文本
 
 ### 文本颜色
-- 主要文本：`var(--clouditera-neutral-text-primary)` - 用于正文、标题
-- 次要文本：`var(--clouditera-neutral-text-secondary)` - 用于辅助信息、说明文字
-- 禁用文本：`var(--clouditera-neutral-text-disabled)` - 用于禁用状态
-- 标题文本：`var(--clouditera-neutral-text-title)` - 用于标题
+
+#### 文本颜色优先级体系
+
+根据信息重要性，页面文字元素应使用以下两种颜色进行区分：
+
+**第一级 - 主要文本**：`var(--clouditera-neutral-text-primary)` (rgba(0, 0, 0, 0.87))
+- **使用场景**：
+  - 标题类：页面标题、卡片标题、模块标题、表格标题
+  - 主要内容：任务名称、文件名称、消息文本、重要内容
+  - 重要信息：表格内容、代码内容、主要操作文本
+- **字重**：标题使用 `font-weight: 600`，内容使用 `font-weight: 400-500`
+
+**第二级 - 次要文本**：`var(--clouditera-neutral-text-secondary)` (rgba(0, 0, 0, 0.65))
+- **使用场景**：
+  - 描述类：内容描述、说明文字、摘要文本
+  - 辅助信息：时间、元数据、统计信息、占位符
+  - 次要内容：思考文本、日志文本、辅助说明
+- **字重**：通常使用 `font-weight: 400`
+
+**禁用文本**：`var(--clouditera-neutral-text-disabled)` - 用于禁用状态
+
+#### 文本颜色使用原则
+
+1. **避免使用过多颜色**：页面文字仅使用 `text-primary` 和 `text-secondary` 两种颜色
+2. **禁止使用灰度色板**：不要使用 `var(--clouditera-neutral-gray-6)`、`var(--clouditera-neutral-gray-7)`、`var(--clouditera-neutral-gray-9)` 等作为文本颜色
+3. **语义化优先**：优先使用语义化的 `text-primary` 和 `text-secondary`，而不是具体的灰度值
+4. **层次清晰**：通过颜色和字重（font-weight）共同建立视觉层次
 
 ### 背景颜色
-- 主要背景：`var(--clouditera-neutral-background-primary)` - 用于页面布局背景
-- 次要背景：`var(--clouditera-neutral-background-secondary)` - 用于卡片、区块背景
-- 三级背景：`var(--clouditera-neutral-background-tertiary)` - 用于分割线背景
-- 白色背景：`var(--clouditera-neutral-background-white)` - 用于卡片、面板背景
+- **主要背景**：`var(--clouditera-neutral-background-primary)` (#f5f5f5) - **用于页面整体布局背景**，避免页面过于灰暗
+- **次要背景**：`var(--clouditera-neutral-background-secondary)` (#fafafa) - 用于次要区块、表格表头背景
+- **三级背景**：`var(--clouditera-neutral-background-tertiary)` (#f0f0f0) - 用于分割线背景、进度条背景
+- **白色背景**：`var(--clouditera-neutral-background-white)` (#ffffff) - **用于卡片、面板、对话框等主要内容背景**
+
+**重要提示**：
+- 页面整体背景必须使用 `var(--clouditera-neutral-background-primary)`，而不是白色
+- 卡片和面板等容器背景使用 `var(--clouditera-neutral-background-white)`
+- **禁止使用硬编码**：`white`、`#ffffff`、`#f5f5f5` 等
 
 ### 边框颜色
 - 一级边框：`var(--clouditera-neutral-border-primary)` - 用于主要边框
@@ -58,7 +86,18 @@ color: var(--clouditera-neutral-background-white);
 ### 示例
 
 ```css
-/* ✅ 正确 */
+/* ✅ 正确 - 页面整体背景 */
+.page-container {
+  background: var(--clouditera-neutral-background-primary);
+}
+
+/* ✅ 正确 - 卡片背景 */
+.card {
+  background: var(--clouditera-neutral-background-white);
+  border: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+/* ✅ 正确 - 按钮 */
 .button {
   background-color: var(--clouditera-brand-primary);
   color: var(--clouditera-neutral-background-white);
@@ -69,11 +108,19 @@ color: var(--clouditera-neutral-background-white);
   background-color: var(--clouditera-brand-primary-hover);
 }
 
-/* ❌ 错误 */
+/* ❌ 错误 - 硬编码颜色 */
+.page-container {
+  background: #f5f5f5;  /* 应该使用 var(--clouditera-neutral-background-primary) */
+}
+
+.card {
+  background: white;  /* 应该使用 var(--clouditera-neutral-background-white) */
+}
+
 .button {
-  background-color: #298CFF;
-  color: white;
-  border: 1px solid #d9d9d9;
+  background-color: #298CFF;  /* 应该使用 var(--clouditera-brand-primary) */
+  color: white;  /* 应该使用 var(--clouditera-neutral-background-white) */
+  border: 1px solid #d9d9d9;  /* 应该使用 var(--clouditera-neutral-border-primary) */
 }
 ```
 
@@ -82,12 +129,18 @@ color: var(--clouditera-neutral-background-white);
 在编写或修改 CSS 代码时，必须检查：
 
 1. ✅ 所有颜色值都使用 design system 变量
-2. ✅ 没有硬编码的颜色值（`#xxx`、`rgb()`、`rgba()`、`white`、`black` 等）
-3. ✅ 按钮使用品牌色变量
-4. ✅ 文本使用文本色变量
-5. ✅ 背景使用背景色变量
-6. ✅ 状态色使用语义色变量
-7. ✅ 边框使用边框色变量
+2. ✅ 没有硬编码的颜色值（`#xxx`、`rgb()`、`rgba()`、`white`、`black`、`#ffffff`、`#f5f5f5` 等）
+3. ✅ 页面整体背景使用 `var(--clouditera-neutral-background-primary)`
+4. ✅ 卡片和面板背景使用 `var(--clouditera-neutral-background-white)`，而不是硬编码 `white`
+5. ✅ 按钮使用品牌色变量
+6. ✅ **文本颜色使用语义化变量**：
+   - 主要文本使用 `var(--clouditera-neutral-text-primary)`
+   - 次要文本使用 `var(--clouditera-neutral-text-secondary)`
+   - **禁止使用** `var(--clouditera-neutral-gray-6)`、`var(--clouditera-neutral-gray-7)`、`var(--clouditera-neutral-gray-9)` 等作为文本颜色
+7. ✅ 背景使用背景色变量
+8. ✅ 状态色使用语义色变量
+9. ✅ 边框使用边框色变量
+10. ✅ 文字元素通过颜色和字重建立清晰的视觉层次
 
 ## 📚 参考文档
 
@@ -131,12 +184,29 @@ color: var(--clouditera-neutral-background-white);
 
 ### 颜色使用偏好
 
+#### 背景色使用原则
+
+- **页面整体背景**：必须使用 `var(--clouditera-neutral-background-primary)` (#f5f5f5) 作为页面布局背景，避免页面过于灰暗
+- **卡片和面板背景**：使用 `var(--clouditera-neutral-background-white)` (#ffffff) 作为卡片、面板、对话框等内容的背景
+- **区块背景**：使用 `var(--clouditera-neutral-background-secondary)` (#fafafa) 作为次要区块的背景
+- **禁止硬编码白色**：必须使用 `var(--clouditera-neutral-background-white)` 而不是 `white` 或 `#ffffff`
+
+#### 装饰性颜色使用
+
 - **减少蓝色线条装饰**：避免使用蓝色分割线、边框线条等装饰，这些会显得突兀
 - **避免大面积蓝色色块**：不要使用过多的蓝色大面积背景色块
 - **适度使用淡色背景**：可以使用低透明度（10%左右）的蓝色背景作为色块装饰
 - **标签与按钮区分**：
   - 按钮：实色背景 + 白色文字 + 阴影
   - 标签：淡色背景（10%透明度）+ 彩色文字 + 无阴影
+
+#### 颜色变量使用优先级
+
+1. **优先使用语义化变量**：如 `--clouditera-semantic-success` 而不是 `--clouditera-palette-green-5`
+2. **背景色变量**：优先使用 `--clouditera-neutral-background-*` 系列
+3. **文本色变量**：优先使用 `--clouditera-neutral-text-*` 系列
+4. **边框色变量**：优先使用 `--clouditera-neutral-border-*` 系列
+5. **色板颜色**：仅在需要特定色板颜色时使用 `--clouditera-palette-{color}-{level}`
 
 ### 装饰元素偏好
 

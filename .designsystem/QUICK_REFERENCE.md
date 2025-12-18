@@ -43,25 +43,60 @@ a { color: var(--clouditera-semantic-link); }
 
 ### 文本颜色（Text Colors）
 
+#### 文本颜色优先级体系
+
+**原则**：页面文字仅使用两种颜色，通过颜色和字重建立清晰的视觉层次。
+
 ```css
-/* 主要文本 */
-.text-primary { color: var(--clouditera-neutral-text-primary); }
+/* ✅ 正确 - 主要文本（标题、重要内容） */
+.title { 
+  color: var(--clouditera-neutral-text-primary); 
+  font-weight: 600; 
+}
 
-/* 次要文本 */
-.text-secondary { color: var(--clouditera-neutral-text-secondary); }
+.task-name { 
+  color: var(--clouditera-neutral-text-primary); 
+  font-weight: 500; 
+}
 
-/* 禁用文本 */
-.text-disabled { color: var(--clouditera-neutral-text-disabled); }
+/* ✅ 正确 - 次要文本（描述、辅助信息） */
+.description { 
+  color: var(--clouditera-neutral-text-secondary); 
+  font-weight: 400; 
+}
 
-/* 标题文本 */
-.text-title { color: var(--clouditera-neutral-text-title); }
+.meta { 
+  color: var(--clouditera-neutral-text-secondary); 
+  font-weight: 400; 
+}
+
+/* ❌ 错误 - 禁止使用灰度色板作为文本颜色 */
+.text { 
+  color: var(--clouditera-neutral-gray-7);  /* 应使用 text-primary 或 text-secondary */
+}
+
+.text { 
+  color: var(--clouditera-neutral-gray-6);  /* 应使用 text-secondary */
+}
 ```
+
+#### 使用场景映射
+
+| 元素类型 | 颜色变量 | 字重 | 示例 |
+|---------|---------|------|------|
+| **标题类** | `text-primary` | 600 | 页面标题、卡片标题、模块标题 |
+| **主要内容** | `text-primary` | 400-500 | 任务名称、文件名称、消息文本 |
+| **描述内容** | `text-secondary` | 400 | 内容描述、说明文字、摘要 |
+| **辅助信息** | `text-secondary` | 400 | 时间、元数据、统计信息 |
+| **禁用状态** | `text-disabled` | 400 | 禁用按钮、禁用输入框 |
 
 ### 背景颜色（Background Colors）
 
 ```css
-/* 主要背景 - 布局背景 */
-.bg-primary { background: var(--clouditera-neutral-background-primary); }
+/* 主要背景 - 页面整体布局背景（必须使用，避免页面过灰） */
+.page-container {
+  background: var(--clouditera-neutral-background-primary); /* #f5f5f5 */
+}
 
 /* 次要背景 - 浅灰背景 */
 .bg-secondary { background: var(--clouditera-neutral-background-secondary); }
@@ -69,9 +104,16 @@ a { color: var(--clouditera-semantic-link); }
 /* 三级背景 - 分割线背景 */
 .bg-tertiary { background: var(--clouditera-neutral-background-tertiary); }
 
-/* 白色背景 */
-.bg-white { background: var(--clouditera-neutral-background-white); }
+/* 白色背景 - 卡片、面板、对话框等（禁止使用 white 或 #ffffff） */
+.card {
+  background: var(--clouditera-neutral-background-white); /* #ffffff */
+}
 ```
+
+**重要提示**：
+- ✅ 页面整体背景必须使用 `var(--clouditera-neutral-background-primary)`
+- ✅ 卡片和面板背景使用 `var(--clouditera-neutral-background-white)`
+- ❌ 禁止硬编码：`white`、`#ffffff`、`#f5f5f5` 等
 
 ### 边框颜色（Border Colors）
 
