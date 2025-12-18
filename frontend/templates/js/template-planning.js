@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initEventClickHandlers();
     initPhaseProgress();
     initFileTree();
+    initLogNavigation();
 });
 
 /* ==========================================
@@ -189,7 +190,7 @@ function initEventClickHandlers() {
     toolEvents.forEach(tool => {
         tool.addEventListener('click', function() {
             const toolId = this.dataset.toolId;
-            showToolLog(toolId, this);
+            showToolLog(toolId);
 
             // 移除其他active状态
             document.querySelectorAll('.event-tool, .event-document').forEach(e => {
@@ -208,7 +209,7 @@ function initEventClickHandlers() {
     documentEvents.forEach(doc => {
         doc.addEventListener('click', function() {
             const docId = this.dataset.docId;
-            showDocumentLog(docId, this);
+            showDocumentLog(docId);
 
             // 移除其他active状态
             document.querySelectorAll('.event-tool, .event-document').forEach(e => {
@@ -227,7 +228,7 @@ function initEventClickHandlers() {
     docCards.forEach(card => {
         card.addEventListener('click', function() {
             const docId = this.dataset.docId;
-            showDocumentLog(docId, this);
+            showDocumentLog(docId);
 
             // 切换到日志tab
             switchToLogsTab();
@@ -484,10 +485,30 @@ const documentLogs = {
     }
 };
 
-function showToolLog(toolId, element) {
-    const log = toolLogs[toolId];
-    if (!log) return;
+// 任务清单日志
+const taskListLog = {
+    'task-list': {
+        title: '任务清单',
+        description: '全局任务执行情况',
+        tasks: [
+            { name: 'SQL注入漏洞检测', status: 'completed' },
+            { name: 'XSS跨站脚本检测', status: 'completed' },
+            { name: 'CSRF漏洞检测', status: 'completed' },
+            { name: '认证授权缺陷检测', status: 'completed' },
+            { name: '敏感数据暴露检测', status: 'completed' },
+            { name: '不安全的反序列化检测', status: 'completed' }
+        ]
+    }
+};
 
+function showToolLog(toolId) {
+    const log = toolLogs[toolId];
+    if (!log) {
+        console.log('未找到工具日志:', toolId);
+        return;
+    }
+
+    console.log('显示工具日志:', toolId, log);
     const logPlaceholder = document.getElementById('logPlaceholder');
     const logDetail = document.getElementById('logDetail');
 
@@ -543,10 +564,14 @@ function showToolLog(toolId, element) {
     `;
 }
 
-function showDocumentLog(docId, element) {
+function showDocumentLog(docId) {
     const doc = documentLogs[docId];
-    if (!doc) return;
+    if (!doc) {
+        console.log('未找到文档日志:', docId);
+        return;
+    }
 
+    console.log('显示文档日志:', docId, doc);
     const logPlaceholder = document.getElementById('logPlaceholder');
     const logDetail = document.getElementById('logDetail');
 
@@ -588,6 +613,55 @@ function closeLogDetail() {
     document.querySelectorAll('.event-tool, .event-document').forEach(e => {
         e.classList.remove('active');
     });
+}
+
+function showTaskList() {
+    const taskLog = taskListLog['task-list'];
+    if (!taskLog) {
+        console.log('未找到任务清单');
+        return;
+    }
+
+    console.log('显示任务清单:', taskLog);
+    const logPlaceholder = document.getElementById('logPlaceholder');
+    const logDetail = document.getElementById('logDetail');
+
+    // 隐藏占位符，显示详情
+    logPlaceholder.style.display = 'none';
+    logDetail.style.display = 'block';
+
+    // 生成任务列表HTML
+    const tasksHtml = taskLog.tasks.map(task => {
+        const statusClass = task.status === 'completed' ? 'completed' :
+                           task.status === 'running' ? 'running' : 'pending';
+        const statusIcon = task.status === 'completed' ? '✓' :
+                          task.status === 'running' ? '🔄' : '⏸️';
+
+        return `
+            <div class="task-list-item ${statusClass}">
+                <span class="task-status-indicator">${statusIcon}</span>
+                <span class="task-name">${task.name}</span>
+            </div>
+        `;
+    }).join('');
+
+    // 填充任务清单详情
+    logDetail.innerHTML = `
+        <div class="log-detail-content">
+            <div class="log-description">
+                <div class="log-desc-content">
+                    <div class="log-desc-tool">${taskLog.title}</div>
+                    <div class="log-desc-purpose">${taskLog.description}</div>
+                </div>
+            </div>
+            <div class="log-output">
+                <div class="log-content-title">任务执行情况</div>
+                <div class="task-list-container">
+                    ${tasksHtml}
+                </div>
+            </div>
+        </div>
+    `;
 }
 
 /* ==========================================
@@ -841,4 +915,113 @@ function initFileTree() {
     });
 
     fileTreeInitialized = true;
+}
+
+/* ==========================================
+   日志导航功能
+   ========================================== */
+
+function initLogNavigation() {
+    const btnPrevLog = document.getElementById('btnPrevLog');
+    const btnNextLog = document.getElementById('btnNextLog');
+    const btnRealtimeLog = document.getElementById('btnRealtimeLog');
+    const logNavCurrent = document.getElementById('logNavCurrent');
+    const logNavTotal = document.getElementById('logNavTotal');
+    const logProgressFill = document.getElementById('logProgressFill');
+
+    let currentLogIndex = 1;
+    let isRealtime = false;
+
+    // 内置两条日志：任务清单 和 工具调用日志
+    const allLogs = [
+        { type: 'tasklist', id: 'task-list', name: '任务清单' },
+        { type: 'tool', id: 'tool-1', name: '工具调用日志' }
+    ];
+
+    const totalLogs = allLogs.length;
+    logNavTotal.textContent = totalLogs;
+
+    console.log('初始化日志导航，共', totalLogs, '条日志');
+
+    // 上一条日志
+    if (btnPrevLog) {
+        btnPrevLog.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('点击上一条，当前索引:', currentLogIndex);
+            if (currentLogIndex > 1) {
+                currentLogIndex--;
+                isRealtime = false;
+                btnRealtimeLog.classList.remove('active');
+                updateLogDisplay();
+            }
+        });
+    }
+
+    // 下一条日志
+    if (btnNextLog) {
+        btnNextLog.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('点击下一条，当前索引:', currentLogIndex);
+            if (currentLogIndex < totalLogs) {
+                currentLogIndex++;
+                updateLogDisplay();
+
+                // 如果到达最后一条，自动开启实时模式
+                if (currentLogIndex === totalLogs) {
+                    isRealtime = true;
+                    btnRealtimeLog.classList.add('active');
+                }
+            }
+        });
+    }
+
+    // 实时追踪
+    if (btnRealtimeLog) {
+        btnRealtimeLog.addEventListener('click', function(e) {
+            e.preventDefault();
+            isRealtime = !isRealtime;
+            this.classList.toggle('active');
+
+            if (isRealtime) {
+                // 跳转到最新的日志
+                currentLogIndex = totalLogs;
+                updateLogDisplay();
+            }
+        });
+    }
+
+    function updateLogDisplay() {
+        console.log('更新日志显示，索引:', currentLogIndex, '总数:', totalLogs);
+        logNavCurrent.textContent = currentLogIndex;
+
+        // 更新进度条
+        const progress = (currentLogIndex / totalLogs) * 100;
+        if (logProgressFill) {
+            logProgressFill.style.width = progress + '%';
+        }
+
+        // 更新按钮状态
+        if (btnPrevLog) {
+            btnPrevLog.disabled = currentLogIndex <= 1;
+        }
+        if (btnNextLog) {
+            btnNextLog.disabled = currentLogIndex >= totalLogs;
+        }
+
+        // 显示对应的日志
+        const logEntry = allLogs[currentLogIndex - 1];
+        console.log('显示日志:', logEntry);
+        if (logEntry) {
+            if (logEntry.type === 'tool') {
+                showToolLog(logEntry.id);
+            } else if (logEntry.type === 'doc') {
+                showDocumentLog(logEntry.id);
+            } else if (logEntry.type === 'tasklist') {
+                showTaskList();
+            }
+        }
+    }
+
+    // 初始化时显示第一条日志（任务清单）
+    updateLogDisplay();
 }

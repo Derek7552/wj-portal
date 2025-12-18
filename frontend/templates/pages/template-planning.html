@@ -331,42 +331,57 @@
                                         <div class="event-text">基于功能模块分析，构建威胁模型，识别潜在攻击面...</div>
                                     </div>
 
-                                    <!-- 并行分析任务队列 -->
-                                    <div class="parallel-tasks">
-                                        <div class="parallel-header">
-                                            <span class="parallel-icon">⚡</span>
-                                            <span class="parallel-title">并行漏洞分析任务</span>
-                                            <span class="parallel-count">6个任务</span>
+                                    <!-- 规划新任务事件 -->
+                                    <div class="task-planning-event">
+                                        <div class="task-planning-header">
+                                            <span class="task-planning-icon">📝</span>
+                                            <span class="task-planning-title">规划新任务</span>
+                                            <span class="task-count">6个任务</span>
                                         </div>
-                                        <div class="task-queue">
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">SQL注入漏洞检测</span>
+                                        <div class="task-list">
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">SQL注入漏洞检测</span>
                                             </div>
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">XSS跨站脚本检测</span>
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">XSS跨站脚本检测</span>
                                             </div>
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">CSRF漏洞检测</span>
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">CSRF漏洞检测</span>
                                             </div>
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">认证授权缺陷检测</span>
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">认证授权缺陷检测</span>
                                             </div>
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">敏感数据暴露检测</span>
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">敏感数据暴露检测</span>
                                             </div>
-                                            <div class="queue-item completed">
-                                                <span class="queue-status">✓</span>
-                                                <span class="queue-name">不安全的反序列化检测</span>
+                                            <div class="task-list-item pending">
+                                                <span class="task-status-indicator">⏸️</span>
+                                                <span class="task-name">不安全的反序列化检测</span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <!-- SQL注入分析 -->
+                                    <!-- 开始执行任务：SQL注入 -->
+                                    <div class="task-update-event start">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">▶️</span>
+                                            <span class="task-update-title">开始执行任务</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item running">
+                                                <span class="task-status-indicator">🔄</span>
+                                                <span class="task-name">SQL注入漏洞检测</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- SQL注入分析过程 -->
                                     <div class="event-item event-thinking">
                                         <span class="event-icon">💭</span>
                                         <div class="event-text">检查SQL注入风险：UserRepository中存在字符串拼接构建SQL的情况...</div>
@@ -398,7 +413,37 @@
                                         <div class="vuln-description">用户输入未经过滤直接拼接到SQL语句中，可导致SQL注入攻击</div>
                                     </div>
 
-                                    <!-- XSS分析 -->
+                                    <!-- 任务执行结束：SQL注入 -->
+                                    <div class="task-update-event end">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">✅</span>
+                                            <span class="task-update-title">任务执行结束</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">SQL注入漏洞检测</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 开始执行任务：XSS -->
+                                    <div class="task-update-event start">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">▶️</span>
+                                            <span class="task-update-title">开始执行任务</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item running">
+                                                <span class="task-status-indicator">🔄</span>
+                                                <span class="task-name">XSS跨站脚本检测</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- XSS分析过程 -->
                                     <div class="event-item event-thinking">
                                         <span class="event-icon">💭</span>
                                         <div class="event-text">检查XSS风险：前端模板未对用户输入进行HTML转义...</div>
@@ -421,7 +466,37 @@
                                         <div class="vuln-description">用户昵称未进行HTML转义直接渲染，可导致XSS攻击</div>
                                     </div>
 
-                                    <!-- 认证授权分析 -->
+                                    <!-- 任务执行结束：XSS -->
+                                    <div class="task-update-event end">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">✅</span>
+                                            <span class="task-update-title">任务执行结束</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">XSS跨站脚本检测</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 开始执行任务：认证授权 -->
+                                    <div class="task-update-event start">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">▶️</span>
+                                            <span class="task-update-title">开始执行任务</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item running">
+                                                <span class="task-status-indicator">🔄</span>
+                                                <span class="task-name">认证授权缺陷检测</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 认证授权分析过程 -->
                                     <div class="event-item event-thinking">
                                         <span class="event-icon">💭</span>
                                         <div class="event-text">检查认证授权机制：发现权限校验存在绕过风险...</div>
@@ -442,6 +517,21 @@
                                         </div>
                                         <div class="vuln-location">SecurityConfig.java:34</div>
                                         <div class="vuln-description">部分管理接口未配置权限校验，普通用户可越权访问</div>
+                                    </div>
+
+                                    <!-- 任务执行结束：认证授权 -->
+                                    <div class="task-update-event end">
+                                        <div class="task-update-header">
+                                            <span class="task-update-icon">✅</span>
+                                            <span class="task-update-title">任务执行结束</span>
+                                            <span class="task-count">1个任务</span>
+                                        </div>
+                                        <div class="task-list">
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">认证授权缺陷检测</span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- 任务进度 -->
@@ -546,10 +636,9 @@
                                     <table>
                                         <thead>
                                             <tr>
-                                                <th>漏洞类型</th>
+                                                <th>漏洞名称</th>
                                                 <th>危险等级</th>
                                                 <th>位置</th>
-                                                <th>状态</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -557,49 +646,41 @@
                                                 <td>SQL注入</td>
                                                 <td><span class="severity-badge high">高危</span></td>
                                                 <td>UserRepository.java:67</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>越权访问</td>
                                                 <td><span class="severity-badge high">高危</span></td>
                                                 <td>SecurityConfig.java:34</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>硬编码密钥</td>
                                                 <td><span class="severity-badge high">高危</span></td>
                                                 <td>JwtUtil.java:12</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>存储型XSS</td>
                                                 <td><span class="severity-badge medium">中危</span></td>
                                                 <td>user-profile.html:23</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>CSRF防护缺失</td>
                                                 <td><span class="severity-badge medium">中危</span></td>
                                                 <td>SecurityConfig.java:45</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>敏感信息泄露</td>
                                                 <td><span class="severity-badge medium">中危</span></td>
                                                 <td>ErrorHandler.java:28</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>不安全的随机数</td>
                                                 <td><span class="severity-badge medium">中危</span></td>
                                                 <td>TokenGenerator.java:15</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                             <tr>
                                                 <td>弱密码策略</td>
                                                 <td><span class="severity-badge low">低危</span></td>
                                                 <td>PasswordValidator.java:8</td>
-                                                <td><span class="status-badge">待修复</span></td>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -685,24 +766,69 @@
                                 <div class="empty-text">点击对话中的工具调用或文档查看详细信息</div>
                             </div>
                             <div class="log-detail" id="logDetail">
-                                <!-- 默认显示一条示例日志 -->
+                                <!-- 默认显示任务清单 -->
                                 <div class="log-detail-content">
                                     <div class="log-description">
                                         <div class="log-desc-content">
-                                            <div class="log-desc-tool">使用 <code>read_file</code> 工具</div>
-                                            <div class="log-desc-purpose">读取 <code>UserRepository.java</code> 的第 <code>45-78</code> 行</div>
+                                            <div class="log-desc-tool">任务清单</div>
+                                            <div class="log-desc-purpose">全局任务执行情况</div>
                                         </div>
                                     </div>
                                     <div class="log-output">
-                                        <div class="log-content-title">UserRepository.java</div>
-                                        <div class="log-code">45: public User findByUsername(String username) {
-46:     String sql = "SELECT * FROM users WHERE username = '" + username + "'";
-47:     // 直接字符串拼接，存在SQL注入风险！
-48:     return jdbcTemplate.queryForObject(sql, new UserRowMapper());
-49: }</div>
+                                        <div class="log-content-title">任务执行情况</div>
+                                        <div class="task-list-container">
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">SQL注入漏洞检测</span>
+                                            </div>
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">XSS跨站脚本检测</span>
+                                            </div>
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">CSRF漏洞检测</span>
+                                            </div>
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">认证授权缺陷检测</span>
+                                            </div>
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">敏感数据暴露检测</span>
+                                            </div>
+                                            <div class="task-list-item completed">
+                                                <span class="task-status-indicator">✓</span>
+                                                <span class="task-name">不安全的反序列化检测</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- 日志导航栏（移到下方） -->
+                        <div class="log-navigation">
+                            <button class="log-nav-btn" id="btnPrevLog" title="上一条">
+                                <span>◀</span>
+                            </button>
+                            <button class="log-nav-btn" id="btnNextLog" title="下一条">
+                                <span>▶</span>
+                            </button>
+                            <div class="log-progress-wrapper">
+                                <div class="log-nav-info">
+                                    <span class="log-nav-current" id="logNavCurrent">1</span>
+                                    <span class="log-nav-separator">/</span>
+                                    <span class="log-nav-total" id="logNavTotal">2</span>
+                                </div>
+                                <div class="log-progress-bar">
+                                    <div class="log-progress-fill" id="logProgressFill"></div>
+                                </div>
+                            </div>
+                            <button class="log-nav-realtime" id="btnRealtimeLog" title="实时追踪最新日志">
+                                <span class="realtime-icon">📡</span>
+                                <span class="realtime-text">实时</span>
+                            </button>
                         </div>
 
                         <!-- 阶段进度看板 -->
