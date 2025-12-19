@@ -1,125 +1,153 @@
-/* 信息详情页样式 - 左右布局 */
+/* ==========================================
+   信息检索详情页样式 - 左右布局
+   ========================================== */
 
-/* 页面整体样式 - 覆盖 agent-detail-page 的样式 */
+/* 引入设计系统 Token */
+@import url('../../css/tokens.css');
+
+/* ==========================================
+   页面整体布局
+   ========================================== */
+
+/* 页面整体样式 */
 body.agent-info-detail-page .main-content-area {
-    padding-top: 0 !important;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-bottom: 24px;
+    padding: 24px;
+    background: var(--clouditera-neutral-background-primary);
 }
 
-/* ================================
-   返回按钮和标题模块
-   ================================ */
-
-.detail-title-section {
-    margin-bottom: 24px;
-    margin-top: 0;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    background: white;
-    border-radius: 8px;
-    padding: 16px 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    flex-wrap: nowrap !important;
-    overflow: hidden;
-}
-
-.btn-back-to-list {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border: none;
-    background: #f5f5f5;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-
-.btn-back-to-list:hover {
-    background: #e6f7ff;
-    color: #1890ff;
-    transform: translateX(-2px);
-}
-
-.back-icon {
-    font-size: 18px;
-    color: #595959;
-    transition: color 0.2s;
-}
-
-.btn-back-to-list:hover .back-icon {
-    color: #1890ff;
-}
+/* ==========================================
+   智能体信息提示
+   ========================================== */
 
 .detail-agent-info {
     display: flex;
     align-items: center;
     gap: 8px;
     font-size: 12px;
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
     line-height: 1;
-    margin-top: 24px;
     margin-bottom: 8px;
     padding: 0 24px;
-}
-
-.detail-title-main {
-    flex: 1 1 auto;
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: #262626;
-    margin: 0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap !important;
-    box-sizing: border-box;
-    padding-right: 16px;
-}
-
-/* 标题栏中的操作按钮 */
-.detail-title-section .detail-actions {
-    flex: 0 0 auto !important;
-    flex-shrink: 0 !important;
-    flex-grow: 0 !important;
-    margin-left: auto;
-    display: flex !important;
-    gap: 6px;
-    align-items: center;
-    flex-wrap: nowrap !important;
-    box-sizing: border-box;
-}
-
-.detail-title-section .btn-action {
-    white-space: nowrap !important;
-    flex-shrink: 0 !important;
-    padding: 6px 10px;
-    font-size: 13px;
-    min-width: auto;
-    max-width: none;
 }
 
 .agent-name-text,
 .agent-type-text,
 .agent-version-text {
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
 }
 
 .agent-separator {
-    color: #d9d9d9;
+    color: var(--clouditera-neutral-gray-4);
     margin: 0 2px;
 }
 
-/* ================================
-   主布局容器
-   ================================ */
+/* ==========================================
+   文章信息头部（参考智能体头部布局）
+   ========================================== */
+
+.detail-title-section {
+    flex-shrink: 0;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.detail-header-main {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+    align-items: center;
+}
+
+/* 返回按钮 */
+.btn-back-to-list {
+    width: 40px;
+    height: 40px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.btn-back-to-list:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.back-icon {
+    font-size: 20px;
+    color: var(--clouditera-neutral-gray-7);
+    transition: color 0.2s;
+}
+
+.btn-back-to-list:hover .back-icon {
+    color: var(--clouditera-brand-primary);
+}
+
+/* 标题信息 */
+.detail-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.detail-title-main {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 操作按钮组 */
+.detail-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-7);
+    transition: all 0.2s;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.btn-action:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.btn-action.active {
+    background: var(--clouditera-palette-gold-0);
+    border-color: var(--clouditera-semantic-warning);
+    color: var(--clouditera-semantic-warning);
+}
+
+/* ==========================================
+   主布局容器 - 左右分栏
+   ========================================== */
 
 .detail-container {
     display: flex;
@@ -128,25 +156,44 @@ body.agent-info-detail-page .main-content-area {
     min-height: 600px;
 }
 
-/* ================================
+/* ==========================================
    左侧：信息详情区域
-   ================================ */
+   ========================================== */
 
 .detail-content {
     flex: 1;
-    min-width: 0; /* 防止flex溢出 */
+    min-width: 0;
     overflow-y: auto;
     padding: 32px;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
 }
 
-/* 详情页头部 */
+/* 滚动条样式 */
+.detail-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.detail-content::-webkit-scrollbar-track {
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 3px;
+}
+
+.detail-content::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-gray-4);
+    border-radius: 3px;
+}
+
+.detail-content::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
+}
+
+/* 详情页头部（元信息区域） */
 .detail-header {
     margin-bottom: 32px;
     padding-bottom: 24px;
-    border-bottom: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--clouditera-neutral-background-tertiary);
 }
 
 .detail-meta {
@@ -154,7 +201,6 @@ body.agent-info-detail-page .main-content-area {
     gap: 20px;
     align-items: center;
     flex-wrap: wrap;
-    margin-bottom: 0;
 }
 
 .meta-item {
@@ -162,7 +208,7 @@ body.agent-info-detail-page .main-content-area {
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    color: var(--text-secondary);
+    color: var(--clouditera-neutral-text-secondary);
 }
 
 .meta-icon {
@@ -178,49 +224,18 @@ body.agent-info-detail-page .main-content-area {
     font-weight: 500;
 }
 
-/* 操作按钮组 */
-.detail-actions {
-    display: flex;
-    gap: 12px;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    flex-shrink: 0;
-}
-
-.btn-action {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
-    background-color: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 6px;
-    color: var(--text-primary);
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-action:hover {
-    background-color: var(--bg-primary);
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-
-.btn-action.active {
-    background-color: #fffbe6;
-    border-color: #faad14;
-    color: #faad14;
+.tag-primary {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-palette-blue-5);
 }
 
 /* 摘要区域 */
 .detail-summary {
     margin-bottom: 32px;
     padding: 20px;
-    background: linear-gradient(135deg, #f6f9fc 0%, #fafbfd 100%);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 4px;
+    background: var(--clouditera-palette-blue-0);
+    border-left: 4px solid var(--clouditera-brand-primary);
+    border-radius: 0 4px 4px 0;
 }
 
 .summary-label {
@@ -229,14 +244,14 @@ body.agent-info-detail-page .main-content-area {
     gap: 6px;
     font-size: 14px;
     font-weight: 600;
-    color: var(--primary-color);
+    color: var(--clouditera-brand-primary);
     margin-bottom: 12px;
 }
 
 .summary-text {
     font-size: 15px;
     line-height: 1.8;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-primary);
     margin: 0;
 }
 
@@ -244,7 +259,7 @@ body.agent-info-detail-page .main-content-area {
 .detail-article {
     font-size: 16px;
     line-height: 1.8;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-primary);
     margin-bottom: 40px;
 }
 
@@ -253,20 +268,19 @@ body.agent-info-detail-page .main-content-area {
     font-weight: 600;
     margin: 32px 0 16px 0;
     padding-bottom: 12px;
-    border-bottom: 2px solid var(--border-color);
-    color: var(--text-primary);
+    border-bottom: 2px solid var(--clouditera-neutral-background-tertiary);
+    color: var(--clouditera-neutral-text-title);
 }
 
 .detail-article h3 {
     font-size: 18px;
     font-weight: 600;
     margin: 24px 0 12px 0;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-title);
 }
 
 .detail-article p {
     margin: 16px 0;
-    text-align: justify;
 }
 
 .detail-article ul,
@@ -282,24 +296,24 @@ body.agent-info-detail-page .main-content-area {
 
 .detail-article strong {
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-title);
 }
 
 .detail-article code {
     padding: 2px 6px;
-    background-color: #f5f5f5;
-    border: 1px solid #e8e8e8;
+    background: var(--clouditera-neutral-background-secondary);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 3px;
     font-family: 'Courier New', monospace;
     font-size: 14px;
-    color: #d63384;
+    color: var(--clouditera-palette-magenta-5);
 }
 
 .detail-article pre {
     margin: 16px 0;
     padding: 16px;
-    background-color: #f6f8fa;
-    border: 1px solid #e1e4e8;
+    background: var(--clouditera-neutral-background-secondary);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 6px;
     overflow-x: auto;
 }
@@ -315,7 +329,7 @@ body.agent-info-detail-page .main-content-area {
 .detail-related {
     margin-top: 40px;
     padding: 24px;
-    background-color: var(--bg-secondary);
+    background: var(--clouditera-neutral-background-secondary);
     border-radius: 8px;
 }
 
@@ -325,7 +339,7 @@ body.agent-info-detail-page .main-content-area {
     gap: 8px;
     font-size: 18px;
     font-weight: 600;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-title);
     margin: 0 0 16px 0;
 }
 
@@ -340,17 +354,17 @@ body.agent-info-detail-page .main-content-area {
     align-items: flex-start;
     gap: 12px;
     padding: 12px;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 6px;
     text-decoration: none;
-    color: var(--text-primary);
+    color: var(--clouditera-neutral-text-primary);
     transition: all 0.2s;
 }
 
 .related-item:hover {
-    border-color: var(--primary-color);
-    box-shadow: 0 2px 8px rgba(24, 144, 255, 0.1);
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.1);
 }
 
 .related-icon {
@@ -364,17 +378,17 @@ body.agent-info-detail-page .main-content-area {
     line-height: 1.6;
 }
 
-/* ================================
+/* ==========================================
    右侧：对话区域
-   ================================ */
+   ========================================== */
 
 .detail-chat {
     width: 420px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
-    background-color: var(--bg-primary);
-    border: 1px solid var(--border-color);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -391,8 +405,8 @@ body.agent-info-detail-page .main-content-area {
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--clouditera-neutral-background-white);
+    border-bottom: 1px solid var(--clouditera-neutral-background-tertiary);
 }
 
 .chat-header-main {
@@ -408,12 +422,12 @@ body.agent-info-detail-page .main-content-area {
 .chat-title {
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--clouditera-neutral-text-title);
     margin: 0;
 }
 
 .chat-header .btn-icon {
-    color: #ffffff;
+    color: var(--clouditera-neutral-gray-6);
     opacity: 0.8;
     font-size: 16px;
     padding: 6px;
@@ -426,7 +440,8 @@ body.agent-info-detail-page .main-content-area {
 
 .chat-header .btn-icon:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--clouditera-neutral-background-secondary);
+    color: var(--clouditera-neutral-gray-9);
 }
 
 /* 消息列表 */
@@ -434,7 +449,26 @@ body.agent-info-detail-page .main-content-area {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    background-color: #fafafa;
+    background: var(--clouditera-neutral-background-primary);
+}
+
+/* 滚动条样式 */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-gray-4);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
 }
 
 /* 消息结构 */
@@ -453,7 +487,11 @@ body.agent-info-detail-page .main-content-area {
     justify-content: center;
     font-size: 20px;
     flex-shrink: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--clouditera-brand-primary);
+}
+
+.message-user .message-avatar {
+    background: var(--clouditera-semantic-success);
 }
 
 .message-content {
@@ -465,17 +503,18 @@ body.agent-info-detail-page .main-content-area {
 
 .message-time {
     font-size: 12px;
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
     margin-bottom: 8px;
 }
 
 .message-bubble {
-    background: #ffffff;
+    background: var(--clouditera-neutral-background-white);
     padding: 12px 16px;
     border-radius: 8px;
     line-height: 1.6;
     font-size: 14px;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
 }
 
 .message-bubble p {
@@ -496,12 +535,9 @@ body.agent-info-detail-page .main-content-area {
     margin: 4px 0;
 }
 
-.message-ai .message-bubble {
-    background: #ffffff;
-}
-
 .message-user .message-bubble {
-    background: #e6f7ff;
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-palette-blue-2);
 }
 
 /* 消息操作按钮 */
@@ -519,32 +555,32 @@ body.agent-info-detail-page .main-content-area {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.2s;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .message-actions .btn-icon:hover {
-    background-color: #f5f5f5;
-    color: #262626;
+    background: var(--clouditera-neutral-background-secondary);
+    color: var(--clouditera-neutral-gray-9);
 }
 
 /* 输入区域 */
 .chat-input-container {
-    border-top: 1px solid var(--border-color);
+    border-top: 1px solid var(--clouditera-neutral-border-secondary);
     padding: 16px;
-    background-color: var(--bg-primary);
+    background: var(--clouditera-neutral-background-white);
 }
 
 .chat-input-wrapper {
     position: relative;
-    background-color: #ffffff;
-    border: 1px solid #d9d9d9;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
     border-radius: 8px;
     transition: border-color 0.2s;
 }
 
 .chat-input-wrapper:focus-within {
-    border-color: #1890ff;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px var(--clouditera-palette-blue-0);
 }
 
 .chat-input {
@@ -564,7 +600,7 @@ body.agent-info-detail-page .main-content-area {
 }
 
 .chat-input::placeholder {
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
 }
 
 /* 工具栏 */
@@ -579,7 +615,7 @@ body.agent-info-detail-page .main-content-area {
     align-items: center;
     gap: 12px;
     padding: 8px 12px;
-    background-color: transparent;
+    background: transparent;
 }
 
 .chat-input-actions {
@@ -597,12 +633,12 @@ body.agent-info-detail-page .main-content-area {
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.2s;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .chat-input-actions .btn-icon:hover {
-    background-color: #f5f5f5;
-    color: #262626;
+    background: var(--clouditera-neutral-background-secondary);
+    color: var(--clouditera-neutral-gray-9);
 }
 
 .chat-send {
@@ -612,6 +648,20 @@ body.agent-info-detail-page .main-content-area {
     gap: 6px;
     padding: 6px 16px;
     font-size: 14px;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.chat-send:hover {
+    background: var(--clouditera-brand-primary-hover);
+}
+
+.chat-send:active {
+    background: var(--clouditera-brand-primary-active);
 }
 
 .send-shortcut {
@@ -620,9 +670,9 @@ body.agent-info-detail-page .main-content-area {
     font-weight: 400;
 }
 
-/* ================================
+/* ==========================================
    响应式设计
-   ================================ */
+   ========================================== */
 
 /* 平板设备 */
 @media (max-width: 1200px) {
@@ -638,12 +688,7 @@ body.agent-info-detail-page .main-content-area {
 /* 小屏幕平板 */
 @media (max-width: 992px) {
     .detail-title-section {
-        padding: 14px 20px;
-        flex-wrap: nowrap !important;
-    }
-    
-    .detail-title-section .detail-actions {
-        flex-wrap: nowrap !important;
+        padding: 12px 16px;
     }
 
     .detail-container {
@@ -661,7 +706,7 @@ body.agent-info-detail-page .main-content-area {
     }
 
     .detail-title-main {
-        font-size: 22px;
+        font-size: 16px;
     }
 
     .detail-agent-info {
@@ -671,19 +716,41 @@ body.agent-info-detail-page .main-content-area {
 
 /* 手机设备 */
 @media (max-width: 768px) {
+    body.agent-info-detail-page .main-content-area {
+        padding: 16px;
+    }
+
     .detail-title-section {
         margin-bottom: 16px;
-        padding: 12px 16px;
+        padding: 10px 12px;
         gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .detail-header-main {
+        flex: 1;
+        min-width: 0;
     }
 
     .btn-back-to-list {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
     }
 
     .back-icon {
+        font-size: 18px;
+    }
+
+    .detail-title-main {
         font-size: 16px;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+
+    .detail-actions {
+        width: 100%;
+        flex-wrap: wrap;
     }
 
     .detail-container {
@@ -694,15 +761,11 @@ body.agent-info-detail-page .main-content-area {
         padding: 16px;
     }
 
-    .detail-title-main {
-        font-size: 18px;
-    }
-
     .detail-agent-info {
         font-size: 11px;
         gap: 6px;
+        padding: 0 16px;
     }
-}
 
     .detail-article {
         font-size: 15px;
@@ -716,35 +779,10 @@ body.agent-info-detail-page .main-content-area {
         font-size: 16px;
     }
 
-    /* 移动端：允许换行 */
-    .detail-title-section {
-        flex-wrap: wrap;
-        gap: 12px;
-    }
-    
-    .detail-title-main {
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
-    }
-    
-    .detail-title-section .detail-actions {
-        width: 100%;
-        margin-left: 0;
-        justify-content: flex-start;
-        margin-top: 8px;
-        flex-wrap: wrap;
-    }
-    
     .detail-meta {
         flex-direction: row;
         align-items: center;
         gap: 12px;
-    }
-
-    .detail-actions {
-        flex-wrap: wrap;
-        gap: 8px;
     }
 
     .chat-messages {
@@ -754,30 +792,4 @@ body.agent-info-detail-page .main-content-area {
     .message-bubble {
         font-size: 13px;
     }
-}
-
-/* ================================
-   滚动条样式
-   ================================ */
-
-.detail-content::-webkit-scrollbar,
-.chat-messages::-webkit-scrollbar {
-    width: 6px;
-}
-
-.detail-content::-webkit-scrollbar-track,
-.chat-messages::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-.detail-content::-webkit-scrollbar-thumb,
-.chat-messages::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 3px;
-}
-
-.detail-content::-webkit-scrollbar-thumb:hover,
-.chat-messages::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
 }

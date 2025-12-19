@@ -194,7 +194,7 @@
                 <div class="template-info">
                     <h3 class="template-title">🔍 信息查看/检索模式</h3>
                     <p class="template-description">
-                        信息展示和检索界面，支持多维度筛选、关键词搜索、结果列表展示
+                        信息检索列表页，支持多维度筛选、时间过滤、关键词搜索、结果列表展示
                     </p>
                     <div class="template-tags">
                         <span class="tag tag-primary">核心功能</span>
@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <div class="template-overlay">
-                        <a href="templates/pages/template-chat.html" class="btn btn-primary" target="_blank">
+                        <a href="templates/pages/template-info-chat.html" class="btn btn-primary" target="_blank">
                             预览模板
                         </a>
                     </div>
@@ -234,15 +234,15 @@
                 <div class="template-info">
                     <h3 class="template-title">📋 信息预览/对话模式</h3>
                     <p class="template-description">
-                        结合信息预览与对话交互，支持内容展示和实时对话，适用于详情页场景
+                        智能体详情页，左侧展示文章内容，右侧提供AI对话功能，包含智能体头部和侧导航
                     </p>
                     <div class="template-tags">
                         <span class="tag tag-primary">核心功能</span>
-                        <span class="tag tag-secondary">信息预览</span>
-                        <span class="tag tag-secondary">对话模式</span>
+                        <span class="tag tag-secondary">信息+对话</span>
+                        <span class="tag tag-secondary">左右布局</span>
                     </div>
                     <div class="template-meta">
-                        <span class="meta-item">📄 template-chat.html</span>
+                        <span class="meta-item">📄 template-info-chat.html</span>
                     </div>
                 </div>
             </div>
@@ -429,8 +429,8 @@
                         <li><strong>核心功能：</strong>
                             <ul>
                                 <li>💬 快速对话模式 - 对话式交互界面，支持实时消息、代码高亮、Markdown渲染</li>
-                                <li>🔍 信息查看/检索模式 - 信息展示和检索界面，支持多维度筛选、关键词搜索、结果列表展示（包含列表页和详情页）</li>
-                                <li>📋 信息预览/对话模式 - 结合信息预览与对话交互，支持内容展示和实时对话，适用于详情页场景</li>
+                                <li>🔍 信息查看/检索模式 - 信息展示和检索界面（列表页），支持多维度筛选、时间过滤、关键词搜索、结果列表展示</li>
+                                <li>📋 信息预览/对话模式 - 智能体详情页，左侧展示文章内容，右侧提供AI对话功能，包含智能体头部和侧导航</li>
                                 <li>🎯 自规划模式 - 智能体自主规划任务，展示任务列表、执行状态、实时反馈，支持用户干预和调整</li>
                             </ul>
                         </li>
@@ -472,9 +472,10 @@
                         <li>侧导航支持折叠/展开，响应式适配</li>
                         <li>知识库和工具显示资源数量（如：知识库(128)）</li>
                         <li>对话模式支持Markdown渲染、代码高亮、实时消息流</li>
-                        <li>信息检索支持多级分类筛选、关键词搜索、结果列表展示</li>
-                        <li>信息检索包含列表页和详情页（详情页采用左右布局+AI对话）</li>
-                        <li>信息预览/对话模式支持上下文关联，点击"讨论"按钮将信息加载到对话区</li>
+                        <li>信息检索列表页支持多级分类筛选、时间过滤、关键词搜索、结果列表展示</li>
+                        <li>信息检索详情页（template-search-detail.html）：纯文章阅读页，左侧文章+右侧AI对话，无智能体结构</li>
+                        <li>信息预览/对话模式（template-info-chat.html）：完整智能体页面，包含头部、侧导航、左侧文章+右侧AI对话</li>
+                        <li>两种详情页的区别：检索详情页用于从搜索进入的纯阅读场景；信息预览/对话模式用于智能体内的内容展示与交互场景</li>
                         <li>自规划模式支持任务列表展示、执行状态跟踪、用户干预</li>
                         <li>所有表单支持保存/取消确认，防止误操作</li>
                         <li>模板卡片支持悬停预览，点击"预览模板"在新窗口打开</li>
@@ -492,12 +493,17 @@
                         <div class="file-item">
                             <span class="file-icon">📄</span>
                             <span class="file-name">templates/pages/template-search.html</span>
-                            <span class="file-desc">✅ 信息查看/检索模式（列表页）模板</span>
+                            <span class="file-desc">✅ 信息查看/检索模式（列表页）</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
                             <span class="file-name">templates/pages/template-search-detail.html</span>
-                            <span class="file-desc">✅ 信息查看/检索模式（详情页）模板</span>
+                            <span class="file-desc">✅ 信息检索详情页（纯文章页：左侧文章+右侧AI对话，无智能体结构）</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">📄</span>
+                            <span class="file-name">templates/pages/template-info-chat.html</span>
+                            <span class="file-desc">✅ 信息预览/对话模式（智能体页：包含头部、侧导航、左侧文章+右侧AI对话）</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">📄</span>
@@ -527,7 +533,12 @@
                         <div class="file-item">
                             <span class="file-icon">🎨</span>
                             <span class="file-name">templates/css/template-info-detail.css</span>
-                            <span class="file-desc">✅ 信息详情页样式</span>
+                            <span class="file-desc">✅ 信息检索详情页样式</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">🎨</span>
+                            <span class="file-name">templates/css/template-info-chat.css</span>
+                            <span class="file-desc">✅ 信息预览/对话模式样式</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">🎨</span>
@@ -547,7 +558,12 @@
                         <div class="file-item">
                             <span class="file-icon">⚙️</span>
                             <span class="file-name">templates/js/template-info-detail.js</span>
-                            <span class="file-desc">✅ 信息详情页交互脚本</span>
+                            <span class="file-desc">✅ 信息检索详情页交互脚本</span>
+                        </div>
+                        <div class="file-item">
+                            <span class="file-icon">⚙️</span>
+                            <span class="file-name">templates/js/template-info-chat.js</span>
+                            <span class="file-desc">✅ 信息预览/对话模式交互脚本</span>
                         </div>
                         <div class="file-item">
                             <span class="file-icon">⚙️</span>
