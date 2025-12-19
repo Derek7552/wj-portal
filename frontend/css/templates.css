@@ -456,6 +456,14 @@
     transform: translateY(0);
 }
 
+/* 确保按钮hover时有正确的背景色和文字颜色 */
+.template-overlay .btn-primary:hover {
+    background-color: var(--clouditera-brand-primary-hover) !important;
+    color: var(--clouditera-neutral-background-white) !important;
+    border-color: var(--clouditera-brand-primary-hover) !important;
+    box-shadow: 0 4px 12px rgba(41, 140, 255, 0.4) !important;
+}
+
 /* 模板信息区 */
 .template-info {
     padding: 20px;

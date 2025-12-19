@@ -2,15 +2,112 @@
  * 智能体详情页面交互脚本
  */
 
+// ==========================================
+// 通用的多轮对话示例数据（放在全局作用域）
+// ==========================================
+const defaultTaskMessages = [
+    { type: 'system', avatar: '🎯', text: '任务已创建：代码安全审计' },
+    { type: 'ai', avatar: '🤖', text: '你好！我将协助你进行代码安全审计。请告诉我需要审计的项目类型和关注重点。' },
+    { type: 'user', avatar: '👤', text: '我需要对一个Web应用进行安全审计，重点关注SQL注入和XSS漏洞。' },
+    { type: 'ai', avatar: '🤖', text: '好的，我将重点检查以下方面：\n1. 数据库查询语句中的参数化处理\n2. 用户输入的过滤和转义\n3. 输出内容的HTML编码\n\n请提供项目的相关代码或说明使用的技术栈。' },
+    { type: 'user', avatar: '👤', text: '这是一个使用Python Flask框架开发的应用，数据库是MySQL。' },
+    { type: 'ai', avatar: '🤖', text: '收到！开始分析Flask应用...\n\n✅ 已检查数据库操作代码\n✅ 已检查模板渲染逻辑\n✅ 已检查表单处理流程\n\n初步发现 3 个需要关注的地方，正在生成详细报告...' },
+    { type: 'ai', avatar: '🤖', text: '分析完成！发现以下安全问题：\n\n🔴 高危 (1个)\n- 用户登录模块存在SQL注入风险\n  位置：/app/auth.py:45\n\n🟡 中危 (2个)\n- 评论功能未对HTML标签进行转义\n  位置：/app/comment.py:78\n- 搜索结果页面直接输出用户输入\n  位置：/templates/search.html:23' },
+    { type: 'user', avatar: '👤', text: '明白了，请给出具体的修复建议。' },
+    { type: 'ai', avatar: '🤖', text: '针对发现的问题，建议如下：\n\n1. SQL注入修复：\n   使用参数化查询替代字符串拼接\n   ```python\n   # 错误方式\n   query = f"SELECT * FROM users WHERE username=\'{username}\\'"\n   \n   # 正确方式\n   query = "SELECT * FROM users WHERE username=%s"\n   cursor.execute(query, (username,))\n   ```\n\n2. XSS防护：\n   使用Flask的escape()函数或Jinja2自动转义\n   ```python\n   from markupsafe import escape\n   safe_comment = escape(user_comment)\n   ```\n\n需要我帮你生成完整的修复代码吗？' }
+];
+
+// ==========================================
+// 显示任务详情函数（放在全局作用域）
+// ==========================================
+function showTaskDetail(taskName) {
+    console.log('showTaskDetail被调用，任务名称:', taskName);
+
+    // 隐藏空状态容器
+    const emptyStateContainer = document.querySelector('.empty-state-container');
+    if (emptyStateContainer) {
+        emptyStateContainer.style.display = 'none';
+        console.log('空状态容器已隐藏');
+    }
+
+    // 显示聊天消息区域
+    const chatArea = document.querySelector('.agent-main-content');
+    if (chatArea) {
+        // 移除旧的任务详情内容
+        let taskContent = chatArea.querySelector('.task-detail-content');
+        if (taskContent) {
+            taskContent.remove();
+        }
+
+        // 创建新的任务详情内容
+        taskContent = document.createElement('div');
+        taskContent.className = 'task-detail-content';
+
+        // 生成消息HTML - 使用统一的多轮对话示例
+        const messagesHTML = defaultTaskMessages.map(msg => `
+            <div class="message message-${msg.type}">
+                <div class="message-avatar">${msg.avatar}</div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        <p>${msg.text.replace(/\n/g, '<br>')}</p>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+        taskContent.innerHTML = `
+            <div class="chat-messages">
+                ${messagesHTML}
+            </div>
+        `;
+
+        chatArea.appendChild(taskContent);
+        taskContent.style.display = 'flex';
+
+        console.log('任务详情已创建并显示');
+
+        // 滚动到底部
+        setTimeout(() => {
+            const chatMessages = taskContent.querySelector('.chat-messages');
+            if (chatMessages) {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+                console.log('已滚动到底部');
+            }
+        }, 100);
+    }
+}
+
+// 将 showTaskDetail 暴露到全局作用域
+window.showTaskDetail = showTaskDetail;
+
 document.addEventListener('DOMContentLoaded', function() {
+    console.log('template-detail.js DOMContentLoaded 触发');
+
     // ==========================================
     // 新任务按钮
     // ==========================================
     const btnNewChat = document.querySelector('.btn-new-chat');
     if (btnNewChat) {
-        btnNewChat.addEventListener('click', function() {
-            // 跳转到空状态页面（新任务）
-            window.location.href = 'template-chat.html';
+        btnNewChat.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // 移除所有任务的active状态
+            const recentTaskItems = document.querySelectorAll('.recent-task-item');
+            recentTaskItems.forEach(task => task.classList.remove('active'));
+
+            // 隐藏任务详情
+            const taskContent = document.querySelector('.task-detail-content');
+            if (taskContent) {
+                taskContent.style.display = 'none';
+            }
+
+            // 显示空状态页面
+            const emptyStateContainer = document.querySelector('.empty-state-container');
+            if (emptyStateContainer) {
+                emptyStateContainer.style.display = 'flex';
+            }
+
+            console.log('切换到新任务状态');
         });
     }
 

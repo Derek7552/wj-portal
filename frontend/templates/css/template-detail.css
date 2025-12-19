@@ -4,8 +4,11 @@
 
 /* 主内容区使用 dashboard.css 的默认布局，这里只添加特定样式 */
 .agent-detail-page .main-content-area {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
     padding: 24px;
-    min-height: 100vh;
     box-sizing: border-box;
     background: var(--clouditera-neutral-background-primary);
 }
@@ -39,8 +42,9 @@
     font-weight: 500;
 }
 
-/* 智能体头部 */
+/* 智能体头部不压缩 */
 .agent-header {
+    flex-shrink: 0;
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
     padding: 12px 16px;
@@ -209,8 +213,11 @@
 /* 内容容器 */
 .content-container {
     display: flex;
+    flex-direction: row;
     gap: 24px;
-    min-height: calc(100vh - 164px);
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
 }
 
 /* ==========================================
@@ -271,16 +278,24 @@
 /* 主内容区域 */
 .agent-main-content {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    min-height: 500px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
 }
 
-/* 空状态页面不需要分割线效果 */
+/* 空状态页面添加背景填充 - 参考自规划任务助手样式 */
 .agent-main-content:has(.empty-state-container) {
     box-shadow: none;
-    background: transparent;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    overflow: hidden;
 }
 
 /* ==========================================
@@ -1041,4 +1056,320 @@
         grid-template-columns: 1fr;
         gap: 12px;
     }
+}
+
+/* ==========================================
+   任务详情内容区域
+   ========================================== */
+
+.task-detail-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+.task-detail-content .chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--clouditera-neutral-background-tertiary);
+    flex-shrink: 0;
+}
+
+.task-detail-content .chat-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.task-detail-content .chat-time {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+.task-detail-content .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 24px;
+    min-height: 0;
+}
+
+.task-detail-content .message {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+    padding: 0;
+    margin-bottom: 24px;
+    box-sizing: border-box;
+}
+
+.task-detail-content .message-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--clouditera-neutral-background-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.task-detail-content .message-content {
+    flex: 1;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.task-detail-content .message-time {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin-bottom: 8px;
+}
+
+.task-detail-content .message-text {
+    color: var(--clouditera-neutral-text-primary);
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.task-detail-content .message-user .message-text {
+    background: var(--clouditera-neutral-background-secondary);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+/* 输入框区域 - 固定在底部 */
+.task-detail-content .chat-input-container {
+    flex-shrink: 0;
+    padding: 16px 24px;
+    border-top: 1px solid var(--clouditera-neutral-border-secondary);
+    background: var(--clouditera-neutral-background-white);
+}
+
+/* ==========================================
+   任务记录列表样式
+   ========================================== */
+
+.tasks-list-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 24px;
+    overflow-y: auto;
+    background: var(--clouditera-neutral-background-primary);
+}
+
+.tasks-list-header {
+    margin-bottom: 24px;
+}
+
+.tasks-list-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0;
+}
+
+.tasks-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+}
+
+/* 任务记录卡片 */
+.task-record-card {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    padding: 16px;
+    transition: all 0.2s;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.task-record-card:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border-color: var(--clouditera-brand-primary);
+}
+
+/* 左侧：任务信息和统计 */
+.task-record-left {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+/* 上方：任务状态 + 任务名称 */
+.task-record-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.task-record-status {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.task-record-name {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+    min-width: 0;
+}
+
+.task-status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.task-status-badge.running {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.task-status-badge.completed {
+    background: var(--clouditera-palette-green-0);
+}
+
+.task-status-badge.failed {
+    background: var(--clouditera-palette-red-0);
+}
+
+/* 下方：统计信息 */
+.task-record-statistics {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+/* 右侧：时间和操作按钮 */
+.task-record-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.task-record-time {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-weight: 400;
+    white-space: nowrap;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+.task-record-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+}
+
+/* hover时：时间隐藏，显示操作按钮 */
+.task-record-card:hover .task-record-time {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.task-record-card:hover .task-record-actions {
+    opacity: 1;
+    visibility: visible;
+}
+
+.task-action-btn {
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-brand-primary);
+    background: transparent;
+    border: 1px solid var(--clouditera-brand-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.task-action-btn:hover {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+}
+
+.statistics-label {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.statistics-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    white-space: nowrap;
+}
+
+.statistics-details {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.statistics-item {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.statistics-item.type-a {
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-semantic-error);
+}
+
+.statistics-item.type-b {
+    background: var(--clouditera-palette-orange-0);
+    color: var(--clouditera-palette-orange-5);
+}
+
+.statistics-item.type-c {
+    background: var(--clouditera-palette-yellow-0);
+    color: var(--clouditera-palette-yellow-5);
+}
+
+.tasks-empty {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-size: 14px;
 }

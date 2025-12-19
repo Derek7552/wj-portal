@@ -98,8 +98,12 @@ function initAgentSidebar(options = {}) {
                 this.classList.add('active');
 
                 console.log('点击任务项:', taskId);
+
+                // 从任务列表中找到对应的任务对象
+                const taskData = displayTasks.find(t => t.id === taskId);
+
                 if (onTaskClick && typeof onTaskClick === 'function') {
-                    onTaskClick(taskId, task);
+                    onTaskClick(taskId, taskData);
                 }
             });
         });

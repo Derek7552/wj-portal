@@ -1,12 +1,12 @@
+/* 引入设计系统 Token */
+@import url('./tokens.css');
+
 /* 全局样式重置 */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-/* 引入设计系统 Token */
-@import url('./tokens.css');
 
 :root {
     /* 使用设计系统 Token */
@@ -148,10 +148,10 @@ body {
 /* 按钮样式 */
 .btn {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 8px 12px;
     border-radius: 6px;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 500;
     text-align: center;
     cursor: pointer;
@@ -160,15 +160,26 @@ body {
 }
 
 .btn-primary {
-    background-color: var(--clouditera-brand-primary) !important;
-    color: var(--clouditera-neutral-background-white) !important;
+    background-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
     border: 1px solid var(--clouditera-brand-primary);
+    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.3);
 }
 
 .btn-primary:hover {
-    background-color: var(--hover-color);
+    background-color: var(--clouditera-brand-primary-hover);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary-hover);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+    box-shadow: 0 4px 12px rgba(41, 140, 255, 0.4);
+}
+
+.btn-primary:active {
+    background-color: var(--clouditera-brand-primary-active);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary-active);
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(41, 140, 255, 0.3);
 }
 
 .btn-secondary {

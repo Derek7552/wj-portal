@@ -239,6 +239,24 @@
                             <option value="hot">最热门</option>
                             <option value="relevant">最相关</option>
                         </select>
+
+                        <span class="filter-label">时间：</span>
+                        <select class="filter-select" id="timeSelect">
+                            <option value="all">全部时间</option>
+                            <option value="day1">过去一天</option>
+                            <option value="day3">过去三天</option>
+                            <option value="week1">过去一周</option>
+                            <option value="custom">自定义时间</option>
+                        </select>
+
+                        <!-- 自定义时间范围选择器（默认隐藏） -->
+                        <div class="custom-time-range" id="customTimeRange" style="display: none;">
+                            <input type="date" class="time-input" id="startDate" placeholder="起始日期">
+                            <span class="time-separator">-</span>
+                            <input type="date" class="time-input" id="endDate" placeholder="截止日期">
+                            <button class="btn-apply-time" id="applyTimeBtn">确定</button>
+                            <button class="btn-cancel-time" id="cancelTimeBtn">取消</button>
+                        </div>
                     </div>
                     <div class="filter-right">
                         <span class="result-count">共找到 <strong>326</strong> 条信息</span>
@@ -252,13 +270,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">信息标题示例：关于某个主题的深度分析报告</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-15 14:30</span>
-                                <span class="result-source">来源 A</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-primary">标签一</span>
                             </div>
                         </div>
                         <p class="result-summary">这是信息内容的摘要部分，简要介绍了文章的主要内容和核心观点。通过摘要，用户可以快速了解信息的大致内容，判断是否需要查看详情...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-15 14:30</span>
+                            <span class="result-source">来源 A</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 1.2k</span>
@@ -274,13 +294,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">另一条信息标题：技术方案与实践经验分享</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-12 10:20</span>
-                                <span class="result-source">来源 B</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-success">标签二</span>
                             </div>
                         </div>
                         <p class="result-summary">本文分享了在实际项目中的技术方案选型和实践经验，包括架构设计、技术选型、实施过程中遇到的问题及解决方案等内容...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-12 10:20</span>
+                            <span class="result-source">来源 B</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 890</span>
@@ -296,13 +318,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">第三条信息示例：行业趋势与发展方向探讨</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-10 16:45</span>
-                                <span class="result-source">来源 C</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-warning">标签三</span>
                             </div>
                         </div>
                         <p class="result-summary">深入分析了行业当前的发展趋势，探讨了未来可能的技术方向和应用场景，为从业者提供了有价值的参考...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-10 16:45</span>
+                            <span class="result-source">来源 C</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 2.1k</span>
@@ -318,13 +342,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">信息标题四：案例研究与经验总结</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-08 09:15</span>
-                                <span class="result-source">来源 D</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-info">标签四</span>
                             </div>
                         </div>
                         <p class="result-summary">通过典型案例的深入研究，总结了成功经验和失败教训，为类似项目提供了有价值的参考依据...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-08 09:15</span>
+                            <span class="result-source">来源 D</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 1.5k</span>
@@ -340,13 +366,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">第五条信息：最佳实践与方法论分享</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-05 11:30</span>
-                                <span class="result-source">来源 E</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-primary">标签一</span>
                             </div>
                         </div>
                         <p class="result-summary">介绍了业界公认的最佳实践和方法论，帮助团队提升效率，减少错误，实现更好的项目成果...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-05 11:30</span>
+                            <span class="result-source">来源 E</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 980</span>
@@ -362,13 +390,15 @@
                             <h3 class="result-title">
                                 <a href="template-search-detail.html">信息标题六：新技术应用与创新探索</a>
                             </h3>
-                            <div class="result-meta">
-                                <span class="result-date">2024-03-03 15:20</span>
-                                <span class="result-source">来源 F</span>
+                            <div class="result-tags">
                                 <span class="result-tag tag-success">标签二</span>
                             </div>
                         </div>
                         <p class="result-summary">探讨了新兴技术在实际场景中的应用情况，分析了创新实践的可行性和价值，为技术选型提供参考...</p>
+                        <div class="result-meta">
+                            <span class="result-date">2024-03-03 15:20</span>
+                            <span class="result-source">来源 F</span>
+                        </div>
                         <div class="result-footer">
                             <div class="result-stats">
                                 <span class="stat-item">👁️ 1.8k</span>

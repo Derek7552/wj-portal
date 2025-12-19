@@ -274,12 +274,142 @@
                 maxTasks: 10,
                 onNewTask: function() {
                     console.log('创建新任务');
+                    // 点击新任务按钮时，显示空状态页面
+                    var chatArea = document.querySelector('.agent-main-content');
+                    if (!chatArea) return;
+
+                    // 检查是否存在空状态容器
+                    var emptyStateContainer = document.querySelector('.empty-state-container');
+                    var taskContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+
+                    // 如果已有空状态容器，直接显示
+                    if (emptyStateContainer) {
+                        emptyStateContainer.style.display = 'flex';
+                        if (taskContent) taskContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+                        return;
+                    }
+
+                    // 否则重新创建空状态页面
+                    chatArea.innerHTML = '<div class="empty-state-container">' +
+                        '<div class="empty-agent-name">' +
+                            '<span class="agent-name-text">快速对话助手示例</span>' +
+                        '</div>' +
+                        '<div class="empty-state-guide">' +
+                            '<p class="empty-state-guide-text">开始给智能体分配任务</p>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="empty">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" id="chatInput" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
                 },
-                onTaskClick: function(taskId) {
-                    console.log('点击任务:', taskId);
+                onTaskClick: function(taskId, taskData) {
+                    console.log('[DEBUG] 点击任务:', taskId, taskData);
+
+                    try {
+                        var chatArea = document.querySelector('.agent-main-content');
+                        if (!chatArea) {
+                            console.error('[DEBUG] 未找到chatArea');
+                            return;
+                        }
+
+                        console.log('[DEBUG] 找到chatArea');
+
+                        // 清空chatArea内容，重新创建任务详情
+                        var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+                        // 清空chatArea并重新创建任务详情
+                        chatArea.innerHTML = '';
+
+                        var taskContent = document.createElement('div');
+                        taskContent.className = 'task-detail-content';
+
+                        taskContent.innerHTML = '<div class="chat-header">' +
+                            '<div class="chat-title">' + taskName + '</div>' +
+                            '<div class="chat-time">刚刚</div>' +
+                        '</div>' +
+                        '<div class="chat-messages">' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">我需要对一个Web应用进行安全审计，重点关注SQL注入和XSS漏洞。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">你好！我将协助你进行代码安全审计。请告诉我需要审计的项目类型和关注重点。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">具体需要检查哪些方面？</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">好的，我将重点检查以下方面：<br>1. 数据库查询语句中的参数化处理<br>2. 用户输入的过滤和转义<br>3. 输出内容的HTML编码</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+
+                        chatArea.appendChild(taskContent);
+                        taskContent.style.display = 'flex';
+
+                        console.log('[DEBUG] 任务详情已创建并显示');
+
+                        // 滚动到底部
+                        setTimeout(function() {
+                            var chatMessages = taskContent.querySelector('.chat-messages');
+                            if (chatMessages) {
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }
+                        }, 100);
+                    } catch (error) {
+                        console.error('[DEBUG] 错误:', error);
+                    }
                 },
                 onViewAll: function() {
                     console.log('查看全部任务');
+                    showAllTasks();
                 }
             });
 
@@ -292,6 +422,186 @@
                 }
             });
         });
+
+        // 显示全部任务列表
+        function showAllTasks() {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 生成任务列表HTML
+            var tasksHtml = '';
+            for (var i = 0; i < mockTasks.length; i++) {
+                var task = mockTasks[i];
+                var statusIcon = task.status === 'running' ? '⏳' :
+                                task.status === 'completed' ? '✅' : '❌';
+                var statusClass = task.status;
+
+                tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
+                    '<div class="task-record-left">' +
+                        '<div class="task-record-header">' +
+                            '<div class="task-record-status">' +
+                                '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
+                            '</div>' +
+                            '<div class="task-record-name">' + task.name + '</div>' +
+                        '</div>' +
+                        '<div class="task-record-statistics">' +
+                            '<span class="statistics-label">消息数</span>' +
+                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="task-record-right">' +
+                        '<div class="task-record-time">2025-12-19 14:30</div>' +
+                        '<div class="task-record-actions">' +
+                            '<button class="task-action-btn">查看</button>' +
+                            '<button class="task-action-btn">删除</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            if (mockTasks.length === 0) {
+                tasksHtml = '<div class="tasks-empty">暂无任务记录</div>';
+            }
+
+            // 替换内容
+            chatArea.innerHTML = '<div class="tasks-list-container">' +
+                '<div class="tasks-list-header">' +
+                    '<h2 class="tasks-list-title">全部任务记录</h2>' +
+                '</div>' +
+                '<div class="tasks-list-content">' +
+                    tasksHtml +
+                '</div>' +
+            '</div>';
+
+            // 绑定任务卡片点击事件
+            var taskCards = chatArea.querySelectorAll('.task-record-card');
+            for (var i = 0; i < taskCards.length; i++) {
+                taskCards[i].addEventListener('click', function(e) {
+                    // 如果点击的是按钮，不触发卡片点击
+                    if (e.target.classList.contains('task-action-btn')) {
+                        e.stopPropagation();
+                        var btnText = e.target.textContent;
+                        var taskId = this.getAttribute('data-task-id');
+
+                        if (btnText === '查看') {
+                            // 查找对应的任务并显示详情
+                            var selectedTask = null;
+                            for (var j = 0; j < mockTasks.length; j++) {
+                                if (mockTasks[j].id === taskId) {
+                                    selectedTask = mockTasks[j];
+                                    break;
+                                }
+                            }
+
+                            if (selectedTask) {
+                                // 调用现有的任务点击回调
+                                var sidebarInstance = window.agentSidebarInstance;
+                                if (sidebarInstance && sidebarInstance.setActiveTask) {
+                                    sidebarInstance.setActiveTask(taskId);
+                                }
+
+                                // 显示任务详情（复用之前的代码）
+                                showTaskDetailById(taskId, selectedTask);
+                            }
+                        } else if (btnText === '删除') {
+                            if (confirm('确定要删除此任务吗？')) {
+                                console.log('删除任务:', taskId);
+                            }
+                        }
+                        return;
+                    }
+
+                    // 点击卡片其他区域，显示任务详情
+                    var taskId = this.getAttribute('data-task-id');
+                    var selectedTask = null;
+                    for (var j = 0; j < mockTasks.length; j++) {
+                        if (mockTasks[j].id === taskId) {
+                            selectedTask = mockTasks[j];
+                            break;
+                        }
+                    }
+
+                    if (selectedTask) {
+                        showTaskDetailById(taskId, selectedTask);
+                    }
+                });
+            }
+        }
+
+        // 根据任务ID显示任务详情
+        function showTaskDetailById(taskId, taskData) {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            var taskName = taskData ? taskData.name : '未知任务';
+
+            var taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">我需要对一个Web应用进行安全审计，重点关注SQL注入和XSS漏洞。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">你好！我将协助你进行代码安全审计。请告诉我需要审计的项目类型和关注重点。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">具体需要检查哪些方面？</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">好的，我将重点检查以下方面：<br>1. 数据库查询语句中的参数化处理<br>2. 用户输入的过滤和转义<br>3. 输出内容的HTML编码</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.innerHTML = '';
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            // 滚动到底部
+            setTimeout(function() {
+                var chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+        }
 
         // 快速提示填充功能
         function fillPrompt(text) {

@@ -112,11 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
     initAgentSidebarComponent(); // 初始化侧导航组件
     initToolsTabs();
     initTaskList();
-    initChatInputComponent(); // 使用新组件
     initEventClickHandlers();
     initPhaseProgress();
     initFileTree();
     initLogNavigation();
+
+    // HTML默认已经是新任务状态，初始化输入框组件
+    initChatInput({
+        selector: '.empty-state-container .chat-input-container',
+        autoFocus: true,
+        onSend: sendNewTask
+    });
 });
 
 /* ==========================================
@@ -176,12 +182,12 @@ function initNavigation() {
 let agentSidebarInstance = null;
 
 function initAgentSidebarComponent() {
-    // 准备任务数据（只显示前4个任务，设置第一个为活动状态）
+    // 准备任务数据（只显示前4个任务，默认不设置活动状态）
     const sidebarTasks = mockTasks.slice(0, 4).map((task, index) => ({
         id: task.id,
         name: task.name,
         status: task.status,
-        active: index === 0 // 第一个任务为活动状态
+        active: false // 默认不激活任何任务
     }));
 
     // 使用侧导航组件
