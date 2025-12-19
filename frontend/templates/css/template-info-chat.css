@@ -1,0 +1,405 @@
+/* ==========================================
+   信息预览/对话模式样式
+   ========================================== */
+
+/* 页面整体样式 */
+.agent-info-chat-page .main-content-area {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* 智能体头部不压缩 */
+.agent-info-chat-page .agent-header {
+    flex-shrink: 0;
+}
+
+/* 内容容器 */
+.agent-info-chat-page .content-container {
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* 主内容区域 */
+.agent-info-chat-page .agent-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    overflow: hidden;
+    height: 100%;
+    max-height: 100%;
+}
+
+/* ==========================================
+   信息预览与对话容器 - 左右布局
+   ========================================== */
+
+.info-chat-container {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 左侧：信息预览区域 */
+.info-preview-section {
+    flex: 1;
+    min-width: 0;
+    overflow-y: auto;
+    padding: 32px;
+    background: var(--clouditera-neutral-background-white);
+    border-right: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+/* 滚动条样式 */
+.info-preview-section::-webkit-scrollbar {
+    width: 6px;
+}
+
+.info-preview-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.info-preview-section::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+    border-radius: 3px;
+}
+
+.info-preview-section::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
+}
+
+/* 右侧：对话区域 */
+.chat-section {
+    width: 400px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    background: var(--clouditera-neutral-background-primary);
+}
+
+/* ==========================================
+   信息预览样式
+   ========================================== */
+
+/* 信息头部 */
+.info-header {
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--clouditera-neutral-background-tertiary);
+}
+
+.info-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+}
+
+.info-meta {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+.meta-icon {
+    font-size: 16px;
+}
+
+.info-tag {
+    font-size: 12px;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.tag-primary {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-palette-blue-5);
+}
+
+/* 内容摘要 */
+.info-summary {
+    background: var(--clouditera-palette-blue-0);
+    border-left: 4px solid var(--clouditera-brand-primary);
+    padding: 16px 20px;
+    margin-bottom: 32px;
+    border-radius: 0 4px 4px 0;
+}
+
+.summary-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-brand-primary);
+    margin-bottom: 8px;
+}
+
+.summary-text {
+    font-size: 14px;
+    color: var(--clouditera-neutral-gray-7);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* 文章内容 */
+.info-article {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--clouditera-neutral-gray-8);
+}
+
+.info-article h2 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 32px 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--clouditera-neutral-background-tertiary);
+}
+
+.info-article h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 24px 0 12px 0;
+}
+
+.info-article p {
+    margin: 12px 0;
+    line-height: 1.8;
+}
+
+.info-article ul,
+.info-article ol {
+    margin: 12px 0;
+    padding-left: 28px;
+}
+
+.info-article li {
+    margin: 8px 0;
+    line-height: 1.7;
+}
+
+.info-article strong {
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+/* ==========================================
+   对话区域样式
+   ========================================== */
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* 对话头部 */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+    background: var(--clouditera-neutral-background-white);
+    flex-shrink: 0;
+}
+
+.chat-header-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-icon {
+    font-size: 20px;
+}
+
+.chat-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+/* 对话消息区域 */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    background: var(--clouditera-neutral-background-primary);
+}
+
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
+}
+
+.message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.message-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--clouditera-brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.message-user .message-avatar {
+    background: var(--clouditera-semantic-success);
+}
+
+.message-content {
+    flex: 1;
+    max-width: 100%;
+}
+
+.message-time {
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-5);
+    margin-bottom: 6px;
+}
+
+.message-text {
+    font-size: 14px;
+    color: var(--clouditera-neutral-gray-8);
+    line-height: 1.6;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 12px 16px;
+}
+
+.message-user .message-text {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-palette-blue-2);
+}
+
+.message-text p {
+    margin: 0 0 8px 0;
+}
+
+.message-text p:last-child {
+    margin-bottom: 0;
+}
+
+.message-text ul,
+.message-text ol {
+    margin: 8px 0;
+    padding-left: 24px;
+}
+
+.message-text li {
+    margin: 4px 0;
+}
+
+.message-text strong {
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+/* 输入区域 - 固定在底部 */
+.chat-section .chat-input-container {
+    flex-shrink: 0;
+    padding: 16px 20px;
+    border-top: 1px solid var(--clouditera-neutral-border-secondary);
+    background: var(--clouditera-neutral-background-white);
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+@media (max-width: 1200px) {
+    .chat-section {
+        width: 350px;
+    }
+
+    .info-preview-section {
+        padding: 24px;
+    }
+}
+
+@media (max-width: 992px) {
+    .info-chat-container {
+        flex-direction: column;
+    }
+
+    .info-preview-section {
+        border-right: none;
+        border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+        max-height: 50%;
+    }
+
+    .chat-section {
+        width: 100%;
+        min-height: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .agent-info-chat-page .main-content-area {
+        padding: 16px;
+    }
+
+    .info-preview-section {
+        padding: 16px;
+    }
+
+    .info-title {
+        font-size: 22px;
+    }
+
+    .info-article h2 {
+        font-size: 18px;
+    }
+
+    .info-article h3 {
+        font-size: 16px;
+    }
+
+    .chat-messages {
+        padding: 16px;
+    }
+}
