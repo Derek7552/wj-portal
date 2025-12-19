@@ -7,6 +7,7 @@
     padding: 24px;
     min-height: 100vh;
     box-sizing: border-box;
+    background: var(--clouditera-neutral-background-primary);
 }
 
 /* 面包屑导航 */
@@ -16,31 +17,31 @@
     gap: 8px;
     margin-bottom: 24px;
     font-size: 14px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .breadcrumb a {
-    color: #1890ff;
+    color: var(--clouditera-brand-primary);
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .breadcrumb a:hover {
-    color: #40a9ff;
+    color: var(--clouditera-palette-blue-4);
 }
 
 .breadcrumb .separator {
-    color: #d9d9d9;
+    color: var(--clouditera-neutral-border-primary);
 }
 
 .breadcrumb .current {
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     font-weight: 500;
 }
 
 /* 智能体头部 */
 .agent-header {
-    background: white;
+    background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
     padding: 12px 16px;
     margin-bottom: 16px;
@@ -85,21 +86,21 @@
     align-items: center;
     gap: 6px;
     padding: 8px 12px;
-    border: 1px solid #d9d9d9;
-    background: white;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
     border-radius: 6px;
     cursor: pointer;
     font-size: 13px;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     transition: all 0.2s;
     height: 36px;  /* 固定高度确保一致 */
     box-sizing: border-box;
 }
 
 .btn-agent-action:hover {
-    border-color: #2563EB;
-    color: #2563EB;
-    background: rgba(37, 99, 235, 0.04);
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
 }
 
 .btn-agent-action .action-icon {
@@ -112,13 +113,13 @@
 
 .btn-agent-action .action-count {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .agent-icon {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--clouditera-brand-primary) 0%, var(--clouditera-brand-primary-hover) 100%);
     border-radius: 8px;
     display: flex;
     align-items: center;
@@ -142,7 +143,7 @@
 .agent-title {
     font-size: 18px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     margin: 0;
 }
 
@@ -153,8 +154,8 @@
     border-radius: 4px;
     font-size: 11px;
     font-weight: 500;
-    background: #f0f0f0;
-    color: #595959;
+    background: var(--clouditera-neutral-background-tertiary);
+    color: var(--clouditera-neutral-gray-7);
 }
 
 .agent-version {
@@ -164,13 +165,13 @@
     border-radius: 4px;
     font-size: 11px;
     font-weight: 500;
-    background: #e6f7ff;
-    color: #1890ff;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
 }
 
 .agent-description {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
     margin: 0;
     line-height: 1.5;
 }
@@ -191,13 +192,13 @@
 }
 
 .tag-primary {
-    background: #e6f7ff;
-    color: #1890ff;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
 }
 
 .tag-secondary {
-    background: #f5f5f5;
-    color: #8c8c8c;
+    background: var(--clouditera-neutral-background-primary);
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .agent-header-actions {
@@ -212,278 +213,14 @@
     min-height: calc(100vh - 164px);
 }
 
-/* 智能体侧导航 */
-.agent-sidebar {
-    width: 200px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    display: flex;
-    flex-direction: column;
-    flex-shrink: 0;
-    max-height: calc(100vh - 72px);
-    position: sticky;
-    top: 24px;
-    overflow: hidden;
-}
-
-.agent-nav {
-    padding: 16px 0;
-    flex: 1;
-    min-height: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-/* 让近期任务区域自适应内容 */
-.nav-group {
-    flex-shrink: 0;
-}
-
-/* 侧导航滚动条样式 */
-.agent-nav::-webkit-scrollbar {
-    width: 6px;
-}
-
-.agent-nav::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.agent-nav::-webkit-scrollbar-thumb {
-    background: #d9d9d9;
-    border-radius: 3px;
-}
-
-.agent-nav::-webkit-scrollbar-thumb:hover {
-    background: #bfbfbf;
-}
-
-/* 新任务按钮 */
-.btn-new-chat {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: calc(100% - 32px);
-    margin: 0 16px 16px 16px;
-    padding: 12px 16px;
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-.btn-new-chat:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(79, 70, 229, 0.5);
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-}
-
-.btn-new-chat:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 8px rgba(79, 70, 229, 0.4);
-}
-
-.btn-new-chat .btn-icon {
-    font-size: 18px;
-    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.2));
-    background: none !important;
-    padding: 0;
-    border: none;
-}
-
-.btn-new-chat .btn-text {
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 0.3px;
-    color: #ffffff;
-    background: none !important;
-    padding: 0;
-    border: none;
-}
-
-.btn-new-chat:hover .btn-icon,
-.btn-new-chat:hover .btn-text,
-.btn-new-chat .btn-icon:hover,
-.btn-new-chat .btn-text:hover {
-    background: none !important;
-}
-
-.nav-group {
-    margin-bottom: 8px;
-}
-
-.nav-group-title {
-    padding: 8px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #8c8c8c;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.agent-nav-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    color: #595959;
-    text-decoration: none;
-    transition: all 0.2s;
-    position: relative;
-    margin: 0 8px;
-    border-radius: 6px;
-}
-
-.agent-nav-item:hover {
-    background: #f5f5f5;
-    color: #262626;
-}
-
-.agent-nav-item.active {
-    background: #e6f7ff;
-    color: #1890ff;
-    font-weight: 500;
-}
-
-.agent-nav-item.active::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 3px;
-    height: 24px;
-    background: #1890ff;
-    border-radius: 0 2px 2px 0;
-}
-
-.agent-nav-item .nav-icon {
-    font-size: 18px;
-    width: 20px;
-    text-align: center;
-}
-
-.agent-nav-item .nav-text {
-    flex: 1;
-    font-size: 14px;
-}
-
-.nav-badge {
-    background: #ff4d4f;
-    color: white;
-    font-size: 11px;
-    padding: 2px 6px;
-    border-radius: 10px;
-    font-weight: 600;
-}
-
-.nav-count {
-    font-size: 12px;
-    color: #8c8c8c;
-}
-
-/* 近期任务列表 */
-.recent-tasks-list {
-    margin: 8px 8px 0 8px;
-    max-height: 300px;
-    overflow-y: auto;
-    flex-shrink: 1;
-}
-
-.recent-task-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 8px;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: background 0.2s;
-    margin: 2px 0;
-}
-
-.recent-task-item:hover {
-    background: #f5f5f5;
-}
-
-.recent-task-item.active {
-    background: rgba(37, 99, 235, 0.08);
-    border-left: 3px solid #2563EB;
-    padding-left: 5px;
-}
-
-.recent-task-item.active .task-name {
-    color: #2563EB;
-    font-weight: 600;
-}
-
-.task-status-icon {
-    font-size: 16px;
-    flex-shrink: 0;
-    width: 20px;
-    text-align: center;
-    line-height: 1;
-}
-
-.task-name {
-    flex: 1;
-    font-size: 13px;
-    color: #262626;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: 500;
-}
-
-/* 查看全部入口 */
-.view-all-tasks {
-    display: block;
-    text-align: center;
-    padding: 10px 8px;
-    margin-top: 8px;
-    color: #1890ff;
-    font-size: 13px;
-    font-weight: 500;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.2s;
-    background: #f0f7ff;
-}
-
-.view-all-tasks:hover {
-    background: #e6f4ff;
-    color: #40a9ff;
-}
-
-/* 滚动条美化 */
-.recent-tasks-list::-webkit-scrollbar {
-    width: 4px;
-}
-
-.recent-tasks-list::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-.recent-tasks-list::-webkit-scrollbar-thumb {
-    background: #d9d9d9;
-    border-radius: 2px;
-}
-
-.recent-tasks-list::-webkit-scrollbar-thumb:hover {
-    background: #bfbfbf;
-}
+/* ==========================================
+   智能体侧导航扩展样式（template-detail 特有）
+   基础样式已定义在 components/agent-sidebar.css
+   ========================================== */
 
 .agent-sidebar-footer {
     padding: 16px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--clouditera-neutral-background-tertiary);
     flex-shrink: 0;
 }
 
@@ -496,7 +233,7 @@
     align-items: center;
     gap: 12px;
     padding: 12px 8px;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     text-decoration: none;
     transition: all 0.2s ease;
     position: relative;
@@ -505,13 +242,13 @@
 }
 
 .nav-group-footer .agent-nav-item:hover {
-    background: #f5f5f5;
-    color: #262626;
+    background: var(--clouditera-neutral-background-primary);
+    color: var(--clouditera-neutral-gray-9);
 }
 
 .nav-group-footer .agent-nav-item.active {
-    background: #e6f7ff;
-    color: #1890ff;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
     font-weight: 500;
 }
 
@@ -528,13 +265,13 @@
 
 .nav-group-footer .nav-count {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 /* 主内容区域 */
 .agent-main-content {
     flex: 1;
-    background: white;
+    background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     min-height: 500px;
@@ -563,19 +300,19 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 24px;
-    border-bottom: 1px solid #f0f0f0;
-    background: #ffffff;
+    border-bottom: 1px solid var(--clouditera-neutral-background-tertiary);
+    background: var(--clouditera-neutral-background-white);
 }
 
 .task-name-text {
     font-size: 18px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
 }
 
 .task-time {
     font-size: 13px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .chat-messages {
@@ -600,7 +337,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #1890ff;
+    background: var(--clouditera-brand-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -609,7 +346,7 @@
 }
 
 .message-user .message-avatar {
-    background: #52c41a;
+    background: var(--clouditera-semantic-success);
 }
 
 .message-content {
@@ -625,16 +362,16 @@
 }
 
 .message-bubble {
-    background: white;
-    border: 1px solid #e8e8e8;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
     padding: 16px;
     word-wrap: break-word;
 }
 
 .message-user .message-bubble {
-    background: #e6f7ff;
-    border-color: #91d5ff;
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-palette-blue-2);
 }
 
 .message-bubble p {
@@ -658,12 +395,12 @@
     margin: 16px 0 8px 0;
     font-size: 16px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
 }
 
 .message-bubble pre {
-    background: #1e1e1e;
-    color: #d4d4d4;
+    background: var(--clouditera-neutral-gray-10);
+    color: var(--clouditera-neutral-gray-4);
     border-radius: 4px;
     padding: 12px;
     overflow-x: auto;
@@ -684,13 +421,13 @@
 }
 
 .score-danger {
-    background: #fff1f0;
-    color: #ff4d4f;
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-semantic-error);
 }
 
 .message-time {
     font-size: 12px;
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
     margin-bottom: 8px;  /* 时间在上方，底部间距 */
 }
 
@@ -711,99 +448,12 @@
 }
 
 .btn-icon:hover {
-    background: #f5f5f5;
+    background: var(--clouditera-neutral-background-primary);
 }
 
-/* 输入区域 */
-.chat-input-container {
-    border-top: 1px solid #f0f0f0;
-    padding: 16px 24px 24px 24px;
-    display: flex;
-    justify-content: center;
-}
-
-.chat-input-wrapper {
-    position: relative;
-    background-color: #ffffff;
-    border: 1px solid #d9d9d9;
-    border-radius: 8px;
-    transition: border-color 0.2s;
-    width: 60%;
-    max-width: 100%;
-}
-
-.chat-input-wrapper:focus-within {
-    border-color: #1890ff;
-    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
-}
-
-.chat-input {
-    width: 100%;
-    border: none;
-    padding: 12px;
-    padding-bottom: 52px;
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    min-height: 120px;
-    line-height: 1.6;
-}
-
-.chat-input:focus {
-    outline: none;
-}
-
-.chat-input-toolbar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
-    background-color: transparent;
-}
-
-.chat-input-actions {
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.chat-input-actions .btn-icon {
-    font-size: 18px;
-    padding: 6px 8px;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s;
-    color: #8c8c8c;
-}
-
-.chat-input-actions .btn-icon:hover {
-    background-color: #f5f5f5;
-    color: #262626;
-}
-
-.chat-send {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 20px;
-}
-
-.send-shortcut {
-    font-size: 11px;
-    opacity: 0.7;
-    font-weight: 400;
-}
+/* ==========================================
+   输入区域样式已迁移到组件 (chat-input.css)
+   ========================================== */
 
 /* ==========================================
    空状态样式
@@ -818,11 +468,7 @@
     min-height: calc(100vh - 300px);
 }
 
-.empty-state-container .chat-input-container {
-    width: 100%;
-    border-top: none;
-    padding-top: 0;
-}
+/* 空状态输入框样式由组件处理 (data-container-mode="empty") */
 
 .empty-state-illustration {
     text-align: center;
@@ -842,13 +488,13 @@
 .empty-state-title {
     font-size: 24px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     margin: 0 0 12px 0;
 }
 
 .empty-state-description {
     font-size: 14px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
     line-height: 1.6;
     margin: 0;
 }
@@ -865,13 +511,13 @@
 
 .empty-agent-name .agent-name-icon {
     font-size: 40px;
-    filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.3));
+    filter: drop-shadow(0 2px 8px rgba(41, 140, 255, 0.3));
 }
 
 .empty-agent-name .agent-name-text {
     font-size: 28px;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--clouditera-brand-primary) 0%, var(--clouditera-brand-primary-hover) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -888,7 +534,7 @@
 .empty-state-guide-text {
     font-size: 16px;
     font-weight: 500;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     margin: 0;
     opacity: 0.85;
 }
@@ -903,7 +549,7 @@
 .tips-title {
     font-size: 16px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     margin: 0 0 20px 0;
     text-align: center;
 }
@@ -915,8 +561,8 @@
 }
 
 .tip-card {
-    background: white;
-    border: 1px solid #f0f0f0;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-background-tertiary);
     border-radius: 8px;
     padding: 20px;
     display: flex;
@@ -928,7 +574,7 @@
 }
 
 .tip-card:hover {
-    border-color: #1890ff;
+    border-color: var(--clouditera-brand-primary);
     box-shadow: 0 4px 12px rgba(24, 144, 255, 0.15);
     transform: translateY(-2px);
 }
@@ -939,7 +585,7 @@
 
 .tip-text {
     font-size: 14px;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     text-align: center;
     font-weight: 500;
 }
@@ -962,7 +608,7 @@
 .page-title {
     font-size: 20px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     margin: 0;
 }
 
@@ -979,21 +625,21 @@
 
 .select-field {
     padding: 8px 12px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--clouditera-neutral-border-primary);
     border-radius: 6px;
     font-size: 14px;
-    background: white;
+    background: var(--clouditera-neutral-background-white);
     cursor: pointer;
     transition: border-color 0.2s;
 }
 
 .select-field:hover {
-    border-color: #40a9ff;
+    border-color: var(--clouditera-palette-blue-4);
 }
 
 .select-field:focus {
     outline: none;
-    border-color: #1890ff;
+    border-color: var(--clouditera-brand-primary);
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
 }
 
@@ -1005,8 +651,8 @@
 }
 
 .task-card {
-    background: white;
-    border: 1px solid #f0f0f0;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-background-tertiary);
     border-radius: 8px;
     padding: 20px;
     display: flex;
@@ -1031,11 +677,11 @@
 }
 
 .task-icon-chat {
-    background: #e6f7ff;
+    background: var(--clouditera-palette-blue-0);
 }
 
 .task-icon-gui {
-    background: #f0f5ff;
+    background: var(--clouditera-palette-geekblue-0);
 }
 
 .task-content {
@@ -1052,7 +698,7 @@
 .task-title {
     font-size: 16px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
     margin: 0;
 }
 
@@ -1069,34 +715,34 @@
 }
 
 .badge-info {
-    background: #e6f7ff;
-    color: #1890ff;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
 }
 
 .badge-success {
-    background: #f0f5ff;
-    color: #2f54eb;
+    background: var(--clouditera-palette-geekblue-0);
+    color: var(--clouditera-palette-geekblue-5);
 }
 
 .badge-warning {
-    background: #fff7e6;
-    color: #fa8c16;
+    background: var(--clouditera-palette-orange-0);
+    color: var(--clouditera-palette-orange-5);
 }
 
 .badge-danger {
-    background: #fff1f0;
-    color: #ff4d4f;
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-semantic-error);
 }
 
 .task-description {
     font-size: 14px;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     margin: 0 0 12px 0;
     line-height: 1.6;
 }
 
 .error-icon {
-    color: #ff4d4f;
+    color: var(--clouditera-semantic-error);
 }
 
 .task-progress {
@@ -1109,14 +755,14 @@
 .progress-bar {
     flex: 1;
     height: 8px;
-    background: #f5f5f5;
+    background: var(--clouditera-neutral-background-primary);
     border-radius: 4px;
     overflow: hidden;
 }
 
 .progress-fill {
     height: 100%;
-    background: linear-gradient(90deg, #1890ff, #36cfc9);
+    background: linear-gradient(90deg, var(--clouditera-brand-primary), var(--clouditera-palette-cyan-4));
     border-radius: 4px;
     transition: width 0.3s;
 }
@@ -1124,7 +770,7 @@
 .progress-text {
     font-size: 12px;
     font-weight: 600;
-    color: #1890ff;
+    color: var(--clouditera-brand-primary);
 }
 
 .task-stats {
@@ -1141,21 +787,21 @@
 
 .stat-label {
     font-size: 12px;
-    color: #8c8c8c;
+    color: var(--clouditera-neutral-gray-6);
 }
 
 .stat-value {
     font-size: 16px;
     font-weight: 600;
-    color: #262626;
+    color: var(--clouditera-neutral-gray-9);
 }
 
 .stat-danger {
-    color: #ff4d4f;
+    color: var(--clouditera-semantic-error);
 }
 
 .stat-success {
-    color: #52c41a;
+    color: var(--clouditera-semantic-success);
 }
 
 .task-footer {
@@ -1166,7 +812,7 @@
 
 .task-time {
     font-size: 12px;
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
 }
 
 .task-actions {
@@ -1185,8 +831,8 @@
 
 .pagination-btn {
     padding: 8px 16px;
-    border: 1px solid #d9d9d9;
-    background: white;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
     border-radius: 6px;
     font-size: 14px;
     cursor: pointer;
@@ -1194,8 +840,8 @@
 }
 
 .pagination-btn:hover:not(:disabled) {
-    border-color: #1890ff;
-    color: #1890ff;
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
 }
 
 .pagination-btn:disabled {
@@ -1211,8 +857,8 @@
 .pagination-page {
     width: 36px;
     height: 36px;
-    border: 1px solid #d9d9d9;
-    background: white;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
     border-radius: 6px;
     font-size: 14px;
     cursor: pointer;
@@ -1220,21 +866,21 @@
 }
 
 .pagination-page:hover {
-    border-color: #1890ff;
-    color: #1890ff;
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
 }
 
 .pagination-page.active {
-    background: #1890ff;
-    color: white;
-    border-color: #1890ff;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
 }
 
 .pagination-ellipsis {
     display: flex;
     align-items: center;
     padding: 0 8px;
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
 }
 
 /* ==========================================
@@ -1242,41 +888,39 @@
    ========================================== */
 
 .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
+    gap: 6px;
     transition: all 0.2s;
 }
 
 .btn-primary {
-    background: #1890ff;
-    color: white;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
 }
 
 .btn-primary:hover {
-    background: #40a9ff;
+    background: var(--clouditera-brand-primary-hover);
 }
 
 .btn-primary:active {
-    background: #096dd9;
+    background: var(--clouditera-brand-primary-active);
 }
 
 .btn-secondary {
-    background: white;
-    color: #595959;
-    border: 1px solid #d9d9d9;
+    background: var(--clouditera-neutral-background-white);
+    color: var(--clouditera-neutral-gray-7);
+    border: 1px solid var(--clouditera-neutral-border-primary);
 }
 
 .btn-secondary:hover {
-    color: #1890ff;
-    border-color: #1890ff;
+    color: var(--clouditera-brand-primary);
+    border-color: var(--clouditera-brand-primary);
 }
 
 .btn-sm {

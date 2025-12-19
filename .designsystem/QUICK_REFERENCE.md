@@ -125,6 +125,54 @@ a { color: var(--clouditera-semantic-link); }
 .border-secondary { border-color: var(--clouditera-neutral-border-secondary); }
 ```
 
+## 📐 布局尺寸规范
+
+### 侧导航宽度
+
+**统一标准**：所有侧导航组件必须使用统一的宽度 token，确保视觉一致性。
+
+```css
+/* ✅ 正确 - 使用统一的侧导航宽度 */
+.agent-sidebar {
+  width: var(--clouditera-size-layout-sidebar-width); /* 240px */
+}
+
+.search-categories-sidebar {
+  width: var(--clouditera-size-layout-sidebar-width); /* 240px */
+}
+
+.task-sidebar {
+  width: var(--clouditera-size-layout-sidebar-width); /* 240px */
+}
+
+/* ❌ 错误 - 硬编码宽度 */
+.agent-sidebar {
+  width: 220px; /* 应使用 token */
+}
+
+.agent-sidebar {
+  width: 200px; /* 应使用 token */
+}
+
+.agent-sidebar {
+  width: 240px; /* 应使用 token，不要硬编码 */
+}
+```
+
+**使用场景**：
+- 智能体侧导航（任务列表、近期任务）
+- 分类导航（信息搜索、内容分类）
+- 任务侧边栏（文件列表、输出列表）
+- 所有需要固定宽度的侧边栏组件
+
+**收起状态**：
+```css
+/* 主导航栏收起宽度 */
+.sidebar.collapsed {
+  width: var(--clouditera-size-layout-sidebar-collapsed-width); /* 64px */
+}
+```
+
 ## 📐 常用组件模式
 
 ### 按钮（Button）
@@ -275,6 +323,8 @@ a { color: var(--clouditera-semantic-link); }
 - [ ] 状态色（成功/警告/错误）使用语义色变量
 - [ ] 没有使用 `white`、`black` 等硬编码颜色值
 - [ ] 没有使用 `#ffffff`、`#000000` 等硬编码十六进制值
+- [ ] **侧导航宽度使用统一的 token**：`var(--clouditera-size-layout-sidebar-width)`
+- [ ] 没有硬编码侧导航宽度（如 `220px`、`200px`、`240px` 等）
 
 ## 🔍 变量查找
 

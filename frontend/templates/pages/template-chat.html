@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
     <link rel="stylesheet" href="../css/template-detail.css">
+    <link rel="stylesheet" href="../../components/agent-sidebar.css">
+    <link rel="stylesheet" href="../../components/chat-input.css">
 </head>
 <body class="agent-detail-page">
     <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
@@ -207,7 +209,7 @@
                     </div>
 
                     <!-- 输入区域 -->
-                    <div class="chat-input-container">
+                    <div class="chat-input-container" data-container-mode="empty">
                         <div class="chat-input-wrapper">
                             <!-- 输入框区域 -->
                             <textarea
@@ -246,8 +248,51 @@
     </main>
 
     <script src="../../js/dashboard.js"></script>
+    <script src="../../components/agent-sidebar.js"></script>
+    <script src="../../components/chat-input.js"></script>
     <script src="../js/template-detail.js"></script>
     <script>
+        // 模拟任务数据
+        const mockTasks = [
+            { id: '1', name: 'Laravel项目安全审计', status: 'running', active: false },
+            { id: '2', name: 'React应用漏洞扫描', status: 'running', active: false },
+            { id: '3', name: 'Python代码安全审计', status: 'completed', active: false },
+            { id: '4', name: 'Spring Boot应用审计', status: 'failed', active: false },
+            { id: '5', name: 'Node.js安全咨询', status: 'completed', active: false },
+            { id: '6', name: 'Django项目代码审查', status: 'completed', active: false },
+            { id: '7', name: 'Vue.js安全扫描', status: 'completed', active: false },
+            { id: '8', name: 'PHP代码安全分析', status: 'completed', active: false },
+            { id: '9', name: 'Angular应用审计', status: 'completed', active: false },
+            { id: '10', name: 'Java Web安全咨询', status: 'completed', active: false }
+        ];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化侧导航组件
+            initAgentSidebar({
+                tasks: mockTasks,
+                maxTasks: 10,
+                onNewTask: function() {
+                    console.log('创建新任务');
+                },
+                onTaskClick: function(taskId) {
+                    console.log('点击任务:', taskId);
+                },
+                onViewAll: function() {
+                    console.log('查看全部任务');
+                }
+            });
+
+            // 初始化聊天输入框组件
+            initChatInput({
+                onSend: function(message) {
+                    console.log('发送消息:', message);
+                    // 模拟发送，实际应该调用API
+                    // window.location.href = 'agent-detail-chat.html';
+                }
+            });
+        });
+
         // 快速提示填充功能
         function fillPrompt(text) {
             const input = document.getElementById('chatInput');
@@ -256,16 +301,6 @@
                 input.focus();
             }
         }
-
-        // 发送后跳转到有对话的页面
-        document.getElementById('chatSend').addEventListener('click', function() {
-            const input = document.getElementById('chatInput');
-            if (input.value.trim()) {
-                // 模拟发送，实际应该调用API
-                // window.location.href = 'agent-detail-chat.html';
-                console.log('发送消息:', input.value);
-            }
-        });
     </script>
 </body>
 </html>

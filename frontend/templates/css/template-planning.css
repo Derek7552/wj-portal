@@ -35,17 +35,11 @@
 }
 
 /* ==========================================
-   左栏：智能体侧导航 (220px) - 使用通用样式
-   注：agent-sidebar的样式在agent-detail.css中定义
+   左栏：智能体侧导航 (200px) - 使用组件样式
+   注：agent-sidebar的样式在 agent-sidebar.css 组件中定义
    ========================================== */
 
-/* 自规划模式特定的宽度调整 */
-.agent-planning-page .agent-sidebar {
-    width: 220px;
-    height: 100%;
-    max-height: 100%;
-    overflow-y: auto;
-}
+/* 侧导航组件样式已迁移到 components/agent-sidebar.css */
 
 /* 自规划模式特定的任务状态图标样式 */
 .task-status-icon {
@@ -189,7 +183,7 @@
 }
 
 .phase-status.running {
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .phase-content {
@@ -298,7 +292,7 @@
     align-items: center;
     gap: 10px;
     padding: 10px 0;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid var(--clouditera-neutral-background-primary);
 }
 
 .event-item:last-child {
@@ -708,7 +702,7 @@
     padding: 12px 16px;
     font-size: 13px;
     color: var(--clouditera-neutral-text-primary);
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid var(--clouditera-neutral-background-primary);
 }
 
 .vulnerability-table tbody tr:last-child td {
@@ -830,68 +824,9 @@
     color: white;
 }
 
-/* 输入区域 */
-.chat-input-container {
-    flex-shrink: 0;
-    padding: 16px 20px;
-    border-top: 1px solid #f0f0f0;
-}
-
-.chat-input-wrapper {
-    border: 1px solid var(--clouditera-neutral-border-primary);
-    border-radius: 8px;
-    overflow: hidden;
-    transition: border-color 0.2s;
-}
-
-.chat-input-wrapper:focus-within {
-    border-color: var(--clouditera-brand-primary);
-}
-
-.chat-input {
-    width: 100%;
-    padding: 12px 16px;
-    border: none;
-    outline: none;
-    font-size: 14px;
-    font-family: inherit;
-    resize: none;
-    min-height: 60px;
-}
-
-.chat-input-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 12px;
-    background: var(--clouditera-neutral-background-secondary);
-    border-top: 1px solid #f0f0f0;
-}
-
-.chat-input-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.btn-icon {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    transition: background 0.2s;
-}
-
-.btn-icon:hover {
-    background: var(--clouditera-neutral-background-tertiary);
-}
-
-.shortcut {
-    font-size: 12px;
-    color: var(--clouditera-neutral-gray-6);
-    margin-left: 4px;
-}
+/* ==========================================
+   输入区域样式已迁移到组件 (chat-input.css)
+   ========================================== */
 
 /* ==========================================
    右栏：工具面板 (320px)
@@ -932,13 +867,13 @@
 }
 
 .tools-tab:hover {
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
     background: var(--clouditera-neutral-background-primary);
 }
 
 .tools-tab.active {
-    color: #298CFF;
-    border-bottom-color: #298CFF;
+    color: var(--clouditera-brand-primary);
+    border-bottom-color: var(--clouditera-brand-primary);
 }
 
 .tools-tab .badge {
@@ -951,7 +886,7 @@
 
 .tools-tab.active .badge {
     background: var(--clouditera-palette-blue-0);
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .tools-content {
@@ -1042,7 +977,7 @@
     align-items: center;
     justify-content: flex-start;
     padding: 12px 16px;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--clouditera-neutral-background-tertiary);
     background: var(--clouditera-neutral-background-white);
     gap: 12px;
     flex-shrink: 0;
@@ -1067,7 +1002,7 @@
 .log-nav-btn:hover:not(:disabled) {
     background: var(--clouditera-palette-blue-0); /* blue-0 */
     border-color: var(--clouditera-brand-primary); /* 品牌色 */
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .log-nav-btn:disabled {
@@ -1125,13 +1060,13 @@
 .log-nav-realtime:hover {
     background: var(--clouditera-neutral-background-primary);
     border-color: var(--clouditera-brand-primary);
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .log-nav-realtime.active {
     background: var(--clouditera-palette-blue-0); /* blue-0 */
     border-color: var(--clouditera-brand-primary);
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .log-nav-realtime.active .realtime-icon {
@@ -1233,7 +1168,7 @@
     border-radius: 3px;
     font-family: 'Monaco', 'Consolas', monospace;
     font-size: 13px;
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
     font-weight: 600;
 }
 
@@ -1306,12 +1241,12 @@
 }
 
 .log-code::-webkit-scrollbar-thumb {
-    background: #d9d9d9;
+    background: var(--clouditera-neutral-border-primary);
     border-radius: 4px;
 }
 
 .log-code::-webkit-scrollbar-thumb:hover {
-    background: #bfbfbf;
+    background: var(--clouditera-neutral-gray-5);
 }
 
 .log-text {
@@ -1375,7 +1310,7 @@
     background: var(--clouditera-neutral-background-white);
     border-radius: 6px;
     font-size: 13px;
-    border: 1px solid #f0f0f0;
+    border: 1px solid var(--clouditera-neutral-background-tertiary);
 }
 
 .task-list-container .task-list-item.pending {
@@ -1451,7 +1386,7 @@
    ========================================== */
 
 .phase-progress-panel {
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--clouditera-neutral-background-tertiary);
     padding: 16px;
     background: var(--clouditera-neutral-background-white);
     flex-shrink: 0;
@@ -1522,11 +1457,11 @@
 }
 
 .phase-progress-item.completed:not(:last-child)::before {
-    background: #b7eb8f;
+    background: var(--clouditera-palette-green-2);
 }
 
 .phase-progress-item.running:not(:last-child)::before {
-    background: #91caff;
+    background: var(--clouditera-palette-blue-2);
 }
 
 /* 标记点 */
@@ -1539,7 +1474,7 @@
     justify-content: center;
     flex-shrink: 0;
     background: var(--clouditera-neutral-background-tertiary);
-    border: 2px solid #d9d9d9;
+    border: 2px solid var(--clouditera-neutral-border-primary);
     position: relative;
     z-index: 1;
 }
@@ -1562,7 +1497,7 @@
 
 .phase-progress-item.pending .phase-progress-marker {
     background: var(--clouditera-neutral-background-secondary);
-    border-color: #d9d9d9;
+    border-color: var(--clouditera-neutral-border-primary);
 }
 
 /* 状态图标 */
@@ -1576,15 +1511,15 @@
 }
 
 .phase-progress-item.running .phase-progress-status {
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
 }
 
 .phase-progress-item.failed .phase-progress-status {
-    color: #ff4d4f;
+    color: var(--clouditera-semantic-error);
 }
 
 .phase-progress-item.pending .phase-progress-status {
-    color: #d9d9d9;
+    color: var(--clouditera-neutral-border-primary);
 }
 
 /* 阶段内容 */
@@ -1603,7 +1538,7 @@
 }
 
 .phase-progress-item.current .phase-progress-name {
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
     font-weight: 600;
 }
 
@@ -1649,7 +1584,7 @@
 }
 
 .btn-secondary:hover {
-    color: #298CFF;
+    color: var(--clouditera-brand-primary);
     border-color: var(--clouditera-brand-primary);
 }
 

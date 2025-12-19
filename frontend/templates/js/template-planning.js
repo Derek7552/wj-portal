@@ -109,27 +109,14 @@ const mockTasks = [
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded 事件触发');
     initNavigation();
+    initAgentSidebarComponent(); // 初始化侧导航组件
     initToolsTabs();
     initTaskList();
-    initChatInput();
+    initChatInputComponent(); // 使用新组件
     initEventClickHandlers();
     initPhaseProgress();
     initFileTree();
     initLogNavigation();
-    
-    // 额外检查 viewAllTasks 按钮（确保事件绑定成功）
-    setTimeout(function() {
-        const viewAllTasks = document.getElementById('viewAllTasks');
-        if (viewAllTasks) {
-            console.log('延迟检查: viewAllTasks 元素存在');
-            // 检查是否已有事件监听器
-            const hasListener = viewAllTasks.onclick !== null || 
-                               viewAllTasks.getAttribute('data-listener-bound') === 'true';
-            console.log('viewAllTasks 是否已有监听器:', hasListener);
-        } else {
-            console.warn('延迟检查: 未找到 viewAllTasks 元素');
-        }
-    }, 100);
 });
 
 /* ==========================================
@@ -183,6 +170,42 @@ function initNavigation() {
 }
 
 /* ==========================================
+   侧导航组件初始化
+   ========================================== */
+
+let agentSidebarInstance = null;
+
+function initAgentSidebarComponent() {
+    // 准备任务数据（只显示前4个任务，设置第一个为活动状态）
+    const sidebarTasks = mockTasks.slice(0, 4).map((task, index) => ({
+        id: task.id,
+        name: task.name,
+        status: task.status,
+        active: index === 0 // 第一个任务为活动状态
+    }));
+
+    // 使用侧导航组件
+    agentSidebarInstance = initAgentSidebar({
+        tasks: sidebarTasks,
+        maxTasks: 10,
+        onNewTask: function() {
+            console.log('点击新任务按钮');
+            showNewTaskView();
+        },
+        onTaskClick: function(taskId) {
+            console.log('点击任务项:', taskId);
+            loadTaskDetail(taskId);
+        },
+        onViewAll: function() {
+            console.log('点击查看全部任务');
+            showAllTasksList();
+        }
+    });
+
+    return agentSidebarInstance;
+}
+
+/* ==========================================
    工具面板Tab切换
    ========================================== */
 
@@ -220,52 +243,38 @@ function initTaskList() {
     const taskItems = document.querySelectorAll('.recent-task-item');
 
     taskItems.forEach(item => {
-        item.addEventListener('click', function(e) {
-            e.preventDefault();
+        const taskId = item.dataset.taskId;
+        
+        // 只对 task-001（代码安全漏洞挖掘任务）绑定点击事件
+        if (taskId === 'task-001') {
+            item.addEventListener('click', function(e) {
+                e.preventDefault();
 
-            // 移除其他任务的active状态
-            taskItems.forEach(t => t.classList.remove('active'));
+                // 移除其他任务的active状态
+                taskItems.forEach(t => t.classList.remove('active'));
 
-            // 添加当前任务的active状态
-            this.classList.add('active');
+                // 添加当前任务的active状态
+                this.classList.add('active');
 
-            // 加载任务详情
-            const taskId = this.dataset.taskId;
-            console.log('侧边栏任务项点击, taskId:', taskId);
-            
-            if (taskId) {
-                console.log('通过 taskId 加载任务详情:', taskId);
+                // 加载任务详情
+                console.log('侧边栏任务项点击, taskId:', taskId);
                 loadTaskDetail(taskId);
-            } else {
-                // 如果没有 taskId，尝试根据任务名称查找
-                const taskName = this.querySelector('.task-name')?.textContent?.trim();
-                console.log('通过任务名称查找任务:', taskName);
-                if (taskName) {
-                    const task = mockTasks.find(t => t.name === taskName);
-                    if (task) {
-                        console.log('找到任务, id:', task.id);
-                        loadTaskDetail(task.id);
-                    } else {
-                        console.warn('未找到匹配的任务:', taskName);
-                        // 恢复显示右侧工具面板
-                        const toolsPanel = document.querySelector('.tools-panel');
-                        if (toolsPanel) {
-                            toolsPanel.style.display = '';
-                        }
-                    }
-                } else {
-                    console.warn('无法获取任务名称');
-                }
-            }
-        });
+            });
+        } else {
+            // 其他任务移除点击事件，设置为不可点击样式
+            item.style.pointerEvents = 'none';
+            item.style.opacity = '0.6';
+            item.style.cursor = 'default';
+        }
     });
 
     // 新任务按钮
     const btnNewTask = document.getElementById('btnNewTask');
     if (btnNewTask) {
-        btnNewTask.addEventListener('click', function() {
-            // 显示新任务输入界面
-            console.log('创建新任务');
+        btnNewTask.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('点击新任务按钮');
+            showNewTaskView();
         });
     }
 
@@ -320,49 +329,21 @@ function initTaskList() {
 }
 
 /* ==========================================
-   聊天输入
+   聊天输入（使用组件）
    ========================================== */
 
-function initChatInput() {
-    const chatInput = document.querySelector('.chat-input');
-    const chatMessages = document.getElementById('chatMessages');
+let chatInputInstance = null;
 
-    if (chatInput) {
-        // 自动调整高度
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
+function initChatInputComponent() {
+    // 使用聊天输入框组件
+    chatInputInstance = initChatInput({
+        onSend: function(message) {
+            console.log('发送消息:', message);
+            // 这里可以添加消息到聊天区域
+        }
+    });
 
-        // Shift+Enter 发送
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-    }
-
-    // 发送按钮
-    const sendBtn = document.querySelector('.chat-input-toolbar .btn-primary');
-    if (sendBtn) {
-        sendBtn.addEventListener('click', sendMessage);
-    }
-}
-
-function sendMessage() {
-    const chatInput = document.querySelector('.chat-input');
-    const message = chatInput.value.trim();
-
-    if (!message) return;
-
-    console.log('发送消息:', message);
-
-    // 清空输入框
-    chatInput.value = '';
-    chatInput.style.height = 'auto';
-
-    // 这里可以添加消息到聊天区域
+    return chatInputInstance;
 }
 
 /* ==========================================
@@ -937,50 +918,9 @@ function capitalize(str) {
 // 如果这个函数被调用，说明有其他地方也在调用它，需要检查
 
 /* ==========================================
-   聊天输入
+   聊天输入功能已迁移到组件 (chat-input.js)
+   使用 initChatInputComponent() 函数初始化
    ========================================== */
-
-function initChatInput() {
-    const chatInput = document.querySelector('.chat-input');
-    const chatMessages = document.getElementById('chatMessages');
-
-    if (chatInput) {
-        // 自动调整高度
-        chatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 200) + 'px';
-        });
-
-        // Shift+Enter 发送
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
-    }
-
-    // 发送按钮
-    const sendBtn = document.querySelector('.chat-input-toolbar .btn-primary');
-    if (sendBtn) {
-        sendBtn.addEventListener('click', sendMessage);
-    }
-}
-
-function sendMessage() {
-    const chatInput = document.querySelector('.chat-input');
-    const message = chatInput.value.trim();
-
-    if (!message) return;
-
-    console.log('发送消息:', message);
-
-    // 清空输入框
-    chatInput.value = '';
-    chatInput.style.height = 'auto';
-
-    // 这里可以添加消息到聊天区域
-}
 
 /* ==========================================
    阶段进度看板
@@ -1946,10 +1886,11 @@ function getTask001FullContent() {
             </div>
         </div>
         <!-- 输入框（固定在对话区底部） -->
-        <div class="chat-input-container">
+        <div class="chat-input-container" data-container-mode="fixed">
             <div class="chat-input-wrapper">
                 <textarea
                     class="chat-input"
+                    id="chatInput"
                     placeholder="您可以随时干预，提出建议或调整方向..."
                     rows="3"
                 ></textarea>
@@ -1957,10 +1898,12 @@ function getTask001FullContent() {
                     <div class="chat-input-actions">
                         <button class="btn-icon" title="上传文件">📎</button>
                         <button class="btn-icon" title="插入图片">🖼️</button>
+                        <button class="btn-icon" title="插入代码">💻</button>
+                        <button class="btn-icon" title="插入表格">📊</button>
                     </div>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary chat-send" id="chatSend">
                         <span>发送</span>
-                        <span class="shortcut">⇧↵</span>
+                        <span class="send-shortcut">Shift+Enter</span>
                     </button>
                 </div>
             </div>
@@ -2034,10 +1977,11 @@ function loadTaskDetail(taskId) {
             </div>
         </div>
         <!-- 输入框（固定在对话区底部） -->
-        <div class="chat-input-container">
+        <div class="chat-input-container" data-container-mode="fixed">
             <div class="chat-input-wrapper">
                 <textarea
                     class="chat-input"
+                    id="chatInput"
                     placeholder="您可以随时干预，提出建议或调整方向..."
                     rows="3"
                 ></textarea>
@@ -2045,23 +1989,31 @@ function loadTaskDetail(taskId) {
                     <div class="chat-input-actions">
                         <button class="btn-icon" title="上传文件">📎</button>
                         <button class="btn-icon" title="插入图片">🖼️</button>
+                        <button class="btn-icon" title="插入代码">💻</button>
+                        <button class="btn-icon" title="插入表格">📊</button>
                     </div>
-                    <button class="btn btn-primary">
+                    <button class="btn btn-primary chat-send" id="chatSend">
                         <span>发送</span>
-                        <span class="shortcut">⇧↵</span>
+                        <span class="send-shortcut">Shift+Enter</span>
                     </button>
                 </div>
             </div>
         </div>
     `;
     }
-    
+
     // 替换对话区内容
     console.log('更新 chatArea 内容, HTML长度:', taskDetailHTML.length);
     chatArea.innerHTML = taskDetailHTML;
-    
-    // 重新初始化聊天输入框事件（因为HTML被替换了）
-    initChatInput();
+
+    // 重新初始化聊天输入框组件（因为HTML被替换了）
+    initChatInput({
+        selector: '.chat-area .chat-input-container',
+        onSend: function(message) {
+            console.log('发送消息:', message);
+            // 这里可以添加消息到聊天区域
+        }
+    });
     console.log('chatArea 内容已更新, 当前内容长度:', chatArea.innerHTML.length);
     
     // 显示右侧工具面板
@@ -2082,4 +2034,95 @@ function loadTaskDetail(taskId) {
             item.classList.remove('active');
         }
     });
+}
+
+/* ==========================================
+   新任务视图
+   ========================================== */
+
+function showNewTaskView() {
+    const chatArea = document.querySelector('.chat-area');
+    if (!chatArea) {
+        console.error('未找到 .chat-area 元素');
+        return;
+    }
+    
+    // 生成新任务空状态页面（参考快速对话助手示例）
+    const newTaskHTML = `
+        <div class="empty-state-container">
+            <!-- 智能体名称 -->
+            <div class="empty-agent-name">
+                <span class="agent-name-text">自规划任务执行助手</span>
+            </div>
+            
+            <!-- 引导文案 -->
+            <div class="empty-state-guide">
+                <p class="empty-state-guide-text">开始给智能体分配任务</p>
+            </div>
+            
+            <!-- 输入区域 -->
+            <div class="chat-input-container" data-container-mode="empty">
+                <div class="chat-input-wrapper">
+                    <textarea
+                        class="chat-input"
+                        id="chatInput"
+                        placeholder="输入您的问题或粘贴代码..."
+                        rows="3"
+                    ></textarea>
+                    <div class="chat-input-toolbar">
+                        <div class="chat-input-actions">
+                            <button class="btn-icon" title="上传文件" data-action="upload">📎</button>
+                            <button class="btn-icon" title="插入图片" data-action="image">🖼️</button>
+                            <button class="btn-icon" title="插入代码" data-action="code">💻</button>
+                            <button class="btn-icon" title="插入表格" data-action="table">📊</button>
+                        </div>
+                        <button class="btn btn-primary chat-send" id="chatSend">
+                            <span>发送</span>
+                            <span class="send-shortcut">Shift+Enter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // 替换对话区内容
+    chatArea.innerHTML = newTaskHTML;
+
+    // 隐藏右侧工具面板
+    const toolsPanel = document.querySelector('.tools-panel');
+    if (toolsPanel) {
+        toolsPanel.style.display = 'none';
+    }
+
+    // 移除所有任务项的active状态
+    const taskItems = document.querySelectorAll('.recent-task-item');
+    taskItems.forEach(item => {
+        item.classList.remove('active');
+    });
+
+    // 使用组件初始化输入框
+    initChatInput({
+        selector: '.empty-state-container .chat-input-container',
+        autoFocus: true,
+        onSend: sendNewTask
+    });
+}
+
+// initNewTaskInput 函数已废弃，由组件的 initChatInput 替代
+
+function sendNewTask(message) {
+    // 参数 message 由组件的 onSend 回调传入
+    if (!message) {
+        return;
+    }
+
+    console.log('发送新任务:', message);
+
+    // 这里可以调用API创建新任务
+    // 暂时模拟：创建任务后显示任务详情
+    // 实际应该根据API返回的任务ID来加载任务详情
+
+    // TODO: 实际应该调用API创建任务，然后根据返回的任务ID加载任务详情
+    // 示例：loadTaskDetail(newTaskId);
 }

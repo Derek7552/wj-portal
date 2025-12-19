@@ -1,0 +1,42 @@
+<!--
+    智能体侧导航组件
+
+    使用方式:
+    1. 在页面中引入此组件的HTML
+    2. 引入 components/agent-sidebar.css
+    3. 调用 initAgentSidebar() 初始化
+
+    参数:
+    - data-agent-id: 智能体ID（可选）
+    - data-max-tasks: 显示的最大任务数（默认: 10）
+-->
+<aside class="agent-sidebar">
+    <nav class="agent-nav">
+        <!-- 新任务按钮 -->
+        <button class="btn-new-chat" id="btnNewTask">
+            <span class="btn-icon">✨</span>
+            <span class="btn-text">新任务</span>
+        </button>
+
+        <!-- 近期任务 -->
+        <div class="nav-group">
+            <div class="nav-group-title">近期任务</div>
+
+            <!-- 近期任务列表 -->
+            <div class="recent-tasks-list" id="recentTasksList">
+                <!-- 任务项将通过 JavaScript 动态生成 -->
+                <!-- 示例结构：
+                <a href="#" class="recent-task-item" data-task-id="xxx">
+                    <span class="task-status-icon completed">✅</span>
+                    <div class="task-name">任务名称</div>
+                </a>
+                -->
+            </div>
+
+            <!-- 查看全部入口 -->
+            <a href="#" class="view-all-tasks" id="viewAllTasks">
+                查看全部任务记录 →
+            </a>
+        </div>
+    </nav>
+</aside>

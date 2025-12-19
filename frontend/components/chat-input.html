@@ -1,0 +1,46 @@
+<!--
+    聊天输入框组件
+
+    使用方式:
+    1. 在页面中引入此组件的HTML
+    2. 引入 components/chat-input.css
+    3. 调用 initChatInput() 初始化
+
+    参数:
+    - data-placeholder: 输入框占位符文本 (默认: "输入您的问题或粘贴代码...")
+    - data-show-all-actions: 是否显示所有工具按钮 (默认: true)
+    - data-container-mode: 容器模式 empty(空状态居中) | fixed(固定在底部) (默认: fixed)
+-->
+<div class="chat-input-container" data-container-mode="fixed">
+    <div class="chat-input-wrapper">
+        <!-- 输入框区域 -->
+        <textarea
+            class="chat-input"
+            id="chatInput"
+            placeholder="输入您的问题或粘贴代码..."
+            rows="3"
+        ></textarea>
+
+        <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+        <div class="chat-input-toolbar">
+            <div class="chat-input-actions">
+                <button class="btn-icon" title="上传文件" data-action="upload">
+                    📎
+                </button>
+                <button class="btn-icon" title="插入图片" data-action="image">
+                    🖼️
+                </button>
+                <button class="btn-icon" title="插入代码" data-action="code">
+                    💻
+                </button>
+                <button class="btn-icon" title="插入表格" data-action="table">
+                    📊
+                </button>
+            </div>
+            <button class="btn btn-primary chat-send" id="chatSend">
+                <span>发送</span>
+                <span class="send-shortcut">Shift+Enter</span>
+            </button>
+        </div>
+    </div>
+</div>

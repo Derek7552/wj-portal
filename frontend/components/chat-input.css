@@ -1,0 +1,164 @@
+/* ==========================================
+   聊天输入框组件样式
+   ========================================== */
+
+/* 输入区域容器 */
+.chat-input-container {
+    border-top: 1px solid var(--clouditera-neutral-background-tertiary);
+    padding: 16px 24px 24px 24px;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* 空状态模式：居中显示，无上边框 */
+.chat-input-container[data-container-mode="empty"] {
+    width: 100%;
+    border-top: none;
+    padding-top: 0;
+}
+
+/* 固定模式：底部固定 */
+.chat-input-container[data-container-mode="fixed"] {
+    /* 默认样式，无需额外设置 */
+}
+
+/* 输入框包装器 */
+.chat-input-wrapper {
+    position: relative;
+    background-color: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+    width: 80%;
+    max-width: 100%;
+}
+
+/* 空状态时的宽度调整 */
+.chat-input-container[data-container-mode="empty"] .chat-input-wrapper {
+    width: 100%;
+}
+
+/* 聚焦状态 */
+.chat-input-wrapper:focus-within {
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
+}
+
+/* 输入框 */
+.chat-input {
+    width: 100%;
+    border: none;
+    padding: 12px;
+    padding-bottom: 52px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    min-height: 120px;
+    line-height: 1.6;
+    box-sizing: border-box;
+}
+
+.chat-input:focus {
+    outline: none;
+}
+
+/* 工具栏 */
+.chat-input-toolbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background-color: transparent;
+}
+
+/* 工具按钮组 */
+.chat-input-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* 工具按钮 */
+.chat-input-actions .btn-icon {
+    font-size: 18px;
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+.chat-input-actions .btn-icon:hover {
+    background-color: var(--clouditera-neutral-background-primary);
+    color: var(--clouditera-neutral-gray-9);
+}
+
+/* 发送按钮 */
+.chat-send {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    background: var(--clouditera-brand-primary) !important;
+    color: white !important;
+    border-color: var(--clouditera-brand-primary) !important;
+}
+
+.chat-send:hover {
+    background: var(--clouditera-brand-primary-hover) !important;
+    border-color: var(--clouditera-brand-primary-hover) !important;
+}
+
+.chat-send:active {
+    background: var(--clouditera-brand-primary-active) !important;
+    border-color: var(--clouditera-brand-primary-active) !important;
+}
+
+/* 快捷键提示 */
+.send-shortcut {
+    font-size: 11px;
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+/* 平板端 */
+@media (max-width: 992px) {
+    .chat-input-wrapper {
+        width: 80%;
+    }
+}
+
+/* 移动端 */
+@media (max-width: 768px) {
+    .chat-input-container {
+        padding: 12px 16px 16px 16px;
+    }
+
+    .chat-input-wrapper {
+        width: 100%;
+    }
+
+    .chat-input {
+        min-height: 80px;
+    }
+
+    .send-shortcut {
+        display: none;
+    }
+}

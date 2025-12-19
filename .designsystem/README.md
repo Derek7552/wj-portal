@@ -129,6 +129,12 @@ Token 采用层级命名结构：
   - 支持的颜色：red, volcano, orange, gold, yellow, lime, green, cyan, blue, geekblue, purple, magenta
   - 级别：0-9
 
+- **size**: 尺寸
+  - **layout**: 布局尺寸
+    - `--clouditera-size-layout-sidebar-width`: 侧导航宽度 `240px` - 统一标准宽度，适用于所有侧导航组件（智能体侧导航、分类导航等）
+    - `--clouditera-size-layout-sidebar-collapsed-width`: 侧导航收起宽度 `64px` - 主导航栏收起时的宽度
+    - **使用原则**：所有侧导航组件必须使用统一的 `sidebar-width`，确保视觉一致性
+
 ## 兼容性别名
 
 为了向后兼容，提供了简化的别名：
@@ -203,6 +209,28 @@ Token 采用层级命名结构：
 }
 ```
 
+### 侧导航样式
+
+```css
+/* ✅ 正确 - 使用统一的侧导航宽度 */
+.agent-sidebar {
+  width: var(--clouditera-size-layout-sidebar-width); /* 240px */
+}
+
+.search-categories-sidebar {
+  width: var(--clouditera-size-layout-sidebar-width); /* 240px */
+}
+
+/* ❌ 错误 - 硬编码宽度 */
+.agent-sidebar {
+  width: 220px; /* 应使用 token */
+}
+
+.agent-sidebar {
+  width: 200px; /* 应使用 token */
+}
+```
+
 ## 版本信息
 
 - **当前版本**: 1.0.0
@@ -220,6 +248,12 @@ Token 采用层级命名结构：
 如有问题或建议，请联系 Clouditera 设计团队。
 
 ## 更新日志
+
+### v1.2.0 (2024-12-11)
+- **新增**：侧导航宽度统一规范
+  - 添加 `--clouditera-size-layout-sidebar-width` (240px) 作为统一的侧导航宽度标准
+  - 添加 `--clouditera-size-layout-sidebar-collapsed-width` (64px) 作为主导航栏收起宽度
+  - 要求所有侧导航组件使用统一的宽度 token，确保视觉一致性
 
 ### v1.1.0 (2024-12-18)
 - **新增**：文本颜色优先级体系规范
