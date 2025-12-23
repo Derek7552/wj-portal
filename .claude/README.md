@@ -10,6 +10,8 @@
 .claude/
 ├── README.md                           # 本文件
 ├── settings.local.json                 # Claude Code 权限配置
+├── mcp-servers.json                    # MCP 服务器配置
+├── LINEAR_MCP_GUIDE.md                 # Linear MCP 使用指南
 ├── commands/                           # Commands 目录
 │   ├── ui-design.md                    # UI 页面设计 Command
 │   └── ui-adjust.md                    # UI 局部调整 Command
@@ -106,6 +108,40 @@
 
 ---
 
+## 🔗 Linear MCP 集成
+
+### 用途
+通过 MCP (Model Context Protocol) 集成 Linear 项目管理工具，实现任务创建、查询、更新等功能。
+
+### 快速配置
+```bash
+# 使用 Claude CLI 添加 Linear MCP 服务器（推荐）
+claude mcp add --transport sse linear-server https://mcp.linear.app/sse
+```
+
+### 功能
+- ✅ 创建、更新、查询 Issues
+- ✅ 管理标签和状态
+- ✅ 分配团队成员
+- ✅ 查看项目进度
+- ✅ 与设计系统集成（创建 UI 相关任务）
+
+### 使用示例
+```
+列出我今天的所有待办任务
+```
+
+```
+创建 UI 设计任务：
+标题：优化任务卡片样式
+描述：根据设计系统规范调整任务卡片
+参考：.claude/skills/designsystem/
+```
+
+详细文档：[`LINEAR_MCP_GUIDE.md`](./LINEAR_MCP_GUIDE.md)
+
+---
+
 ## ⚙️ 配置文件
 
 ### settings.local.json
@@ -139,4 +175,5 @@
 - ✅ 创建设计系统 Skill（5个模块：颜色、组件、文案、布局、排版）
 - ✅ 创建 UI 页面设计 Command（从零开始设计完整页面）
 - ✅ 创建 UI 局部调整 Command（优化现有界面元素）
+- ✅ 集成 Linear MCP 项目管理工具（CLI 配置方式）
 - ✅ 清理空目录和废弃文档
