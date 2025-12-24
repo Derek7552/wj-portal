@@ -6,6 +6,9 @@
 let currentPage = 1;
 const pageSize = 6; // 每页显示6个任务
 
+// 文件树初始化标志（需要在函数调用之前声明）
+let fileTreeInitialized = false;
+
 // 模拟任务数据
 const mockTasks = [
     {
@@ -22,94 +25,22 @@ const mockTasks = [
     },
     {
         id: 'task-002',
-        name: '开发用户认证系统',
-        status: 'running',
-        createTime: '2024-12-11 10:15',
-        statistics: {
-            total: 5,
-            typeA: 1,
-            typeB: 3,
-            typeC: 1
-        }
-    },
-    {
-        id: 'task-003',
-        name: '数据库优化方案',
-        status: 'completed',
-        createTime: '2024-12-10 16:45',
-        statistics: {
-            total: 12,
-            typeA: 2,
-            typeB: 7,
-            typeC: 3
-        }
-    },
-    {
-        id: 'task-004',
-        name: 'API接口文档生成',
+        name: '源代码漏洞挖掘任务',
         status: 'failed',
-        createTime: '2024-12-10 09:20',
+        createTime: '2024-12-24 14:30',
         statistics: {
-            total: 0,
+            total: 1,
             typeA: 0,
-            typeB: 0,
+            typeB: 1,
             typeC: 0
         }
     },
-    {
-        id: 'task-005',
-        name: '前端性能优化分析',
-        status: 'completed',
-        createTime: '2024-12-09 15:30',
-        statistics: {
-            total: 6,
-            typeA: 1,
-            typeB: 4,
-            typeC: 1
-        }
-    },
-    {
-        id: 'task-006',
-        name: '系统架构设计评审',
-        status: 'running',
-        createTime: '2024-12-09 11:00',
-        statistics: {
-            total: 3,
-            typeA: 0,
-            typeB: 2,
-            typeC: 1
-        }
-    },
-    {
-        id: 'task-007',
-        name: '安全配置检查',
-        status: 'completed',
-        createTime: '2024-12-08 14:20',
-        statistics: {
-            total: 10,
-            typeA: 4,
-            typeB: 5,
-            typeC: 1
-        }
-    },
-    {
-        id: 'task-008',
-        name: '代码重构建议',
-        status: 'completed',
-        createTime: '2024-12-08 10:10',
-        statistics: {
-            total: 7,
-            typeA: 1,
-            typeB: 4,
-            typeC: 2
-        }
-    }
 ];
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOMContentLoaded 事件触发');
+    console.log('✅ 页面加载完成');
     initNavigation();
-    initAgentSidebarComponent(); // 初始化侧导航组件
+    initSidebar(); // 初始化侧导航
     initToolsTabs();
     initTaskList();
     initEventClickHandlers();
@@ -176,39 +107,100 @@ function initNavigation() {
 }
 
 /* ==========================================
-   侧导航组件初始化
+   侧导航初始化（简化版）
    ========================================== */
 
-let agentSidebarInstance = null;
+function initSidebar() {
+    console.log('✅ 开始初始化侧导航');
 
-function initAgentSidebarComponent() {
-    // 准备任务数据（只显示前4个任务，默认不设置活动状态）
-    const sidebarTasks = mockTasks.slice(0, 4).map((task, index) => ({
-        id: task.id,
-        name: task.name,
-        status: task.status,
-        active: false // 默认不激活任何任务
-    }));
+    // 渲染任务列表
+    renderTaskList();
 
-    // 使用侧导航组件
-    agentSidebarInstance = initAgentSidebar({
-        tasks: sidebarTasks,
-        maxTasks: 10,
-        onNewTask: function() {
-            console.log('点击新任务按钮');
+    // 绑定新任务按钮
+    const btnNewTask = document.getElementById('btnNewTask');
+    if (btnNewTask) {
+        btnNewTask.addEventListener('click', function() {
+            console.log('✅ 点击新任务按钮');
             showNewTaskView();
-        },
-        onTaskClick: function(taskId) {
-            console.log('点击任务项:', taskId);
-            loadTaskDetail(taskId);
-        },
-        onViewAll: function() {
-            console.log('点击查看全部任务');
+        });
+    }
+
+    // 绑定查看全部按钮
+    const viewAllBtn = document.getElementById('viewAllTasks');
+    if (viewAllBtn) {
+        viewAllBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('✅ 点击查看全部任务');
             showAllTasksList();
-        }
+        });
+    }
+
+    console.log('✅ 侧导航初始化完成');
+}
+
+// 渲染任务列表
+function renderTaskList() {
+    const tasksList = document.getElementById('recentTasksList');
+    if (!tasksList) {
+        console.error('❌ 未找到任务列表容器');
+        return;
+    }
+
+    // 获取任务状态图标
+    function getStatusIcon(status) {
+        const icons = {
+            'completed': '✅',
+            'failed': '❌',
+            'running': '⏳',
+            'pending': '⏸️'
+        };
+        return icons[status] || '⏸️';
+    }
+
+    // 生成任务HTML（所有任务都使用 # 作为href，通过JS加载详情）
+    const tasksHTML = mockTasks.map(task => {
+        const icon = getStatusIcon(task.status);
+
+        return `
+            <a href="#" class="recent-task-item" data-task-id="${task.id}">
+                <span class="task-status-icon ${task.status}">${icon}</span>
+                <div class="task-name">${task.name}</div>
+            </a>
+        `;
+    }).join('');
+
+    tasksList.innerHTML = tasksHTML;
+
+    // 绑定任务点击事件
+    const taskItems = tasksList.querySelectorAll('.recent-task-item');
+    console.log(`🔍 找到 ${taskItems.length} 个任务项，开始绑定事件`);
+
+    taskItems.forEach((item, index) => {
+        const taskId = item.dataset.taskId;
+        console.log(`🔗 绑定任务${index + 1}: ${taskId}, href=${item.href}`);
+
+        item.addEventListener('click', function(e) {
+            e.preventDefault(); // 阻止默认跳转
+            console.log(`🎯 点击任务: ${taskId}`);
+
+            // 移除其他任务的active状态
+            taskItems.forEach(t => t.classList.remove('active'));
+
+            // 添加当前任务的active状态
+            this.classList.add('active');
+
+            // 加载任务详情
+            console.log(`📄 加载${taskId}详情`);
+            loadTaskDetail(taskId);
+        });
+
+        // 添加鼠标悬停测试
+        item.addEventListener('mouseenter', function() {
+            console.log(`🖱️  鼠标进入 ${taskId}`);
+        });
     });
 
-    return agentSidebarInstance;
+    console.log(`✅ 渲染了 ${mockTasks.length} 个任务，事件绑定完成`);
 }
 
 /* ==========================================
@@ -242,96 +234,12 @@ function capitalize(str) {
 }
 
 /* ==========================================
-   任务列表
+   任务列表（已废弃 - 由 initSidebar 处理）
    ========================================== */
 
 function initTaskList() {
-    const taskItems = document.querySelectorAll('.recent-task-item');
-
-    taskItems.forEach(item => {
-        const taskId = item.dataset.taskId;
-        
-        // 只对 task-001（代码安全漏洞挖掘任务）绑定点击事件
-        if (taskId === 'task-001') {
-            item.addEventListener('click', function(e) {
-                e.preventDefault();
-
-                // 移除其他任务的active状态
-                taskItems.forEach(t => t.classList.remove('active'));
-
-                // 添加当前任务的active状态
-                this.classList.add('active');
-
-                // 加载任务详情
-                console.log('侧边栏任务项点击, taskId:', taskId);
-                loadTaskDetail(taskId);
-            });
-        } else {
-            // 其他任务移除点击事件，设置为不可点击样式
-            item.style.pointerEvents = 'none';
-            item.style.opacity = '0.6';
-            item.style.cursor = 'default';
-        }
-    });
-
-    // 新任务按钮
-    const btnNewTask = document.getElementById('btnNewTask');
-    if (btnNewTask) {
-        btnNewTask.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('点击新任务按钮');
-            showNewTaskView();
-        });
-    }
-
-    // 查看全部任务按钮 - 使用事件委托
-    const agentSidebar = document.querySelector('.agent-sidebar');
-    if (agentSidebar) {
-        agentSidebar.addEventListener('click', function(e) {
-            // 检查是否点击的是 viewAllTasks 按钮或其子元素
-            const viewAllTasks = e.target.closest('#viewAllTasks, .view-all-tasks');
-            if (viewAllTasks) {
-                e.preventDefault();
-                e.stopPropagation();
-                console.log('点击查看全部任务记录按钮（事件委托）');
-                console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
-                if (typeof showAllTasksList === 'function') {
-                    try {
-                        showAllTasksList();
-                    } catch (error) {
-                        console.error('调用 showAllTasksList 时出错:', error);
-                    }
-                } else {
-                    console.error('showAllTasksList 函数未定义');
-                }
-            }
-        });
-        console.log('已使用事件委托绑定 viewAllTasks 点击事件');
-    }
-    
-    // 也直接绑定一次（双重保险）
-    const viewAllTasks = document.getElementById('viewAllTasks');
-    console.log('查找 viewAllTasks 元素:', viewAllTasks);
-    if (viewAllTasks) {
-        viewAllTasks.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('点击查看全部任务记录按钮（直接绑定）');
-            console.log('showAllTasksList 函数类型:', typeof showAllTasksList);
-            if (typeof showAllTasksList === 'function') {
-                try {
-                    showAllTasksList();
-                } catch (error) {
-                    console.error('调用 showAllTasksList 时出错:', error);
-                }
-            } else {
-                console.error('showAllTasksList 函数未定义');
-            }
-        });
-        console.log('已直接绑定 viewAllTasks 点击事件');
-    } else {
-        console.warn('未找到 viewAllTasks 元素');
-    }
+    // 此函数已被 initSidebar() 替代，保留空函数避免报错
+    console.log('⚠️  initTaskList() 已废弃，任务列表由 initSidebar() 处理');
 }
 
 /* ==========================================
@@ -510,7 +418,7 @@ public class UserRepository {
         function: 'read_file',
         params: { path: 'user-profile.html' },
         output: `<div class="user-profile">
-  <h2>${user.nickname}</h2>
+  <h2>\${user.nickname}</h2>
   <!-- 未转义，存在XSS风险 -->
 </div>`
     },
@@ -978,9 +886,6 @@ function initPhaseProgress() {
    文件目录树
    ========================================== */
 
-// 文件树初始化标志
-let fileTreeInitialized = false;
-
 function initFileTree() {
     const filesTab = document.getElementById('tabFiles');
     if (!filesTab || fileTreeInitialized) return;
@@ -1413,8 +1318,12 @@ function getTask001FullContent() {
     // 如果没有模板，返回完整的HTML字符串
     return `
         <div class="chat-header">
-            <span class="chat-title">代码安全漏洞挖掘任务</span>
-            <span class="chat-time">2024-12-11 14:30</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="chat-title">代码安全漏洞挖掘任务</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="chat-time">2024-12-11 14:30</span>
+            </div>
         </div>
         <div class="chat-messages" id="chatMessages">
             <!-- 系统消息 -->
@@ -1917,30 +1826,242 @@ function getTask001FullContent() {
     `;
 }
 
+// task-002 异常任务详情内容
+function getTask002ErrorContent() {
+    return `
+        <!-- 任务头部 -->
+        <div class="chat-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="chat-title">源代码漏洞挖掘任务</span>
+                <span class="status-badge error">异常终止</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span class="chat-time">2024-12-24 14:30</span>
+                <button class="btn btn-secondary btn-sm" id="btnRestartTask" style="margin-left: 8px;">
+                    <span>🔄</span>
+                    <span>重新开始</span>
+                </button>
+                <button class="btn btn-primary btn-sm" id="btnContinueTask">
+                    <span>▶️</span>
+                    <span>继续执行</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 对话消息区 -->
+        <div class="chat-messages" id="chatMessages">
+            <!-- 任务创建消息 -->
+            <div class="message">
+                <div class="message-avatar">🎯</div>
+                <div class="message-content">
+                    <div class="message-time">14:30</div>
+                    <div class="message-text">任务已创建：对项目进行安全代码审计，识别潜在漏洞</div>
+                </div>
+            </div>
+
+            <!-- 任务意图识别 -->
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:30</div>
+                    <div class="intent-card">
+                        <div class="intent-header">
+                            <span class="intent-icon">🎯</span>
+                            <span class="intent-title">任务意图识别</span>
+                        </div>
+                        <div class="intent-content">
+                            <p><strong>任务类型:</strong> 源代码漏洞挖掘</p>
+                            <p><strong>分析对象:</strong> Web应用项目(Java Spring Boot)</p>
+                            <p><strong>预期目标:</strong> 识别安全漏洞、生成漏洞报告、提供修复建议</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 任务执行规划 -->
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:31</div>
+                    <div class="planning-card">
+                        <div class="planning-header">
+                            <span class="planning-icon">📋</span>
+                            <span class="planning-title">任务执行规划</span>
+                        </div>
+                        <div class="planning-stages">
+                            <div class="stage-item">
+                                <span class="stage-number">1</span>
+                                <span class="stage-name">工程功能模块分析</span>
+                            </div>
+                            <div class="stage-item">
+                                <span class="stage-number">2</span>
+                                <span class="stage-name">威胁建模与漏洞分析</span>
+                            </div>
+                            <div class="stage-item">
+                                <span class="stage-number">3</span>
+                                <span class="stage-name">分析总结报告生成</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阶段 1: 已完成 -->
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:32</div>
+                    <div class="phase-card">
+                        <div class="phase-header">
+                            <span class="phase-badge">阶段 1</span>
+                            <span class="phase-title">工程功能模块分析</span>
+                            <span class="phase-status">✓ 已完成</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-content">
+                                    <div class="event-text">开始分析项目结构，识别核心功能模块...</div>
+                                </div>
+                            </div>
+                            <div class="event-item event-document">
+                                <span class="event-icon">📄</span>
+                                <div class="event-content">
+                                    <div class="event-text">生成工程功能模块分析总结</div>
+                                    <div class="event-meta">模块分析总结.md (8 KB)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 阶段 2: 异常终止 -->
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:35</div>
+                    <div class="phase-card error">
+                        <div class="phase-header">
+                            <span class="phase-badge error">阶段 2</span>
+                            <span class="phase-title">威胁建模与漏洞分析</span>
+                            <span class="phase-status error">❌ 异常终止</span>
+                        </div>
+                        <div class="phase-content">
+                            <div class="event-item event-thinking">
+                                <span class="event-icon">💭</span>
+                                <div class="event-content">
+                                    <div class="event-text">基于模块分析结果，开始进行威胁建模和漏洞扫描...</div>
+                                </div>
+                            </div>
+                            <div class="vulnerability-finding">
+                                <div class="vuln-header">
+                                    <span class="vuln-severity high">高危</span>
+                                    <span class="vuln-title">SQL注入漏洞</span>
+                                </div>
+                                <div class="vuln-location">UserRepository.java:67</div>
+                                <div class="vuln-description">用户输入未经过滤直接拼接到SQL语句中</div>
+                            </div>
+                            <div class="error-alert">
+                                <div class="error-alert-header">
+                                    <span class="error-alert-icon">⚠️</span>
+                                    <span class="error-alert-title">异常终止</span>
+                                </div>
+                                <div class="error-alert-content">
+                                    <p>错误类型: 内存溢出异常 (OutOfMemoryError)</p>
+                                    <p>错误信息: 分析大型代码文件时内存资源不足，任务被迫终止</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 最终回复 - 异常终止 -->
+            <div class="message">
+                <div class="message-avatar">🤖</div>
+                <div class="message-content">
+                    <div class="message-time">14:36</div>
+                    <div class="final-response error">
+                        <div class="response-header">
+                            <h3 style="display: flex; align-items: center; gap: 8px;">
+                                <span>❌</span>
+                                <span>任务异常终止</span>
+                            </h3>
+                        </div>
+                        <div class="response-summary">
+                            <p>非常抱歉，任务在执行<strong>阶段 2: 威胁建模与漏洞分析</strong>时遇到异常，已被终止，无法继续完成。</p>
+                            <p style="margin-top: 12px;">已完成的工作:</p>
+                            <ul style="margin: 8px 0 0 20px; padding: 0;">
+                                <li style="margin: 4px 0;">✓ 完成工程功能模块分析，生成分析总结文档</li>
+                                <li style="margin: 4px 0;">✓ 开始威胁建模，发现 1 个高危漏洞(SQL注入)</li>
+                            </ul>
+                            <p style="margin-top: 12px;">异常原因:</p>
+                            <ul style="margin: 8px 0 0 20px; padding: 0;">
+                                <li style="margin: 4px 0;">在分析大型代码文件时发生内存溢出，系统资源不足</li>
+                                <li style="margin: 4px 0;">建议优化代码分析策略或增加系统资源配置</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 输入框（固定在底部） -->
+        <div class="chat-input-container" data-container-mode="fixed">
+            <div class="chat-input-wrapper">
+                <textarea
+                    class="chat-input"
+                    id="chatInput"
+                    placeholder="任务已终止，您可以重新创建任务..."
+                    rows="3"
+                    disabled
+                ></textarea>
+                <div class="chat-input-toolbar">
+                    <div class="chat-input-actions">
+                        <button class="btn-icon" title="上传文件" disabled>📎</button>
+                        <button class="btn-icon" title="插入图片" disabled>🖼️</button>
+                        <button class="btn-icon" title="插入代码" disabled>💻</button>
+                        <button class="btn-icon" title="插入表格" disabled>📊</button>
+                    </div>
+                    <button class="btn btn-primary chat-send" id="chatSend" disabled>
+                        <span>发送</span>
+                        <span class="send-shortcut">Shift+Enter</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
 function loadTaskDetail(taskId) {
     console.log('loadTaskDetail 被调用, taskId:', taskId);
-    
+
     // 查找任务数据
     const task = mockTasks.find(t => t.id === taskId);
     if (!task) {
         console.error('未找到任务:', taskId);
         return;
     }
-    
+
     console.log('找到任务:', task);
-    
+
     const chatArea = document.querySelector('.chat-area');
     if (!chatArea) {
         console.error('未找到 .chat-area 元素');
         return;
     }
-    
+
     console.log('准备更新 chatArea 内容');
-    
-    // 如果是 task-001，使用完整内容
+
+    // 根据不同任务ID加载不同内容
     let taskDetailHTML;
     if (taskId === 'task-001') {
+        // task-001: 完整的成功任务内容
         taskDetailHTML = getTask001FullContent();
+    } else if (taskId === 'task-002') {
+        // task-002: 异常任务内容
+        taskDetailHTML = getTask002ErrorContent();
     } else {
         // 其他任务使用简化的任务详情
         const statusConfig = getStatusConfig(task.status);
@@ -2040,6 +2161,87 @@ function loadTaskDetail(taskId) {
             item.classList.remove('active');
         }
     });
+
+    // 更新右侧阶段进度面板
+    updatePhaseProgress(taskId);
+
+    // 如果是 task-002，绑定操作按钮事件
+    if (taskId === 'task-002') {
+        const btnRestartTask = document.getElementById('btnRestartTask');
+        const btnContinueTask = document.getElementById('btnContinueTask');
+
+        if (btnRestartTask) {
+            btnRestartTask.addEventListener('click', function() {
+                console.log('点击重新开始按钮');
+                alert('重新开始任务功能开发中...');
+                // TODO: 实现重新开始任务的逻辑
+            });
+        }
+
+        if (btnContinueTask) {
+            btnContinueTask.addEventListener('click', function() {
+                console.log('点击继续执行按钮');
+                alert('继续执行任务功能开发中...');
+                // TODO: 实现继续执行任务的逻辑
+            });
+        }
+    }
+}
+
+/* ==========================================
+   更新阶段进度面板
+   ========================================== */
+
+function updatePhaseProgress(taskId) {
+    const phaseProgressTimeline = document.querySelector('.phase-progress-timeline');
+    if (!phaseProgressTimeline) {
+        console.warn('未找到阶段进度面板');
+        return;
+    }
+
+    // 定义不同任务的阶段状态
+    const phaseStates = {
+        'task-001': [
+            { name: '工程功能模块分析', status: 'completed', icon: '✓' },
+            { name: '威胁建模与漏洞分析', status: 'completed', icon: '✓' },
+            { name: '分析总结报告生成', status: 'completed', icon: '✓', current: true }
+        ],
+        'task-002': [
+            { name: '工程功能模块分析', status: 'completed', icon: '✓' },
+            { name: '威胁建模与漏洞分析', status: 'failed', icon: '❌', current: true },
+            { name: '分析总结报告生成', status: 'pending', icon: '⏸️' }
+        ]
+    };
+
+    // 获取当前任务的阶段状态，如果没有定义则使用默认状态
+    const phases = phaseStates[taskId] || [
+        { name: '工程功能模块分析', status: 'pending', icon: '⏸️' },
+        { name: '威胁建模与漏洞分析', status: 'pending', icon: '⏸️' },
+        { name: '分析总结报告生成', status: 'pending', icon: '⏸️' }
+    ];
+
+    // 生成阶段进度 HTML
+    const phasesHTML = phases.map((phase, index) => {
+        const currentClass = phase.current ? ' current' : '';
+        return `
+            <div class="phase-progress-item ${phase.status}${currentClass}" data-phase="${index + 1}">
+                <div class="phase-progress-marker">
+                    <span class="phase-progress-status">${phase.icon}</span>
+                </div>
+                <div class="phase-progress-content">
+                    <div class="phase-progress-name">${phase.name}</div>
+                </div>
+            </div>
+        `;
+    }).join('');
+
+    // 更新阶段进度面板
+    phaseProgressTimeline.innerHTML = phasesHTML;
+
+    // 重新绑定阶段进度项的点击事件
+    initPhaseProgress();
+
+    console.log(`已更新 ${taskId} 的阶段进度`);
 }
 
 /* ==========================================

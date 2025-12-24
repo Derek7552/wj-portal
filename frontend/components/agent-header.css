@@ -1,0 +1,220 @@
+/* ==========================================
+   Agent Header 组件样式
+   基于 Clouditera 设计系统
+   ========================================== */
+
+/* ==========================================
+   1. 主容器
+   ========================================== */
+
+.agent-header {
+    flex-shrink: 0;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+/* 简化版头部（无描述） */
+.agent-header-compact {
+    padding: 10px 16px;
+    margin-bottom: 12px;
+}
+
+.agent-header-compact .agent-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+}
+
+.agent-header-compact .agent-title {
+    font-size: 18px;
+}
+
+/* ==========================================
+   2. 主信息区
+   ========================================== */
+
+.agent-header-main {
+    display: flex;
+    gap: 12px;
+    flex: 1;
+}
+
+/* 智能体图标 */
+.agent-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--clouditera-brand-primary) 0%, var(--clouditera-brand-primary-hover) 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* 智能体信息 */
+.agent-info {
+    flex: 1;
+}
+
+/* 标题包裹器 */
+.agent-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+    flex-wrap: wrap;
+}
+
+/* 智能体标题 */
+.agent-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0;
+}
+
+/* 智能体类型标签 */
+.agent-type {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--clouditera-neutral-background-tertiary);
+    color: var(--clouditera-neutral-gray-7);
+}
+
+/* 版本号标签 */
+.agent-version {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+}
+
+/* 描述文本 */
+.agent-description {
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* ==========================================
+   3. 操作按钮区
+   ========================================== */
+
+.agent-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* 管理功能按钮 */
+.btn-agent-action {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-7);
+    transition: all 0.2s;
+    height: 36px;
+    box-sizing: border-box;
+}
+
+.btn-agent-action:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.btn-agent-action:active {
+    background: var(--clouditera-palette-blue-1);
+}
+
+.btn-agent-action .action-icon {
+    font-size: 16px;
+}
+
+.btn-agent-action .action-text {
+    font-weight: 500;
+}
+
+.btn-agent-action .action-count {
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+/* ==========================================
+   4. 响应式设计
+   ========================================== */
+
+@media (max-width: 992px) {
+    .agent-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .agent-header-main {
+        width: 100%;
+    }
+
+    .agent-header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .agent-header {
+        padding: 12px;
+    }
+
+    .agent-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+
+    .agent-title {
+        font-size: 16px;
+    }
+
+    .agent-description {
+        font-size: 11px;
+    }
+
+    .btn-agent-action {
+        padding: 6px 10px;
+        font-size: 12px;
+        height: 32px;
+    }
+
+    .btn-agent-action .action-text {
+        display: none; /* 小屏幕下隐藏文字，只显示图标 */
+    }
+
+    .btn-agent-action .action-count {
+        display: none;
+    }
+}

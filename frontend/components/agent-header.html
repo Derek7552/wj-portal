@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Header 组件示例</title>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="agent-header.css">
+    <style>
+        body {
+            padding: 40px;
+            background: var(--clouditera-neutral-background-secondary);
+        }
+        .demo-section {
+            margin-bottom: 40px;
+        }
+        .demo-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--clouditera-neutral-text-title);
+        }
+        .demo-desc {
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 12px;
+        }
+        code {
+            background: var(--clouditera-neutral-background-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="margin-bottom: 32px; color: var(--clouditera-neutral-text-title);">Agent Header 组件示例</h1>
+
+    <!-- 示例 1: 完整版 Header -->
+    <div class="demo-section">
+        <div class="demo-title">示例 1: 完整版 Header</div>
+        <div class="demo-desc">包含图标、标题、类型标签、版本号、描述和操作按钮</div>
+
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🤖</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">自规划任务执行助手</h2>
+                        <span class="agent-type">高级类</span>
+                        <span class="agent-version">v1.2.0</span>
+                    </div>
+                    <p class="agent-description">智能任务规划与执行，自动分解复杂任务，逐步完成目标，支持任务状态跟踪和异常处理</p>
+                </div>
+            </div>
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(0)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(2)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 示例 2: 简化版 Header -->
+    <div class="demo-section">
+        <div class="demo-title">示例 2: 简化版 Header</div>
+        <div class="demo-desc">使用 <code>agent-header-compact</code> 类，不包含描述</div>
+
+        <div class="agent-header agent-header-compact">
+            <div class="agent-header-main">
+                <div class="agent-icon">🎯</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">自规划任务执行助手</h2>
+                        <span class="agent-type">进阶类</span>
+                        <span class="agent-version">v1.2.0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(5)</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 示例 3: 使用 JavaScript 动态创建 -->
+    <div class="demo-section">
+        <div class="demo-title">示例 3: 使用 JavaScript 动态创建</div>
+        <div class="demo-desc">通过 <code>initAgentHeader()</code> 函数创建</div>
+
+        <div class="agent-header" id="dynamicHeader"></div>
+    </div>
+
+    <!-- 示例 4: 无操作按钮的 Header -->
+    <div class="demo-section">
+        <div class="demo-title">示例 4: 无操作按钮的 Header</div>
+        <div class="demo-desc">只包含基本信息</div>
+
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">📰</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">安全资讯</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.1.0</span>
+                    </div>
+                    <p class="agent-description">实时聚合安全行业动态资讯，智能推荐相关内容</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="agent-header.js"></script>
+    <script>
+        // 示例 3: 动态创建 Agent Header
+        initAgentHeader({
+            container: '#dynamicHeader',
+            icon: '🧠',
+            title: '安全智库',
+            type: '基础类',
+            version: 'v1.0.3',
+            description: '安全知识库与最佳实践指南，沉淀行业经验，分享安全防护知识和实战经验',
+            actions: [
+                {
+                    id: 'knowledge',
+                    icon: '📚',
+                    text: '知识库',
+                    count: 12,
+                    title: '查看知识库',
+                    onClick: function() {
+                        alert('打开知识库');
+                    }
+                },
+                {
+                    id: 'tools',
+                    icon: '🔧',
+                    text: '工具插件',
+                    count: 3,
+                    title: '管理工具插件',
+                    onClick: function() {
+                        alert('打开工具插件');
+                    }
+                },
+                {
+                    id: 'settings',
+                    icon: '⚙️',
+                    text: '设置',
+                    title: '智能体设置',
+                    onClick: function() {
+                        alert('打开设置');
+                    }
+                },
+                {
+                    id: 'share',
+                    icon: '🔗',
+                    text: '分享',
+                    type: 'primary',
+                    title: '分享智能体',
+                    onClick: function() {
+                        alert('分享智能体');
+                    }
+                }
+            ]
+        });
+    </script>
+</body>
+</html>
