@@ -21,6 +21,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化用户菜单点击功能
     initUserMenu();
+    
+    // 更新智能体数量
+    updateAgentCount();
 });
 
 // 初始化侧边栏展开/收起功能
@@ -421,6 +424,21 @@ function initHomeMenuPosition() {
         // 初始更新
         updateMenuPosition();
     }
+}
+
+// 更新智能体数量
+function updateAgentCount() {
+    const agentsGrid = document.getElementById('agentsGrid');
+    const agentCountElement = document.getElementById('agentCount');
+    
+    if (!agentsGrid || !agentCountElement) return;
+    
+    // 计算实际显示的智能体卡片数量
+    const agentCards = agentsGrid.querySelectorAll('.agent-card');
+    const count = agentCards.length;
+    
+    // 更新显示的数字
+    agentCountElement.textContent = `(${count})`;
 }
 
 
