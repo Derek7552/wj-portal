@@ -18,6 +18,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 初始化首页菜单位置
     initHomeMenuPosition();
+    
+    // 初始化用户菜单点击功能
+    initUserMenu();
+    
+    // 更新智能体数量
+    updateAgentCount();
 });
 
 // 初始化侧边栏展开/收起功能
@@ -121,6 +127,38 @@ function initAnnouncementScroll() {
     `;
 }
 
+// 初始化用户菜单点击功能
+function initUserMenu() {
+    const userNavItem = document.getElementById('userNavItem');
+    const userMenuWrapper = document.querySelector('.nav-item-user-wrapper');
+    
+    if (!userNavItem || !userMenuWrapper) return;
+    
+    // 点击用户头像区域切换菜单显示
+    userNavItem.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // 切换 active 类
+        userMenuWrapper.classList.toggle('active');
+    });
+    
+    // 点击菜单项时关闭菜单（除了退出登录按钮，它有自己的处理）
+    const userMenuItems = document.querySelectorAll('.user-menu-item:not(.nav-item-logout)');
+    userMenuItems.forEach(item => {
+        item.addEventListener('click', function() {
+            userMenuWrapper.classList.remove('active');
+        });
+    });
+    
+    // 点击页面其他地方时关闭菜单
+    document.addEventListener('click', function(e) {
+        if (!userMenuWrapper.contains(e.target)) {
+            userMenuWrapper.classList.remove('active');
+        }
+    });
+}
+
 // 初始化退出登录
 function initLogout() {
     const logoutBtn = document.getElementById('logoutBtn');
@@ -132,6 +170,12 @@ function initLogout() {
             localStorage.removeItem('userName');
             localStorage.removeItem('favorites');
             localStorage.removeItem('favoriteData');
+            
+            // 关闭菜单
+            const userMenuWrapper = document.querySelector('.nav-item-user-wrapper');
+            if (userMenuWrapper) {
+                userMenuWrapper.classList.remove('active');
+            }
             
             // 跳转到 portal 首页
             window.location.href = 'index.html';
@@ -380,6 +424,21 @@ function initHomeMenuPosition() {
         // 初始更新
         updateMenuPosition();
     }
+}
+
+// 更新智能体数量
+function updateAgentCount() {
+    const agentsGrid = document.getElementById('agentsGrid');
+    const agentCountElement = document.getElementById('agentCount');
+    
+    if (!agentsGrid || !agentCountElement) return;
+    
+    // 计算实际显示的智能体卡片数量
+    const agentCards = agentsGrid.querySelectorAll('.agent-card');
+    const count = agentCards.length;
+    
+    // 更新显示的数字
+    agentCountElement.textContent = `(${count})`;
 }
 
 
