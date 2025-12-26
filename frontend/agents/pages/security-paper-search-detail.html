@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="信息查看检索示例 - 通用信息查看与检索模板">
-    <title>信息查看检索示例 | 云脑</title>
+    <meta name="description" content="任务详情 - 安全论文检索">
+    <title>任务详情 | 安全论文检索 | 云脑</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
-    <link rel="stylesheet" href="../css/template-detail.css">
-    <link rel="stylesheet" href="../css/template-search.css">
+    <link rel="stylesheet" href="../../templates/css/template-detail.css">
+    <link rel="stylesheet" href="../../templates/css/template-search.css">
 </head>
 <body class="agent-detail-page agent-search-page">
-    <!-- 左侧导航栏 -->
+    <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
     <aside class="sidebar collapsed" id="sidebar">
         <!-- Logo 区 -->
         <div class="sidebar-logo">
-            <a href="../../dashboard.html" class="logo-link">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
                 <div class="logo-icon">
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect width="32" height="32" rx="6" fill="#2563EB"/>
@@ -31,15 +31,16 @@
         <!-- 主导航菜单 -->
         <div class="sidebar-content">
             <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
                 <div class="nav-item-home-wrapper">
-                    <a href="../../dashboard.html" class="nav-item nav-item-home">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
                         <span class="nav-icon">🏠</span>
                         <span class="nav-text">首页</span>
                     </a>
                     <div class="home-menu" id="homeMenu">
-                        <a href="../../dashboard.html" class="home-menu-item">
-                            <span class="nav-icon">🏠</span>
-                            <span class="nav-text">首页</span>
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
                         </a>
                         <div class="home-menu-favorites" id="homeMenuFavorites">
                             <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
@@ -47,20 +48,6 @@
                             </div>
                             <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
                         </div>
-                    </div>
-                </div>
-
-                <!-- 我的收藏 -->
-                <div class="nav-item favorites-nav" title="我的收藏">
-                    <div class="nav-item-header favorites-header">
-                        <span class="nav-text">我的收藏</span>
-                    </div>
-                    <div class="favorites-list" id="favoritesList">
-                        <div class="favorites-empty" id="favoritesEmpty">
-                            <p>暂无收藏的智能体</p>
-                            <p class="favorites-hint">在智能体卡片上点击星标即可收藏</p>
-                        </div>
-                        <div class="favorites-items" id="favoritesItems"></div>
                     </div>
                 </div>
             </nav>
@@ -107,27 +94,32 @@
         <!-- 智能体头部 -->
         <div class="agent-header">
             <div class="agent-header-main">
-                <div class="agent-icon">🔍</div>
+                <div class="agent-icon">📚</div>
                 <div class="agent-info">
                     <div class="agent-title-wrapper">
-                        <h2 class="agent-title">信息查看检索示例</h2>
+                        <h2 class="agent-title">安全论文检索</h2>
                         <span class="agent-type">基础类</span>
-                        <span class="agent-version">v1.0.0</span>
+                        <span class="agent-version">v1.1.0</span>
                     </div>
-                    <p class="agent-description">智能检索和展示信息内容，支持多维度筛选和分类浏览</p>
+                    <p class="agent-description">快速检索安全领域学术论文，精准匹配研究内容，帮助用户高效获取前沿安全研究成果和学术资源</p>
                 </div>
             </div>
             <!-- 管理功能按钮组 -->
             <div class="agent-header-actions">
+                <button class="btn-agent-action" title="涵盖学术会议">
+                    <span class="action-icon">🎓</span>
+                    <span class="action-text">涵盖学术会议</span>
+                    <span class="action-count">(100)</span>
+                </button>
                 <button class="btn-agent-action" title="知识库">
                     <span class="action-icon">📚</span>
                     <span class="action-text">知识库</span>
-                    <span class="action-count">(128)</span>
+                    <span class="action-count">(25)</span>
                 </button>
                 <button class="btn-agent-action" title="工具插件">
                     <span class="action-icon">🔧</span>
                     <span class="action-text">工具插件</span>
-                    <span class="action-count">(5)</span>
+                    <span class="action-count">(8)</span>
                 </button>
                 <button class="btn-agent-action" title="智能体设置">
                     <span class="action-icon">⚙️</span>
@@ -268,7 +260,7 @@
                     <article class="result-card" data-category="type1">
                         <div class="result-header">
                             <h3 class="result-title">
-                                <a href="template-search-detail.html">信息标题示例：关于某个主题的深度分析报告</a>
+                                信息标题示例：关于某个主题的深度分析报告
                             </h3>
                             <div class="result-tags">
                                 <span class="result-tag tag-primary">标签一</span>
@@ -277,7 +269,7 @@
                         <p class="result-summary">这是信息内容的摘要部分，简要介绍了文章的主要内容和核心观点。通过摘要，用户可以快速了解信息的大致内容，判断是否需要查看详情...</p>
                         <div class="result-meta">
                             <span class="result-date">2024-03-15 14:30</span>
-                            <span class="result-source">来源 A</span>
+                            <span class="result-source">来源A</span>
                         </div>
                         <div class="result-footer">
                             <div class="result-stats">
@@ -292,7 +284,7 @@
                     <article class="result-card" data-category="type2">
                         <div class="result-header">
                             <h3 class="result-title">
-                                <a href="template-search-detail.html">另一条信息标题：技术方案与实践经验分享</a>
+                                另一条信息标题：技术方案与实践经验分享
                             </h3>
                             <div class="result-tags">
                                 <span class="result-tag tag-success">标签二</span>
@@ -301,7 +293,7 @@
                         <p class="result-summary">本文分享了在实际项目中的技术方案选型和实践经验，包括架构设计、技术选型、实施过程中遇到的问题及解决方案等内容...</p>
                         <div class="result-meta">
                             <span class="result-date">2024-03-12 10:20</span>
-                            <span class="result-source">来源 B</span>
+                            <span class="result-source">来源B</span>
                         </div>
                         <div class="result-footer">
                             <div class="result-stats">
@@ -316,7 +308,7 @@
                     <article class="result-card" data-category="type1">
                         <div class="result-header">
                             <h3 class="result-title">
-                                <a href="template-search-detail.html">第三条信息示例：行业趋势与发展方向探讨</a>
+                                第三条信息示例：行业趋势与发展方向探讨
                             </h3>
                             <div class="result-tags">
                                 <span class="result-tag tag-warning">标签三</span>
@@ -325,7 +317,7 @@
                         <p class="result-summary">深入分析了行业当前的发展趋势，探讨了未来可能的技术方向和应用场景，为从业者提供了有价值的参考...</p>
                         <div class="result-meta">
                             <span class="result-date">2024-03-10 16:45</span>
-                            <span class="result-source">来源 C</span>
+                            <span class="result-source">来源C</span>
                         </div>
                         <div class="result-footer">
                             <div class="result-stats">
@@ -336,90 +328,16 @@
                             <button class="btn-collect active" title="已收藏">⭐</button>
                         </div>
                     </article>
-
-                    <article class="result-card" data-category="type3">
-                        <div class="result-header">
-                            <h3 class="result-title">
-                                <a href="template-search-detail.html">信息标题四：案例研究与经验总结</a>
-                            </h3>
-                            <div class="result-tags">
-                                <span class="result-tag tag-info">标签四</span>
-                            </div>
-                        </div>
-                        <p class="result-summary">通过典型案例的深入研究，总结了成功经验和失败教训，为类似项目提供了有价值的参考依据...</p>
-                        <div class="result-meta">
-                            <span class="result-date">2024-03-08 09:15</span>
-                            <span class="result-source">来源 D</span>
-                        </div>
-                        <div class="result-footer">
-                            <div class="result-stats">
-                                <span class="stat-item">👁️ 1.5k</span>
-                                <span class="stat-item">💬 32</span>
-                                <span class="stat-item">👍 189</span>
-                            </div>
-                            <button class="btn-collect" title="收藏">⭐</button>
-                        </div>
-                    </article>
-
-                    <article class="result-card" data-category="type2">
-                        <div class="result-header">
-                            <h3 class="result-title">
-                                <a href="template-search-detail.html">第五条信息：最佳实践与方法论分享</a>
-                            </h3>
-                            <div class="result-tags">
-                                <span class="result-tag tag-primary">标签一</span>
-                            </div>
-                        </div>
-                        <p class="result-summary">介绍了业界公认的最佳实践和方法论，帮助团队提升效率，减少错误，实现更好的项目成果...</p>
-                        <div class="result-meta">
-                            <span class="result-date">2024-03-05 11:30</span>
-                            <span class="result-source">来源 E</span>
-                        </div>
-                        <div class="result-footer">
-                            <div class="result-stats">
-                                <span class="stat-item">👁️ 980</span>
-                                <span class="stat-item">💬 18</span>
-                                <span class="stat-item">👍 124</span>
-                            </div>
-                            <button class="btn-collect" title="收藏">⭐</button>
-                        </div>
-                    </article>
-
-                    <article class="result-card" data-category="type4">
-                        <div class="result-header">
-                            <h3 class="result-title">
-                                <a href="template-search-detail.html">信息标题六：新技术应用与创新探索</a>
-                            </h3>
-                            <div class="result-tags">
-                                <span class="result-tag tag-success">标签二</span>
-                            </div>
-                        </div>
-                        <p class="result-summary">探讨了新兴技术在实际场景中的应用情况，分析了创新实践的可行性和价值，为技术选型提供参考...</p>
-                        <div class="result-meta">
-                            <span class="result-date">2024-03-03 15:20</span>
-                            <span class="result-source">来源 F</span>
-                        </div>
-                        <div class="result-footer">
-                            <div class="result-stats">
-                                <span class="stat-item">👁️ 1.8k</span>
-                                <span class="stat-item">💬 28</span>
-                                <span class="stat-item">👍 215</span>
-                            </div>
-                            <button class="btn-collect" title="收藏">⭐</button>
-                        </div>
-                    </article>
                 </section>
 
                 <!-- 分页器 -->
                 <div class="pagination">
                     <button class="pagination-btn" disabled>上一页</button>
-                    <div class="pagination-pages">
-                        <button class="pagination-page active">1</button>
-                        <button class="pagination-page">2</button>
-                        <button class="pagination-page">3</button>
-                        <span class="pagination-ellipsis">...</span>
-                        <button class="pagination-page">8</button>
-                    </div>
+                    <button class="pagination-number active">1</button>
+                    <button class="pagination-number">2</button>
+                    <button class="pagination-number">3</button>
+                    <span class="pagination-ellipsis">...</span>
+                    <button class="pagination-number">8</button>
                     <button class="pagination-btn">下一页</button>
                 </div>
             </div>
@@ -427,34 +345,215 @@
     </main>
 
     <script src="../../js/dashboard.js"></script>
-    <script src="../js/template-search.js"></script>
+    <script src="../../templates/js/template-search.js"></script>
+    <style>
+        /* 任务标题区域样式 */
+        .detail-title-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 16px 0;
+        }
+
+        .detail-header-main {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-back-to-list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--clouditera-neutral-gray-7);
+        }
+
+        .btn-back-to-list:hover {
+            background: var(--clouditera-neutral-background-primary);
+            color: var(--clouditera-brand-primary);
+        }
+
+        .back-icon {
+            font-size: 18px;
+            line-height: 1;
+        }
+
+        .detail-title-main {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-gray-9);
+            margin: 0;
+        }
+
+        .detail-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        /* 搜索结果卡片不可点击 */
+        .result-card {
+            cursor: default !important;
+        }
+
+        .result-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+            transform: none !important;
+        }
+
+        .result-title {
+            color: var(--clouditera-neutral-gray-9);
+        }
+
+        .result-title a {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .result-title a:hover {
+            color: var(--clouditera-neutral-gray-9);
+        }
+
+        /* 分页器样式 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            margin-top: 32px;
+            padding: 16px 0;
+        }
+
+        .pagination-btn,
+        .pagination-number {
+            min-width: 32px;
+            height: 32px;
+            padding: 0 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 14px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .pagination-number.active {
+            background: var(--clouditera-brand-primary);
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-neutral-background-white);
+        }
+
+        .pagination-number:hover:not(.active) {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .pagination-ellipsis {
+            padding: 0 8px;
+            color: var(--clouditera-neutral-gray-6);
+        }
+    </style>
     <script>
-        // 根据URL参数动态修改标题
-        (function() {
-            // 获取URL参数
-            var urlParams = new URLSearchParams(window.location.search);
-            var taskName = urlParams.get('task');
+        // 初始化分类展开/折叠功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 分类展开/折叠
+            const expandableItems = document.querySelectorAll('.category-item-expandable');
+            expandableItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const parent = this.closest('.category-item-parent');
+                    if (parent) {
+                        parent.classList.toggle('expanded');
+                        this.classList.toggle('expanded');
+                    }
+                });
+            });
+
+            // 搜索框重置按钮
+            const searchInput = document.getElementById('searchInput');
+            const searchReset = document.getElementById('searchReset');
             
-            if (taskName) {
-                // 解码任务名称
-                taskName = decodeURIComponent(taskName);
-                
-                // 修改页面标题
-                var titleElement = document.querySelector('.agent-title');
-                if (titleElement) {
-                    titleElement.textContent = taskName;
-                }
-                
-                // 修改浏览器标签页标题
-                document.title = taskName + ' | 云脑';
-                
-                // 修改meta描述（可选）
-                var metaDescription = document.querySelector('meta[name="description"]');
-                if (metaDescription) {
-                    metaDescription.setAttribute('content', taskName + ' - 快速检索安全领域学术论文');
+            if (searchInput && searchReset) {
+                searchInput.addEventListener('input', function() {
+                    if (this.value.trim()) {
+                        searchReset.style.display = 'block';
+                    } else {
+                        searchReset.style.display = 'none';
+                    }
+                });
+
+                searchReset.addEventListener('click', function() {
+                    searchInput.value = '';
+                    this.style.display = 'none';
+                    searchInput.focus();
+                });
+            }
+
+            // 自定义时间范围选择
+            const timeSelect = document.getElementById('timeSelect');
+            const customTimeRange = document.getElementById('customTimeRange');
+            
+            if (timeSelect && customTimeRange) {
+                timeSelect.addEventListener('change', function() {
+                    if (this.value === 'custom') {
+                        customTimeRange.style.display = 'flex';
+                    } else {
+                        customTimeRange.style.display = 'none';
+                    }
+                });
+
+                const cancelTimeBtn = document.getElementById('cancelTimeBtn');
+                if (cancelTimeBtn) {
+                    cancelTimeBtn.addEventListener('click', function() {
+                        customTimeRange.style.display = 'none';
+                        timeSelect.value = 'all';
+                    });
                 }
             }
-        })();
+        });
     </script>
 </body>
 </html>

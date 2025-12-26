@@ -991,8 +991,8 @@ body:has(.sidebar.collapsed) .main-content-area {
 }
 
 .level-advanced {
-    background: #FEF3C7;
-    color: #F59E0B;
+    background: var(--clouditera-palette-orange-1);
+    color: var(--clouditera-palette-orange-6);
 }
 
 .level-basic {

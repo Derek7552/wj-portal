@@ -187,6 +187,263 @@
             font-size: 14px;
             text-align: center;
         }
+        
+        /* ==========================================
+           双语对照页面样式
+           ========================================== */
+        
+        .bilingual-view-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            background: var(--clouditera-neutral-background-white);
+            overflow: hidden;
+        }
+        
+        /* 顶部工具栏 */
+        .bilingual-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            background: var(--clouditera-neutral-background-white);
+            flex-shrink: 0;
+            gap: 16px;
+        }
+        
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+        
+        .toolbar-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 0 auto;
+        }
+        
+        .toolbar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--clouditera-neutral-text-primary);
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+        
+        .toolbar-btn:active {
+            background: var(--clouditera-neutral-background-tertiary);
+        }
+        
+        .page-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-secondary);
+        }
+        
+        .auto-zoom-btn {
+            padding: 6px 12px;
+            font-size: 14px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--clouditera-neutral-text-primary);
+            transition: all 0.2s;
+        }
+        
+        .auto-zoom-btn:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+        
+        .download-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .download-btn-primary {
+            background: var(--clouditera-brand-primary);
+            color: white;
+        }
+        
+        .download-btn-primary:hover {
+            background: var(--clouditera-brand-primary-hover);
+        }
+        
+        .download-btn-secondary {
+            background: var(--clouditera-neutral-background-secondary);
+            color: var(--clouditera-neutral-text-primary);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+        }
+        
+        .download-btn-secondary:hover {
+            background: var(--clouditera-neutral-background-tertiary);
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+        }
+        
+        /* 双语内容区域 */
+        .bilingual-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        .bilingual-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border-right: 1px solid var(--clouditera-neutral-border-secondary);
+        }
+        
+        .bilingual-column:last-child {
+            border-right: none;
+        }
+        
+        .column-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            background: var(--clouditera-neutral-background-secondary);
+            flex-shrink: 0;
+        }
+        
+        .column-header-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+            margin-bottom: 4px;
+        }
+        
+        .column-header-subtitle {
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+        }
+        
+        .column-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 32px 48px;
+            background: var(--clouditera-neutral-background-white);
+            line-height: 1.8;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+        }
+        
+        .column-content h1,
+        .column-content h2,
+        .column-content h3 {
+            color: var(--clouditera-neutral-text-title);
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .column-content h1 {
+            font-size: 24px;
+        }
+        
+        .column-content h2 {
+            font-size: 20px;
+        }
+        
+        .column-content h3 {
+            font-size: 18px;
+        }
+        
+        .column-content p {
+            margin-bottom: 16px;
+        }
+        
+        .column-content ul,
+        .column-content ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+        
+        .column-content li {
+            margin-bottom: 8px;
+        }
+        
+        .column-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--clouditera-neutral-border-secondary);
+            background: var(--clouditera-neutral-background-secondary);
+            text-align: center;
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+            flex-shrink: 0;
+        }
+        
+        /* 同步滚动 */
+        .bilingual-content.sync-scroll {
+            position: relative;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .bilingual-content {
+                flex-direction: column;
+            }
+            
+            .bilingual-column {
+                border-right: none;
+                border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            }
+            
+            .bilingual-column:last-child {
+                border-bottom: none;
+            }
+            
+            .toolbar-left,
+            .toolbar-center,
+            .toolbar-right {
+                gap: 8px;
+            }
+            
+            .download-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+        }
     </style>
 </head>
 <body class="agent-detail-page">
@@ -574,9 +831,270 @@
         // 开始分析
         function startAnalysis(file) {
             console.log('开始分析文件:', file.name);
-            // TODO: 这里添加实际的分析逻辑
-            // 可以调用API上传文件并开始分析
-            alert('开始分析文件: ' + file.name);
+            
+            // 生成任务ID和名称
+            const taskId = 'task-' + Date.now();
+            const taskName = file.name.replace(/\.pdf$/i, '') + ' - 论文翻译';
+            
+            // 创建新任务数据
+            const newTask = {
+                id: taskId,
+                name: taskName,
+                status: 'running',
+                active: true,
+                fileName: file.name,
+                fileSize: file.size
+            };
+            
+            // 将新任务添加到任务列表开头
+            mockTasks.unshift(newTask);
+            
+            // 如果侧边栏实例存在，更新任务列表
+            if (window.agentSidebarInstance) {
+                if (typeof window.agentSidebarInstance.updateTasks === 'function') {
+                    window.agentSidebarInstance.updateTasks(mockTasks);
+                } else if (typeof window.agentSidebarInstance.addTask === 'function') {
+                    window.agentSidebarInstance.addTask(newTask);
+                }
+                // 设置新任务为活动任务
+                if (typeof window.agentSidebarInstance.setActiveTask === 'function') {
+                    window.agentSidebarInstance.setActiveTask(newTask.id);
+                }
+            }
+            
+            // 显示双语对照页面
+            showBilingualView(newTask, file);
+        }
+        
+        // 显示双语对照页面
+        function showBilingualView(task, file) {
+            const chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+            
+            // 模拟论文内容
+            const englishContent = getMockEnglishContent();
+            const chineseContent = getMockChineseContent();
+            
+            // 创建双语对照页面HTML
+            const bilingualHTML = `
+                <div class="bilingual-view-container">
+                    <!-- 顶部工具栏 -->
+                    <div class="bilingual-toolbar">
+                        <div class="toolbar-left">
+                            <button class="toolbar-btn" title="文档">📄</button>
+                            <button class="toolbar-btn" title="搜索">🔍</button>
+                            <div class="page-info">
+                                <span id="currentPage">1</span>
+                                <span>/</span>
+                                <span id="totalPages">6</span>
+                            </div>
+                            <button class="toolbar-btn" id="btnPrevPage" title="上一页">▲</button>
+                            <button class="toolbar-btn" id="btnNextPage" title="下一页">▼</button>
+                        </div>
+                        <div class="toolbar-center">
+                            <button class="auto-zoom-btn" id="btnAutoZoom">+ 自动缩放</button>
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="download-btn download-btn-primary" id="btnDownloadBilingual">
+                                <span>下载双语PDF</span>
+                            </button>
+                            <button class="download-btn download-btn-secondary" id="btnDownloadTranslated">
+                                <span>仅下载译文PDF</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 双语内容区域 -->
+                    <div class="bilingual-content" id="bilingualContent">
+                        <!-- 左侧：英文原文 -->
+                        <div class="bilingual-column" id="englishColumn">
+                            <div class="column-header">
+                                <div class="column-header-title">Session 2: System Analysis and Design</div>
+                                <div class="column-header-subtitle">IoT-S&P '19, November 15, 2019, London, United Kingdom</div>
+                            </div>
+                            <div class="column-content" id="englishContent">
+                                ${englishContent}
+                            </div>
+                            <div class="column-footer">38</div>
+                        </div>
+                        
+                        <!-- 右侧：中文翻译 -->
+                        <div class="bilingual-column" id="chineseColumn">
+                            <div class="column-header">
+                                <div class="column-header-title">第2节：系统分析与设计</div>
+                                <div class="column-header-subtitle">IoT-S&P '19, 2019年11月15日, 英国伦敦</div>
+                            </div>
+                            <div class="column-content" id="chineseContent">
+                                ${chineseContent}
+                            </div>
+                            <div class="column-footer">38</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 替换内容
+            chatArea.innerHTML = bilingualHTML;
+            
+            // 初始化双语页面功能
+            initBilingualView();
+        }
+        
+        // 初始化双语页面功能
+        function initBilingualView() {
+            // 同步滚动
+            const englishContent = document.getElementById('englishContent');
+            const chineseContent = document.getElementById('chineseContent');
+            
+            if (englishContent && chineseContent) {
+                let isScrolling = false;
+                
+                englishContent.addEventListener('scroll', function() {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        const scrollRatio = englishContent.scrollTop / (englishContent.scrollHeight - englishContent.clientHeight);
+                        chineseContent.scrollTop = scrollRatio * (chineseContent.scrollHeight - chineseContent.clientHeight);
+                        setTimeout(() => { isScrolling = false; }, 10);
+                    }
+                });
+                
+                chineseContent.addEventListener('scroll', function() {
+                    if (!isScrolling) {
+                        isScrolling = true;
+                        const scrollRatio = chineseContent.scrollTop / (chineseContent.scrollHeight - chineseContent.clientHeight);
+                        englishContent.scrollTop = scrollRatio * (englishContent.scrollHeight - englishContent.clientHeight);
+                        setTimeout(() => { isScrolling = false; }, 10);
+                    }
+                });
+            }
+            
+            // 页码切换
+            const btnPrevPage = document.getElementById('btnPrevPage');
+            const btnNextPage = document.getElementById('btnNextPage');
+            const currentPageEl = document.getElementById('currentPage');
+            let currentPage = 1;
+            const totalPages = 6;
+            
+            if (btnPrevPage) {
+                btnPrevPage.addEventListener('click', function() {
+                    if (currentPage > 1) {
+                        currentPage--;
+                        if (currentPageEl) currentPageEl.textContent = currentPage;
+                        // TODO: 加载对应页面内容
+                    }
+                });
+            }
+            
+            if (btnNextPage) {
+                btnNextPage.addEventListener('click', function() {
+                    if (currentPage < totalPages) {
+                        currentPage++;
+                        if (currentPageEl) currentPageEl.textContent = currentPage;
+                        // TODO: 加载对应页面内容
+                    }
+                });
+            }
+            
+            // 下载按钮
+            const btnDownloadBilingual = document.getElementById('btnDownloadBilingual');
+            const btnDownloadTranslated = document.getElementById('btnDownloadTranslated');
+            
+            if (btnDownloadBilingual) {
+                btnDownloadBilingual.addEventListener('click', function() {
+                    alert('下载双语PDF功能开发中...');
+                    // TODO: 实现下载双语PDF
+                });
+            }
+            
+            if (btnDownloadTranslated) {
+                btnDownloadTranslated.addEventListener('click', function() {
+                    alert('下载译文PDF功能开发中...');
+                    // TODO: 实现下载译文PDF
+                });
+            }
+            
+            // 自动缩放
+            const btnAutoZoom = document.getElementById('btnAutoZoom');
+            if (btnAutoZoom) {
+                btnAutoZoom.addEventListener('click', function() {
+                    // TODO: 实现自动缩放功能
+                    alert('自动缩放功能开发中...');
+                });
+            }
+        }
+        
+        // 模拟英文内容
+        function getMockEnglishContent() {
+            return `
+                <h1>An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices</h1>
+                
+                <p><strong>Mingwu Zhang, Bo Peng, and Yu Chen</strong></p>
+                <p>School of Computers, Hubei University of Technology</p>
+                
+                <h2>ABSTRACT</h2>
+                <p>With the rapid development of the Internet of Things (IoT), a large number of images are transmitted in IoT networks. To protect image privacy, image encryption is essential. This paper proposes an efficient image encryption scheme for industrial IoT devices. The proposed scheme uses SHA-512 to generate the initial values of a hyperchaotic Chen system. Then, the hyperchaotic sequences are used to perform pixel scrambling based on Arnold cat map and XOR operation. The proposed scheme is applied to image encryption in Internet of Vehicles (IoVs) and Wireless Body Area Networks (WBAN). Experimental results show that the proposed scheme has good encryption performance and can resist various attacks.</p>
+                
+                <h2>CCS CONCEPTS</h2>
+                <ul>
+                    <li>Computer systems organization → Embedded systems; Redundancy; Robotics;</li>
+                    <li>Networks → Network reliability.</li>
+                </ul>
+                
+                <h2>KEYWORDS</h2>
+                <p>Internet-of-Things; hyperchaotic system; SHA-512; Arnold cat map</p>
+                
+                <h2>ACM Reference Format:</h2>
+                <p>Mingwu Zhang, Bo Peng, and Yu Chen. 2019. An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices. In <em>Proceedings of IoT-S&P '19, November 15, 2019, London, United Kingdom</em>, 6 pages.</p>
+                
+                <h2>1 INTRODUCTION</h2>
+                <p>The Internet of Things (IoT) has been widely applied in various fields, such as smart cities, industrial automation, healthcare, and transportation. With the rapid development of IoT, a large number of images are transmitted in IoT networks. These images may contain sensitive information, such as personal privacy, medical records, and industrial secrets. Therefore, image encryption is essential to protect image privacy in IoT networks.</p>
+                
+                <p>Traditional encryption algorithms, such as Advanced Encryption Standard (AES) and Data Encryption Standard (DES), are not suitable for image encryption due to their high computational complexity and low efficiency. Chaos-based encryption algorithms have attracted much attention because of their high sensitivity to initial conditions, ergodicity, and pseudo-randomness. However, most existing chaos-based image encryption schemes are not efficient enough for resource-constrained IoT devices.</p>
+                
+                <p>In this paper, we propose an efficient image encryption scheme for industrial IoT devices. The main contributions of this paper are as follows:</p>
+                <ul>
+                    <li>We propose a novel image encryption scheme that combines SHA-512 hash function, hyperchaotic Chen system, Arnold cat map, and XOR operation.</li>
+                    <li>We apply the proposed scheme to image encryption in Internet of Vehicles (IoVs) and Wireless Body Area Networks (WBAN).</li>
+                    <li>We evaluate the encryption performance of the proposed scheme through extensive experiments.</li>
+                </ul>
+            `;
+        }
+        
+        // 模拟中文内容
+        function getMockChineseContent() {
+            return `
+                <h1>一种高效的工业物联网设备图像加密方案</h1>
+                
+                <p><strong>张明武, 彭波, 陈宇</strong></p>
+                <p>湖北工业大学计算机学院</p>
+                
+                <h2>摘要</h2>
+                <p>随着物联网（IoT）的快速发展，大量图像在IoT网络中传输。为了保护图像隐私，图像加密至关重要。本文提出了一种适用于工业物联网设备的高效图像加密方案。该方案使用SHA-512生成超混沌Chen系统的初始值，然后使用超混沌序列执行基于Arnold猫映射的像素置乱和XOR运算。该方案应用于车联网（IoVs）和无线体域网（WBAN）中的图像加密。实验结果表明，该方案具有良好的加密性能，能够抵抗各种攻击。</p>
+                
+                <h2>CCS概念</h2>
+                <ul>
+                    <li>计算机系统组织 → 嵌入式系统；冗余；机器人学；</li>
+                    <li>网络 → 网络可靠性。</li>
+                </ul>
+                
+                <h2>关键词</h2>
+                <p>物联网；超混沌系统；SHA-512；Arnold猫映射</p>
+                
+                <h2>ACM参考格式：</h2>
+                <p>张明武, 彭波, 陈宇. 2019. 一种高效的工业物联网设备图像加密方案. 载于<em>IoT-S&P '19会议论文集，2019年11月15日，英国伦敦</em>，共6页。</p>
+                
+                <h2>1 引言</h2>
+                <p>物联网（IoT）已广泛应用于各个领域，如智慧城市、工业自动化、医疗保健和交通运输。随着IoT的快速发展，大量图像在IoT网络中传输。这些图像可能包含敏感信息，如个人隐私、医疗记录和工业秘密。因此，图像加密对于保护IoT网络中的图像隐私至关重要。</p>
+                
+                <p>传统的加密算法，如高级加密标准（AES）和数据加密标准（DES），由于其计算复杂度高、效率低，不适合图像加密。基于混沌的加密算法因其对初始条件的高度敏感性、遍历性和伪随机性而备受关注。然而，大多数现有的基于混沌的图像加密方案对于资源受限的IoT设备来说效率不够高。</p>
+                
+                <p>在本文中，我们提出了一种适用于工业IoT设备的高效图像加密方案。本文的主要贡献如下：</p>
+                <ul>
+                    <li>我们提出了一种结合SHA-512哈希函数、超混沌Chen系统、Arnold猫映射和XOR运算的新型图像加密方案。</li>
+                    <li>我们将所提出的方案应用于车联网（IoVs）和无线体域网（WBAN）中的图像加密。</li>
+                    <li>我们通过大量实验评估了所提出方案的加密性能。</li>
+                </ul>
+            `;
         }
         
         // ==========================================
@@ -602,7 +1120,7 @@
             initFileUpload();
             
             // 初始化侧导航组件
-            initAgentSidebar({
+            window.agentSidebarInstance = initAgentSidebar({
                 tasks: mockTasks,
                 maxTasks: 10,
                 onNewTask: function() {
