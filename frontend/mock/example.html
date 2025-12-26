@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mock 系统使用示例</title>
+    <link rel="stylesheet" href="../css/tokens.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <style>
+        body {
+            padding: 40px;
+            background: var(--clouditera-neutral-background-secondary);
+        }
+        .demo-section {
+            background: white;
+            padding: 24px;
+            margin-bottom: 24px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .demo-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--clouditera-neutral-text-title);
+        }
+        .demo-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .demo-result {
+            background: var(--clouditera-neutral-background-tertiary);
+            padding: 16px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 13px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: white;
+            border-radius: 4px;
+        }
+        .log-time {
+            color: #999;
+            font-size: 12px;
+        }
+        .log-type {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 11px;
+            margin-right: 8px;
+        }
+        .log-type.info { background: #dbeafe; color: #1e40af; }
+        .log-type.success { background: #d1fae5; color: #047857; }
+        .log-type.error { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <h1 style="margin-bottom: 32px;">Mock 系统使用示例</h1>
+
+    <!-- 示例 1: 智能体列表 -->
+    <div class="demo-section">
+        <div class="demo-title">示例 1: 获取智能体列表</div>
+        <div class="demo-controls">
+            <select id="categoryFilter">
+                <option value="all">全部分类</option>
+                <option value="security">安全类</option>
+                <option value="automation">自动化类</option>
+                <option value="info">信息类</option>
+            </select>
+            <select id="levelFilter">
+                <option value="">全部等级</option>
+                <option value="basic">基础类</option>
+                <option value="advanced">高级类</option>
+            </select>
+            <button class="btn btn-primary" onclick="loadAgents()">加载智能体</button>
+        </div>
+        <div class="demo-result" id="agentsResult"></div>
+    </div>
+
+    <!-- 示例 2: 任务操作 -->
+    <div class="demo-section">
+        <div class="demo-title">示例 2: 任务操作</div>
+        <div class="demo-controls">
+            <button class="btn btn-primary" onclick="loadTasks()">加载任务列表</button>
+            <button class="btn btn-primary" onclick="createTask()">创建新任务</button>
+            <button class="btn btn-primary" onclick="restartTask()">重新执行任务</button>
+        </div>
+        <div class="demo-result" id="tasksResult"></div>
+    </div>
+
+    <!-- 示例 3: 用户操作 -->
+    <div class="demo-section">
+        <div class="demo-title">示例 3: 用户操作</div>
+        <div class="demo-controls">
+            <input type="text" id="username" placeholder="用户名" value="test_user">
+            <input type="password" id="password" placeholder="密码" value="123456">
+            <button class="btn btn-primary" onclick="handleLogin()">登录</button>
+            <button class="btn" onclick="handleLogout()">登出</button>
+            <button class="btn" onclick="getCurrentUser()">获取当前用户</button>
+        </div>
+        <div class="demo-result" id="userResult"></div>
+    </div>
+
+    <!-- 示例 4: 实时日志 -->
+    <div class="demo-section">
+        <div class="demo-title">示例 4: 实时日志</div>
+        <div class="demo-controls">
+            <button class="btn" onclick="clearLogs()">清空日志</button>
+        </div>
+        <div class="demo-result" id="logsResult"></div>
+    </div>
+
+    <script type="module">
+        import { MockAPI } from './index.js';
+
+        // 将 MockAPI 暴露到全局作用域
+        window.MockAPI = MockAPI;
+
+        // 日志工具
+        window.logger = {
+            logs: [],
+            log(type, message, data = null) {
+                const entry = {
+                    time: new Date().toLocaleTimeString(),
+                    type,
+                    message,
+                    data
+                };
+                this.logs.unshift(entry);
+                this.render();
+            },
+            render() {
+                const container = document.getElementById('logsResult');
+                container.innerHTML = this.logs.slice(0, 50).map(log => `
+                    <div class="log-entry">
+                        <span class="log-time">${log.time}</span>
+                        <span class="log-type ${log.type}">${log.type.toUpperCase()}</span>
+                        <span>${log.message}</span>
+                        ${log.data ? `<pre style="margin-top: 8px; font-size: 11px;">${JSON.stringify(log.data, null, 2)}</pre>` : ''}
+                    </div>
+                `).join('');
+            },
+            clear() {
+                this.logs = [];
+                this.render();
+            }
+        };
+
+        // 全局函数：加载智能体
+        window.loadAgents = async function() {
+            const category = document.getElementById('categoryFilter').value;
+            const level = document.getElementById('levelFilter').value;
+
+            logger.log('info', '正在加载智能体列表...', { category, level });
+
+            try {
+                const response = await MockAPI.agent.getAgentList({
+                    category,
+                    level: level || undefined,
+                    page: 1,
+                    pageSize: 10
+                });
+
+                if (response.success) {
+                    logger.log('success', `加载成功，共 ${response.data.total} 个智能体`);
+                    document.getElementById('agentsResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '加载失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：加载任务
+        window.loadTasks = async function() {
+            logger.log('info', '正在加载任务列表...');
+
+            try {
+                const response = await MockAPI.task.getTaskList({
+                    agentId: 1,
+                    page: 1,
+                    pageSize: 10
+                });
+
+                if (response.success) {
+                    logger.log('success', `加载成功，共 ${response.data.total} 个任务`);
+                    document.getElementById('tasksResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '加载失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：创建任务
+        window.createTask = async function() {
+            logger.log('info', '正在创建新任务...');
+
+            try {
+                const response = await MockAPI.task.createTask({
+                    agentId: 1,
+                    name: '测试任务 ' + new Date().toLocaleTimeString(),
+                    config: { target: 'https://example.com' }
+                });
+
+                if (response.success) {
+                    logger.log('success', '任务创建成功', response.data);
+                    document.getElementById('tasksResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '创建失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：重新执行任务
+        window.restartTask = async function() {
+            logger.log('info', '正在重新执行任务...');
+
+            try {
+                const response = await MockAPI.task.restartTask('vuln-002');
+
+                if (response.success) {
+                    logger.log('success', '任务已重新启动', response.data);
+                    document.getElementById('tasksResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '重启失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：用户登录
+        window.handleLogin = async function() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            logger.log('info', '正在登录...', { username });
+
+            try {
+                const response = await MockAPI.user.login({ username, password });
+
+                if (response.success) {
+                    logger.log('success', '登录成功', response.data.user);
+                    document.getElementById('userResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '登录失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：用户登出
+        window.handleLogout = async function() {
+            logger.log('info', '正在登出...');
+
+            try {
+                const response = await MockAPI.user.logout();
+                logger.log('success', '登出成功');
+                document.getElementById('userResult').innerHTML = '<p>已登出</p>';
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：获取当前用户
+        window.getCurrentUser = async function() {
+            logger.log('info', '正在获取当前用户...');
+
+            try {
+                const response = await MockAPI.user.getCurrentUser();
+
+                if (response.success) {
+                    logger.log('success', '获取成功', response.data);
+                    document.getElementById('userResult').innerHTML =
+                        '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
+                } else {
+                    logger.log('error', '获取失败: ' + response.message);
+                }
+            } catch (error) {
+                logger.log('error', '请求异常: ' + error.message);
+            }
+        };
+
+        // 全局函数：清空日志
+        window.clearLogs = function() {
+            logger.clear();
+        };
+
+        // 初始化日志
+        logger.log('info', 'Mock 系统已加载，可以开始测试');
+    </script>
+</body>
+</html>

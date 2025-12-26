@@ -1,0 +1,473 @@
+/* ==========================================
+   任务异常状态 - UI 组件样式
+   基于 Clouditera 设计系统
+   ========================================== */
+
+/* 引入设计系统 Token */
+@import url('../../css/tokens.css');
+
+/* ==========================================
+   1. 任务状态徽章 - 系统异常
+   ========================================== */
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+/* 系统异常徽章 */
+.status-badge.error {
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-palette-red-6);
+    border: 1px solid var(--clouditera-palette-red-2);
+}
+
+/* 运行中徽章 */
+.status-badge.running {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-palette-blue-6);
+    border: 1px solid var(--clouditera-palette-blue-2);
+}
+
+/* 已完成徽章 */
+.status-badge.success {
+    background: var(--clouditera-palette-green-0);
+    color: var(--clouditera-palette-green-6);
+    border: 1px solid var(--clouditera-palette-green-2);
+}
+
+/* ==========================================
+   2. 任务列表中的失败状态
+   ========================================== */
+
+/* 失败任务项 */
+.recent-task-item.active.failed {
+    background: var(--clouditera-palette-red-0);
+    border-left: 3px solid var(--clouditera-palette-red-5);
+}
+
+.recent-task-item.active.failed:hover {
+    background: var(--clouditera-palette-red-1);
+}
+
+/* 失败状态图标 */
+.task-status-icon.failed {
+    color: var(--clouditera-palette-red-5);
+}
+
+/* ==========================================
+   3. 阶段卡片 - 异常状态
+   ========================================== */
+
+/* 异常终止的阶段卡片 - 只保留红色描边，背景和其他样式与普通 phase-card 一致 */
+.phase-card.error {
+    border-color: var(--clouditera-palette-red-5);
+    border-left-width: 3px;
+}
+
+/* 异常阶段徽章 */
+.phase-badge.error {
+    background: var(--clouditera-palette-red-5);
+    color: var(--clouditera-neutral-background-white);
+}
+
+/* 异常阶段状态文字 */
+.phase-status.error {
+    color: var(--clouditera-palette-red-6);
+    font-weight: 600;
+}
+
+/* ==========================================
+   3.5. 阶段进度 - 失败状态
+   ========================================== */
+
+/* 失败阶段的连接线 - 显示红色 */
+.phase-progress-item.failed:not(:last-child)::before {
+    background: var(--clouditera-palette-red-3);
+}
+
+/* ==========================================
+   4. 系统异常提示卡片
+   ========================================== */
+
+.error-alert {
+    background: var(--clouditera-palette-red-0);
+    border: 1px solid var(--clouditera-palette-red-4);
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 12px;
+}
+
+.error-alert-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.error-alert-icon {
+    font-size: 20px;
+}
+
+.error-alert-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-palette-red-6);
+}
+
+.error-alert-content {
+    font-size: 13px;
+    color: var(--clouditera-palette-red-8);
+    line-height: 1.6;
+}
+
+.error-alert-content p {
+    margin: 0;
+}
+
+.error-alert-content p + p {
+    margin-top: 8px;
+}
+
+/* ==========================================
+   5. 警告提示（建议操作）
+   ========================================== */
+
+.warning-alert {
+    background: var(--clouditera-palette-gold-0);
+    border: 1px solid var(--clouditera-palette-gold-4);
+    border-radius: 6px;
+    padding: 12px;
+    margin-top: 20px;
+}
+
+.warning-alert-content {
+    font-size: 13px;
+    color: var(--clouditera-palette-gold-9);
+    line-height: 1.6;
+}
+
+.warning-alert-content strong {
+    font-weight: 600;
+}
+
+/* ==========================================
+   6. 漏洞发现卡片（包含危险等级）
+   ========================================== */
+
+.vulnerability-finding {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.vuln-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.vuln-severity {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.vuln-severity.high {
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-palette-red-6);
+    border: 1px solid var(--clouditera-palette-red-3);
+}
+
+.vuln-severity.medium {
+    background: var(--clouditera-palette-gold-0);
+    color: var(--clouditera-palette-gold-7);
+    border: 1px solid var(--clouditera-palette-gold-3);
+}
+
+.vuln-severity.low {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-palette-blue-6);
+    border: 1px solid var(--clouditera-palette-blue-2);
+}
+
+.vuln-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.vuln-location {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-family: 'Consolas', 'Monaco', monospace;
+    margin-bottom: 4px;
+}
+
+.vuln-description {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.5;
+}
+
+/* ==========================================
+   7. 最终回复 - 异常终止卡片
+   ========================================== */
+
+.final-response.error {
+    border-left: 3px solid var(--clouditera-palette-red-5);
+}
+
+.response-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-title);
+    margin: 0;
+}
+
+.response-summary {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.6;
+}
+
+.response-summary p {
+    margin: 0;
+}
+
+.response-summary p + p {
+    margin-top: 12px;
+}
+
+.response-summary ul {
+    margin: 8px 0 0 20px;
+    padding: 0;
+}
+
+.response-summary li {
+    margin: 4px 0;
+}
+
+.response-summary strong {
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-title);
+}
+
+/* ==========================================
+   8. 漏洞统计表格
+   ========================================== */
+
+.vulnerability-table {
+    margin-top: 20px;
+}
+
+.vulnerability-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.vulnerability-table thead {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.vulnerability-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-title);
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+.vulnerability-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-primary);
+    border-bottom: 1px solid var(--clouditera-neutral-border-tertiary);
+}
+
+.vulnerability-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.vulnerability-table tbody tr:hover {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.vulnerability-table code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    background: var(--clouditera-neutral-background-secondary);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+/* 表格中的危险等级徽章 */
+.severity-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.severity-badge.high {
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-palette-red-6);
+}
+
+.severity-badge.medium {
+    background: var(--clouditera-palette-gold-0);
+    color: var(--clouditera-palette-gold-7);
+}
+
+.severity-badge.low {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-palette-blue-6);
+}
+
+/* ==========================================
+   9. 任务清单 - 异常状态
+   ========================================== */
+
+/* 异常终止的任务项 */
+.task-list-item.error {
+    background: var(--clouditera-palette-red-0);
+    border-color: var(--clouditera-palette-red-4);
+}
+
+.task-list-item.error .task-name {
+    color: var(--clouditera-palette-red-6);
+}
+
+.task-list-item.error .task-status-indicator {
+    color: var(--clouditera-palette-red-5);
+}
+
+/* ==========================================
+   10. 阶段进度看板 - 失败状态
+   ========================================== */
+
+/* 失败阶段 */
+.phase-progress-item.failed {
+    opacity: 1;
+}
+
+.phase-progress-item.failed .phase-progress-marker {
+    background: var(--clouditera-palette-red-0);
+    border-color: var(--clouditera-palette-red-5);
+}
+
+.phase-progress-item.failed .phase-progress-status {
+    color: var(--clouditera-palette-red-5);
+}
+
+.phase-progress-item.failed .phase-progress-name {
+    color: var(--clouditera-palette-red-6);
+    font-weight: 600;
+}
+
+/* 失败阶段连接线 */
+.phase-progress-item.failed::after {
+    background: var(--clouditera-palette-red-3);
+}
+
+/* ==========================================
+   11. 重新开始按钮
+   ========================================== */
+
+.btn-restart {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 16px;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-restart:hover {
+    background: var(--clouditera-brand-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.2);
+}
+
+.btn-restart:active {
+    background: var(--clouditera-brand-primary-active);
+    transform: translateY(0);
+}
+
+/* ==========================================
+   12. 响应式设计
+   ========================================== */
+
+@media (max-width: 768px) {
+    .error-alert {
+        padding: 12px;
+    }
+
+    .error-alert-content {
+        font-size: 12px;
+    }
+
+    .vulnerability-table {
+        overflow-x: auto;
+    }
+
+    .vulnerability-table table {
+        min-width: 500px;
+    }
+}
+
+/* ==========================================
+   13. 可访问性增强
+   ========================================== */
+
+/* 高对比度模式支持 */
+@media (prefers-contrast: high) {
+    .error-alert {
+        border-width: 2px;
+    }
+
+    .status-badge.error {
+        border-width: 2px;
+    }
+
+    .phase-card.error {
+        border-left-width: 4px;
+    }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+    .btn-restart {
+        transition: none;
+    }
+
+    .btn-restart:hover {
+        transform: none;
+    }
+}

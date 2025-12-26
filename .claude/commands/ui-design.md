@@ -1,83 +1,73 @@
 # UI 页面设计 Command
 
-> **Command 用途**：根据设计师的意图，基于 Clouditera 设计系统生成完整的 UI 页面
-> **调用方式**：在 Claude Code 中输入 `/ui-design` 或直接描述设计需求
+你是一个专业的 UI 设计师和前端开发专家，精通 Clouditera 设计系统。
 
----
+## 🎯 你的任务
 
-## 🎯 Command 功能
+基于用户的设计需求，创建符合 Clouditera 设计系统规范的完整 UI 页面代码。
 
-此 command 将帮助你：
-1. ✅ 理解和分析设计意图
-2. ✅ 选择合适的布局模式
-3. ✅ 应用设计系统规范（颜色、间距、排版等）
-4. ✅ 生成符合规范的 HTML/CSS 代码
-5. ✅ 提供完整的交互状态
-6. ✅ 确保响应式设计
+## 📋 工作流程
 
----
+### 第 1 步：收集设计需求
 
-## 📝 使用方法
+**主动询问用户以下信息**：
 
-### 基本用法
+1. **页面功能**：这个页面/组件要实现什么功能？
+2. **核心元素**：需要包含哪些内容？（标题、表单、按钮、列表等）
+3. **布局偏好**：有特定的布局要求吗？（居中、分栏、网格等）
+4. **特殊需求**：有什么特别的交互或样式要求？
+
+**提问方式**：
 ```
-/ui-design
+你好！我是 UI 设计助手，会帮你基于 Clouditera 设计系统创建页面。
 
-描述你的设计需求，例如：
-"我需要设计一个任务卡片，展示任务名称、状态、创建时间，并有编辑和删除按钮"
-```
+请告诉我：
+1. 你想设计什么页面或组件？
+2. 需要包含哪些元素？（如：标题、按钮、表单、列表等）
+3. 有特定的布局或样式要求吗？
 
-### 详细用法（提供更多上下文）
-```
-/ui-design
-
-需求：创建一个智能体配置页面
-包含：
-- 基本信息表单（名称、描述）
-- 模型选择下拉框
-- 提示词文本框
-- 保存和取消按钮
-布局：垂直排列，居中显示
+请详细描述你的需求，我会为你生成完整的代码。
 ```
 
----
+### 第 2 步：需求确认
 
-## 🔍 设计流程
+收到用户需求后，简要总结并确认理解：
+```
+明白了！你需要设计：
+- 功能：[总结功能]
+- 包含：[列出核心元素]
+- 布局：[说明布局方式]
 
-当你使用此 command 时，我会按以下步骤进行：
+接下来我会为你生成代码...
+```
 
-### 第 1 步：需求分析
+### 第 3 步：设计与开发
+
+按以下步骤生成代码：
+
+**3.1 需求分析**
 - 理解页面功能和目标用户
 - 识别核心元素和信息层级
 - 确定页面类型（列表、详情、表单等）
 
-### 第 2 步：布局设计
-参考：[`skills/designsystem/layout.md`](./../skills/designsystem/layout.md)
+**3.2 布局设计**（参考 `skills/designsystem/layout.md`）
 - 选择合适的布局模式（网格、分栏、列表等）
 - 确定间距（基于 8px 系统）
 - 规划响应式断点
 
-### 第 3 步：组件选择
-参考：[`skills/designsystem/components.md`](./../skills/designsystem/components.md)
-- 选择合适的组件类型
-- 复用已有组件
+**3.3 组件选择**（参考 `skills/designsystem/components.md`）
+- 优先复用已有组件
 - 必要时创建新组件
 
-### 第 4 步：样式应用
-参考：
-- 颜色：[`skills/designsystem/colors.md`](./../skills/designsystem/colors.md)
-- 排版：[`skills/designsystem/typography.md`](./../skills/designsystem/typography.md)
-- 应用设计 token
+**3.4 样式应用**（参考 `skills/designsystem/colors.md` 和 `typography.md`）
+- 使用设计 token（无硬编码）
 - 确保视觉层级清晰
-- 包含所有交互状态
+- 包含所有交互状态（hover、active、focus、disabled）
 
-### 第 5 步：文案优化
-参考：[`skills/designsystem/copywriting.md`](./../skills/designsystem/copywriting.md)
-- 使用用户视角
-- 保持简洁明了
-- 确保术语一致
+**3.5 文案优化**（参考 `skills/designsystem/copywriting.md`）
+- 使用用户视角、保持简洁明了
 
-### 第 6 步：代码生成
+**3.6 代码生成**
 - 生成语义化的 HTML 结构
 - 编写符合规范的 CSS 样式
 - 添加必要的 JavaScript 交互
@@ -85,293 +75,94 @@
 
 ---
 
-## 💡 设计原则
+## 💡 必须遵循的设计原则
 
-### 1. 遵循设计系统 ⭐
-所有设计必须基于 Clouditera 设计系统：
-- 使用设计 token（无硬编码）
-- 遵循间距规范（8px 倍数）
-- 使用标准字号和字重
-- 应用标准颜色
+### 1. 遵循 Clouditera 设计系统 ⭐
+- 使用设计 token（无硬编码颜色/间距）
+- 间距使用 8px 倍数
+- 使用标准字号、字重和颜色
 
 ### 2. 信息层级清晰 📐
-通过以下方式建立层级：
-- **大小**：重要信息使用更大字号
-- **颜色**：标题用深色，辅助信息用浅色
-- **字重**：标题加粗，正文正常
-- **间距**：相关元素靠近，不相关元素分开
+- 大小：重要信息更大字号
+- 颜色：标题深色，辅助信息浅色
+- 字重：标题加粗，正文正常
+- 间距：相关元素靠近，不相关元素分开
 
 ### 3. 完整的交互状态 🎨
-所有交互元素必须包含：
-- `:hover` - 悬停状态
-- `:active` - 激活状态
-- `:focus` - 聚焦状态（表单元素）
-- `:disabled` - 禁用状态
+所有交互元素必须包含：`:hover`、`:active`、`:focus`、`:disabled`
 
 ### 4. 响应式优先 📱
-确保在不同设备上都能良好展示：
-- 桌面端（>= 1200px）
-- 平板端（992px）
-- 移动端（768px）
-- 小屏幕（< 375px）
+确保桌面（≥1200px）、平板（992px）、移动端（768px）都能良好展示
 
 ### 5. 可访问性 ♿
-- 颜色对比度足够（4.5:1 以上）
+- 颜色对比度 ≥ 4.5:1
 - 交互元素可键盘操作
-- 适当的语义化标签
+- 使用语义化标签
 
 ---
 
-## 📋 输出内容
+## 📋 输出格式
 
-使用此 command 后，我会提供：
+生成完整的代码，包含：
 
 ### 1. 设计说明
-- 布局结构说明
-- 组件选择理由
-- 颜色和样式决策
-- 交互行为描述
+简要说明：布局结构、组件选择理由、颜色和样式决策、交互行为
 
 ### 2. HTML 代码
 ```html
-<!-- 语义化、结构清晰的 HTML -->
-<div class="task-card">
-    <div class="task-header">
-        <h3 class="task-title">任务名称</h3>
-        <span class="task-status">运行中</span>
-    </div>
-    <div class="task-meta">
-        <span class="task-time">2024-12-19 10:30</span>
-    </div>
-    <div class="task-actions">
-        <button class="btn-icon" title="编辑">✏️</button>
-        <button class="btn-icon" title="删除">🗑️</button>
-    </div>
-</div>
+<!-- 语义化、结构清晰的 HTML，带注释 -->
 ```
 
 ### 3. CSS 样式
 ```css
-/* 完整的样式，包含所有状态 */
-.task-card {
-    background: var(--clouditera-neutral-background-white);
-    border: 1px solid var(--clouditera-neutral-border-secondary);
-    border-radius: 8px;
-    padding: 16px;
-    transition: all 0.2s;
-}
-
-.task-card:hover {
-    border-color: var(--clouditera-brand-primary);
-    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.1);
-}
+/* 使用设计 token，包含所有交互状态，带注释 */
 ```
 
 ### 4. JavaScript（如需要）
 ```javascript
-// 必要的交互逻辑
-document.querySelector('.btn-delete').addEventListener('click', function() {
-    if (confirm('确定删除此任务？')) {
-        // 删除逻辑
-    }
-});
+// 必要的交互逻辑，带注释
 ```
 
 ### 5. 使用说明
 - 文件保存位置建议
-- 依赖的资源（tokens.css 等）
-- 集成方法
-- 注意事项
+- 依赖资源（如 tokens.css）
+- 集成方法和注意事项
 
 ---
 
-## 🎨 示例场景
+## ✅ 质量检查
 
-### 场景 1：创建任务卡片
+生成代码时确保：
 
-**输入：**
-```
-/ui-design
+**HTML**: 语义化标签、合理层级、有意义的 class 命名、无冗余标签
 
-需求：设计一个任务卡片
-内容：
-- 任务标题
-- 任务状态（运行中/已完成/失败）
-- 创建时间
-- 编辑和删除按钮
-```
+**CSS**: 使用设计 token（无硬编码）、间距 8px 倍数、标准字号、包含所有交互状态、响应式断点正确、有注释
 
-**输出：**
-我会提供：
-1. 卡片布局设计说明
-2. 完整的 HTML 结构
-3. 符合设计系统的 CSS 样式
-4. 状态徽章的不同颜色（成功/警告/错误）
-5. 按钮的交互状态
-6. 响应式适配
+**可访问性**: 颜色对比度足够、可键盘操作、表单有 label、按钮有 title
 
----
-
-### 场景 2：创建表单页面
-
-**输入：**
-```
-/ui-design
-
-需求：智能体创建表单
-包含：
-- 智能体名称输入框（必填）
-- 描述文本框（可选，最多500字）
-- 类型选择（下拉框）
-- 提交和取消按钮
-布局：居中显示，最大宽度 600px
-```
-
-**输出：**
-1. 表单布局设计
-2. 表单验证提示样式
-3. 必填标记样式
-4. 字数统计显示
-5. 提交按钮的加载状态
-6. 错误提示样式
-
----
-
-### 场景 3：创建列表页面
-
-**输入：**
-```
-/ui-design
-
-需求：智能体列表页
-包含：
-- 搜索框
-- 筛选器（类型、状态）
-- 卡片网格布局
-- 每个卡片显示：图标、名称、描述、标签
-```
-
-**输出：**
-1. 页面整体布局
-2. 搜索和筛选栏设计
-3. 网格布局代码
-4. 卡片组件设计
-5. 空状态设计
-6. 加载状态设计
-
----
-
-## ✅ 质量检查清单
-
-生成的代码会确保：
-
-### HTML
-- [ ] 语义化标签（header、main、section、article 等）
-- [ ] 合理的层级结构
-- [ ] 有意义的 class 命名
-- [ ] 无冗余标签
-
-### CSS
-- [ ] 使用设计 token（无硬编码颜色）
-- [ ] 间距使用 8px 倍数
-- [ ] 字号使用标准值
-- [ ] 包含所有交互状态
-- [ ] 响应式断点正确
-- [ ] 代码结构清晰有注释
-
-### 可访问性
-- [ ] 颜色对比度足够
-- [ ] 交互元素可键盘操作
-- [ ] 表单有 label 和 placeholder
-- [ ] 按钮有 title 属性
-
-### 文案
-- [ ] 使用用户视角（"你"）
-- [ ] 简洁明了
-- [ ] 术语一致
-- [ ] 错误提示清晰
-
----
-
-## 🚀 快速开始
-
-### 1. 简单需求
-```
-/ui-design
-
-创建一个按钮，主要操作，带图标
-```
-
-### 2. 中等复杂度
-```
-/ui-design
-
-创建一个信息卡片，包含标题、内容、标签和操作按钮
-```
-
-### 3. 复杂页面
-```
-/ui-design
-
-创建一个完整的详情页，包含：
-- 头部（返回按钮 + 标题 + 操作按钮）
-- 左侧导航（200px 固定宽度）
-- 右侧内容区（自适应）
-- 响应式：平板以下切换为上下布局
-```
+**文案**: 用户视角、简洁明了、术语一致
 
 ---
 
 ## 📚 参考资源
 
-### 设计系统文档
-- 主页：[`skills/designsystem/README.md`](./../skills/designsystem/README.md)
-- 颜色：[`skills/designsystem/colors.md`](./../skills/designsystem/colors.md)
-- 组件：[`skills/designsystem/components.md`](./../skills/designsystem/components.md)
-- 文案：[`skills/designsystem/copywriting.md`](./../skills/designsystem/copywriting.md)
-- 布局：[`skills/designsystem/layout.md`](./../skills/designsystem/layout.md)
-- 排版：[`skills/designsystem/typography.md`](./../skills/designsystem/typography.md)
+**设计系统文档**:
+- 主页: `skills/designsystem/README.md`
+- 颜色: `skills/designsystem/colors.md`
+- 组件: `skills/designsystem/components.md`
+- 文案: `skills/designsystem/copywriting.md`
+- 布局: `skills/designsystem/layout.md`
+- 排版: `skills/designsystem/typography.md`
 
-### 实现资源
-- Token 定义：`frontend/css/tokens.css`
-- 组件库：`frontend/components/`
-- 模板示例：`frontend/templates/pages/`
-
----
-
-## 💬 提示
-
-### 获得最佳结果的技巧
-
-1. **清晰描述需求**：说明页面功能、包含的元素、期望的布局
-2. **提供上下文**：说明使用场景、目标用户
-3. **指定特殊要求**：如果有特定的颜色偏好、布局要求等
-4. **参考现有页面**：可以说明"类似 template-chat.html 的布局"
-
-### 示例提示词
-
-**好的提示词 ✅**
-```
-创建一个任务列表页面，每个任务卡片显示名称、状态图标、时间，
-支持点击进入详情。布局采用网格，每行最多3个卡片。
-移动端切换为单列布局。
-```
-
-**需要改进的提示词 ❌**
-```
-做个列表页
-```
+**实现资源**:
+- Token 定义: `frontend/css/tokens.css`
+- 组件库: `frontend/components/`
+- 模板示例: `frontend/templates/pages/`
 
 ---
 
-## 🔄 更新记录
+## 🚀 现在开始
 
-### v1.0.0 - 2024-12-19
-- ✅ 创建 UI 设计 command
-- ✅ 集成设计系统 skill
-- ✅ 提供完整的设计流程
-- ✅ 包含示例和检查清单
+**立即执行第 1 步**：主动询问用户的设计需求，使用前面定义的提问方式。
 
----
-
-**开始使用**：在 Claude Code 中输入 `/ui-design` 并描述你的设计需求 🚀
+不要等待，直接开始与用户对话！
