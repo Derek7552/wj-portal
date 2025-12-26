@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="自规划任务执行助手 - 智能体模板">
     <title>自规划任务执行助手 | 云脑</title>
+    <link rel="stylesheet" href="../../css/tokens.css">
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../components/agent-header.css">
     <link rel="stylesheet" href="../css/template-detail.css">
     <link rel="stylesheet" href="../css/template-planning.css">
+    <link rel="stylesheet" href="../css/template-planning-error-states.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
 </head>
@@ -156,23 +159,8 @@
                         <div class="nav-group-title">近期任务</div>
 
                         <!-- 近期任务列表 -->
-                        <div class="recent-tasks-list">
-                            <a href="#" class="recent-task-item active" data-task-id="task-001">
-                                <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">代码安全漏洞挖掘任务</div>
-                            </a>
-                            <a href="#" class="recent-task-item" data-task-id="task-002">
-                                <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">开发用户认证系统</div>
-                            </a>
-                            <a href="#" class="recent-task-item" data-task-id="task-003">
-                                <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">数据库优化方案</div>
-                            </a>
-                            <a href="#" class="recent-task-item" data-task-id="task-004">
-                                <span class="task-status-icon failed">❌</span>
-                                <div class="task-name">API接口文档生成</div>
-                            </a>
+                        <div class="recent-tasks-list" id="recentTasksList">
+                            <!-- 任务将由 JavaScript 动态渲染 -->
                         </div>
                     </div>
 
@@ -432,7 +420,6 @@
     </main>
 
     <script src="../../js/dashboard.js"></script>
-    <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
     <script src="../js/template-planning.js"></script>
 </body>
