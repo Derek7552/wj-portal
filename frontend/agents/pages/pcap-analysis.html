@@ -1,0 +1,2827 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pcap包分析智能体 - 智能网络数据包分析服务">
+    <title>Pcap包分析 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../templates/css/template-detail.css">
+    <link rel="stylesheet" href="../../components/agent-sidebar.css">
+    <link rel="stylesheet" href="../../components/chat-input.css">
+    <style>
+        /* ==========================================
+           文件上传组件样式
+           ========================================== */
+        
+        .file-upload-container {
+            width: 100%;
+            margin: 0 auto;
+            padding: 16px 24px 24px 24px;
+            height: 280px;
+            box-sizing: border-box;
+        }
+        
+        /* 上传区域 */
+        .file-upload-area {
+            border: 2px dashed var(--clouditera-neutral-border-primary);
+            border-radius: 12px;
+            padding: 48px 24px;
+            text-align: center;
+            background: var(--clouditera-neutral-background-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+        
+        .file-upload-area:hover {
+            border-color: var(--clouditera-brand-primary);
+            background: var(--clouditera-neutral-background-secondary);
+        }
+        
+        .file-upload-area.drag-over {
+            border-color: var(--clouditera-brand-primary);
+            background: var(--clouditera-brand-primary-light);
+            border-style: solid;
+        }
+        
+        .file-upload-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+        
+        .file-upload-text {
+            color: var(--clouditera-neutral-text-primary);
+        }
+        
+        .file-upload-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+            margin-bottom: 8px;
+        }
+        
+        .file-upload-hint {
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .file-upload-action {
+            font-size: 13px;
+            color: var(--clouditera-brand-primary);
+            margin-top: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        
+        .file-upload-action:hover {
+            color: var(--clouditera-brand-primary-hover);
+        }
+        
+        .file-upload-action:active {
+            color: var(--clouditera-brand-primary-active);
+        }
+        
+        /* 文件信息容器 */
+        .file-info-container {
+            border: 2px solid var(--clouditera-neutral-border-primary);
+            border-radius: 12px;
+            padding: 20px;
+            background: var(--clouditera-neutral-background-white);
+            height: 240px;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        
+        .file-info-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-shrink: 0;
+        }
+        
+        .file-info-icon {
+            font-size: 40px;
+            flex-shrink: 0;
+        }
+        
+        .file-info-details {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .file-info-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+            margin-bottom: 4px;
+            word-break: break-all;
+        }
+        
+        .file-info-size {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-secondary);
+        }
+        
+        .file-remove-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--clouditera-neutral-background-tertiary);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--clouditera-neutral-text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .file-remove-btn:hover {
+            background: var(--clouditera-neutral-background-quaternary);
+            color: var(--clouditera-neutral-text-primary);
+        }
+        
+        .file-info-actions {
+            display: flex;
+            justify-content: center;
+            margin-top: 100px;
+            flex-shrink: 0;
+        }
+        
+        .btn-analyze {
+            min-width: 160px;
+            height: 40px;
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-analyze span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 错误提示 */
+        .file-upload-error {
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            border-radius: 8px;
+            color: #DC2626;
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        /* ==========================================
+           分析结果页面样式
+           ========================================== */
+        
+        .analysis-view-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            background: var(--clouditera-neutral-background-white);
+            overflow: hidden;
+        }
+        
+        /* 顶部工具栏 */
+        .analysis-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            background: var(--clouditera-neutral-background-white);
+            flex-shrink: 0;
+            gap: 16px;
+        }
+        
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex: 1;
+        }
+        
+        .toolbar-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        
+        .toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 0 0 auto;
+        }
+        
+        .toolbar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            color: var(--clouditera-neutral-text-primary);
+            transition: all 0.2s;
+        }
+        
+        .toolbar-btn:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+        
+        .toolbar-btn:active {
+            background: var(--clouditera-neutral-background-tertiary);
+        }
+        
+        .download-btn {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .download-btn-primary {
+            background: var(--clouditera-brand-primary);
+            color: white;
+        }
+        
+        .download-btn-primary:hover {
+            background: var(--clouditera-brand-primary-hover);
+        }
+        
+        .download-btn-secondary {
+            background: var(--clouditera-neutral-background-secondary);
+            color: var(--clouditera-neutral-text-primary);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+        }
+        
+        .download-btn-secondary:hover {
+            background: var(--clouditera-neutral-background-tertiary);
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+        }
+        
+        /* 分析内容区域 */
+        .analysis-content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding: 32px 48px;
+            background: var(--clouditera-neutral-background-white);
+            line-height: 1.8;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+        }
+        
+        .analysis-content h1,
+        .analysis-content h2,
+        .analysis-content h3 {
+            color: var(--clouditera-neutral-text-title);
+            font-weight: 600;
+            margin-top: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .analysis-content h1 {
+            font-size: 24px;
+        }
+        
+        .analysis-content h2 {
+            font-size: 20px;
+        }
+        
+        .analysis-content h3 {
+            font-size: 18px;
+        }
+        
+        .analysis-content p {
+            margin-bottom: 16px;
+        }
+        
+        .analysis-content ul,
+        .analysis-content ol {
+            margin: 16px 0;
+            padding-left: 32px;
+        }
+        
+        .analysis-content li {
+            margin-bottom: 8px;
+        }
+        
+        .analysis-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin: 24px 0;
+        }
+        
+        .stat-card {
+            background: var(--clouditera-neutral-background-secondary);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 8px;
+            padding: 16px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 8px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+        }
+        
+        /* 响应式 */
+        @media (max-width: 992px) {
+            .toolbar-left,
+            .toolbar-center,
+            .toolbar-right {
+                gap: 8px;
+            }
+            
+            .download-btn {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .analysis-content {
+                padding: 24px 32px;
+            }
+        }
+
+        /* ==========================================
+           命令选择悬浮面板样式
+           ========================================== */
+        
+        /* 命令面板容器 */
+        .command-panel {
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            margin-bottom: 8px;
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.1);
+            width: 100%;
+            max-width: 480px;
+            max-height: 320px;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            animation: slideDown 0.2s ease;
+        }
+
+        .command-panel.show {
+            display: flex;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 面板标题 */
+        .command-panel-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        /* 面板关闭按钮 */
+        .command-panel-close {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--clouditera-neutral-text-secondary);
+            font-size: 16px;
+            padding: 0;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            margin-left: auto;
+        }
+
+        .command-panel-close:hover {
+            background: var(--clouditera-neutral-background-secondary);
+            color: var(--clouditera-neutral-text-primary);
+        }
+
+        /* 命令列表容器 */
+        .command-panel-content {
+            padding: 8px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* 详情视图容器 */
+        .command-panel-detail {
+            display: none;
+            flex-direction: column;
+        }
+
+        .command-panel.detail-mode .command-panel-content {
+            display: none;
+        }
+
+        .command-panel.detail-mode .command-panel-detail {
+            display: flex;
+        }
+
+        /* 详情视图头部 */
+        .command-detail-header {
+            padding: 12px 16px 0 16px;
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            flex-shrink: 0;
+        }
+
+        .command-detail-header-left {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .command-detail-label {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-secondary);
+        }
+
+        .command-detail-name {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--clouditera-brand-primary);
+            color: white;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .command-detail-category {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-secondary);
+        }
+
+        /* 详情视图内容 */
+        .command-detail-content {
+            padding: 16px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        /* 命令详情输入框 */
+        .command-detail-input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--clouditera-neutral-text-primary);
+            background: var(--clouditera-neutral-background-white);
+            transition: all 0.2s;
+            box-sizing: border-box;
+        }
+
+        .command-detail-input:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px var(--clouditera-palette-blue-0);
+        }
+
+        .command-detail-input::placeholder {
+            color: var(--clouditera-neutral-text-secondary);
+        }
+
+        .command-detail-input:disabled {
+            background: var(--clouditera-neutral-background-secondary);
+            cursor: not-allowed;
+        }
+
+        /* 隐藏输入框（默认不显示） */
+        .command-detail-input.hidden {
+            display: none;
+        }
+
+        /* 命令详情下拉选择框 */
+        .command-detail-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 6px;
+            font-size: 14px;
+            font-family: inherit;
+            color: var(--clouditera-neutral-text-primary);
+            background: var(--clouditera-neutral-background-white);
+            transition: all 0.2s;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+
+        .command-detail-select:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px var(--clouditera-palette-blue-0);
+        }
+
+        .command-detail-select:disabled {
+            background: var(--clouditera-neutral-background-secondary);
+            cursor: not-allowed;
+        }
+
+        /* 隐藏下拉选择框（默认不显示） */
+        .command-detail-select.hidden {
+            display: none;
+        }
+
+        /* 命令详情复选框 */
+        .command-detail-checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        .command-detail-checkbox {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 4px;
+            background: var(--clouditera-neutral-background-white);
+            cursor: pointer;
+            position: relative;
+            flex-shrink: 0;
+            transition: all 0.2s;
+        }
+
+        .command-detail-checkbox:hover {
+            border-color: var(--clouditera-brand-primary);
+        }
+        
+        .command-detail-checkbox:has(input[type="checkbox"]:checked),
+        .command-detail-checkbox.checked {
+            border-color: var(--clouditera-brand-primary);
+            background: var(--clouditera-brand-primary);
+        }
+
+        .command-detail-checkbox input[type="checkbox"] {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            opacity: 0;
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .command-detail-checkbox:has(input[type="checkbox"]:checked) .command-detail-checkbox-icon,
+        .command-detail-checkbox.checked .command-detail-checkbox-icon {
+            display: block;
+        }
+
+        .command-detail-checkbox-icon {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .command-detail-checkbox-label {
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            user-select: none;
+        }
+
+        /* 隐藏复选框（默认不显示） */
+        .command-detail-checkbox-wrapper.hidden {
+            display: none;
+        }
+
+        /* 命令列表 */
+        .command-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* 命令项 */
+        .command-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.15s;
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid transparent;
+        }
+
+        .command-item:hover {
+            background: var(--clouditera-neutral-background-secondary);
+            border-color: var(--clouditera-neutral-border-primary);
+        }
+
+        .command-item:active {
+            background: var(--clouditera-neutral-background-tertiary);
+        }
+
+        .command-item.selected {
+            background: var(--clouditera-palette-blue-0);
+            border-color: var(--clouditera-brand-primary);
+        }
+
+        /* 选中时显示详情视图 */
+        .command-panel.detail-mode {
+            max-height: 220px;
+        }
+
+        /* 命令名称 */
+        .command-name {
+            display: inline-block;
+            padding: 3px 8px;
+            background: var(--clouditera-palette-blue-0);
+            color: var(--clouditera-brand-primary);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+            width: fit-content;
+        }
+
+        /* 命令描述 */
+        .command-description {
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* 输入框包装器需要相对定位 */
+        .chat-input-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+<body class="agent-detail-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="../../pages/user-management.html" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">📦</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">Pcap包分析</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.1.0</span>
+                    </div>
+                    <p class="agent-description">智能分析网络数据包，识别异常流量和潜在威胁，提供详细的网络行为分析和安全评估报告</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(12)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(3)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">网络流量分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">异常流量检测</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">DDoS攻击分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">恶意软件通信分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">网络协议分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">数据泄露检测</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">端口扫描检测</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">网络入侵分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">流量特征提取</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">安全事件关联分析</div>
+                            </a>
+                        </div>
+
+                        <!-- 查看全部入口 -->
+                        <a href="#" class="view-all-tasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区域 - 空状态 -->
+            <div class="agent-main-content">
+                <div class="empty-state-container">
+                    <!-- 智能体名称 - 优先级最高 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">Pcap包分析</span>
+                    </div>
+
+                    <!-- 引导文案 - 次要优先级 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">上传Pcap文件，开始智能分析</p>
+                    </div>
+
+                    <!-- 文件上传区域 -->
+                    <div class="file-upload-container" id="fileUploadContainer">
+                        <!-- 上传区域 -->
+                        <div class="file-upload-area" id="fileUploadArea">
+                            <input type="file" id="fileInput" accept=".pcap,.pcapng,.cap" style="display: none;">
+                            <div class="file-upload-icon">📦</div>
+                            <div class="file-upload-text">
+                                <p class="file-upload-title">上传Pcap文件</p>
+                                <p class="file-upload-hint">支持单个.pcap和.pcapng和.cap文件，大小不超过100M</p>
+                                <p class="file-upload-action">点击上传或拖拽文件到此处</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 文件信息显示区域（上传后显示） -->
+                        <div class="file-info-container" id="fileInfoContainer" style="display: none;">
+                            <div class="file-info-header">
+                                <div class="file-info-icon">📦</div>
+                                <div class="file-info-details">
+                                    <div class="file-info-name" id="fileName"></div>
+                                    <div class="file-info-size" id="fileSize"></div>
+                                </div>
+                                <button class="file-remove-btn" id="fileRemoveBtn" title="移除文件">✕</button>
+                            </div>
+                            <div class="file-info-actions">
+                                <button class="btn btn-primary btn-analyze" id="btnAnalyze">
+                                    <span>开始分析</span>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- 错误提示 -->
+                        <div class="file-upload-error" id="fileUploadError" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../../components/agent-sidebar.js"></script>
+    <script src="../../components/chat-input.js"></script>
+    <script>
+        // ==========================================
+        // 文件上传功能
+        // ==========================================
+        
+        const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+        let selectedFile = null;
+        
+        // 初始化文件上传功能
+        function initFileUpload() {
+            const fileInput = document.getElementById('fileInput');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileInfoContainer = document.getElementById('fileInfoContainer');
+            const fileRemoveBtn = document.getElementById('fileRemoveBtn');
+            const btnAnalyze = document.getElementById('btnAnalyze');
+            const fileUploadError = document.getElementById('fileUploadError');
+            
+            // 点击上传区域触发文件选择
+            fileUploadArea.addEventListener('click', function() {
+                fileInput.click();
+            });
+            
+            // 文件选择事件
+            fileInput.addEventListener('change', function(e) {
+                handleFileSelect(e.target.files[0]);
+            });
+            
+            // 拖拽上传
+            fileUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fileUploadArea.classList.add('drag-over');
+            });
+            
+            fileUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fileUploadArea.classList.remove('drag-over');
+            });
+            
+            fileUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                fileUploadArea.classList.remove('drag-over');
+                
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFileSelect(files[0]);
+                }
+            });
+            
+            // 移除文件
+            fileRemoveBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                resetFileUpload();
+            });
+            
+            // 开始分析按钮
+            btnAnalyze.addEventListener('click', function() {
+                if (selectedFile) {
+                    startAnalysis(selectedFile);
+                }
+            });
+        }
+        
+        // 处理文件选择
+        function handleFileSelect(file) {
+            if (!file) return;
+            
+            // 隐藏错误提示
+            const fileUploadError = document.getElementById('fileUploadError');
+            fileUploadError.style.display = 'none';
+            
+            // 验证文件格式
+            const validExtensions = ['.pcap', '.pcapng', '.cap'];
+            const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
+            if (!validExtensions.includes(fileExtension)) {
+                showError('只支持 .pcap、.pcapng 和 .cap 格式的文件');
+                return;
+            }
+            
+            // 验证文件大小
+            if (file.size > MAX_FILE_SIZE) {
+                showError('文件大小不能超过 100M');
+                return;
+            }
+            
+            // 保存文件并显示信息
+            selectedFile = file;
+            displayFileInfo(file);
+        }
+        
+        // 显示文件信息
+        function displayFileInfo(file) {
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileInfoContainer = document.getElementById('fileInfoContainer');
+            const fileName = document.getElementById('fileName');
+            const fileSize = document.getElementById('fileSize');
+            
+            // 隐藏上传区域，显示文件信息
+            fileUploadArea.style.display = 'none';
+            fileInfoContainer.style.display = 'block';
+            
+            // 显示文件名和大小
+            fileName.textContent = file.name;
+            fileSize.textContent = formatFileSize(file.size);
+        }
+        
+        // 格式化文件大小
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+        
+        // 显示错误提示
+        function showError(message) {
+            const fileUploadError = document.getElementById('fileUploadError');
+            fileUploadError.textContent = message;
+            fileUploadError.style.display = 'block';
+            
+            // 3秒后自动隐藏
+            setTimeout(function() {
+                fileUploadError.style.display = 'none';
+            }, 3000);
+        }
+        
+        // 重置文件上传
+        function resetFileUpload() {
+            selectedFile = null;
+            const fileInput = document.getElementById('fileInput');
+            const fileUploadArea = document.getElementById('fileUploadArea');
+            const fileInfoContainer = document.getElementById('fileInfoContainer');
+            const fileUploadError = document.getElementById('fileUploadError');
+            
+            fileInput.value = '';
+            // 移除可能影响样式的类
+            fileUploadArea.classList.remove('drag-over');
+            // 重置显示状态
+            fileUploadArea.style.display = 'flex';
+            fileInfoContainer.style.display = 'none';
+            fileUploadError.style.display = 'none';
+        }
+        
+        // 开始分析
+        function startAnalysis(file) {
+            console.log('开始分析文件:', file.name);
+            
+            // 生成任务ID和名称
+            const taskId = 'task-' + Date.now();
+            const taskName = file.name.replace(/\.(pcap|pcapng|cap)$/i, '') + ' - Pcap包分析';
+            
+            // 创建新任务数据
+            const newTask = {
+                id: taskId,
+                name: taskName,
+                status: 'running',
+                active: true,
+                fileName: file.name,
+                fileSize: file.size
+            };
+            
+            // 将新任务添加到任务列表开头
+            mockTasks.unshift(newTask);
+            
+            // 如果侧边栏实例存在，更新任务列表
+            if (window.agentSidebarInstance) {
+                if (typeof window.agentSidebarInstance.updateTasks === 'function') {
+                    window.agentSidebarInstance.updateTasks(mockTasks);
+                } else if (typeof window.agentSidebarInstance.addTask === 'function') {
+                    window.agentSidebarInstance.addTask(newTask);
+                }
+                // 设置新任务为活动任务
+                if (typeof window.agentSidebarInstance.setActiveTask === 'function') {
+                    window.agentSidebarInstance.setActiveTask(newTask.id);
+                }
+            }
+            
+            // 显示分析结果页面
+            showAnalysisView(newTask, file);
+        }
+        
+        // 显示分析结果页面
+        function showAnalysisView(task, file) {
+            const chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+            
+            // 模拟分析结果
+            const analysisResult = getMockAnalysisResult();
+            
+            // 创建分析结果页面HTML
+            const analysisHTML = `
+                <div class="analysis-view-container">
+                    <!-- 顶部工具栏 -->
+                    <div class="analysis-toolbar">
+                        <div class="toolbar-left">
+                            <button class="toolbar-btn" title="导出">📥</button>
+                            <button class="toolbar-btn" title="搜索">🔍</button>
+                        </div>
+                        <div class="toolbar-center">
+                            <span style="font-size: 14px; color: var(--clouditera-neutral-text-secondary);">分析完成</span>
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="download-btn download-btn-primary" id="btnDownloadReport">
+                                <span>下载分析报告</span>
+                            </button>
+                            <button class="download-btn download-btn-secondary" id="btnDownloadRaw">
+                                <span>导出原始数据</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- 分析内容区域 -->
+                    <div class="analysis-content" id="analysisContent">
+                        ${analysisResult}
+                    </div>
+                </div>
+            `;
+            
+            // 替换内容
+            chatArea.innerHTML = analysisHTML;
+            
+            // 初始化分析页面功能
+            initAnalysisView();
+        }
+        
+        // 初始化分析页面功能
+        function initAnalysisView() {
+            // 下载按钮
+            const btnDownloadReport = document.getElementById('btnDownloadReport');
+            const btnDownloadRaw = document.getElementById('btnDownloadRaw');
+            
+            if (btnDownloadReport) {
+                btnDownloadReport.addEventListener('click', function() {
+                    alert('下载分析报告功能开发中...');
+                    // TODO: 实现下载分析报告
+                });
+            }
+            
+            if (btnDownloadRaw) {
+                btnDownloadRaw.addEventListener('click', function() {
+                    alert('导出原始数据功能开发中...');
+                    // TODO: 实现导出原始数据
+                });
+            }
+        }
+        
+        // 模拟分析结果
+        function getMockAnalysisResult() {
+            return `
+                <h1>网络数据包分析报告</h1>
+                
+                <div class="analysis-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">总数据包数</div>
+                        <div class="stat-value">12,458</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">总流量</div>
+                        <div class="stat-value">45.2 MB</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">协议类型</div>
+                        <div class="stat-value">8 种</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">异常流量</div>
+                        <div class="stat-value">23 个</div>
+                    </div>
+                </div>
+                
+                <h2>1. 流量概览</h2>
+                <p>本次分析共捕获 12,458 个数据包，总流量为 45.2 MB。数据包时间跨度从 2025-01-15 10:23:15 到 2025-01-15 10:45:32，持续时间为 22 分 17 秒。</p>
+                
+                <h2>2. 协议分布</h2>
+                <ul>
+                    <li><strong>TCP</strong>: 8,234 个数据包 (66.1%)</li>
+                    <li><strong>UDP</strong>: 3,156 个数据包 (25.3%)</li>
+                    <li><strong>HTTP</strong>: 892 个数据包 (7.2%)</li>
+                    <li><strong>HTTPS</strong>: 156 个数据包 (1.3%)</li>
+                    <li><strong>DNS</strong>: 1,020 个数据包 (8.2%)</li>
+                </ul>
+                
+                <h2>3. 异常流量检测</h2>
+                <p>检测到 23 个异常流量事件，主要包括：</p>
+                <ul>
+                    <li><strong>端口扫描活动</strong>: 检测到来自 192.168.1.100 的端口扫描行为，扫描了 1,234 个端口</li>
+                    <li><strong>异常DNS查询</strong>: 发现 15 个可疑的DNS查询，涉及恶意域名</li>
+                    <li><strong>大流量传输</strong>: 检测到异常的大文件传输，从 10.0.0.5 到外部服务器</li>
+                    <li><strong>协议异常</strong>: 发现 3 个非标准协议数据包</li>
+                </ul>
+                
+                <h2>4. 安全威胁评估</h2>
+                <p><strong>威胁等级</strong>: 中等</p>
+                <p>分析发现以下潜在安全威胁：</p>
+                <ul>
+                    <li>疑似端口扫描攻击，建议检查 192.168.1.100 主机</li>
+                    <li>存在可疑DNS查询，建议检查DNS服务器配置</li>
+                    <li>检测到异常数据传输，建议审查 10.0.0.5 主机的网络活动</li>
+                </ul>
+                
+                <h2>5. 网络行为分析</h2>
+                <p>网络流量显示正常的业务通信占主导地位，但存在少量异常活动。主要通信模式包括：</p>
+                <ul>
+                    <li>HTTP/HTTPS 网页浏览活动</li>
+                    <li>DNS 域名解析请求</li>
+                    <li>TCP 连接建立和维护</li>
+                    <li>少量 UDP 数据传输</li>
+                </ul>
+                
+                <h2>6. 建议措施</h2>
+                <ol>
+                    <li>立即检查 192.168.1.100 主机的安全状态，确认是否存在恶意软件</li>
+                    <li>审查 DNS 查询日志，识别可疑域名访问</li>
+                    <li>监控 10.0.0.5 主机的网络活动，确认数据传输的合法性</li>
+                    <li>加强网络边界防护，限制不必要的端口访问</li>
+                    <li>定期进行网络流量分析，及时发现异常行为</li>
+                </ol>
+            `;
+        }
+        
+        // ==========================================
+        // 原有代码
+        // ==========================================
+        // 模拟任务数据
+        const mockTasks = [
+            { id: '1', name: '网络流量分析', status: 'running', active: false },
+            { id: '2', name: '异常流量检测', status: 'running', active: false },
+            { id: '3', name: 'DDoS攻击分析', status: 'completed', active: false },
+            { id: '4', name: '恶意软件通信分析', status: 'completed', active: false },
+            { id: '5', name: '网络协议分析', status: 'completed', active: false },
+            { id: '6', name: '数据泄露检测', status: 'completed', active: false },
+            { id: '7', name: '端口扫描检测', status: 'completed', active: false },
+            { id: '8', name: '网络入侵分析', status: 'completed', active: false },
+            { id: '9', name: '流量特征提取', status: 'completed', active: false },
+            { id: '10', name: '安全事件关联分析', status: 'completed', active: false }
+        ];
+
+        // 处理任务点击的通用函数
+        function handleTaskClick(taskId, taskData) {
+            console.log('[DEBUG] handleTaskClick 被调用:', taskId, taskData);
+
+            try {
+                // 更新任务项的 active 状态
+                var recentTaskItems = document.querySelectorAll('.recent-task-item');
+                recentTaskItems.forEach(function(item) {
+                    var taskName = item.querySelector('.task-name');
+                    if (taskName && taskName.textContent.trim() === taskData.name) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+                
+                var chatArea = document.querySelector('.agent-main-content');
+                if (!chatArea) {
+                    console.error('[DEBUG] 未找到chatArea');
+                    return;
+                }
+
+                console.log('[DEBUG] 找到chatArea');
+
+                // 清空chatArea内容，重新创建任务详情
+                var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+                // 清空chatArea并重新创建任务详情
+                chatArea.innerHTML = '';
+
+                var taskContent = document.createElement('div');
+                taskContent.className = 'task-detail-content';
+
+                taskContent.innerHTML = '<div class="chat-header">' +
+                    '<div class="chat-title">' + taskName + '</div>' +
+                    '<div class="chat-time">刚刚</div>' +
+                '</div>' +
+                '<div class="chat-messages">' +
+                    '<div class="message message-user">' +
+                        '<div class="message-avatar">👤</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">请帮我分析这个Pcap文件中的异常流量。</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="message message-ai">' +
+                        '<div class="message-avatar">🤖</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">好的，我将为您分析Pcap文件。我会检测异常流量、识别潜在威胁，并提供详细的安全评估报告。</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="message message-user">' +
+                        '<div class="message-avatar">👤</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">支持哪些分析功能？</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="message message-ai">' +
+                        '<div class="message-avatar">🤖</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">我支持以下分析功能：<br>1. 异常流量检测<br>2. 协议分析<br>3. 安全威胁识别<br>4. 网络行为分析<br>5. 数据包统计</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="chat-input-container" data-container-mode="fixed">' +
+                    '<div class="chat-input-wrapper">' +
+                        '<textarea class="chat-input" id="chatInput" placeholder="输入&quot;/&quot;调用高级命令" rows="3"></textarea>' +
+                        '<div class="command-panel" id="commandPanel">' +
+                            '<div class="command-panel-header">' +
+                                '<span>选择调用命令</span>' +
+                                '<button class="command-panel-close" id="commandPanelClose" title="关闭">✕</button>' +
+                            '</div>' +
+                            '<div class="command-panel-content">' +
+                                '<div class="command-list" id="commandList"></div>' +
+                            '</div>' +
+                            '<div class="command-panel-detail">' +
+                                '<div class="command-detail-header">' +
+                                    '<div class="command-detail-header-left">' +
+                                        '<span class="command-detail-label">调用</span>' +
+                                        '<span class="command-detail-name" id="commandDetailName"></span>' +
+                                        '<span class="command-detail-category">高级命令</span>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="command-detail-content" id="commandDetailContent">' +
+                                    '<input type="text" class="command-detail-input hidden" id="commandDetailInput" placeholder="输入关键词">' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="chat-input-toolbar">' +
+                            '<div class="chat-input-actions">' +
+                                '<button class="btn-icon" title="上传文件" data-action="upload">📎</button>' +
+                                '<button class="btn-icon" title="插入图片" data-action="image">🖼️</button>' +
+                                '<button class="btn-icon" title="插入代码" data-action="code">💻</button>' +
+                                '<button class="btn-icon" title="插入表格" data-action="table">📊</button>' +
+                            '</div>' +
+                            '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                '<span>发送</span>' +
+                                '<span class="send-shortcut">Shift+Enter</span>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+                chatArea.appendChild(taskContent);
+                taskContent.style.display = 'flex';
+
+                console.log('[DEBUG] 任务详情已创建并显示');
+
+                // 初始化聊天输入组件
+                setTimeout(function() {
+                    var chatInputContainer = taskContent.querySelector('.chat-input-container');
+                    if (chatInputContainer && typeof initChatInput === 'function') {
+                        // 为这个特定的容器创建一个唯一的选择器
+                        chatInputContainer.setAttribute('data-chat-instance', 'task-chat-' + Date.now());
+                        var instanceSelector = '[data-chat-instance="' + chatInputContainer.getAttribute('data-chat-instance') + '"]';
+                        
+                        initChatInput({
+                            selector: instanceSelector,
+                            onSend: function(message) {
+                                console.log('发送消息:', message);
+                                // 添加用户消息到对话区域
+                                addMessageToChat('user', message, taskContent);
+                                // 模拟AI回复
+                                setTimeout(function() {
+                                    var aiResponse = generateAIResponse(message);
+                                    addMessageToChat('ai', aiResponse, taskContent);
+                                }, 500);
+                            },
+                            autoFocus: true
+                        });
+                        
+                        // 初始化命令面板
+                        initCommandPanel(chatInputContainer);
+                        
+                        console.log('[DEBUG] 聊天输入组件已初始化');
+                    }
+                }, 100);
+
+                // 滚动到底部
+                setTimeout(function() {
+                    var chatMessages = taskContent.querySelector('.chat-messages');
+                    if (chatMessages) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }, 200);
+            } catch (error) {
+                console.error('[DEBUG] 错误:', error);
+            }
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化文件上传功能
+            initFileUpload();
+            
+            // 为静态任务项绑定点击事件（如果agent-sidebar.js不存在）
+            var recentTaskItems = document.querySelectorAll('.recent-task-item');
+            console.log('[DEBUG] 找到静态任务项数量:', recentTaskItems.length);
+            recentTaskItems.forEach(function(item, index) {
+                item.style.cursor = 'pointer'; // 确保鼠标指针显示为手型
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('[DEBUG] 静态任务项被点击，索引:', index);
+                    
+                    // 移除所有任务的 active 状态
+                    recentTaskItems.forEach(function(taskItem) {
+                        taskItem.classList.remove('active');
+                    });
+                    
+                    // 为当前点击的任务添加 active 状态
+                    this.classList.add('active');
+                    
+                    var taskName = this.querySelector('.task-name');
+                    if (!taskName) {
+                        console.error('[DEBUG] 未找到任务名称元素');
+                        return;
+                    }
+                    var taskNameText = taskName.textContent.trim();
+                    console.log('[DEBUG] 任务名称:', taskNameText);
+                    // 从mockTasks中找到对应的任务数据
+                    var taskData = mockTasks.find(function(task) {
+                        return task.name === taskNameText;
+                    });
+                    if (taskData) {
+                        console.log('[DEBUG] 找到任务数据:', taskData);
+                        // 调用任务点击处理函数
+                        handleTaskClick(taskData.id, taskData);
+                    } else {
+                        // 如果没有找到，创建一个临时任务数据
+                        var statusIcon = this.querySelector('.task-status-icon');
+                        var status = statusIcon && statusIcon.classList.contains('running') ? 'running' : 'completed';
+                        var tempTask = {
+                            id: 'task-' + (index + 1),
+                            name: taskNameText,
+                            status: status,
+                            active: false
+                        };
+                        console.log('[DEBUG] 使用临时任务数据:', tempTask);
+                        handleTaskClick(tempTask.id, tempTask);
+                    }
+                });
+                console.log('[DEBUG] 已为任务项绑定点击事件:', index);
+            });
+            
+            // 初始化侧导航组件（如果函数存在）
+            if (typeof initAgentSidebar === 'function') {
+                window.agentSidebarInstance = initAgentSidebar({
+                    tasks: mockTasks,
+                    maxTasks: 10,
+                    onNewTask: function() {
+                    console.log('创建新分析任务');
+                    // 点击新任务按钮时，显示空状态页面
+                    var chatArea = document.querySelector('.agent-main-content');
+                    if (!chatArea) return;
+
+                    // 检查是否存在空状态容器
+                    var emptyStateContainer = document.querySelector('.empty-state-container');
+                    var taskContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+
+                    // 如果已有空状态容器，直接显示
+                    if (emptyStateContainer) {
+                        emptyStateContainer.style.display = 'flex';
+                        if (taskContent) taskContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+                        // 重新初始化文件上传功能
+                        setTimeout(function() {
+                            initFileUpload();
+                            resetFileUpload();
+                        }, 100);
+                        return;
+                    }
+
+                    // 否则重新创建空状态页面
+                    chatArea.innerHTML = '<div class="empty-state-container">' +
+                        '<div class="empty-agent-name">' +
+                            '<span class="agent-name-text">Pcap包分析</span>' +
+                        '</div>' +
+                        '<div class="empty-state-guide">' +
+                            '<p class="empty-state-guide-text">上传Pcap文件，开始智能分析</p>' +
+                        '</div>' +
+                        '<div class="file-upload-container" id="fileUploadContainer">' +
+                            '<div class="file-upload-area" id="fileUploadArea">' +
+                                '<input type="file" id="fileInput" accept=".pcap,.pcapng,.cap" style="display: none;">' +
+                                '<div class="file-upload-icon">📦</div>' +
+                                '<div class="file-upload-text">' +
+                                    '<p class="file-upload-title">上传Pcap文件</p>' +
+                                    '<p class="file-upload-hint">支持单个.pcap和.pcapng和.cap文件，大小不超过100M</p>' +
+                                    '<p class="file-upload-action">点击上传或拖拽文件到此处</p>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="file-info-container" id="fileInfoContainer" style="display: none;">' +
+                                '<div class="file-info-header">' +
+                                    '<div class="file-info-icon">📦</div>' +
+                                    '<div class="file-info-details">' +
+                                        '<div class="file-info-name" id="fileName"></div>' +
+                                        '<div class="file-info-size" id="fileSize"></div>' +
+                                    '</div>' +
+                                    '<button class="file-remove-btn" id="fileRemoveBtn" title="移除文件">✕</button>' +
+                                '</div>' +
+                                '<div class="file-info-actions">' +
+                                    '<button class="btn btn-primary btn-analyze" id="btnAnalyze">' +
+                                        '<span>开始分析</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="file-upload-error" id="fileUploadError" style="display: none;"></div>' +
+                        '</div>' +
+                    '</div>';
+                    
+                    // 重新初始化文件上传功能
+                    setTimeout(function() {
+                        initFileUpload();
+                    }, 100);
+                },
+                onTaskClick: function(taskId, taskData) {
+                    console.log('[DEBUG] 点击任务（通过initAgentSidebar）:', taskId, taskData);
+                    handleTaskClick(taskId, taskData);
+                },
+                onViewAll: function() {
+                    console.log('查看全部任务');
+                    showAllTasks();
+                }
+                });
+            } else {
+                console.log('[DEBUG] initAgentSidebar 函数不存在，使用静态任务项绑定');
+            }
+
+        });
+
+        // 显示全部任务列表
+        function showAllTasks() {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 生成任务列表HTML
+            var tasksHtml = '';
+            for (var i = 0; i < mockTasks.length; i++) {
+                var task = mockTasks[i];
+                var statusIcon = task.status === 'running' ? '⏳' :
+                                task.status === 'completed' ? '✅' : '❌';
+                var statusClass = task.status;
+
+                tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
+                    '<div class="task-record-left">' +
+                        '<div class="task-record-header">' +
+                            '<div class="task-record-status">' +
+                                '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
+                            '</div>' +
+                            '<div class="task-record-name">' + task.name + '</div>' +
+                        '</div>' +
+                        '<div class="task-record-statistics">' +
+                            '<span class="statistics-label">消息数</span>' +
+                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="task-record-right">' +
+                        '<div class="task-record-time">2025-12-19 14:30</div>' +
+                        '<div class="task-record-actions">' +
+                            '<button class="task-action-btn">查看</button>' +
+                            '<button class="task-action-btn">删除</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            if (mockTasks.length === 0) {
+                tasksHtml = '<div class="tasks-empty">暂无任务记录</div>';
+            }
+
+            // 替换内容
+            chatArea.innerHTML = '<div class="tasks-list-container">' +
+                '<div class="tasks-list-header">' +
+                    '<h2 class="tasks-list-title">全部任务记录</h2>' +
+                '</div>' +
+                '<div class="tasks-list-content">' +
+                    tasksHtml +
+                '</div>' +
+            '</div>';
+
+            // 绑定任务卡片点击事件
+            var taskCards = chatArea.querySelectorAll('.task-record-card');
+            for (var i = 0; i < taskCards.length; i++) {
+                taskCards[i].addEventListener('click', function(e) {
+                    // 如果点击的是按钮，不触发卡片点击
+                    if (e.target.classList.contains('task-action-btn')) {
+                        e.stopPropagation();
+                        var btnText = e.target.textContent;
+                        var taskId = this.getAttribute('data-task-id');
+
+                        if (btnText === '查看') {
+                            // 查找对应的任务并显示详情
+                            var selectedTask = null;
+                            for (var j = 0; j < mockTasks.length; j++) {
+                                if (mockTasks[j].id === taskId) {
+                                    selectedTask = mockTasks[j];
+                                    break;
+                                }
+                            }
+
+                            if (selectedTask) {
+                                // 调用现有的任务点击回调
+                                var sidebarInstance = window.agentSidebarInstance;
+                                if (sidebarInstance && sidebarInstance.setActiveTask) {
+                                    sidebarInstance.setActiveTask(taskId);
+                                }
+
+                                // 显示任务详情（复用之前的代码）
+                                showTaskDetailById(taskId, selectedTask);
+                            }
+                        } else if (btnText === '删除') {
+                            if (confirm('确定要删除此任务吗？')) {
+                                console.log('删除任务:', taskId);
+                            }
+                        }
+                        return;
+                    }
+
+                    // 点击卡片其他区域，显示任务详情
+                    var taskId = this.getAttribute('data-task-id');
+                    var selectedTask = null;
+                    for (var j = 0; j < mockTasks.length; j++) {
+                        if (mockTasks[j].id === taskId) {
+                            selectedTask = mockTasks[j];
+                            break;
+                        }
+                    }
+
+                    if (selectedTask) {
+                        showTaskDetailById(taskId, selectedTask);
+                    }
+                });
+            }
+        }
+
+        // 根据任务ID显示任务详情
+        function showTaskDetailById(taskId, taskData) {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            var taskName = taskData ? taskData.name : '未知任务';
+
+            var taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">请帮我分析这个Pcap文件中的异常流量。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">好的，我将为您分析Pcap文件。我会检测异常流量、识别潜在威胁，并提供详细的安全评估报告。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">支持哪些分析功能？</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">我支持以下分析功能：<br>1. 异常流量检测<br>2. 协议分析<br>3. 安全威胁识别<br>4. 网络行为分析<br>5. 数据包统计</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" id="chatInput" placeholder="输入&quot;/&quot;调用高级命令" rows="3"></textarea>' +
+                    '<div class="command-panel" id="commandPanel">' +
+                        '<div class="command-panel-header">' +
+                            '<span>选择调用命令</span>' +
+                            '<button class="command-panel-close" id="commandPanelClose" title="关闭">✕</button>' +
+                        '</div>' +
+                        '<div class="command-panel-content">' +
+                            '<div class="command-list" id="commandList"></div>' +
+                        '</div>' +
+                        '<div class="command-panel-detail">' +
+                            '<div class="command-detail-header">' +
+                                '<div class="command-detail-header-left">' +
+                                    '<span class="command-detail-label">调用</span>' +
+                                    '<span class="command-detail-name" id="commandDetailName"></span>' +
+                                    '<span class="command-detail-category">高级命令</span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="command-detail-content" id="commandDetailContent"></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon" title="上传文件" data-action="upload">📎</button>' +
+                            '<button class="btn-icon" title="插入图片" data-action="image">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码" data-action="code">💻</button>' +
+                            '<button class="btn-icon" title="插入表格" data-action="table">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send" id="chatSend">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.innerHTML = '';
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            // 初始化聊天输入组件
+            setTimeout(function() {
+                var chatInputContainer = taskContent.querySelector('.chat-input-container');
+                if (chatInputContainer && typeof initChatInput === 'function') {
+                    // 为这个特定的容器创建一个唯一的选择器
+                    chatInputContainer.setAttribute('data-chat-instance', 'task-chat-' + Date.now());
+                    var instanceSelector = '[data-chat-instance="' + chatInputContainer.getAttribute('data-chat-instance') + '"]';
+                    
+                    initChatInput({
+                        selector: instanceSelector,
+                        onSend: function(message) {
+                            console.log('发送消息:', message);
+                            // 添加用户消息到对话区域
+                            addMessageToChat('user', message, taskContent);
+                            // 模拟AI回复
+                            setTimeout(function() {
+                                var aiResponse = generateAIResponse(message);
+                                addMessageToChat('ai', aiResponse, taskContent);
+                            }, 500);
+                        },
+                        autoFocus: true
+                    });
+                    
+                    // 初始化命令面板
+                    initCommandPanel(chatInputContainer);
+                    
+                    console.log('[DEBUG] 聊天输入组件已初始化');
+                }
+            }, 100);
+
+            // 滚动到底部
+            setTimeout(function() {
+                var chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 200);
+        }
+
+        // 快速提示填充功能
+        function fillPrompt(text) {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+            }
+        }
+
+        // 添加消息到对话区域
+        function addMessageToChat(type, text, taskContent) {
+            var chatMessages = taskContent.querySelector('.chat-messages');
+            if (!chatMessages) return;
+
+            var messageDiv = document.createElement('div');
+            messageDiv.className = 'message message-' + type;
+            
+            var avatar = type === 'user' ? '👤' : '🤖';
+            var now = new Date();
+            var timeStr = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+            
+            messageDiv.innerHTML = '<div class="message-avatar">' + avatar + '</div>' +
+                '<div class="message-content">' +
+                    '<div class="message-time">' + timeStr + '</div>' +
+                    '<div class="message-text">' + text.replace(/\n/g, '<br>') + '</div>' +
+                '</div>';
+
+            chatMessages.appendChild(messageDiv);
+            
+            // 滚动到底部
+            setTimeout(function() {
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 50);
+        }
+
+        // ==========================================
+        // 命令选择面板功能
+        // ==========================================
+        
+        // 命令列表数据
+        const commandList = [
+            {
+                name: 'uri',
+                description: '提取HTTP请求中的uri信息'
+            },
+            {
+                name: 'keyword',
+                description: '提取指定关键词信息'
+            },
+            {
+                name: 'ip',
+                description: '提取指定IP开放Port信息'
+            },
+            {
+                name: 'filetype',
+                description: '提取HTTP对象中指定格式的文件信息'
+            },
+            {
+                name: 'ip_connect',
+                description: '提取IP间关联信息'
+            },
+            {
+                name: 'http',
+                description: '提取HTTP报文'
+            },
+            {
+                name: 'ftp',
+                description: '提取FTP命令及其参数'
+            },
+            {
+                name: 'telnet',
+                description: '提取Telnet协议数据'
+            }
+        ];
+
+        // 初始化命令面板
+        function initCommandPanel(container) {
+            if (!container) return;
+            
+            const commandPanel = container.querySelector('.command-panel');
+            const commandListEl = container.querySelector('.command-list');
+            const chatInput = container.querySelector('.chat-input');
+            
+            if (!commandPanel || !commandListEl || !chatInput) {
+                console.warn('命令面板元素未找到');
+                return;
+            }
+
+                    // 获取详情视图元素
+            const commandDetailName = commandPanel.querySelector('#commandDetailName');
+            const commandDetailContent = commandPanel.querySelector('#commandDetailContent');
+            const commandDetailInput = commandPanel.querySelector('#commandDetailInput');
+            const commandPanelClose = commandPanel.querySelector('#commandPanelClose');
+
+            // 显示命令详情（局部函数）
+            function showCommandDetailLocal(command) {
+                if (commandDetailName && commandDetailContent) {
+                    commandDetailName.textContent = command.name;
+                    // 所有命令的描述文字都放在对话框(输入框)内,不在虚浮层显示
+                    // 获取输入框元素（应该已经在HTML中）
+                    let inputElement = commandDetailContent.querySelector('#commandDetailInput');
+                    // 获取下拉选择框元素
+                    let selectElement = commandDetailContent.querySelector('#commandDetailSelect');
+                    // 获取复选框元素
+                    let checkboxWrapper = commandDetailContent.querySelector('#commandDetailCheckboxWrapper');
+                    
+                    // 如果是keyword或ip命令，显示输入框
+                    if (command.name === 'keyword' || command.name === 'ip') {
+                        // 隐藏下拉选择框（如果存在）
+                        if (selectElement) {
+                            selectElement.classList.add('hidden');
+                        }
+                        if (!inputElement) {
+                            // 如果输入框不存在，创建它
+                            inputElement = document.createElement('input');
+                            inputElement.type = 'text';
+                            inputElement.className = 'command-detail-input';
+                            inputElement.id = 'commandDetailInput';
+                            // 根据命令类型设置不同的placeholder
+                            if (command.name === 'keyword') {
+                                inputElement.placeholder = '输入关键词';
+                            } else if (command.name === 'ip') {
+                                inputElement.placeholder = '输入完整IP信息';
+                            }
+                            commandDetailContent.appendChild(inputElement);
+                            
+                            // 添加回车键事件处理
+                            inputElement.addEventListener('keydown', function(e) {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    // 获取输入的内容
+                                    const inputValue = inputElement.value.trim();
+                                    // 如果有输入内容，插入到主输入框
+                                    if (inputValue) {
+                                        if (command.name === 'keyword') {
+                                            insertKeywordCommandToInput(chatInput, command, inputValue);
+                                        } else if (command.name === 'ip') {
+                                            insertIpCommandToInput(chatInput, command, inputValue);
+                                        }
+                                    } else {
+                                        insertCommandToInput(chatInput, command.name, command);
+                                    }
+                                    hideCommandPanel(commandPanel);
+                                    hideCommandDetailLocal();
+                                }
+                            });
+                            
+                            // 阻止输入框的事件冒泡，避免触发详情区域的点击事件
+                            inputElement.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                            });
+                        } else {
+                            // 如果输入框已存在，更新placeholder
+                            if (command.name === 'keyword') {
+                                inputElement.placeholder = '输入关键词';
+                            } else if (command.name === 'ip') {
+                                inputElement.placeholder = '输入完整IP信息';
+                            }
+                        }
+                        inputElement.value = ''; // 清空之前的值
+                        inputElement.classList.remove('hidden');
+                        // 聚焦到输入框
+                        setTimeout(function() {
+                            inputElement.focus();
+                        }, 10);
+                    } else if (command.name === 'filetype') {
+                        // 如果是filetype命令，显示下拉选择框
+                        // 隐藏输入框（如果存在）
+                        if (inputElement) {
+                            inputElement.classList.add('hidden');
+                        }
+                        if (!selectElement) {
+                            // 如果下拉选择框不存在，创建它
+                            selectElement = document.createElement('select');
+                            selectElement.className = 'command-detail-select';
+                            selectElement.id = 'commandDetailSelect';
+                            // 添加文件类型选项
+                            const fileTypes = [
+                                { value: '', text: '请选择文件类型' },
+                                { value: 'pdf', text: 'PDF' },
+                                { value: 'doc', text: 'DOC' },
+                                { value: 'docx', text: 'DOCX' },
+                                { value: 'xls', text: 'XLS' },
+                                { value: 'xlsx', text: 'XLSX' },
+                                { value: 'jpg', text: 'JPG' },
+                                { value: 'jpeg', text: 'JPEG' },
+                                { value: 'png', text: 'PNG' },
+                                { value: 'gif', text: 'GIF' },
+                                { value: 'zip', text: 'ZIP' },
+                                { value: 'rar', text: 'RAR' },
+                                { value: 'txt', text: 'TXT' },
+                                { value: 'exe', text: 'EXE' },
+                                { value: 'dll', text: 'DLL' }
+                            ];
+                            fileTypes.forEach(function(option) {
+                                const optionElement = document.createElement('option');
+                                optionElement.value = option.value;
+                                optionElement.textContent = option.text;
+                                selectElement.appendChild(optionElement);
+                            });
+                            commandDetailContent.appendChild(selectElement);
+                            
+                            // 添加选择变化事件处理
+                            selectElement.addEventListener('change', function(e) {
+                                e.stopPropagation();
+                                const selectedValue = selectElement.value;
+                                if (selectedValue) {
+                                    insertFiletypeCommandToInput(chatInput, command, selectedValue);
+                                    // 选择后不关闭悬浮层，停留在当前操作
+                                }
+                            });
+                            
+                            // 阻止下拉选择框的事件冒泡，避免触发详情区域的点击事件
+                            selectElement.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                            });
+                        } else {
+                            // 如果下拉选择框已存在，重置选择
+                            selectElement.value = '';
+                        }
+                        selectElement.classList.remove('hidden');
+                        // 聚焦到下拉选择框
+                        setTimeout(function() {
+                            selectElement.focus();
+                        }, 10);
+                    } else if (command.name === 'ip_connect') {
+                        // 如果是ip_connect命令，显示复选框
+                        // 隐藏输入框（如果存在）
+                        if (inputElement) {
+                            inputElement.classList.add('hidden');
+                        }
+                        // 隐藏下拉选择框（如果存在）
+                        if (selectElement) {
+                            selectElement.classList.add('hidden');
+                        }
+                        if (!checkboxWrapper) {
+                            // 如果复选框不存在，创建它
+                            checkboxWrapper = document.createElement('div');
+                            checkboxWrapper.className = 'command-detail-checkbox-wrapper';
+                            checkboxWrapper.id = 'commandDetailCheckboxWrapper';
+                            
+                            const checkbox = document.createElement('div');
+                            checkbox.className = 'command-detail-checkbox';
+                            
+                            const checkboxInput = document.createElement('input');
+                            checkboxInput.type = 'checkbox';
+                            checkboxInput.id = 'commandDetailCheckbox';
+                            
+                            const checkboxIcon = document.createElement('span');
+                            checkboxIcon.className = 'command-detail-checkbox-icon';
+                            checkboxIcon.textContent = '✓';
+                            
+                            checkbox.appendChild(checkboxInput);
+                            checkbox.appendChild(checkboxIcon);
+                            
+                            const checkboxLabel = document.createElement('label');
+                            checkboxLabel.className = 'command-detail-checkbox-label';
+                            checkboxLabel.setAttribute('for', 'commandDetailCheckbox');
+                            checkboxLabel.textContent = '图谱展示';
+                            
+                            checkboxWrapper.appendChild(checkbox);
+                            checkboxWrapper.appendChild(checkboxLabel);
+                            
+                            commandDetailContent.appendChild(checkboxWrapper);
+                            
+                            // 阻止复选框的事件冒泡，避免触发详情区域的点击事件
+                            checkboxWrapper.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                            });
+                            
+                            // 监听复选框状态变化，更新样式（用于不支持:has()的浏览器）
+                            checkboxInput.addEventListener('change', function() {
+                                if (this.checked) {
+                                    checkbox.classList.add('checked');
+                                } else {
+                                    checkbox.classList.remove('checked');
+                                }
+                            });
+                        }
+                        checkboxWrapper.classList.remove('hidden');
+                    } else {
+                        // 其他命令隐藏输入框、下拉选择框和复选框
+                        if (inputElement) {
+                            inputElement.classList.add('hidden');
+                        }
+                        if (selectElement) {
+                            selectElement.classList.add('hidden');
+                        }
+                        if (checkboxWrapper) {
+                            checkboxWrapper.classList.add('hidden');
+                        }
+                    }
+                    commandPanel.classList.add('detail-mode');
+                }
+            }
+
+            // 隐藏命令详情，返回列表视图（局部函数）
+            function hideCommandDetailLocal() {
+                commandPanel.classList.remove('detail-mode');
+                // 清除选中状态
+                const selectedItem = commandListEl.querySelector('.command-item.selected');
+                if (selectedItem) {
+                    selectedItem.classList.remove('selected');
+                }
+            }
+
+            // 面板关闭按钮点击事件 - 关闭整个命令面板
+            if (commandPanelClose) {
+                commandPanelClose.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    hideCommandPanel(commandPanel);
+                });
+            }
+
+            // 详情内容区域点击事件 - 点击后插入命令到输入框
+            if (commandDetailContent) {
+                commandDetailContent.addEventListener('click', function(e) {
+                    // 如果点击的是关闭按钮，不处理
+                    if (e.target.closest('.command-panel-close')) {
+                        return;
+                    }
+                    
+                    // 如果点击的是输入框，不处理（让用户可以正常输入）
+                    if (e.target.classList.contains('command-detail-input')) {
+                        return;
+                    }
+                    
+                    // 如果点击的是下拉选择框，不处理（让用户可以正常选择）
+                    if (e.target.classList.contains('command-detail-select')) {
+                        return;
+                    }
+                    
+                    // 如果点击的是复选框或复选框标签，不处理（让用户可以正常选择）
+                    if (e.target.closest('.command-detail-checkbox-wrapper') || 
+                        e.target.classList.contains('command-detail-checkbox') ||
+                        e.target.classList.contains('command-detail-checkbox-label') ||
+                        e.target.id === 'commandDetailCheckbox') {
+                        return;
+                    }
+                    
+                    // 获取当前选中的命令名称
+                    const currentCommandName = commandDetailName ? commandDetailName.textContent : '';
+                    // 从命令列表中查找对应的命令对象
+                    const currentCommand = commandList.find(function(cmd) {
+                        return cmd.name === currentCommandName;
+                    });
+                    
+                    // 插入命令到输入框（如果是 uri 命令，会包含描述文字）
+                    if (currentCommand) {
+                        insertCommandToInput(chatInput, currentCommandName, currentCommand);
+                        hideCommandPanel(commandPanel);
+                    hideCommandDetailLocal();
+                    }
+                });
+                
+                // 只有当没有输入框和下拉选择框时才添加样式提示可点击
+                // 如果有输入框（keyword命令）或下拉选择框（filetype命令），不设置cursor为pointer，让输入框/下拉选择框可正常使用
+            }
+
+            // 生成命令列表
+            commandListEl.innerHTML = '';
+            commandList.forEach(function(command, index) {
+                const commandItem = document.createElement('div');
+                commandItem.className = 'command-item';
+                commandItem.setAttribute('data-command-index', index);
+                commandItem.innerHTML = 
+                    '<span class="command-name">' + command.name + '</span>' +
+                    '<p class="command-description">/' + command.description + '</p>';
+                
+                // 点击命令项时，将描述文字插入到输入框内
+                commandItem.addEventListener('click', function() {
+                    // 移除其他项的选中状态
+                    commandListEl.querySelectorAll('.command-item').forEach(function(item) {
+                        item.classList.remove('selected');
+                    });
+                    // 添加当前项的选中状态
+                    this.classList.add('selected');
+                    // 显示详情视图（只显示命令名称，不显示描述文字）
+                    showCommandDetailLocal(command);
+                    
+                    // 所有命令的描述文字都插入到输入框内
+                    if (command.description) {
+                        insertCommandToInput(chatInput, command.name, command);
+                    }
+                });
+
+                commandListEl.appendChild(commandItem);
+            });
+
+            // 监听输入框的输入事件
+            chatInput.addEventListener('input', function(e) {
+                const input = e.target;
+                const value = input.value;
+                const cursorPos = input.selectionStart;
+
+                // 检查是否输入了"/"
+                if (value[cursorPos - 1] === '/') {
+                    // 检查"/"是否在行首或空格后
+                    const valueBeforeCursor = value.substring(0, cursorPos - 1);
+                    if (cursorPos === 1 || valueBeforeCursor.endsWith(' ') || valueBeforeCursor.endsWith('\n')) {
+                        showCommandPanel(commandPanel, chatInput);
+                    } else {
+                        hideCommandPanel(commandPanel);
+                    }
+                } else {
+                    // 如果输入的不是"/"，检查是否需要隐藏面板
+                    const valueBeforeCursor = value.substring(0, cursorPos);
+                    const lastSlashIndex = valueBeforeCursor.lastIndexOf('/');
+                    if (lastSlashIndex === -1 || 
+                        (lastSlashIndex > 0 && valueBeforeCursor[lastSlashIndex - 1] !== ' ' && valueBeforeCursor[lastSlashIndex - 1] !== '\n')) {
+                        hideCommandPanel(commandPanel);
+                    }
+                }
+            });
+
+            // 监听键盘事件
+            chatInput.addEventListener('keydown', function(e) {
+                if (commandPanel.classList.contains('show')) {
+                    // 如果面板显示，处理上下箭头和回车
+                    if (e.key === 'ArrowDown' || e.key === 'ArrowUp' || e.key === 'Enter') {
+                        e.preventDefault();
+                        handleCommandPanelKeyboard(e, commandPanel, chatInput, commandList);
+                    } else if (e.key === 'Escape') {
+                        e.preventDefault();
+                        // 如果在详情视图，返回列表视图；否则关闭面板
+                        if (commandPanel.classList.contains('detail-mode')) {
+                            hideCommandDetailLocal();
+                        } else {
+                            hideCommandPanel(commandPanel);
+                        }
+                    }
+                } else if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                    // 如果按下"/"键，检查是否应该显示面板
+                    const cursorPos = chatInput.selectionStart;
+                    const valueBeforeCursor = chatInput.value.substring(0, cursorPos);
+                    if (cursorPos === 0 || valueBeforeCursor.endsWith(' ') || valueBeforeCursor.endsWith('\n')) {
+                        // 允许"/"输入，然后显示面板
+                        setTimeout(function() {
+                            if (chatInput.value[chatInput.selectionStart - 1] === '/') {
+                                showCommandPanel(commandPanel, chatInput);
+                            }
+                        }, 10);
+                    }
+                }
+            });
+
+            // 点击外部区域关闭面板
+            document.addEventListener('click', function(e) {
+                if (commandPanel.classList.contains('show') && 
+                    !commandPanel.contains(e.target) && 
+                    !chatInput.contains(e.target)) {
+                    hideCommandPanel(commandPanel);
+                }
+            });
+        }
+
+        // 显示命令面板
+        function showCommandPanel(panel, input) {
+            if (!panel || !input) return;
+            // 重置面板状态，确保显示命令列表视图
+            panel.classList.remove('detail-mode');
+            // 清除选中状态
+            const commandListEl = panel.querySelector('.command-list');
+            if (commandListEl) {
+                const selectedItems = commandListEl.querySelectorAll('.command-item.selected');
+                selectedItems.forEach(function(item) {
+                    item.classList.remove('selected');
+                });
+            }
+            panel.classList.add('show');
+        }
+
+        // 隐藏命令面板
+        function hideCommandPanel(panel) {
+            if (!panel) return;
+            panel.classList.remove('show');
+        }
+
+        // 插入命令到输入框
+        function insertCommandToInput(input, commandName, command) {
+            if (!input) return;
+            
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+
+            // 所有命令都插入描述文字到输入框内（格式：/描述文字）
+            let textToInsert;
+            if (command && command.description) {
+                textToInsert = '/' + command.description + ' ';
+            } else {
+                textToInsert = '/' + commandName + ' ';
+            }
+
+            // 查找最后一个"/"的位置
+            const lastSlashIndex = before.lastIndexOf('/');
+            if (lastSlashIndex !== -1) {
+                // 替换"/"及其后面的内容为命令
+                const beforeSlash = value.substring(0, lastSlashIndex);
+                const newValue = beforeSlash + textToInsert + after;
+                input.value = newValue;
+                
+                // 设置光标位置
+                const newCursorPos = beforeSlash.length + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            } else {
+                // 如果没有找到"/"，在光标位置插入
+                const newValue = before + textToInsert + after;
+                input.value = newValue;
+                const newCursorPos = start + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+
+            // 触发 input 事件以更新高度
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
+
+        // 插入keyword命令到输入框（带关键词参数）
+        function insertKeywordCommandToInput(input, command, keyword) {
+            if (!input) return;
+            
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+
+            // keyword命令插入格式：/提取指定关键词信息 关键词内容
+            let textToInsert;
+            if (command && command.description) {
+                textToInsert = '/' + command.description + ' ' + keyword + ' ';
+            } else {
+                textToInsert = '/keyword ' + keyword + ' ';
+            }
+
+            // 查找最后一个"/"的位置
+            const lastSlashIndex = before.lastIndexOf('/');
+            if (lastSlashIndex !== -1) {
+                // 替换"/"及其后面的内容为命令
+                const beforeSlash = value.substring(0, lastSlashIndex);
+                const newValue = beforeSlash + textToInsert + after;
+                input.value = newValue;
+                
+                // 设置光标位置
+                const newCursorPos = beforeSlash.length + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            } else {
+                // 如果没有找到"/"，在光标位置插入
+                const newValue = before + textToInsert + after;
+                input.value = newValue;
+                const newCursorPos = start + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+
+            // 触发 input 事件以更新高度
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
+
+        // 插入ip命令到输入框（带IP参数）
+        function insertIpCommandToInput(input, command, ip) {
+            if (!input) return;
+            
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+
+            // ip命令插入格式：/提取指定IP开放Port信息 IP内容
+            let textToInsert;
+            if (command && command.description) {
+                textToInsert = '/' + command.description + ' ' + ip + ' ';
+            } else {
+                textToInsert = '/ip ' + ip + ' ';
+            }
+
+            // 查找最后一个"/"的位置
+            const lastSlashIndex = before.lastIndexOf('/');
+            if (lastSlashIndex !== -1) {
+                // 替换"/"及其后面的内容为命令
+                const beforeSlash = value.substring(0, lastSlashIndex);
+                const newValue = beforeSlash + textToInsert + after;
+                input.value = newValue;
+                
+                // 设置光标位置
+                const newCursorPos = beforeSlash.length + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            } else {
+                // 如果没有找到"/"，在光标位置插入
+                const newValue = before + textToInsert + after;
+                input.value = newValue;
+                const newCursorPos = start + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+
+            // 触发 input 事件以更新高度
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
+
+        // 插入filetype命令到输入框（带文件类型参数）
+        function insertFiletypeCommandToInput(input, command, filetype) {
+            if (!input) return;
+            
+            const start = input.selectionStart;
+            const end = input.selectionEnd;
+            const value = input.value;
+            const before = value.substring(0, start);
+            const after = value.substring(end);
+
+            // filetype命令插入格式：/提取HTTP对象中指定格式的文件信息 文件类型
+            let textToInsert;
+            if (command && command.description) {
+                textToInsert = '/' + command.description + ' ' + filetype + ' ';
+            } else {
+                textToInsert = '/filetype ' + filetype + ' ';
+            }
+
+            // 查找最后一个"/"的位置
+            const lastSlashIndex = before.lastIndexOf('/');
+            if (lastSlashIndex !== -1) {
+                // 替换"/"及其后面的内容为命令
+                const beforeSlash = value.substring(0, lastSlashIndex);
+                const newValue = beforeSlash + textToInsert + after;
+                input.value = newValue;
+                
+                // 设置光标位置
+                const newCursorPos = beforeSlash.length + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            } else {
+                // 如果没有找到"/"，在光标位置插入
+                const newValue = before + textToInsert + after;
+                input.value = newValue;
+                const newCursorPos = start + textToInsert.length;
+                input.setSelectionRange(newCursorPos, newCursorPos);
+            }
+
+            // 触发 input 事件以更新高度
+            input.dispatchEvent(new Event('input'));
+            input.focus();
+        }
+
+        // 处理命令面板的键盘操作
+        function handleCommandPanelKeyboard(e, panel, input, commandList) {
+            // 如果在详情视图
+            if (panel.classList.contains('detail-mode')) {
+                const commandDetailName = panel.querySelector('#commandDetailName');
+                const commandDetailInput = panel.querySelector('#commandDetailInput');
+                const commandDetailSelect = panel.querySelector('#commandDetailSelect');
+                
+                // 检查是否焦点在输入框上
+                if (commandDetailInput && document.activeElement === commandDetailInput) {
+                    // 如果焦点在输入框上，让输入框自己处理回车事件
+                    // 不在这里处理，避免冲突
+                    return;
+                }
+                
+                // 检查是否焦点在下拉选择框上
+                if (commandDetailSelect && document.activeElement === commandDetailSelect) {
+                    // 如果焦点在下拉选择框上，让下拉选择框自己处理事件
+                    // 不在这里处理，避免冲突
+                    return;
+                }
+                
+                if (e.key === 'Enter') {
+                    if (commandDetailName) {
+                        const commandName = commandDetailName.textContent;
+                        // 从 commandList 中查找对应的 command 对象
+                        const command = commandList.find(cmd => cmd.name === commandName);
+                        // 如果是keyword或ip命令且有输入内容，使用输入的内容
+                        if (command && (command.name === 'keyword' || command.name === 'ip') && commandDetailInput) {
+                            const inputValue = commandDetailInput.value.trim();
+                            if (inputValue) {
+                                if (command.name === 'keyword') {
+                                    insertKeywordCommandToInput(input, command, inputValue);
+                                } else if (command.name === 'ip') {
+                                    insertIpCommandToInput(input, command, inputValue);
+                                }
+                            } else {
+                                insertCommandToInput(input, commandName, command);
+                            }
+                        } else if (command && command.name === 'filetype' && commandDetailSelect) {
+                            // 如果是filetype命令且有选择的值，使用选择的值
+                            const selectedValue = commandDetailSelect.value;
+                            if (selectedValue) {
+                                insertFiletypeCommandToInput(input, command, selectedValue);
+                            } else {
+                                insertCommandToInput(input, commandName, command);
+                            }
+                        } else {
+                            insertCommandToInput(input, commandName, command);
+                        }
+                        hideCommandPanel(panel);
+                    }
+                    return;
+                } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                    // 在详情视图中，上下箭头返回列表视图
+                    panel.classList.remove('detail-mode');
+                    const selectedItem = panel.querySelector('.command-item.selected');
+                    if (selectedItem) {
+                        selectedItem.classList.remove('selected');
+                    }
+                    // 继续处理箭头键
+                }
+            }
+
+            const commandItems = panel.querySelectorAll('.command-item');
+            if (commandItems.length === 0) return;
+
+            let currentIndex = -1;
+            commandItems.forEach(function(item, index) {
+                if (item.classList.contains('selected')) {
+                    currentIndex = index;
+                    item.classList.remove('selected');
+                }
+            });
+
+            if (e.key === 'ArrowDown') {
+                currentIndex = (currentIndex + 1) % commandItems.length;
+            } else if (e.key === 'ArrowUp') {
+                currentIndex = (currentIndex - 1 + commandItems.length) % commandItems.length;
+            } else if (e.key === 'Enter') {
+                // 在列表视图中，回车键显示详情
+                if (currentIndex >= 0 && commandList && commandList[currentIndex]) {
+                    const command = commandList[currentIndex];
+                    const commandItem = commandItems[currentIndex];
+                    commandItem.classList.add('selected');
+                    showCommandDetail(panel, command);
+                    return;
+                }
+            }
+
+            if (currentIndex >= 0) {
+                commandItems[currentIndex].classList.add('selected');
+                // 滚动到可见区域
+                commandItems[currentIndex].scrollIntoView({ block: 'nearest' });
+            }
+        }
+
+        // 显示命令详情（全局函数）
+        function showCommandDetail(panel, command) {
+            const commandDetailName = panel.querySelector('#commandDetailName');
+            const commandDetailContent = panel.querySelector('#commandDetailContent');
+            const chatInput = panel.closest('.chat-input-wrapper') ? panel.closest('.chat-input-wrapper').querySelector('.chat-input') : null;
+            
+            if (commandDetailName && commandDetailContent) {
+                commandDetailName.textContent = command.name;
+                // 所有命令的描述文字都放在对话框(输入框)内,不在虚浮层显示
+                // 获取输入框元素
+                let inputElement = commandDetailContent.querySelector('#commandDetailInput');
+                // 获取下拉选择框元素
+                let selectElement = commandDetailContent.querySelector('#commandDetailSelect');
+                // 获取复选框元素
+                let checkboxWrapper = commandDetailContent.querySelector('#commandDetailCheckboxWrapper');
+                
+                // 如果是keyword或ip命令，显示输入框
+                if (command.name === 'keyword' || command.name === 'ip') {
+                    // 隐藏下拉选择框（如果存在）
+                    if (selectElement) {
+                        selectElement.classList.add('hidden');
+                    }
+                    if (!inputElement) {
+                        // 如果输入框不存在，创建它
+                        inputElement = document.createElement('input');
+                        inputElement.type = 'text';
+                        inputElement.className = 'command-detail-input';
+                        inputElement.id = 'commandDetailInput';
+                        // 根据命令类型设置不同的placeholder
+                        if (command.name === 'keyword') {
+                            inputElement.placeholder = '输入关键词';
+                        } else if (command.name === 'ip') {
+                            inputElement.placeholder = '输入完整IP信息';
+                        }
+                        commandDetailContent.appendChild(inputElement);
+                        
+                        // 添加回车键事件处理
+                        if (chatInput) {
+                            inputElement.addEventListener('keydown', function(e) {
+                                if (e.key === 'Enter') {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    // 获取输入的内容
+                                    const inputValue = inputElement.value.trim();
+                                    // 如果有输入内容，插入到主输入框
+                                    if (inputValue) {
+                                        if (command.name === 'keyword') {
+                                            insertKeywordCommandToInput(chatInput, command, inputValue);
+                                        } else if (command.name === 'ip') {
+                                            insertIpCommandToInput(chatInput, command, inputValue);
+                                        }
+                                    } else {
+                                        insertCommandToInput(chatInput, command.name, command);
+                                    }
+                                    hideCommandPanel(panel);
+                                }
+                            });
+                        }
+                        
+                        // 阻止输入框的事件冒泡
+                        inputElement.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    } else {
+                        // 如果输入框已存在，更新placeholder
+                        if (command.name === 'keyword') {
+                            inputElement.placeholder = '输入关键词';
+                        } else if (command.name === 'ip') {
+                            inputElement.placeholder = '输入完整IP信息';
+                        }
+                    }
+                    inputElement.value = ''; // 清空之前的值
+                    inputElement.classList.remove('hidden');
+                    // 聚焦到输入框
+                    setTimeout(function() {
+                        inputElement.focus();
+                    }, 10);
+                } else if (command.name === 'filetype') {
+                    // 如果是filetype命令，显示下拉选择框
+                    // 隐藏输入框（如果存在）
+                    if (inputElement) {
+                        inputElement.classList.add('hidden');
+                    }
+                    if (!selectElement) {
+                        // 如果下拉选择框不存在，创建它
+                        selectElement = document.createElement('select');
+                        selectElement.className = 'command-detail-select';
+                        selectElement.id = 'commandDetailSelect';
+                        // 添加文件类型选项
+                        const fileTypes = [
+                            { value: '', text: '请选择文件类型' },
+                            { value: 'pdf', text: 'PDF' },
+                            { value: 'doc', text: 'DOC' },
+                            { value: 'docx', text: 'DOCX' },
+                            { value: 'xls', text: 'XLS' },
+                            { value: 'xlsx', text: 'XLSX' },
+                            { value: 'jpg', text: 'JPG' },
+                            { value: 'jpeg', text: 'JPEG' },
+                            { value: 'png', text: 'PNG' },
+                            { value: 'gif', text: 'GIF' },
+                            { value: 'zip', text: 'ZIP' },
+                            { value: 'rar', text: 'RAR' },
+                            { value: 'txt', text: 'TXT' },
+                            { value: 'exe', text: 'EXE' },
+                            { value: 'dll', text: 'DLL' }
+                        ];
+                        fileTypes.forEach(function(option) {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = option.value;
+                            optionElement.textContent = option.text;
+                            selectElement.appendChild(optionElement);
+                        });
+                        commandDetailContent.appendChild(selectElement);
+                        
+                        // 添加选择变化事件处理
+                        if (chatInput) {
+                            selectElement.addEventListener('change', function(e) {
+                                e.stopPropagation();
+                                const selectedValue = selectElement.value;
+                                if (selectedValue) {
+                                    insertFiletypeCommandToInput(chatInput, command, selectedValue);
+                                    // 选择后不关闭悬浮层，停留在当前操作
+                                }
+                            });
+                        }
+                        
+                        // 阻止下拉选择框的事件冒泡，避免触发详情区域的点击事件
+                        selectElement.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                    } else {
+                        // 如果下拉选择框已存在，重置选择
+                        selectElement.value = '';
+                    }
+                    selectElement.classList.remove('hidden');
+                    // 聚焦到下拉选择框
+                    setTimeout(function() {
+                        selectElement.focus();
+                    }, 10);
+                } else if (command.name === 'ip_connect') {
+                    // 如果是ip_connect命令，显示复选框
+                    // 隐藏输入框（如果存在）
+                    if (inputElement) {
+                        inputElement.classList.add('hidden');
+                    }
+                    // 隐藏下拉选择框（如果存在）
+                    if (selectElement) {
+                        selectElement.classList.add('hidden');
+                    }
+                    if (!checkboxWrapper) {
+                        // 如果复选框不存在，创建它
+                        checkboxWrapper = document.createElement('div');
+                        checkboxWrapper.className = 'command-detail-checkbox-wrapper';
+                        checkboxWrapper.id = 'commandDetailCheckboxWrapper';
+                        
+                        const checkbox = document.createElement('div');
+                        checkbox.className = 'command-detail-checkbox';
+                        
+                        const checkboxInput = document.createElement('input');
+                        checkboxInput.type = 'checkbox';
+                        checkboxInput.id = 'commandDetailCheckbox';
+                        
+                        const checkboxIcon = document.createElement('span');
+                        checkboxIcon.className = 'command-detail-checkbox-icon';
+                        checkboxIcon.textContent = '✓';
+                        
+                        checkbox.appendChild(checkboxInput);
+                        checkbox.appendChild(checkboxIcon);
+                        
+                        const checkboxLabel = document.createElement('label');
+                        checkboxLabel.className = 'command-detail-checkbox-label';
+                        checkboxLabel.setAttribute('for', 'commandDetailCheckbox');
+                        checkboxLabel.textContent = '图谱展示';
+                        
+                        checkboxWrapper.appendChild(checkbox);
+                        checkboxWrapper.appendChild(checkboxLabel);
+                        
+                        commandDetailContent.appendChild(checkboxWrapper);
+                        
+                        // 阻止复选框的事件冒泡，避免触发详情区域的点击事件
+                        checkboxWrapper.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                        });
+                        
+                        // 监听复选框状态变化，更新样式（用于不支持:has()的浏览器）
+                        checkboxInput.addEventListener('change', function() {
+                            if (this.checked) {
+                                checkbox.classList.add('checked');
+                            } else {
+                                checkbox.classList.remove('checked');
+                            }
+                        });
+                    }
+                    checkboxWrapper.classList.remove('hidden');
+                } else {
+                    // 其他命令隐藏输入框、下拉选择框和复选框
+                    if (inputElement) {
+                        inputElement.classList.add('hidden');
+                    }
+                    if (selectElement) {
+                        selectElement.classList.add('hidden');
+                    }
+                    if (checkboxWrapper) {
+                        checkboxWrapper.classList.add('hidden');
+                    }
+                }
+                panel.classList.add('detail-mode');
+            }
+        }
+
+        // 隐藏命令详情（全局函数）
+        function hideCommandDetail(panel) {
+            if (!panel) {
+                // 如果没有传入panel，查找所有面板
+                const panels = document.querySelectorAll('.command-panel.detail-mode');
+                panels.forEach(function(p) {
+                    p.classList.remove('detail-mode');
+                });
+            } else {
+                panel.classList.remove('detail-mode');
+            }
+            // 清除选中状态
+            const selectedItems = document.querySelectorAll('.command-item.selected');
+            selectedItems.forEach(function(item) {
+                item.classList.remove('selected');
+            });
+        }
+
+        // 生成AI回复（模拟）
+        function generateAIResponse(userMessage) {
+            var message = userMessage.toLowerCase();
+            
+            // 根据用户消息内容生成相应的回复
+            if (message.includes('异常') || message.includes('流量')) {
+                return '我已经分析了网络流量数据。检测到以下异常情况：\n\n1. 端口扫描活动：发现来自 192.168.1.100 的端口扫描行为\n2. 异常DNS查询：检测到 15 个可疑的DNS查询\n3. 大流量传输：发现异常的大文件传输活动\n\n建议立即检查相关主机的安全状态。';
+            } else if (message.includes('协议') || message.includes('分析')) {
+                return '协议分析结果显示：\n\n- TCP协议：占主导地位，主要用于HTTP/HTTPS通信\n- UDP协议：主要用于DNS查询\n- 检测到少量非标准协议数据包，需要进一步审查\n\n需要我详细分析某个特定协议吗？';
+            } else if (message.includes('威胁') || message.includes('安全')) {
+                return '安全威胁评估结果：\n\n威胁等级：中等\n\n主要威胁：\n1. 疑似端口扫描攻击\n2. 可疑DNS查询活动\n3. 异常数据传输\n\n建议措施：\n- 检查相关主机的安全状态\n- 审查DNS查询日志\n- 加强网络边界防护';
+            } else if (message.includes('帮助') || message.includes('功能')) {
+                return '我支持以下分析功能：\n\n1. 异常流量检测 - 识别可疑的网络活动\n2. 协议分析 - 分析网络协议分布和特征\n3. 安全威胁识别 - 评估潜在的安全威胁\n4. 网络行为分析 - 分析网络通信模式\n5. 数据包统计 - 提供详细的流量统计信息\n\n请告诉我您需要分析的具体内容。';
+            } else {
+                return '我理解您的需求。作为Pcap包分析智能体，我可以帮助您：\n\n- 分析网络数据包\n- 检测异常流量\n- 识别安全威胁\n- 提供详细的分析报告\n\n请上传Pcap文件或描述您的具体分析需求。';
+            }
+        }
+    </script>
+</body>
+</html>
+
