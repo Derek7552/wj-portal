@@ -34,6 +34,22 @@ export const agents = [
             categories: 12,
             totalDownloads: 8901
         }
+    },
+    {
+        id: 12,
+        name: '漏洞情报',
+        icon: '🔐',
+        category: 'security',
+        level: 'basic',
+        version: 'v1.1.0',
+        description: '漏洞信息聚合、关联分析与风险评估，快速评估新漏洞的影响和可利用性，提供专业的漏洞情报分析和防护建议',
+        link: 'agents/pages/vulnerability-intelligence.html',
+        favorite: false,
+        statistics: {
+            totalCVEs: 15678,
+            todayCVEs: 15,
+            highRiskCVEs: 342
+        }
     }
 ];
 

@@ -148,7 +148,7 @@
 }
 
 .recent-task-item.active {
-    background: rgba(37, 99, 235, 0.08);
+    background: var(--clouditera-palette-blue-0);
     border-left: 3px solid var(--clouditera-brand-primary);
     padding-left: 5px;
 }
@@ -156,6 +156,10 @@
 .recent-task-item.active .task-name {
     color: var(--clouditera-brand-primary);
     font-weight: 600;
+}
+
+.recent-task-item.active:hover {
+    background: var(--clouditera-palette-blue-1);
 }
 
 .task-status-icon {

@@ -1,0 +1,751 @@
+/* ==========================================
+   攻击面扫描详情页面样式
+   ========================================== */
+
+.attack-surface-detail {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    height: 100%;
+}
+
+/* 左侧面板 - 系统暴露面、社工暴露面、暗网情报 */
+.attack-surface-left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+    overflow-y: auto;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* 系统暴露面 */
+.exposure-section {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* 左侧面板内的section添加线框和内边距 */
+.attack-surface-left .exposure-section {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.exposure-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin-bottom: 16px;
+}
+
+/* 统计数字卡片 */
+.exposure-stats {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+}
+
+.exposure-stat-item {
+    flex: 1;
+    min-width: 120px;
+    padding: 16px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.exposure-stat-item:hover {
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.15);
+}
+
+.exposure-stat-item:active {
+    transform: scale(0.98);
+}
+
+.exposure-stat-item:focus {
+    outline: 2px solid var(--clouditera-brand-primary);
+    outline-offset: 2px;
+}
+
+.exposure-stat-item.active {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-brand-primary);
+}
+
+.exposure-stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--clouditera-brand-primary);
+    margin-bottom: 8px;
+    line-height: 1;
+}
+
+.exposure-stat-label {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-weight: 500;
+}
+
+/* 表格容器 */
+.exposure-table-container {
+    overflow-x: auto;
+    margin-bottom: 16px;
+}
+
+.exposure-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.exposure-table thead {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.exposure-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+    white-space: nowrap;
+}
+
+.exposure-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.exposure-table tbody tr:hover {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.exposure-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* Ping状态 */
+.ping-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ping-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--clouditera-semantic-error);
+}
+
+.ping-status-text {
+    font-size: 14px;
+    color: var(--clouditera-semantic-error);
+}
+
+/* 分页器 */
+.exposure-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+.pagination-pages {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.pagination-page {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-page:hover:not(.active) {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+}
+
+.pagination-page:active:not(.active) {
+    transform: scale(0.95);
+}
+
+.pagination-page:focus {
+    outline: 2px solid var(--clouditera-brand-primary);
+    outline-offset: 2px;
+}
+
+.pagination-page.active {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
+}
+
+.pagination-page.active:hover {
+    background: var(--clouditera-brand-primary-hover);
+    border-color: var(--clouditera-brand-primary-hover);
+}
+
+.pagination-page-size {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pagination-page-size select {
+    padding: 6px 12px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 4px;
+    font-size: 14px;
+    background: var(--clouditera-neutral-background-white);
+    color: var(--clouditera-neutral-text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-page-size select:hover {
+    border-color: var(--clouditera-brand-primary);
+}
+
+.pagination-page-size select:focus {
+    outline: none;
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px rgba(41, 140, 255, 0.1);
+}
+
+/* 社工暴露面 */
+.social-engineering-stats {
+    display: flex;
+    gap: 24px;
+}
+
+.social-engineering-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.social-engineering-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.social-engineering-stat-label {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+/* 暗网情报 */
+.dark-web-section {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* 左侧面板内的暗网情报section添加线框和内边距 */
+.attack-surface-left .dark-web-section {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.dark-web-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin-bottom: 16px;
+}
+
+/* 右侧面板 - 分析对话 */
+.attack-surface-right {
+    width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 0;
+    overflow: hidden;
+    flex-shrink: 0;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+/* 标签页 */
+.analysis-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+    margin-bottom: 16px;
+    padding-bottom: 0;
+}
+
+/* 右侧面板内的标签页调整 */
+.attack-surface-right .analysis-tabs {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.analysis-tab {
+    padding: 12px 16px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    bottom: -1px;
+}
+
+.analysis-tab:hover {
+    color: var(--clouditera-brand-primary);
+}
+
+.analysis-tab:active {
+    transform: translateY(1px);
+}
+
+.analysis-tab:focus {
+    outline: none;
+}
+
+.analysis-tab:focus-visible {
+    outline: none;
+}
+
+.analysis-tab.active {
+    color: var(--clouditera-brand-primary);
+    border-bottom-color: var(--clouditera-brand-primary);
+}
+
+/* 内容区域容器 */
+.analysis-content-wrapper {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* 内容区域 */
+.analysis-content {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.analysis-content.active {
+    display: flex;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 对话消息容器 - 与快速对话助手示例保持一致 */
+.chat-messages-container {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
+    margin-bottom: 16px;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    padding-bottom: 0;
+}
+
+/* 消息样式 - 与快速对话助手示例保持一致 */
+.message {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--clouditera-brand-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+.message-user .message-avatar {
+    background: var(--clouditera-semantic-success);
+}
+
+.message-content {
+    flex: 1;
+    max-width: 75%;
+}
+
+/* 用户消息内容统一左对齐 */
+.message-user .message-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.message-time {
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-5);
+    margin-bottom: 8px;  /* 时间在上方，底部间距 */
+}
+
+/* 消息气泡样式 - 与快速对话助手示例保持一致 */
+.message-bubble {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 16px;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.6;
+}
+
+.message-user .message-bubble {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-palette-blue-2);
+}
+
+/* 兼容 message-text 类名（保持向后兼容） */
+.message-text {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 16px;
+    word-wrap: break-word;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.6;
+}
+
+.message-user .message-text {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-palette-blue-2);
+}
+
+/* 消息气泡内容样式 */
+.message-bubble p,
+.message-text p {
+    margin: 0 0 12px 0;
+}
+
+.message-bubble p:last-child,
+.message-text p:last-child {
+    margin-bottom: 0;
+}
+
+.message-bubble ul,
+.message-bubble ol,
+.message-text ul,
+.message-text ol {
+    margin: 8px 0;
+    padding-left: 24px;
+}
+
+.message-bubble li,
+.message-text li {
+    margin: 4px 0;
+}
+
+.message-bubble h4,
+.message-text h4 {
+    margin: 16px 0 8px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+.message-bubble pre,
+.message-text pre {
+    background: var(--clouditera-neutral-gray-10);
+    color: var(--clouditera-neutral-gray-4);
+    border-radius: 4px;
+    padding: 12px;
+    overflow-x: auto;
+    margin: 12px 0;
+}
+
+.message-bubble code,
+.message-text code {
+    font-family: 'Monaco', 'Consolas', monospace;
+    font-size: 13px;
+}
+
+/* 查询信息栏 */
+.query-info-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.query-info-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.query-info-label {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    font-weight: 500;
+}
+
+.query-info-time {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    font-weight: 500;
+}
+
+/* 重新查询按钮 */
+.btn-requery {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-requery:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(41, 140, 255, 0.4);
+}
+
+.btn-requery:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(41, 140, 255, 0.3);
+}
+
+.requery-icon {
+    font-size: 16px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 分析状态 */
+.analysis-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    background: var(--clouditera-palette-orange-0);
+    border-radius: 6px;
+}
+
+.analysis-status-text {
+    font-size: 14px;
+    color: var(--clouditera-palette-orange-6);
+    font-weight: 500;
+}
+
+/* 操作图标 */
+.analysis-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.analysis-action-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--clouditera-neutral-text-secondary);
+    font-size: 16px;
+}
+
+.analysis-action-btn:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.analysis-action-btn:active {
+    transform: scale(0.95);
+}
+
+.analysis-action-btn:focus {
+    outline: 2px solid var(--clouditera-brand-primary);
+    outline-offset: 2px;
+}
+
+.analysis-action-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.analysis-action-btn:disabled:hover {
+    border-color: var(--clouditera-neutral-border-primary);
+    color: var(--clouditera-neutral-text-secondary);
+    background: var(--clouditera-neutral-background-white);
+}
+
+/* 企业简介卡片 */
+.company-profile-card {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.company-profile-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin-bottom: 16px;
+}
+
+.company-profile-content {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.company-profile-item {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.company-profile-item-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.company-profile-item-value {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.6;
+}
+
+/* 响应式设计 */
+@media (max-width: 1200px) {
+    .attack-surface-detail {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .attack-surface-left {
+        width: 100%;
+        padding: 16px;
+    }
+
+    .attack-surface-right {
+        width: 100%;
+        padding: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .attack-surface-detail {
+        /* padding: 12px; */
+        gap: 12px;
+    }
+
+    .attack-surface-left,
+    .attack-surface-right {
+        padding: 16px;
+    }
+
+    .exposure-stats {
+        flex-direction: column;
+    }
+
+    .exposure-stat-item {
+        min-width: 100%;
+    }
+
+    .social-engineering-stats {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .exposure-table-container {
+        overflow-x: scroll;
+    }
+
+    .query-info-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .btn-requery {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

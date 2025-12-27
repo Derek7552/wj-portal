@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="攻击面检查 - 智能识别和评估系统攻击面">
+    <title>攻击面检查 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../templates/css/template-detail.css">
+    <link rel="stylesheet" href="../../components/agent-sidebar.css">
+    <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../css/attack-surface-detail.css">
+</head>
+<body class="agent-detail-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="../../pages/user-management.html" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">🛡️</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">攻击面检查</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.1.0</span>
+                    </div>
+                    <p class="agent-description">智能识别和评估系统攻击面，全面检测暴露的服务、端口和潜在安全风险，提供专业的攻击面分析和加固建议</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(25)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(8)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">Web应用攻击面扫描</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">服务器端口暴露检查</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">API接口安全审计</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">云服务配置检查</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">域名资产发现</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">子域名安全检查</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">暴露服务识别</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">网络资产扫描</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">安全配置评估</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">漏洞扫描结果分析</div>
+                            </a>
+                        </div>
+
+                        <!-- 查看全部入口 -->
+                        <a href="#" class="view-all-tasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区域 - 空状态 -->
+            <div class="agent-main-content">
+                <div class="empty-state-container">
+                    <!-- 智能体名称 - 优先级最高 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">攻击面检查</span>
+                    </div>
+
+                    <!-- 引导文案 - 次要优先级 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">开始给智能体分配任务</p>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container" data-container-mode="empty">
+                        <div class="chat-input-wrapper">
+                            <!-- 输入框区域 -->
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="输入您的问题或粘贴代码..."
+                                rows="3"
+                            ></textarea>
+
+                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">
+                                        📎
+                                    </button>
+                                    <button class="btn-icon" title="插入图片">
+                                        🖼️
+                                    </button>
+                                    <button class="btn-icon" title="插入代码">
+                                        💻
+                                    </button>
+                                    <button class="btn-icon" title="插入表格">
+                                        📊
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../../components/agent-sidebar.js"></script>
+    <script src="../../components/chat-input.js"></script>
+    <script src="../../templates/js/template-detail.js"></script>
+    <script>
+        // 模拟任务数据
+        const mockTasks = [
+            { id: '1', name: 'Web应用攻击面扫描', status: 'running', active: false },
+            { id: '2', name: '服务器端口暴露检查', status: 'running', active: false },
+            { id: '3', name: 'API接口安全审计', status: 'completed', active: false },
+            { id: '4', name: '云服务配置检查', status: 'completed', active: false },
+            { id: '5', name: '域名资产发现', status: 'completed', active: false },
+            { id: '6', name: '子域名安全检查', status: 'completed', active: false },
+            { id: '7', name: '暴露服务识别', status: 'completed', active: false },
+            { id: '8', name: '网络资产扫描', status: 'completed', active: false },
+            { id: '9', name: '安全配置评估', status: 'completed', active: false },
+            { id: '10', name: '漏洞扫描结果分析', status: 'completed', active: false }
+        ];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化侧导航组件（如果函数存在）
+            if (typeof initAgentSidebar === 'function') {
+                initAgentSidebar({
+                tasks: mockTasks,
+                maxTasks: 10,
+                onNewTask: function() {
+                    console.log('创建新任务');
+                    // 点击新任务按钮时，显示空状态页面
+                    var chatArea = document.querySelector('.agent-main-content');
+                    if (!chatArea) return;
+
+                    // 检查是否存在空状态容器
+                    var emptyStateContainer = document.querySelector('.empty-state-container');
+                    var taskContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+
+                    // 如果已有空状态容器，直接显示
+                    if (emptyStateContainer) {
+                        emptyStateContainer.style.display = 'flex';
+                        if (taskContent) taskContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+                        return;
+                    }
+
+                    // 否则重新创建空状态页面
+                    chatArea.innerHTML = '<div class="empty-state-container">' +
+                        '<div class="empty-agent-name">' +
+                            '<span class="agent-name-text">攻击面检查</span>' +
+                        '</div>' +
+                        '<div class="empty-state-guide">' +
+                            '<p class="empty-state-guide-text">开始给智能体分配任务</p>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="empty">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" id="chatInput" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                },
+                onTaskClick: function(taskId, taskData) {
+                    console.log('[DEBUG] 点击任务:', taskId, taskData);
+
+                    try {
+                        // 更新任务项的active状态
+                        var taskItems = document.querySelectorAll('.recent-task-item');
+                        var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+                        
+                        taskItems.forEach(function(item) {
+                            var itemTaskName = item.querySelector('.task-name');
+                            if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
+                                item.classList.add('active');
+                            } else {
+                                item.classList.remove('active');
+                            }
+                        });
+
+                        var chatArea = document.querySelector('.agent-main-content');
+                        if (!chatArea) {
+                            console.error('[DEBUG] 未找到chatArea');
+                            return;
+                        }
+
+                        console.log('[DEBUG] 找到chatArea');
+
+                        // 如果是"Web应用攻击面扫描"任务，显示详情页面
+                        if (taskName === 'Web应用攻击面扫描') {
+                            showAttackSurfaceDetail(chatArea);
+                            return;
+                        }
+
+                        // 其他任务显示聊天界面
+                        // 清空chatArea并重新创建任务详情
+                        chatArea.innerHTML = '';
+
+                        var taskContent = document.createElement('div');
+                        taskContent.className = 'task-detail-content';
+
+                        taskContent.innerHTML = '<div class="chat-header">' +
+                            '<div class="chat-title">' + taskName + '</div>' +
+                            '<div class="chat-time">刚刚</div>' +
+                        '</div>' +
+                        '<div class="chat-messages">' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">请帮我检查一个Web应用的攻击面，重点关注暴露的端口和服务。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">你好！我将协助你进行攻击面检查。请提供目标域名或IP地址，我将全面扫描暴露的服务、端口和潜在安全风险。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">具体会检查哪些方面？</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">我将重点检查以下方面：<br>1. 开放端口和服务识别<br>2. 子域名和资产发现<br>3. API接口暴露情况<br>4. 安全配置和加固建议</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+
+                        chatArea.appendChild(taskContent);
+                        taskContent.style.display = 'flex';
+
+                        console.log('[DEBUG] 任务详情已创建并显示');
+
+                        // 滚动到底部
+                        setTimeout(function() {
+                            var chatMessages = taskContent.querySelector('.chat-messages');
+                            if (chatMessages) {
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }
+                        }, 100);
+                    } catch (error) {
+                        console.error('[DEBUG] 错误:', error);
+                    }
+                },
+                onViewAll: function() {
+                    console.log('查看全部任务');
+                    showAllTasks();
+                }
+                });
+            } else {
+                console.warn('initAgentSidebar 函数不存在，将使用手动绑定的事件处理');
+            }
+
+            // 初始化聊天输入框组件
+            initChatInput({
+                onSend: function(message) {
+                    console.log('发送消息:', message);
+                    // 模拟发送，实际应该调用API
+                    // window.location.href = 'agent-detail-chat.html';
+                }
+            });
+
+            // 手动绑定静态任务项的点击事件
+            var taskItems = document.querySelectorAll('.recent-task-item');
+            taskItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    var taskName = item.querySelector('.task-name').textContent.trim();
+                    
+                    // 移除所有任务项的active状态
+                    taskItems.forEach(function(taskItem) {
+                        taskItem.classList.remove('active');
+                    });
+                    
+                    // 为当前点击的任务项添加active状态
+                    item.classList.add('active');
+                    
+                    // 查找对应的任务数据
+                    var taskData = mockTasks.find(function(task) {
+                        return task.name === taskName;
+                    });
+                    
+                    if (!taskData) {
+                        // 如果找不到，创建一个默认的任务数据
+                        var statusIcon = item.querySelector('.task-status-icon');
+                        var status = statusIcon && statusIcon.classList.contains('completed') ? 'completed' : 'running';
+                        taskData = { 
+                            id: String(mockTasks.length + 1), 
+                            name: taskName, 
+                            status: status 
+                        };
+                    }
+                    
+                    console.log('[DEBUG] 点击任务（手动绑定）:', taskData.id, taskData);
+                    
+                    // 调用任务点击处理函数
+                    if (typeof window.agentSidebarInstance !== 'undefined' && window.agentSidebarInstance && window.agentSidebarInstance.onTaskClick) {
+                        window.agentSidebarInstance.onTaskClick(taskData.id, taskData);
+                    } else {
+                        // 如果组件实例不存在，直接调用处理函数
+                        handleTaskClick(taskData.id, taskData);
+                    }
+                });
+            });
+        });
+
+        // 处理任务点击的通用函数
+        function handleTaskClick(taskId, taskData) {
+            console.log('[DEBUG] 处理任务点击:', taskId, taskData);
+
+            try {
+                // 更新任务项的active状态
+                var taskItems = document.querySelectorAll('.recent-task-item');
+                var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+                
+                taskItems.forEach(function(item) {
+                    var itemTaskName = item.querySelector('.task-name');
+                    if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+
+                var chatArea = document.querySelector('.agent-main-content');
+                if (!chatArea) {
+                    console.error('[DEBUG] 未找到chatArea');
+                    return;
+                }
+
+                // 如果是"Web应用攻击面扫描"任务，显示详情页面
+                if (taskName === 'Web应用攻击面扫描') {
+                    showAttackSurfaceDetail(chatArea);
+                    return;
+                }
+
+                // 其他任务显示聊天界面
+                chatArea.innerHTML = '';
+
+                var taskContent = document.createElement('div');
+                taskContent.className = 'task-detail-content';
+
+                taskContent.innerHTML = '<div class="chat-header">' +
+                    '<div class="chat-title">' + taskName + '</div>' +
+                    '<div class="chat-time">刚刚</div>' +
+                '</div>' +
+                '<div class="chat-messages">' +
+                    '<div class="message message-user">' +
+                        '<div class="message-avatar">👤</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">请帮我检查一个Web应用的攻击面，重点关注暴露的端口和服务。</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="message message-ai">' +
+                        '<div class="message-avatar">🤖</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">刚刚</div>' +
+                            '<div class="message-text">你好！我将协助你进行攻击面检查。请提供目标域名或IP地址，我将全面扫描暴露的服务、端口和潜在安全风险。</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="chat-input-container" data-container-mode="fixed">' +
+                    '<div class="chat-input-wrapper">' +
+                        '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                        '<div class="chat-input-toolbar">' +
+                            '<div class="chat-input-actions">' +
+                                '<button class="btn-icon" title="上传文件">📎</button>' +
+                                '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                '<button class="btn-icon" title="插入代码">💻</button>' +
+                                '<button class="btn-icon" title="插入表格">📊</button>' +
+                            '</div>' +
+                            '<button class="btn btn-primary chat-send">' +
+                                '<span>发送</span>' +
+                                '<span class="send-shortcut">Shift+Enter</span>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+
+                chatArea.appendChild(taskContent);
+                taskContent.style.display = 'flex';
+
+                // 滚动到底部
+                setTimeout(function() {
+                    var chatMessages = taskContent.querySelector('.chat-messages');
+                    if (chatMessages) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }, 100);
+            } catch (error) {
+                console.error('[DEBUG] 错误:', error);
+            }
+        }
+
+        // 显示全部任务列表
+        function showAllTasks() {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 生成任务列表HTML
+            var tasksHtml = '';
+            for (var i = 0; i < mockTasks.length; i++) {
+                var task = mockTasks[i];
+                var statusIcon = task.status === 'running' ? '⏳' :
+                                task.status === 'completed' ? '✅' : '❌';
+                var statusClass = task.status;
+
+                tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
+                    '<div class="task-record-left">' +
+                        '<div class="task-record-header">' +
+                            '<div class="task-record-status">' +
+                                '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
+                            '</div>' +
+                            '<div class="task-record-name">' + task.name + '</div>' +
+                        '</div>' +
+                        '<div class="task-record-statistics">' +
+                            '<span class="statistics-label">消息数</span>' +
+                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="task-record-right">' +
+                        '<div class="task-record-time">2025-12-19 14:30</div>' +
+                        '<div class="task-record-actions">' +
+                            '<button class="task-action-btn">查看</button>' +
+                            '<button class="task-action-btn">删除</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            if (mockTasks.length === 0) {
+                tasksHtml = '<div class="tasks-empty">暂无任务记录</div>';
+            }
+
+            // 替换内容
+            chatArea.innerHTML = '<div class="tasks-list-container">' +
+                '<div class="tasks-list-header">' +
+                    '<h2 class="tasks-list-title">全部任务记录</h2>' +
+                '</div>' +
+                '<div class="tasks-list-content">' +
+                    tasksHtml +
+                '</div>' +
+            '</div>';
+
+            // 绑定任务卡片点击事件
+            var taskCards = chatArea.querySelectorAll('.task-record-card');
+            for (var i = 0; i < taskCards.length; i++) {
+                taskCards[i].addEventListener('click', function(e) {
+                    // 如果点击的是按钮，不触发卡片点击
+                    if (e.target.classList.contains('task-action-btn')) {
+                        e.stopPropagation();
+                        var btnText = e.target.textContent;
+                        var taskId = this.getAttribute('data-task-id');
+
+                        if (btnText === '查看') {
+                            // 查找对应的任务并显示详情
+                            var selectedTask = null;
+                            for (var j = 0; j < mockTasks.length; j++) {
+                                if (mockTasks[j].id === taskId) {
+                                    selectedTask = mockTasks[j];
+                                    break;
+                                }
+                            }
+
+                            if (selectedTask) {
+                                // 调用现有的任务点击回调
+                                var sidebarInstance = window.agentSidebarInstance;
+                                if (sidebarInstance && sidebarInstance.setActiveTask) {
+                                    sidebarInstance.setActiveTask(taskId);
+                                }
+
+                                // 显示任务详情（复用之前的代码）
+                                showTaskDetailById(taskId, selectedTask);
+                            }
+                        } else if (btnText === '删除') {
+                            if (confirm('确定要删除此任务吗？')) {
+                                console.log('删除任务:', taskId);
+                            }
+                        }
+                        return;
+                    }
+
+                    // 点击卡片其他区域，显示任务详情
+                    var taskId = this.getAttribute('data-task-id');
+                    var selectedTask = null;
+                    for (var j = 0; j < mockTasks.length; j++) {
+                        if (mockTasks[j].id === taskId) {
+                            selectedTask = mockTasks[j];
+                            break;
+                        }
+                    }
+
+                    if (selectedTask) {
+                        showTaskDetailById(taskId, selectedTask);
+                    }
+                });
+            }
+        }
+
+        // 根据任务ID显示任务详情
+        function showTaskDetailById(taskId, taskData) {
+            // 更新任务项的active状态
+            var taskItems = document.querySelectorAll('.recent-task-item');
+            var taskName = taskData ? taskData.name : '未知任务';
+            
+            taskItems.forEach(function(item) {
+                var itemTaskName = item.querySelector('.task-name');
+                if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 如果是"Web应用攻击面扫描"任务，显示详情页面
+            if (taskName === 'Web应用攻击面扫描') {
+                showAttackSurfaceDetail(chatArea);
+                return;
+            }
+
+            var taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">请帮我检查一个Web应用的攻击面，重点关注暴露的端口和服务。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">你好！我将协助你进行攻击面检查。请提供目标域名或IP地址，我将全面扫描暴露的服务、端口和潜在安全风险。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">具体会检查哪些方面？</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">我将重点检查以下方面：<br>1. 开放端口和服务识别<br>2. 子域名和资产发现<br>3. API接口暴露情况<br>4. 安全配置和加固建议</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.innerHTML = '';
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            // 滚动到底部
+            setTimeout(function() {
+                var chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+        }
+
+        // 显示攻击面扫描详情页面
+        function showAttackSurfaceDetail(chatArea) {
+            chatArea.innerHTML = '<div class="attack-surface-detail">' +
+                // 左侧面板
+                '<div class="attack-surface-left">' +
+                    // 系统暴露面
+                    '<div class="exposure-section">' +
+                        '<h3 class="exposure-section-title">系统暴露面</h3>' +
+                        '<div class="exposure-stats">' +
+                            '<div class="exposure-stat-item active">' +
+                                '<div class="exposure-stat-value">55</div>' +
+                                '<div class="exposure-stat-label">信息系统</div>' +
+                            '</div>' +
+                            '<div class="exposure-stat-item">' +
+                                '<div class="exposure-stat-value">6</div>' +
+                                '<div class="exposure-stat-label">移动端应用</div>' +
+                            '</div>' +
+                            '<div class="exposure-stat-item">' +
+                                '<div class="exposure-stat-value">1</div>' +
+                                '<div class="exposure-stat-label">域名</div>' +
+                            '</div>' +
+                            '<div class="exposure-stat-item">' +
+                                '<div class="exposure-stat-value">459</div>' +
+                                '<div class="exposure-stat-label">代码/文档</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="exposure-table-container">' +
+                            '<table class="exposure-table">' +
+                                '<thead>' +
+                                    '<tr>' +
+                                        '<th>URL</th>' +
+                                        '<th>网站标题</th>' +
+                                        '<th>组件</th>' +
+                                        '<th>ping</th>' +
+                                        '<th>协议</th>' +
+                                        '<th>备案</th>' +
+                                    '</tr>' +
+                                '</thead>' +
+                                '<tbody>' +
+                                    '<tr>' +
+                                        '<td>ssl://21...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>--</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<td>http://21...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>--</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<td>ssl://111...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>unknown</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<td>http://11...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>--</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<td>https://2...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>[]</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                    '<tr>' +
+                                        '<td>https://1...</td>' +
+                                        '<td>UNKOWN</td>' +
+                                        '<td>--</td>' +
+                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
+                                        '<td>TCP</td>' +
+                                        '<td>--</td>' +
+                                    '</tr>' +
+                                '</tbody>' +
+                            '</table>' +
+                        '</div>' +
+                        '<div class="exposure-pagination">' +
+                            '<div class="pagination-pages">' +
+                                '<div class="pagination-page active">1</div>' +
+                                '<div class="pagination-page">2</div>' +
+                                '<div class="pagination-page">3</div>' +
+                                '<div class="pagination-page">4</div>' +
+                                '<div class="pagination-page">5</div>' +
+                                '<div class="pagination-page">6</div>' +
+                            '</div>' +
+                            '<div class="pagination-page-size">' +
+                                '<span>10条/页</span>' +
+                                '<select>' +
+                                    '<option value="10">10条/页</option>' +
+                                    '<option value="20">20条/页</option>' +
+                                    '<option value="50">50条/页</option>' +
+                                '</select>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    // 社工暴露面
+                    '<div class="exposure-section">' +
+                        '<h3 class="exposure-section-title">社工暴露面</h3>' +
+                        '<div class="social-engineering-stats">' +
+                            '<div class="social-engineering-stat">' +
+                                '<div class="social-engineering-stat-value">119</div>' +
+                                '<div class="social-engineering-stat-label">邮箱</div>' +
+                            '</div>' +
+                            '<div class="social-engineering-stat">' +
+                                '<div class="social-engineering-stat-value">19</div>' +
+                                '<div class="social-engineering-stat-label">成员</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    // 暗网情报
+                    '<div class="dark-web-section">' +
+                        '<h3 class="dark-web-section-title">暗网情报</h3>' +
+                        '<div class="social-engineering-stats">' +
+                            '<div class="social-engineering-stat">' +
+                                '<div class="social-engineering-stat-value">0</div>' +
+                                '<div class="social-engineering-stat-label">数据泄漏分析</div>' +
+                            '</div>' +
+                            '<div class="social-engineering-stat">' +
+                                '<div class="social-engineering-stat-value">0</div>' +
+                                '<div class="social-engineering-stat-label">Telegram情报</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                // 右侧面板
+                '<div class="attack-surface-right">' +
+                    // 分析/对话标签
+                    '<div class="analysis-tabs">' +
+                        '<button class="analysis-tab active" data-tab="analysis">分析</button>' +
+                        '<button class="analysis-tab" data-tab="chat">对话</button>' +
+                    '</div>' +
+                    // 内容区域容器
+                    '<div class="analysis-content-wrapper">' +
+                        // 分析内容区域
+                        '<div class="analysis-content active" data-content="analysis">' +
+                            // 查询信息栏
+                            '<div class="query-info-bar">' +
+                                '<div class="query-info-left">' +
+                                    '<span class="query-info-label">查询时间：</span>' +
+                                    '<span class="query-info-time" id="queryTime">' + formatDateTime(new Date()) + '</span>' +
+                                '</div>' +
+                                '<button class="btn btn-primary btn-requery" id="requeryBtn">' +
+                                    '<span class="requery-icon">🔄</span>' +
+                                    '<span>重新查询</span>' +
+                                '</button>' +
+                            '</div>' +
+                            // 情报分析状态
+                            '<div class="analysis-status">' +
+                                '<span class="analysis-status-text">情报分析 已中断</span>' +
+                            '</div>' +
+                            // 企业简介
+                            '<div class="company-profile-card">' +
+                                '<h3 class="company-profile-title">企业简介</h3>' +
+                                '<div class="company-profile-content">' +
+                                    '<div class="company-profile-item">' +
+                                        '<div class="company-profile-item-label">企业成员</div>' +
+                                        '<div class="company-profile-item-value">国网冀北电力有限公司的董事长为张玮, 此外还有多名董事如李庆海、鞠冠章等。</div>' +
+                                    '</div>' +
+                                    '<div class="company-profile-item">' +
+                                        '<div class="company-profile-item-label">业务领域</div>' +
+                                        '<div class="company-profile-item-value">该公司主要涉及电力供应和电力服务, 为冀北地区的电力需求提供支持。</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        // 对话内容区域
+                        '<div class="analysis-content" data-content="chat">' +
+                            '<div class="chat-messages-container">' +
+                                '<div class="chat-messages">' +
+                                    '<div class="message message-ai">' +
+                                        '<div class="message-avatar">🤖</div>' +
+                                        '<div class="message-content">' +
+                                            '<div class="message-time">刚刚</div>' +
+                                            '<div class="message-text">你好！我已经完成了Web应用攻击面扫描，发现了55个信息系统暴露面。需要我详细分析某个具体的暴露点吗？</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="message message-user">' +
+                                        '<div class="message-avatar">👤</div>' +
+                                        '<div class="message-content">' +
+                                            '<div class="message-time">刚刚</div>' +
+                                            '<div class="message-text">请帮我分析一下这些暴露面的安全风险等级</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="message message-ai">' +
+                                        '<div class="message-avatar">🤖</div>' +
+                                        '<div class="message-content">' +
+                                            '<div class="message-time">刚刚</div>' +
+                                            '<div class="message-text">根据扫描结果，我发现了以下主要风险：<br>1. 多个未加密的HTTP服务暴露<br>2. 部分服务无法正常访问（ping无效）<br>3. 存在未备案的域名和服务<br><br>建议优先处理高风险暴露点，加强安全配置。</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="chat-input-container" data-container-mode="fixed">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" placeholder="输入您的问题..." rows="3"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions">' +
+                                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                                        '</div>' +
+                                        '<button class="btn btn-primary chat-send">' +
+                                            '<span>发送</span>' +
+                                            '<span class="send-shortcut">Shift+Enter</span>' +
+                                        '</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            // 绑定统计项点击事件
+            var statItems = chatArea.querySelectorAll('.exposure-stat-item');
+            statItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    statItems.forEach(function(i) { i.classList.remove('active'); });
+                    item.classList.add('active');
+                });
+            });
+
+            // 绑定标签页切换事件
+            var tabs = chatArea.querySelectorAll('.analysis-tab');
+            var contentPanels = chatArea.querySelectorAll('.analysis-content');
+            
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    var targetTab = this.getAttribute('data-tab');
+                    
+                    // 切换标签的active状态
+                    tabs.forEach(function(t) { 
+                        t.classList.remove('active'); 
+                    });
+                    this.classList.add('active');
+                    
+                    // 切换内容区域的显示
+                    contentPanels.forEach(function(panel) {
+                        var panelType = panel.getAttribute('data-content');
+                        if (panelType === targetTab) {
+                            panel.classList.add('active');
+                        } else {
+                            panel.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // 绑定重新查询按钮事件
+            var requeryBtn = chatArea.querySelector('#requeryBtn');
+            if (requeryBtn) {
+                requeryBtn.addEventListener('click', function() {
+                    // 更新查询时间
+                    var queryTimeElement = chatArea.querySelector('#queryTime');
+                    if (queryTimeElement) {
+                        queryTimeElement.textContent = formatDateTime(new Date());
+                    }
+                    
+                    // 这里可以添加重新查询的逻辑
+                    console.log('重新查询攻击面扫描');
+                    // TODO: 调用API重新查询
+                });
+            }
+        }
+
+        // 快速提示填充功能
+        function fillPrompt(text) {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+            }
+        }
+
+        // 格式化日期时间
+        function formatDateTime(date) {
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            const seconds = String(date.getSeconds()).padStart(2, '0');
+            return year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+        }
+    </script>
+</body>
+</html>
+
