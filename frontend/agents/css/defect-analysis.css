@@ -1,0 +1,98 @@
+/* ==========================================
+   缺陷研判智能体 - 文件上传弹出层样式
+   ========================================== */
+
+/* 文件上传弹出层容器 */
+.file-upload-popover {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 8px);
+    display: none;
+    flex-direction: column;
+    width: 320px;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
+    z-index: 100;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* 显示状态 */
+.file-upload-popover.show {
+    display: flex;
+}
+
+/* 弹出层选项列表 */
+.file-upload-options {
+    display: flex;
+    flex-direction: column;
+    padding: 8px 0;
+    gap: 0;
+}
+
+/* 选项项 */
+.file-upload-option {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 16px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+    gap: 4px;
+}
+
+.file-upload-option:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.file-upload-option:active {
+    background: var(--clouditera-palette-blue-1);
+}
+
+/* 选项标题 */
+.file-upload-option-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.5;
+}
+
+/* 选项副文本 */
+.file-upload-option-subtitle {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.5;
+}
+
+/* 隐藏的文件输入框 */
+.file-upload-input {
+    display: none;
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+/* 移动端 */
+@media (max-width: 768px) {
+    .file-upload-popover {
+        width: 280px;
+    }
+    
+    .file-upload-option {
+        padding: 10px 12px;
+    }
+    
+    .file-upload-option-title {
+        font-size: 13px;
+    }
+    
+    .file-upload-option-subtitle {
+        font-size: 11px;
+    }
+}
+

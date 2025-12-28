@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="缺陷研判 - 代码安全缺陷识别与评估">
+    <title>缺陷研判 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../../templates/css/template-detail.css">
+    <link rel="stylesheet" href="../../components/agent-sidebar.css">
+    <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../css/defect-analysis.css">
+</head>
+<body class="agent-detail-page">
+    <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="../../pages/user-management.html" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体头部信息 -->
+        <div class="agent-header">
+            <div class="agent-header-main">
+                <div class="agent-icon">⚠️</div>
+                <div class="agent-info">
+                    <div class="agent-title-wrapper">
+                        <h2 class="agent-title">缺陷研判</h2>
+                        <span class="agent-type">基础类</span>
+                        <span class="agent-version">v1.1.0</span>
+                    </div>
+                    <p class="agent-description">代码安全缺陷识别与评估，精准判断安全风险等级，提供专业的缺陷分析和修复建议</p>
+                </div>
+            </div>
+            <!-- 管理功能按钮组 -->
+            <div class="agent-header-actions">
+                <button class="btn-agent-action" title="知识库">
+                    <span class="action-icon">📚</span>
+                    <span class="action-text">知识库</span>
+                    <span class="action-count">(25)</span>
+                </button>
+                <button class="btn-agent-action" title="工具插件">
+                    <span class="action-icon">🔧</span>
+                    <span class="action-text">工具插件</span>
+                    <span class="action-count">(8)</span>
+                </button>
+                <button class="btn-agent-action" title="智能体设置">
+                    <span class="action-icon">⚙️</span>
+                    <span class="action-text">设置</span>
+                </button>
+                <button class="btn btn-primary btn-sm">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内容容器 -->
+        <div class="content-container">
+            <!-- 智能体详情侧导航 -->
+            <aside class="agent-sidebar">
+                <nav class="agent-nav">
+                    <!-- 新任务按钮 -->
+                    <button class="btn-new-chat">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">新任务</span>
+                    </button>
+
+                    <!-- 近期任务 -->
+                    <div class="nav-group">
+                        <div class="nav-group-title">近期任务</div>
+
+                        <!-- 近期任务列表 -->
+                        <div class="recent-tasks-list">
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">Python代码缺陷研判</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon running">⏳</span>
+                                <div class="task-name">Java安全缺陷评估</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">PHP代码风险分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Node.js安全缺陷研判</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Go语言代码评估</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">C++安全缺陷分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">React组件安全评估</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Spring Boot缺陷研判</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Django安全风险分析</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon completed">✅</span>
+                                <div class="task-name">Flask代码缺陷评估</div>
+                            </a>
+                        </div>
+
+                        <!-- 查看全部入口 -->
+                        <a href="#" class="view-all-tasks">
+                            查看全部任务记录 →
+                        </a>
+                    </div>
+                </nav>
+            </aside>
+
+            <!-- 主内容区域 - 空状态 -->
+            <div class="agent-main-content">
+                <div class="empty-state-container">
+                    <!-- 智能体名称 - 优先级最高 -->
+                    <div class="empty-agent-name">
+                        <span class="agent-name-text">缺陷研判</span>
+                    </div>
+
+                    <!-- 引导文案 - 次要优先级 -->
+                    <div class="empty-state-guide">
+                        <p class="empty-state-guide-text">开始给智能体分配任务</p>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container" data-container-mode="empty">
+                        <div class="chat-input-wrapper">
+                            <!-- 输入框区域 -->
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="输入您的问题或粘贴代码..."
+                                rows="3"
+                            ></textarea>
+
+                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">
+                                        📎
+                                    </button>
+                                    <button class="btn-icon" title="插入图片">
+                                        🖼️
+                                    </button>
+                                    <button class="btn-icon" title="插入代码">
+                                        💻
+                                    </button>
+                                    <button class="btn-icon" title="插入表格">
+                                        📊
+                                    </button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script src="../../components/agent-sidebar.js"></script>
+    <script src="../../components/chat-input.js"></script>
+    <script src="../../templates/js/template-detail.js"></script>
+    <script>
+        // 模拟任务数据
+        const mockTasks = [
+            { id: '1', name: 'Python代码缺陷研判', status: 'running', active: false },
+            { id: '2', name: 'Java安全缺陷评估', status: 'running', active: false },
+            { id: '3', name: 'PHP代码风险分析', status: 'completed', active: false },
+            { id: '4', name: 'Node.js安全缺陷研判', status: 'completed', active: false },
+            { id: '5', name: 'Go语言代码评估', status: 'completed', active: false },
+            { id: '6', name: 'C++安全缺陷分析', status: 'completed', active: false },
+            { id: '7', name: 'React组件安全评估', status: 'completed', active: false },
+            { id: '8', name: 'Spring Boot缺陷研判', status: 'completed', active: false },
+            { id: '9', name: 'Django安全风险分析', status: 'completed', active: false },
+            { id: '10', name: 'Flask代码缺陷评估', status: 'completed', active: false }
+        ];
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化文件上传弹出层
+            initFileUploadPopover();
+            
+            // 为静态任务项绑定点击事件，添加选中状态
+            var staticTaskItems = document.querySelectorAll('.recent-task-item');
+            staticTaskItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 移除所有任务项的 active 状态
+                    var allItems = document.querySelectorAll('.recent-task-item');
+                    allItems.forEach(function(taskItem) {
+                        taskItem.classList.remove('active');
+                    });
+                    
+                    // 为当前点击的任务项添加 active 状态
+                    item.classList.add('active');
+                    
+                    // 获取任务名称
+                    var taskNameElement = item.querySelector('.task-name');
+                    if (!taskNameElement) return;
+                    var taskNameText = taskNameElement.textContent.trim();
+                    
+                    // 查找对应的任务数据
+                    var taskData = mockTasks.find(function(task) {
+                        return task.name === taskNameText;
+                    });
+                    
+                    if (taskData) {
+                        // 调用 onTaskClick 回调
+                        var sidebarInstance = window.agentSidebarInstance;
+                        if (sidebarInstance && sidebarInstance.onTaskClick) {
+                            sidebarInstance.onTaskClick(taskData.id, taskData);
+                        }
+                    }
+                });
+            });
+            
+            // 初始化侧导航组件
+            initAgentSidebar({
+                tasks: mockTasks,
+                maxTasks: 10,
+                onNewTask: function() {
+                    console.log('创建新任务');
+                    // 点击新任务按钮时，显示空状态页面
+                    var chatArea = document.querySelector('.agent-main-content');
+                    if (!chatArea) return;
+
+                    // 检查是否存在空状态容器
+                    var emptyStateContainer = document.querySelector('.empty-state-container');
+                    var taskContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+
+                    // 如果已有空状态容器，直接显示
+                    if (emptyStateContainer) {
+                        emptyStateContainer.style.display = 'flex';
+                        if (taskContent) taskContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+                        return;
+                    }
+
+                    // 否则重新创建空状态页面
+                    chatArea.innerHTML = '<div class="empty-state-container">' +
+                        '<div class="empty-agent-name">' +
+                            '<span class="agent-name-text">缺陷研判</span>' +
+                        '</div>' +
+                        '<div class="empty-state-guide">' +
+                            '<p class="empty-state-guide-text">开始给智能体分配任务</p>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="empty">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" id="chatInput" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                },
+                onTaskClick: function(taskId, taskData) {
+                    console.log('[DEBUG] 点击任务:', taskId, taskData);
+
+                    // 添加选中状态效果
+                    // 移除所有任务项的 active 状态
+                    var allTaskItems = document.querySelectorAll('.recent-task-item');
+                    allTaskItems.forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+
+                    // 为当前点击的任务项添加 active 状态
+                    // 根据任务名称找到对应的任务项
+                    if (taskData && taskData.name) {
+                        allTaskItems.forEach(function(item) {
+                            var taskNameElement = item.querySelector('.task-name');
+                            if (taskNameElement && taskNameElement.textContent.trim() === taskData.name) {
+                                item.classList.add('active');
+                            }
+                        });
+                    }
+
+                    try {
+                        var chatArea = document.querySelector('.agent-main-content');
+                        if (!chatArea) {
+                            console.error('[DEBUG] 未找到chatArea');
+                            return;
+                        }
+
+                        console.log('[DEBUG] 找到chatArea');
+
+                        // 清空chatArea内容，重新创建任务详情
+                        var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+                        // 清空chatArea并重新创建任务详情
+                        chatArea.innerHTML = '';
+
+                        var taskContent = document.createElement('div');
+                        taskContent.className = 'task-detail-content';
+
+                        taskContent.innerHTML = '<div class="chat-header">' +
+                            '<div class="chat-title">' + taskName + '</div>' +
+                            '<div class="chat-time">刚刚</div>' +
+                        '</div>' +
+                        '<div class="chat-messages">' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">请帮我分析这段代码是否存在安全缺陷，并评估风险等级。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">你好！我将协助你进行代码安全缺陷研判。请提供需要分析的代码片段，我会进行全面的安全评估和风险等级判断。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">如何判断缺陷的风险等级？</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">我会从以下几个方面评估风险等级：<br>1. 缺陷的可利用性和影响范围<br>2. 攻击难度和所需条件<br>3. 业务影响和数据安全风险<br>4. 修复优先级和紧急程度</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+
+                        chatArea.appendChild(taskContent);
+                        taskContent.style.display = 'flex';
+
+                        console.log('[DEBUG] 任务详情已创建并显示');
+
+                        // 滚动到底部
+                        setTimeout(function() {
+                            var chatMessages = taskContent.querySelector('.chat-messages');
+                            if (chatMessages) {
+                                chatMessages.scrollTop = chatMessages.scrollHeight;
+                            }
+                        }, 100);
+                    } catch (error) {
+                        console.error('[DEBUG] 错误:', error);
+                    }
+                },
+                onViewAll: function() {
+                    console.log('查看全部任务');
+                    showAllTasks();
+                }
+            });
+
+            // 初始化聊天输入框组件
+            initChatInput({
+                onSend: function(message) {
+                    console.log('发送消息:', message);
+                    // 模拟发送，实际应该调用API
+                }
+            });
+        });
+
+        // 显示全部任务列表
+        function showAllTasks() {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 生成任务列表HTML
+            var tasksHtml = '';
+            for (var i = 0; i < mockTasks.length; i++) {
+                var task = mockTasks[i];
+                var statusIcon = task.status === 'running' ? '⏳' :
+                                task.status === 'completed' ? '✅' : '❌';
+                var statusClass = task.status;
+
+                tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
+                    '<div class="task-record-left">' +
+                        '<div class="task-record-header">' +
+                            '<div class="task-record-status">' +
+                                '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
+                            '</div>' +
+                            '<div class="task-record-name">' + task.name + '</div>' +
+                        '</div>' +
+                        '<div class="task-record-statistics">' +
+                            '<span class="statistics-label">消息数</span>' +
+                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="task-record-right">' +
+                        '<div class="task-record-time">2025-12-19 14:30</div>' +
+                        '<div class="task-record-actions">' +
+                            '<button class="task-action-btn">查看</button>' +
+                            '<button class="task-action-btn">删除</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+            }
+
+            if (mockTasks.length === 0) {
+                tasksHtml = '<div class="tasks-empty">暂无任务记录</div>';
+            }
+
+            // 替换内容
+            chatArea.innerHTML = '<div class="tasks-list-container">' +
+                '<div class="tasks-list-header">' +
+                    '<h2 class="tasks-list-title">全部任务记录</h2>' +
+                '</div>' +
+                '<div class="tasks-list-content">' +
+                    tasksHtml +
+                '</div>' +
+            '</div>';
+
+            // 绑定任务卡片点击事件
+            var taskCards = chatArea.querySelectorAll('.task-record-card');
+            for (var i = 0; i < taskCards.length; i++) {
+                taskCards[i].addEventListener('click', function(e) {
+                    // 如果点击的是按钮，不触发卡片点击
+                    if (e.target.classList.contains('task-action-btn')) {
+                        e.stopPropagation();
+                        var btnText = e.target.textContent;
+                        var taskId = this.getAttribute('data-task-id');
+
+                        if (btnText === '查看') {
+                            // 查找对应的任务并显示详情
+                            var selectedTask = null;
+                            for (var j = 0; j < mockTasks.length; j++) {
+                                if (mockTasks[j].id === taskId) {
+                                    selectedTask = mockTasks[j];
+                                    break;
+                                }
+                            }
+
+                            if (selectedTask) {
+                                // 调用现有的任务点击回调
+                                var sidebarInstance = window.agentSidebarInstance;
+                                if (sidebarInstance && sidebarInstance.setActiveTask) {
+                                    sidebarInstance.setActiveTask(taskId);
+                                }
+
+                                // 显示任务详情（复用之前的代码）
+                                showTaskDetailById(taskId, selectedTask);
+                            }
+                        } else if (btnText === '删除') {
+                            if (confirm('确定要删除此任务吗？')) {
+                                console.log('删除任务:', taskId);
+                            }
+                        }
+                        return;
+                    }
+
+                    // 点击卡片其他区域，显示任务详情
+                    var taskId = this.getAttribute('data-task-id');
+                    var selectedTask = null;
+                    for (var j = 0; j < mockTasks.length; j++) {
+                        if (mockTasks[j].id === taskId) {
+                            selectedTask = mockTasks[j];
+                            break;
+                        }
+                    }
+
+                    if (selectedTask) {
+                        showTaskDetailById(taskId, selectedTask);
+                    }
+                });
+            }
+        }
+
+        // 根据任务ID显示任务详情
+        function showTaskDetailById(taskId, taskData) {
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            var taskName = taskData ? taskData.name : '未知任务';
+
+            var taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">请帮我分析这段代码是否存在安全缺陷，并评估风险等级。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">你好！我将协助你进行代码安全缺陷研判。请提供需要分析的代码片段，我会进行全面的安全评估和风险等级判断。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">如何判断缺陷的风险等级？</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">我会从以下几个方面评估风险等级：<br>1. 缺陷的可利用性和影响范围<br>2. 攻击难度和所需条件<br>3. 业务影响和数据安全风险<br>4. 修复优先级和紧急程度</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">📎</button>' +
+                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.innerHTML = '';
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            // 滚动到底部
+            setTimeout(function() {
+                var chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+        }
+
+        // 快速提示填充功能
+        function fillPrompt(text) {
+            const input = document.getElementById('chatInput');
+            if (input) {
+                input.value = text;
+                input.focus();
+            }
+        }
+
+        // ==========================================
+        // 文件上传弹出层功能
+        // ==========================================
+        
+        // 文件大小限制（字节）
+        const MAX_SAST_REPORT_SIZE = 500 * 1024 * 1024; // 500MB
+        const MAX_CODE_FILE_SIZE = 1024 * 1024 * 1024; // 1GB
+        
+        // 文件上传弹出层初始化标志
+        let fileUploadPopoverInitialized = false;
+        
+        /**
+         * 初始化文件上传弹出层
+         */
+        function initFileUploadPopover() {
+            // 防止重复初始化
+            if (fileUploadPopoverInitialized) {
+                return;
+            }
+            fileUploadPopoverInitialized = true;
+            
+            // 为所有回形针按钮绑定事件（使用事件委托）
+            document.addEventListener('click', function(e) {
+                const triggerBtn = e.target.closest('.file-upload-trigger');
+                if (triggerBtn) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    toggleFileUploadPopover(triggerBtn);
+                    return;
+                }
+                
+                // 点击弹出层外部区域，关闭弹出层
+                const popover = document.querySelector('.file-upload-popover.show');
+                if (popover && !popover.contains(e.target)) {
+                    closeFileUploadPopover();
+                }
+            });
+        }
+        
+        /**
+         * 切换文件上传弹出层显示/隐藏
+         * @param {HTMLElement} triggerBtn - 触发按钮
+         */
+        function toggleFileUploadPopover(triggerBtn) {
+            const wrapper = triggerBtn.closest('.chat-input-wrapper');
+            if (!wrapper) return;
+            
+            // 确保父容器相对定位
+            if (wrapper.style.position !== 'relative') {
+                wrapper.style.position = 'relative';
+            }
+            
+            // 查找或创建弹出层（在wrapper中查找）
+            let popover = wrapper.querySelector('.file-upload-popover');
+            
+            if (!popover) {
+                popover = createFileUploadPopover();
+                wrapper.appendChild(popover);
+            }
+            
+            // 切换显示状态
+            const isShowing = popover.classList.contains('show');
+            if (isShowing) {
+                closeFileUploadPopover();
+            } else {
+                // 关闭其他弹出层
+                closeFileUploadPopover();
+                // 显示当前弹出层
+                popover.classList.add('show');
+            }
+        }
+        
+        /**
+         * 关闭文件上传弹出层
+         */
+        function closeFileUploadPopover() {
+            const popover = document.querySelector('.file-upload-popover.show');
+            if (popover) {
+                popover.classList.remove('show');
+            }
+        }
+        
+        /**
+         * 创建文件上传弹出层
+         * @returns {HTMLElement} 弹出层元素
+         */
+        function createFileUploadPopover() {
+            const popover = document.createElement('div');
+            popover.className = 'file-upload-popover';
+            
+            // 创建选项列表
+            const optionsList = document.createElement('div');
+            optionsList.className = 'file-upload-options';
+            
+            // 选项1: SAST任务报告
+            const option1 = document.createElement('button');
+            option1.type = 'button';
+            option1.className = 'file-upload-option';
+            option1.setAttribute('data-upload-type', 'sast-report');
+            option1.innerHTML = `
+                <div class="file-upload-option-title">sast任务报告</div>
+                <div class="file-upload-option-subtitle">支持单个docx、xlsx格式缺陷报告上传，大小不超过500M</div>
+            `;
+            option1.addEventListener('click', function(e) {
+                e.stopPropagation();
+                handleFileUploadClick('sast-report');
+            });
+            
+            // 选项2: 工程代码文件
+            const option2 = document.createElement('button');
+            option2.type = 'button';
+            option2.className = 'file-upload-option';
+            option2.setAttribute('data-upload-type', 'code-file');
+            option2.innerHTML = `
+                <div class="file-upload-option-title">工程代码文件</div>
+                <div class="file-upload-option-subtitle">支持单个zip、tar.gz 格式的工程代码文件上传，大小不超过1G</div>
+            `;
+            option2.addEventListener('click', function(e) {
+                e.stopPropagation();
+                handleFileUploadClick('code-file');
+            });
+            
+            optionsList.appendChild(option1);
+            optionsList.appendChild(option2);
+            popover.appendChild(optionsList);
+            
+            return popover;
+        }
+        
+        /**
+         * 处理文件上传选项点击
+         * @param {string} uploadType - 上传类型：'sast-report' 或 'code-file'
+         */
+        function handleFileUploadClick(uploadType) {
+            // 关闭弹出层
+            closeFileUploadPopover();
+            
+            // 创建文件输入框
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.className = 'file-upload-input';
+            
+            if (uploadType === 'sast-report') {
+                // SAST任务报告：docx, xlsx
+                input.accept = '.docx,.xlsx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+                input.onchange = function(e) {
+                    handleFileSelect(e.target.files[0], uploadType);
+                };
+            } else if (uploadType === 'code-file') {
+                // 工程代码文件：zip, tar.gz
+                // 注意：浏览器可能无法识别 .tar.gz 双扩展名，所以同时包含 .gz
+                // 但最终会在 handleFileSelect 中进行更严格的验证
+                input.accept = '.zip,.gz,application/zip,application/x-gzip,application/gzip';
+                input.onchange = function(e) {
+                    handleFileSelect(e.target.files[0], uploadType);
+                };
+            }
+            
+            // 触发文件选择
+            input.click();
+        }
+        
+        /**
+         * 处理文件选择
+         * @param {File} file - 选择的文件
+         * @param {string} uploadType - 上传类型
+         */
+        function handleFileSelect(file, uploadType) {
+            if (!file) return;
+            
+            let isValidFormat = false;
+            let maxSize = 0;
+            let formatErrorMsg = '';
+            let sizeErrorMsg = '';
+            
+            if (uploadType === 'sast-report') {
+                // 验证格式：docx, xlsx
+                const fileName = file.name.toLowerCase();
+                isValidFormat = fileName.endsWith('.docx') || fileName.endsWith('.xlsx');
+                maxSize = MAX_SAST_REPORT_SIZE;
+                formatErrorMsg = '只支持 .docx 和 .xlsx 格式的文件';
+                sizeErrorMsg = '文件大小不能超过 500M';
+            } else if (uploadType === 'code-file') {
+                // 验证格式：zip, tar.gz
+                const fileName = file.name.toLowerCase();
+                // 注意：必须先检查 .tar.gz（较长的后缀），再检查 .zip
+                isValidFormat = fileName.endsWith('.tar.gz') || fileName.endsWith('.zip');
+                maxSize = MAX_CODE_FILE_SIZE;
+                formatErrorMsg = '只支持 .zip 和 .tar.gz 格式的文件';
+                sizeErrorMsg = '文件大小不能超过 1G';
+            }
+            
+            // 验证文件格式
+            if (!isValidFormat) {
+                alert(formatErrorMsg);
+                return;
+            }
+            
+            // 验证文件大小
+            if (file.size > maxSize) {
+                alert(sizeErrorMsg);
+                return;
+            }
+            
+            // 文件验证通过，这里可以处理文件上传逻辑
+            console.log('文件选择成功:', {
+                name: file.name,
+                size: file.size,
+                type: file.type,
+                uploadType: uploadType
+            });
+            
+            // TODO: 实际的文件上传逻辑
+            // 例如：调用上传API、显示上传进度等
+            // uploadFile(file, uploadType);
+            
+            // 可以在这里显示一个成功提示
+            // 或者将文件信息添加到输入框中
+            // 或者显示文件信息预览等
+        }
+        
+    </script>
+</body>
+</html>
+
