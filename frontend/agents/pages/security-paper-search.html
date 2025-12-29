@@ -149,6 +149,788 @@
                 font-size: 12px;
             }
         }
+
+        /* ==========================================
+           论文检索任务双模块布局样式
+           ========================================== */
+        
+        /* 双模块容器 */
+        .paper-task-container {
+            display: flex;
+            flex-direction: row;
+            gap: 16px;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* 第一个模块：论文检索和展示（左侧） */
+        .paper-search-module {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        /* 筛选器区域 */
+        .paper-filters-section {
+            flex-shrink: 0;
+            padding: 0 16px 16px 16px;
+            margin-bottom: 0;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            flex-wrap: nowrap;
+            transition: box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        /* 滚动时添加底部阴影 */
+        .paper-filters-section.scrolled {
+            box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-group-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-gray-9);
+            display: inline-flex;
+            align-items: center;
+            white-space: nowrap;
+            margin: 0;
+        }
+
+        /* 复选框组 */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--clouditera-brand-primary);
+        }
+
+        .checkbox-item label {
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            margin: 0;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .checkbox-item:hover label {
+            color: var(--clouditera-brand-primary);
+        }
+
+        .checkbox-item:hover {
+            background: var(--clouditera-palette-blue-0);
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
+        }
+
+        /* 下拉+复选框组合 */
+        .dropdown-checkbox-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-checkbox-trigger {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 140px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+
+        .dropdown-checkbox-trigger:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .dropdown-checkbox-trigger:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .dropdown-checkbox-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 4px;
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            padding: 8px;
+            min-width: 160px;
+            z-index: 1000;
+            display: none;
+        }
+
+        .dropdown-checkbox-menu.show {
+            display: block;
+        }
+
+        .dropdown-checkbox-menu .checkbox-item {
+            padding: 6px 8px;
+            border-radius: 4px;
+            margin: 0;
+        }
+
+        .dropdown-checkbox-menu .checkbox-item:hover {
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        /* 选中标签展示样式 */
+        .dropdown-checkbox-trigger-text {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-checkbox-selected-tags {
+            display: none;
+            flex-wrap: nowrap;
+            gap: 4px;
+            flex: 1;
+            min-width: 0;
+            align-items: center;
+            max-width: calc(100% - 24px);
+            overflow: visible;
+        }
+
+        .dropdown-checkbox-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            background: var(--clouditera-palette-blue-1);
+            color: var(--clouditera-brand-primary);
+            border: 1px solid var(--clouditera-palette-blue-2);
+            border-radius: 4px;
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        /* 数量标签样式 - 确保完整显示 */
+        .dropdown-checkbox-tag-count {
+            max-width: none;
+            overflow: visible;
+            flex-shrink: 0;
+        }
+
+        .dropdown-checkbox-tag-count > span {
+            overflow: visible;
+            text-overflow: clip;
+            white-space: nowrap;
+        }
+
+        .dropdown-checkbox-tag:hover {
+            background: var(--clouditera-palette-blue-2);
+            border-color: var(--clouditera-brand-primary);
+        }
+
+        .dropdown-checkbox-tag > span:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .dropdown-checkbox-tag-close {
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            padding: 0;
+            margin-left: 2px;
+            color: var(--clouditera-brand-primary);
+            transition: color 0.2s, transform 0.2s;
+            flex-shrink: 0;
+            width: 14px;
+            height: 14px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 2px;
+        }
+
+        .dropdown-checkbox-tag-close:hover {
+            color: var(--clouditera-brand-primary-active);
+            background: var(--clouditera-palette-blue-3);
+            transform: scale(1.1);
+        }
+
+        .dropdown-checkbox-trigger.has-selected .dropdown-checkbox-trigger-text {
+            display: none;
+        }
+
+        .dropdown-checkbox-trigger.has-selected .dropdown-checkbox-selected-tags {
+            display: flex;
+        }
+
+        .dropdown-checkbox-trigger:not(.has-selected) .dropdown-checkbox-selected-tags {
+            display: none;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .dropdown-checkbox-trigger {
+                min-width: 120px;
+                padding: 6px 10px;
+            }
+
+            .dropdown-checkbox-tag {
+                max-width: 100px;
+                font-size: 11px;
+                padding: 2px 6px;
+            }
+
+            .dropdown-checkbox-selected-tags {
+                max-width: calc(100% - 20px);
+            }
+        }
+
+        /* 嵌套复选框样式 */
+        .checkbox-item-parent {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 4px;
+        }
+
+        .checkbox-item-parent > .checkbox-item {
+            position: relative;
+            margin: 0;
+        }
+
+        .checkbox-item-expand-icon {
+            font-size: 10px;
+            color: var(--clouditera-neutral-gray-6);
+            margin-left: 4px;
+            transition: transform 0.2s;
+            display: inline-block;
+            width: 12px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .checkbox-item-parent.expanded > .checkbox-item > .checkbox-item-expand-icon {
+            transform: rotate(90deg);
+        }
+
+        .checkbox-sub-group {
+            display: none;
+            margin-left: 24px;
+            margin-top: 8px;
+            padding-left: 12px;
+            border-left: 2px solid var(--clouditera-neutral-border-secondary);
+            padding-top: 4px;
+            padding-bottom: 4px;
+            animation: fadeIn 0.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checkbox-item-parent.expanded > .checkbox-sub-group {
+            display: block;
+        }
+
+        .checkbox-sub-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 4px 8px;
+            margin: 2px 0;
+            border-radius: 4px;
+        }
+
+        .checkbox-sub-item:hover {
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .checkbox-sub-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            accent-color: var(--clouditera-brand-primary);
+            flex-shrink: 0;
+        }
+
+        .checkbox-sub-item label {
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            margin: 0;
+            user-select: none;
+            transition: color 0.2s;
+        }
+
+        .checkbox-sub-item:hover label {
+            color: var(--clouditera-brand-primary);
+        }
+
+        /* 下拉菜单中的复选框项样式调整 */
+        .dropdown-checkbox-menu .checkbox-item-parent {
+            padding: 0;
+        }
+
+        .dropdown-checkbox-menu .checkbox-item-parent > .checkbox-item {
+            padding: 6px 8px;
+        }
+
+        /* 排序和时间选择器行 */
+        .sort-time-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .sort-select,
+        .time-select {
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 120px;
+            box-sizing: border-box;
+        }
+
+        /* 排序选择框自定义下拉图标 */
+        .sort-select {
+            padding-right: 36px;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 12px) center;
+            background-size: 12px 12px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+
+        .time-select {
+            min-width: 140px;
+        }
+
+        .sort-select:hover,
+        .time-select:hover {
+            border-color: var(--clouditera-brand-primary);
+        }
+
+        .sort-select:focus,
+        .time-select:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        /* 时间选择器下拉菜单样式 */
+        .time-picker-wrapper {
+            position: relative;
+            min-width: 140px;
+        }
+
+        .time-picker-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+            box-sizing: border-box;
+            min-width: 140px;
+        }
+
+        .time-picker-trigger:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+        }
+
+        .time-picker-trigger:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .time-picker-text {
+            flex: 1;
+            text-align: left;
+        }
+
+        .time-picker-dropdown {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            min-width: 320px;
+            z-index: 1000;
+            display: none;
+            padding: 8px 0;
+        }
+
+        .time-picker-dropdown.show {
+            display: block;
+        }
+
+        .time-option {
+            padding: 8px 16px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .time-option:hover {
+            background-color: var(--clouditera-neutral-background-primary);
+        }
+
+        .time-option-active {
+            color: var(--clouditera-brand-primary);
+            background-color: rgba(37, 99, 235, 0.1);
+            font-weight: 500;
+        }
+
+        .time-option-active:hover {
+            background-color: rgba(37, 99, 235, 0.15);
+        }
+
+        .time-picker-divider {
+            height: 1px;
+            background: var(--clouditera-neutral-border-primary);
+            margin: 8px 0;
+        }
+
+        .time-picker-custom-label {
+            padding: 8px 16px 4px 16px;
+            font-size: 12px;
+            color: var(--clouditera-neutral-gray-6);
+        }
+
+        .time-picker-range-input {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .time-picker-icon {
+            font-size: 14px;
+            color: var(--clouditera-neutral-gray-6);
+            flex-shrink: 0;
+        }
+
+        .year-select {
+            flex: 1;
+            min-width: 90px;
+            max-width: 120px;
+            padding: 8px 12px;
+            padding-right: 32px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 4px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            background: var(--clouditera-neutral-background-white);
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 12 12' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2.5 4.5L6 8L9.5 4.5' stroke='%238c8c8c' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: calc(100% - 12px) center;
+            background-size: 12px 12px;
+            box-sizing: border-box;
+        }
+
+        .year-select:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+        }
+
+        .year-select:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        .year-select option {
+            padding: 8px 12px;
+            color: var(--clouditera-neutral-gray-7);
+        }
+
+        .year-separator {
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-6);
+            flex-shrink: 0;
+            padding: 0 4px;
+        }
+
+        /* 论文卡片列表 */
+        .paper-cards-section {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: visible;
+            min-height: 0;
+            padding: 16px;
+        }
+
+        .paper-card {
+            background: var(--clouditera-neutral-background-white);
+            border: none;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .paper-card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .paper-card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-gray-9);
+            margin-bottom: 8px;
+            line-height: 1.5;
+        }
+
+        .paper-card-subtitle {
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-6);
+            margin-bottom: 12px;
+        }
+
+        .paper-card-content {
+            font-size: 14px;
+            color: var(--clouditera-neutral-gray-7);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        /* AI摘要标签样式 - 蓝紫渐变，不加粗 */
+        .paper-card-content .ai-summary-label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 400;
+        }
+
+        .paper-card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 12px;
+            border-top: 1px solid var(--clouditera-neutral-border-primary);
+        }
+
+        .paper-card-meta {
+            display: flex;
+            gap: 16px;
+            font-size: 12px;
+            color: var(--clouditera-neutral-gray-6);
+        }
+
+        .paper-card-link {
+            font-size: 12px;
+            color: var(--clouditera-neutral-gray-6);
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .paper-card-link:hover {
+            color: var(--clouditera-neutral-gray-7);
+            text-decoration: underline;
+        }
+
+        /* 第二个模块：对话框（右侧） */
+        .paper-chat-module {
+            flex-shrink: 0;
+            width: 400px;
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .paper-chat-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+            flex-shrink: 0;
+        }
+
+        .paper-chat-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-gray-9);
+        }
+
+        .paper-chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            min-height: 0;
+        }
+
+        .paper-chat-messages .message {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .paper-chat-messages .message:last-child {
+            margin-bottom: 0;
+        }
+
+        .paper-chat-messages .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+            background: var(--clouditera-neutral-background-primary);
+        }
+
+        .paper-chat-messages .message-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .paper-chat-messages .message-time {
+            font-size: 12px;
+            color: var(--clouditera-neutral-gray-6);
+            margin-bottom: 4px;
+        }
+
+        .paper-chat-messages .message-text {
+            font-size: 14px;
+            color: var(--clouditera-neutral-gray-9);
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+
+        .paper-chat-messages .message-user .message-avatar {
+            background: var(--clouditera-palette-blue-1);
+        }
+
+        .paper-chat-messages .message-ai .message-avatar {
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .paper-chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid var(--clouditera-neutral-border-primary);
+            flex-shrink: 0;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 992px) {
+            .paper-task-container {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .paper-search-module {
+                padding: 12px;
+            }
+
+            .paper-chat-module {
+                width: 100%;
+                height: 400px;
+            }
+
+            .paper-filters-section {
+                flex-wrap: wrap;
+                gap: 16px;
+            }
+
+            .checkbox-group {
+                gap: 8px;
+            }
+
+            .sort-time-row {
+                gap: 12px;
+            }
+        }
     </style>
 </head>
 <body class="agent-detail-page">
@@ -290,7 +1072,7 @@
 
                         <!-- 近期任务列表 -->
                         <div class="recent-tasks-list">
-                            <a href="security-paper-search-detail.html" class="recent-task-item">
+                            <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
                                 <div class="task-name">可信高效任务</div>
                             </a>
@@ -405,10 +1187,840 @@
             { id: '7', name: 'Vue.js安全扫描', status: 'completed', active: false }
         ];
 
+        // 任务点击处理函数（统一处理逻辑）
+        function handleTaskClick(taskId, taskData) {
+            console.log('[DEBUG] 点击任务:', taskId, taskData);
+
+            // 添加选中状态效果
+            var allTaskItems = document.querySelectorAll('.recent-task-item');
+            allTaskItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+
+            // 为当前点击的任务项添加 active 状态
+            if (taskData && taskData.name) {
+                allTaskItems.forEach(function(item) {
+                    var taskNameElement = item.querySelector('.task-name');
+                    if (taskNameElement && taskNameElement.textContent.trim() === taskData.name) {
+                        item.classList.add('active');
+                    }
+                });
+            }
+
+            try {
+                var chatArea = document.querySelector('.agent-main-content');
+                if (!chatArea) {
+                    console.error('[DEBUG] 未找到chatArea');
+                    return;
+                }
+
+                // 清空chatArea内容，重新创建任务详情
+                var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+                chatArea.innerHTML = '';
+
+                // 判断是否是"可信高效任务"，如果是则显示双模块布局
+                if (taskName === '可信高效任务') {
+                    var taskContent = document.createElement('div');
+                    taskContent.className = 'paper-task-container';
+
+                    taskContent.innerHTML = 
+                        // 第一个模块：论文检索和展示（左侧）
+                        '<div class="paper-search-module">' +
+                            '<div class="paper-filters-section">' +
+                                // 论文类型下拉+复选框
+                                '<div class="filter-group">' +
+                                    '<label class="filter-group-label">论文类型</label>' +
+                                    '<div class="dropdown-checkbox-wrapper">' +
+                                        '<div class="dropdown-checkbox-trigger" id="paperTypeDropdown">' +
+                                            '<span class="dropdown-checkbox-trigger-text">选择论文类型</span>' +
+                                            '<div class="dropdown-checkbox-selected-tags" id="paperTypeSelectedTags"></div>' +
+                                            '<span class="filter-arrow">▼</span>' +
+                                        '</div>' +
+                                        '<div class="dropdown-checkbox-menu" id="paperTypeMenu">' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="type-review" value="review">' +
+                                                '<label for="type-review">综合分析</label>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="type-theory" value="theory">' +
+                                                '<label for="type-theory">理论研究</label>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="type-practice" value="practice">' +
+                                                '<label for="type-practice">应用实践</label>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="type-data" value="data">' +
+                                                '<label for="type-data">数据与基准</label>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                // 会议/期刊下拉+复选框
+                                '<div class="filter-group">' +
+                                    '<label class="filter-group-label">会议/期刊</label>' +
+                                    '<div class="dropdown-checkbox-wrapper">' +
+                                        '<div class="dropdown-checkbox-trigger" id="conferenceDropdown">' +
+                                            '<span class="dropdown-checkbox-trigger-text">选择会议/期刊</span>' +
+                                            '<div class="dropdown-checkbox-selected-tags" id="conferenceSelectedTags"></div>' +
+                                            '<span class="filter-arrow">▼</span>' +
+                                        '</div>' +
+                                        '<div class="dropdown-checkbox-menu" id="conferenceMenu">' +
+                                            '<div class="checkbox-item checkbox-item-parent" data-parent="ccfA">' +
+                                                '<div class="checkbox-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA" value="ccfA">' +
+                                                    '<label for="conf-ccfA">CCF A类</label>' +
+                                                    '<span class="checkbox-item-expand-icon">▶</span>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-group">' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-ndss" value="ndss">' +
+                                                        '<label for="conf-ccfA-ndss">NDSS</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-ccs" value="ccs">' +
+                                                        '<label for="conf-ccfA-ccs">CCS</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-sp" value="sp">' +
+                                                        '<label for="conf-ccfA-sp">SP</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-tse" value="tse">' +
+                                                        '<label for="conf-ccfA-tse">TSE</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-icse" value="icse">' +
+                                                        '<label for="conf-ccfA-icse">ICSE</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-aaai" value="aaai">' +
+                                                        '<label for="conf-ccfA-aaai">AAAI</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfA-tdsc" value="tdsc">' +
+                                                        '<label for="conf-ccfA-tdsc">TDSC</label>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item checkbox-item-parent" data-parent="ccfB">' +
+                                                '<div class="checkbox-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB" value="ccfB">' +
+                                                    '<label for="conf-ccfB">CCF B类</label>' +
+                                                    '<span class="checkbox-item-expand-icon">▶</span>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-group">' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-raid" value="raid">' +
+                                                        '<label for="conf-ccfB-raid">RAID</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-dsn" value="dsn">' +
+                                                        '<label for="conf-ccfB-dsn">DSN</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-esorics" value="esorics">' +
+                                                        '<label for="conf-ccfB-esorics">ESORICS</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-ccs" value="ccs-b">' +
+                                                        '<label for="conf-ccfB-ccs">CCS (B类)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-ndss" value="ndss-b">' +
+                                                        '<label for="conf-ccfB-ndss">NDSS (B类)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfB-icse" value="icse-b">' +
+                                                        '<label for="conf-ccfB-icse">ICSE (B类)</label>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item checkbox-item-parent" data-parent="ccfC">' +
+                                                '<div class="checkbox-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC" value="ccfC">' +
+                                                    '<label for="conf-ccfC">CCF C类</label>' +
+                                                    '<span class="checkbox-item-expand-icon">▶</span>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-group">' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-acsac" value="acsac">' +
+                                                        '<label for="conf-ccfC-acsac">ACSAC</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-dimva" value="dimva">' +
+                                                        '<label for="conf-ccfC-dimva">DIMVA</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-sac" value="sac">' +
+                                                        '<label for="conf-ccfC-sac">SAC</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-icics" value="icics">' +
+                                                        '<label for="conf-ccfC-icics">ICICS</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-icws" value="icws">' +
+                                                        '<label for="conf-ccfC-icws">ICWS</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-ccfC-icws2" value="icws2">' +
+                                                        '<label for="conf-ccfC-icws2">ICWS (其他)</label>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                            '<div class="checkbox-item checkbox-item-parent" data-parent="other">' +
+                                                '<div class="checkbox-item">' +
+                                                    '<input type="checkbox" id="conf-other" value="other">' +
+                                                    '<label for="conf-other">其他知名</label>' +
+                                                    '<span class="checkbox-item-expand-icon">▶</span>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-group">' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-usenix" value="usenix">' +
+                                                        '<label for="conf-other-usenix">USENIX Security</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-ndss2" value="ndss2">' +
+                                                        '<label for="conf-other-ndss2">NDSS (其他)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-ccs2" value="ccs2">' +
+                                                        '<label for="conf-other-ccs2">CCS (其他)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-sp2" value="sp2">' +
+                                                        '<label for="conf-other-sp2">SP (其他)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-icse2" value="icse2">' +
+                                                        '<label for="conf-other-icse2">ICSE (其他)</label>' +
+                                                    '</div>' +
+                                                    '<div class="checkbox-sub-item">' +
+                                                        '<input type="checkbox" id="conf-other-aaai2" value="aaai2">' +
+                                                        '<label for="conf-other-aaai2">AAAI (其他)</label>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                // 排序选择器
+                                '<div class="filter-group">' +
+                                    '<label class="filter-group-label">排序</label>' +
+                                    '<select class="sort-select" id="sortSelect">' +
+                                        '<option value="relevant">最相关</option>' +
+                                        '<option value="latest">最新</option>' +
+                                    '</select>' +
+                                '</div>' +
+                                // 时间选择器
+                                '<div class="filter-group">' +
+                                    '<label class="filter-group-label">时间</label>' +
+                                    '<div class="time-picker-wrapper">' +
+                                        '<div class="time-picker-trigger" id="timePickerTrigger">' +
+                                            '<span class="time-picker-text" id="timePickerText">时间不限</span>' +
+                                            '<span class="filter-arrow">▼</span>' +
+                                        '</div>' +
+                                        '<div class="time-picker-dropdown" id="timePickerDropdown">' +
+                                            '<div class="time-option time-option-active" data-value="unlimited">时间不限</div>' +
+                                            '<div class="time-option" data-value="2025">2025年以来</div>' +
+                                            '<div class="time-option" data-value="2023">2023年以来</div>' +
+                                            '<div class="time-option" data-value="2021">2021年以来</div>' +
+                                            '<div class="time-picker-divider"></div>' +
+                                            '<div class="time-picker-custom-label">自定义时间</div>' +
+                                            '<div class="time-picker-range-input">' +
+                                                '<span class="time-picker-icon">📅</span>' +
+                                                '<select class="year-select" id="yearStartSelect">' +
+                                                    '<option value="">开始年份</option>' +
+                                                '</select>' +
+                                                '<span class="year-separator">-</span>' +
+                                                '<select class="year-select" id="yearEndSelect">' +
+                                                    '<option value="">结束年份</option>' +
+                                                '</select>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            // 论文卡片列表
+                            '<div class="paper-cards-section">' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
+                                    '<div class="paper-card-subtitle">Haixia Han, Jiaqing Liang, Jie Shi, Qianyu He, Yanghua Xiao</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2024-03-15</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">基于硬件可信根的可信计算平台构建方法</div>' +
+                                    '<div class="paper-card-subtitle">Wei Zhang, Li Chen, Ming Wang, Xiaoyu Liu, Jun Li</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2024-02-28</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信AI模型训练与推理的安全保障机制</div>' +
+                                    '<div class="paper-card-subtitle">Yan Liu, Hao Zhang, Qiang Wang, Mei Chen, Lei Wu</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2024-02-10</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信网络架构下的零信任安全通信协议</div>' +
+                                    '<div class="paper-card-subtitle">Tao Yang, Fei Liu, Bin Zhao, Ying Zhang, Gang Wang</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2024-01-25</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信存储系统中的数据完整性验证方法</div>' +
+                                    '<div class="paper-card-subtitle">Xin Wang, Lei Zhang, Hui Li, Peng Chen, Wei Liu</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2024-01-12</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信软件供应链的安全评估与验证框架</div>' +
+                                    '<div class="paper-card-subtitle">Jing Li, Ming Zhao, Yan Wang, Fei Liu, Tao Chen</div>' +
+                                    '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。</div>' +
+                                    '<div class="paper-card-footer">' +
+                                        '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
+                                        '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        // 第二个模块：对话框（右侧）
+                        '<div class="paper-chat-module">' +
+                            '<div class="paper-chat-header">' +
+                                '<div class="paper-chat-title">对话</div>' +
+                            '</div>' +
+                            '<div class="paper-chat-messages">' +
+                                '<div class="message message-user">' +
+                                    '<div class="message-avatar">👤</div>' +
+                                    '<div class="message-content">' +
+                                        '<div class="message-time">刚刚</div>' +
+                                        '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="message message-ai">' +
+                                    '<div class="message-avatar">🤖</div>' +
+                                    '<div class="message-content">' +
+                                        '<div class="message-time">刚刚</div>' +
+                                        '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-chat-input-area">' +
+                                '<div class="chat-input-container" data-container-mode="fixed">' +
+                                    '<div class="chat-input-wrapper">' +
+                                        '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
+                                        '<div class="chat-input-toolbar">' +
+                                            '<div class="chat-input-actions-right">' +
+                                                '<button class="btn btn-primary chat-send">' +
+                                                    '<span>发送</span>' +
+                                                '</button>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+
+                    chatArea.appendChild(taskContent);
+
+                    // 绑定滚动监听，为筛选器区域添加底部阴影
+                    var filtersSection = taskContent.querySelector('.paper-filters-section');
+                    var cardsSection = taskContent.querySelector('.paper-cards-section');
+                    
+                    if (filtersSection && cardsSection) {
+                        function updateFiltersShadow() {
+                            if (cardsSection.scrollTop > 0) {
+                                filtersSection.classList.add('scrolled');
+                            } else {
+                                filtersSection.classList.remove('scrolled');
+                            }
+                        }
+                        
+                        cardsSection.addEventListener('scroll', updateFiltersShadow);
+                        // 初始化检查
+                        updateFiltersShadow();
+                    }
+
+                    // 绑定下拉菜单交互
+                    var dropdownTrigger = taskContent.querySelector('#conferenceDropdown');
+                    var dropdownMenu = taskContent.querySelector('#conferenceMenu');
+                    
+                    if (dropdownTrigger && dropdownMenu) {
+                        dropdownTrigger.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            dropdownMenu.classList.toggle('show');
+                        });
+
+                        // 点击外部关闭下拉菜单
+                        document.addEventListener('click', function(e) {
+                            if (!dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                                dropdownMenu.classList.remove('show');
+                            }
+                        });
+
+                        // 绑定嵌套复选框展开/收起
+                        var parentCheckboxes = dropdownMenu.querySelectorAll('.checkbox-item-parent');
+                        parentCheckboxes.forEach(function(parent) {
+                            var expandIcon = parent.querySelector('.checkbox-item-expand-icon');
+                            
+                            // 点击展开图标时切换展开状态
+                            if (expandIcon) {
+                                expandIcon.addEventListener('click', function(e) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    parent.classList.toggle('expanded');
+                                });
+                            }
+                        });
+
+                        // 更新选中状态展示的函数
+                        function updateSelectedDisplay() {
+                            var selectedTags = [];
+                            var allCheckboxes = dropdownMenu.querySelectorAll('input[type="checkbox"]');
+                            
+                            allCheckboxes.forEach(function(checkbox) {
+                                if (checkbox.checked) {
+                                    var label = dropdownMenu.querySelector('label[for="' + checkbox.id + '"]');
+                                    if (label) {
+                                        var labelText = label.textContent.trim();
+                                        selectedTags.push({
+                                            value: checkbox.value,
+                                            text: labelText,
+                                            id: checkbox.id
+                                        });
+                                    }
+                                }
+                            });
+
+                            var tagsContainer = taskContent.querySelector('#conferenceSelectedTags');
+                            if (tagsContainer) {
+                                tagsContainer.innerHTML = '';
+                                
+                                if (selectedTags.length > 0) {
+                                    dropdownTrigger.classList.add('has-selected');
+                                    
+                                    // 显示第一个标签
+                                    var firstTag = selectedTags[0];
+                                    var firstTagElement = document.createElement('span');
+                                    firstTagElement.className = 'dropdown-checkbox-tag';
+                                    firstTagElement.innerHTML = '<span>' + firstTag.text + '</span>' +
+                                        '<span class="dropdown-checkbox-tag-close" data-checkbox-id="' + firstTag.id + '">×</span>';
+                                    tagsContainer.appendChild(firstTagElement);
+                                    
+                                    // 如果选中多个，显示第二个标签（数量标签）
+                                    if (selectedTags.length >= 2) {
+                                        var remainingCount = selectedTags.length - 1;
+                                        var countTagElement = document.createElement('span');
+                                        countTagElement.className = 'dropdown-checkbox-tag dropdown-checkbox-tag-count';
+                                        countTagElement.innerHTML = '<span>+' + remainingCount + '</span>';
+                                        tagsContainer.appendChild(countTagElement);
+                                    }
+
+                                    // 绑定标签删除功能
+                                    var closeButtons = tagsContainer.querySelectorAll('.dropdown-checkbox-tag-close');
+                                    closeButtons.forEach(function(btn) {
+                                        btn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            var checkboxId = this.getAttribute('data-checkbox-id');
+                                            var checkbox = dropdownMenu.querySelector('#' + checkboxId);
+                                            if (checkbox) {
+                                                checkbox.checked = false;
+                                                updateSelectedDisplay();
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    dropdownTrigger.classList.remove('has-selected');
+                                }
+                            }
+                        }
+
+                        // 监听所有复选框的变化
+                        var allCheckboxes = dropdownMenu.querySelectorAll('input[type="checkbox"]');
+                        allCheckboxes.forEach(function(checkbox) {
+                            checkbox.addEventListener('change', function() {
+                                updateSelectedDisplay();
+                            });
+                        });
+
+                        // 初始化显示
+                        updateSelectedDisplay();
+                    }
+
+                    // 绑定论文类型下拉菜单交互
+                    var paperTypeDropdownTrigger = taskContent.querySelector('#paperTypeDropdown');
+                    var paperTypeDropdownMenu = taskContent.querySelector('#paperTypeMenu');
+                    
+                    if (paperTypeDropdownTrigger && paperTypeDropdownMenu) {
+                        paperTypeDropdownTrigger.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            paperTypeDropdownMenu.classList.toggle('show');
+                        });
+
+                        // 点击外部关闭下拉菜单
+                        document.addEventListener('click', function(e) {
+                            if (!paperTypeDropdownTrigger.contains(e.target) && !paperTypeDropdownMenu.contains(e.target)) {
+                                paperTypeDropdownMenu.classList.remove('show');
+                            }
+                        });
+
+                        // 更新选中状态展示的函数
+                        function updatePaperTypeSelectedDisplay() {
+                            var selectedTags = [];
+                            var allCheckboxes = paperTypeDropdownMenu.querySelectorAll('input[type="checkbox"]');
+                            
+                            allCheckboxes.forEach(function(checkbox) {
+                                if (checkbox.checked) {
+                                    var label = paperTypeDropdownMenu.querySelector('label[for="' + checkbox.id + '"]');
+                                    if (label) {
+                                        var labelText = label.textContent.trim();
+                                        selectedTags.push({
+                                            value: checkbox.value,
+                                            text: labelText,
+                                            id: checkbox.id
+                                        });
+                                    }
+                                }
+                            });
+
+                            var tagsContainer = taskContent.querySelector('#paperTypeSelectedTags');
+                            if (tagsContainer) {
+                                tagsContainer.innerHTML = '';
+                                
+                                if (selectedTags.length > 0) {
+                                    paperTypeDropdownTrigger.classList.add('has-selected');
+                                    
+                                    // 显示第一个标签
+                                    var firstTag = selectedTags[0];
+                                    var firstTagElement = document.createElement('span');
+                                    firstTagElement.className = 'dropdown-checkbox-tag';
+                                    firstTagElement.innerHTML = '<span>' + firstTag.text + '</span>' +
+                                        '<span class="dropdown-checkbox-tag-close" data-checkbox-id="' + firstTag.id + '">×</span>';
+                                    tagsContainer.appendChild(firstTagElement);
+                                    
+                                    // 如果选中多个，显示第二个标签（数量标签）
+                                    if (selectedTags.length >= 2) {
+                                        var remainingCount = selectedTags.length - 1;
+                                        var countTagElement = document.createElement('span');
+                                        countTagElement.className = 'dropdown-checkbox-tag dropdown-checkbox-tag-count';
+                                        countTagElement.innerHTML = '<span>+' + remainingCount + '</span>';
+                                        tagsContainer.appendChild(countTagElement);
+                                    }
+
+                                    // 绑定标签删除功能
+                                    var closeButtons = tagsContainer.querySelectorAll('.dropdown-checkbox-tag-close');
+                                    closeButtons.forEach(function(btn) {
+                                        btn.addEventListener('click', function(e) {
+                                            e.preventDefault();
+                                            e.stopPropagation();
+                                            var checkboxId = this.getAttribute('data-checkbox-id');
+                                            var checkbox = paperTypeDropdownMenu.querySelector('#' + checkboxId);
+                                            if (checkbox) {
+                                                checkbox.checked = false;
+                                                updatePaperTypeSelectedDisplay();
+                                            }
+                                        });
+                                    });
+                                } else {
+                                    paperTypeDropdownTrigger.classList.remove('has-selected');
+                                }
+                            }
+                        }
+
+                        // 监听所有复选框的变化
+                        var allPaperTypeCheckboxes = paperTypeDropdownMenu.querySelectorAll('input[type="checkbox"]');
+                        allPaperTypeCheckboxes.forEach(function(checkbox) {
+                            checkbox.addEventListener('change', function() {
+                                updatePaperTypeSelectedDisplay();
+                            });
+                        });
+
+                        // 初始化显示
+                        updatePaperTypeSelectedDisplay();
+                    }
+
+                    // 绑定时间选择器交互
+                    var timePickerTrigger = taskContent.querySelector('#timePickerTrigger');
+                    var timePickerDropdown = taskContent.querySelector('#timePickerDropdown');
+                    var timePickerText = taskContent.querySelector('#timePickerText');
+                    var yearStartSelect = taskContent.querySelector('#yearStartSelect');
+                    var yearEndSelect = taskContent.querySelector('#yearEndSelect');
+                    
+                    // 初始化年份选择器选项
+                    function initYearSelects() {
+                        if (!yearStartSelect || !yearEndSelect) return;
+                        
+                        var currentYear = new Date().getFullYear();
+                        var startYear = 2000; // 起始年份
+                        var endYear = currentYear; // 结束年份（当前年份）
+                        
+                        // 清空现有选项（保留第一个占位符选项）
+                        yearStartSelect.innerHTML = '<option value="">开始年份</option>';
+                        yearEndSelect.innerHTML = '<option value="">结束年份</option>';
+                        
+                        // 填充年份选项（从当前年份到起始年份，倒序）
+                        for (var year = endYear; year >= startYear; year--) {
+                            var option1 = document.createElement('option');
+                            option1.value = year;
+                            option1.textContent = year + '年';
+                            yearStartSelect.appendChild(option1);
+                            
+                            var option2 = document.createElement('option');
+                            option2.value = year;
+                            option2.textContent = year + '年';
+                            yearEndSelect.appendChild(option2);
+                        }
+                    }
+                    
+                    // 初始化年份选择器
+                    initYearSelects();
+                    
+                    // 更新时间选择器显示文本
+                    function updateTimePickerText() {
+                        var startYear = yearStartSelect ? yearStartSelect.value : '';
+                        var endYear = yearEndSelect ? yearEndSelect.value : '';
+                        
+                        if (startYear && endYear) {
+                            timePickerText.textContent = startYear + '年 - ' + endYear + '年';
+                        } else if (startYear) {
+                            timePickerText.textContent = startYear + '年以来';
+                        } else if (endYear) {
+                            timePickerText.textContent = endYear + '年以前';
+                        } else {
+                            timePickerText.textContent = '自定义时间';
+                        }
+                    }
+                    
+                    // 验证年份范围
+                    function validateYearRange() {
+                        if (!yearStartSelect || !yearEndSelect) return;
+                        
+                        var startYear = parseInt(yearStartSelect.value);
+                        var endYear = parseInt(yearEndSelect.value);
+                        
+                        if (startYear && endYear && startYear > endYear) {
+                            // 如果开始年份晚于结束年份，交换它们
+                            var temp = startYear;
+                            yearStartSelect.value = endYear;
+                            yearEndSelect.value = temp;
+                        }
+                    }
+                    
+                    if (timePickerTrigger && timePickerDropdown) {
+                        // 点击触发器显示/隐藏下拉菜单
+                        timePickerTrigger.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            timePickerDropdown.classList.toggle('show');
+                        });
+
+                        // 点击外部关闭下拉菜单
+                        document.addEventListener('click', function(e) {
+                            if (!timePickerTrigger.contains(e.target) && !timePickerDropdown.contains(e.target)) {
+                                timePickerDropdown.classList.remove('show');
+                            }
+                        });
+
+                        // 处理时间选项点击
+                        var timeOptions = timePickerDropdown.querySelectorAll('.time-option');
+                        timeOptions.forEach(function(option) {
+                            option.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                
+                                // 移除所有选项的激活状态
+                                timeOptions.forEach(function(opt) {
+                                    opt.classList.remove('time-option-active');
+                                });
+                                
+                                // 添加当前选项的激活状态
+                                option.classList.add('time-option-active');
+                                
+                                // 更新显示文本
+                                var selectedText = option.textContent.trim();
+                                timePickerText.textContent = selectedText;
+                                
+                                // 如果选择的是预定义选项，清空自定义年份选择
+                                var value = option.getAttribute('data-value');
+                                if (value !== 'unlimited') {
+                                    if (yearStartSelect) yearStartSelect.value = '';
+                                    if (yearEndSelect) yearEndSelect.value = '';
+                                }
+                                
+                                // 关闭下拉菜单
+                                timePickerDropdown.classList.remove('show');
+                            });
+                        });
+
+                        // 处理开始年份选择
+                        if (yearStartSelect) {
+                            yearStartSelect.addEventListener('change', function(e) {
+                                e.stopPropagation();
+                                
+                                // 移除所有预定义选项的激活状态
+                                timeOptions.forEach(function(opt) {
+                                    opt.classList.remove('time-option-active');
+                                });
+                                
+                                validateYearRange();
+                                updateTimePickerText();
+                            });
+                            
+                            yearStartSelect.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                
+                                // 移除所有预定义选项的激活状态
+                                timeOptions.forEach(function(opt) {
+                                    opt.classList.remove('time-option-active');
+                                });
+                            });
+                        }
+                        
+                        // 处理结束年份选择
+                        if (yearEndSelect) {
+                            yearEndSelect.addEventListener('change', function(e) {
+                                e.stopPropagation();
+                                
+                                // 移除所有预定义选项的激活状态
+                                timeOptions.forEach(function(opt) {
+                                    opt.classList.remove('time-option-active');
+                                });
+                                
+                                validateYearRange();
+                                updateTimePickerText();
+                            });
+                            
+                            yearEndSelect.addEventListener('click', function(e) {
+                                e.stopPropagation();
+                                
+                                // 移除所有预定义选项的激活状态
+                                timeOptions.forEach(function(opt) {
+                                    opt.classList.remove('time-option-active');
+                                });
+                            });
+                        }
+                    }
+
+                    console.log('[DEBUG] 双模块布局已创建并显示');
+                } else {
+                    // 其他任务使用原来的布局
+                    var taskContent = document.createElement('div');
+                    taskContent.className = 'task-detail-content';
+
+                    taskContent.innerHTML = '<div class="chat-header">' +
+                        '<div class="chat-title">' + taskName + '</div>' +
+                        '<div class="chat-time">刚刚</div>' +
+                    '</div>' +
+                    '<div class="chat-messages">' +
+                        '<div class="message message-user">' +
+                            '<div class="message-avatar">👤</div>' +
+                            '<div class="message-content">' +
+                                '<div class="message-time">刚刚</div>' +
+                                '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="message message-ai">' +
+                            '<div class="message-avatar">🤖</div>' +
+                            '<div class="message-content">' +
+                                '<div class="message-time">刚刚</div>' +
+                                '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="chat-input-container" data-container-mode="fixed">' +
+                        '<div class="chat-input-wrapper">' +
+                            '<textarea class="chat-input" placeholder="输入搜索关键词,通过高级检索添加多个关键词" rows="3"></textarea>' +
+                            '<div class="chat-input-toolbar">' +
+                                '<div class="search-filters-row">' +
+                                    '<button class="filter-btn" id="quickModeBtn">' +
+                                        '<span class="filter-icon">⚡</span>' +
+                                        '<span class="filter-text">快速模式</span>' +
+                                        '<span class="filter-arrow">▼</span>' +
+                                    '</button>' +
+                                    '<button class="filter-btn" id="conferenceBtn">' +
+                                        '<span class="filter-text">选择会议/期刊</span>' +
+                                        '<span class="filter-arrow">▼</span>' +
+                                    '</button>' +
+                                    '<button class="filter-btn" id="timeFilterBtn">' +
+                                        '<span class="filter-text">时间不限</span>' +
+                                        '<span class="filter-arrow">▼</span>' +
+                                    '</button>' +
+                                    '<button class="filter-btn filter-btn-advanced" id="advancedSearchBtn">' +
+                                        '<span class="filter-icon">🎯</span>' +
+                                        '<span class="filter-text">高级检索</span>' +
+                                    '</button>' +
+                                '</div>' +
+                                '<div class="chat-input-actions-right">' +
+                                    '<button class="btn-icon btn-chat" title="新建对话">💬</button>' +
+                                    '<button class="btn btn-primary chat-send">' +
+                                        '<span>发送</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+
+                    chatArea.appendChild(taskContent);
+                    taskContent.style.display = 'flex';
+
+                    // 滚动到底部
+                    setTimeout(function() {
+                        var chatMessages = taskContent.querySelector('.chat-messages');
+                        if (chatMessages) {
+                            chatMessages.scrollTop = chatMessages.scrollHeight;
+                        }
+                    }, 100);
+                }
+
+                console.log('[DEBUG] 任务详情已创建并显示');
+            } catch (error) {
+                console.error('[DEBUG] 错误:', error);
+            }
+        }
+
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 为静态任务项绑定点击事件，添加选中状态
+            var staticTaskItems = document.querySelectorAll('.recent-task-item');
+            staticTaskItems.forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // 获取任务名称
+                    var taskNameElement = item.querySelector('.task-name');
+                    if (!taskNameElement) return;
+                    var taskNameText = taskNameElement.textContent.trim();
+                    
+                    // 查找对应的任务数据
+                    var taskData = mockTasks.find(function(task) {
+                        return task.name === taskNameText;
+                    });
+                    
+                    if (taskData) {
+                        // 直接调用统一的任务点击处理函数
+                        handleTaskClick(taskData.id, taskData);
+                    }
+                });
+            });
+            
             // 初始化侧导航组件
-            initAgentSidebar({
+            window.agentSidebarInstance = initAgentSidebar({
                 tasks: mockTasks,
                 maxTasks: 10,
                 onNewTask: function() {
@@ -473,101 +2085,8 @@
                     '</div>';
                 },
                 onTaskClick: function(taskId, taskData) {
-                    console.log('[DEBUG] 点击任务:', taskId, taskData);
-
-                    // 如果是"可信高效任务"，跳转到详情页
-                    var taskName = (taskData && taskData.name) ? taskData.name : '';
-                    if (taskName === '可信高效任务') {
-                        window.location.href = 'security-paper-search-detail.html';
-                        return;
-                    }
-
-                    try {
-                        var chatArea = document.querySelector('.agent-main-content');
-                        if (!chatArea) {
-                            console.error('[DEBUG] 未找到chatArea');
-                            return;
-                        }
-
-                        console.log('[DEBUG] 找到chatArea');
-
-                        // 清空chatArea内容，重新创建任务详情
-                        var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
-
-                        // 清空chatArea并重新创建任务详情
-                        chatArea.innerHTML = '';
-
-                        var taskContent = document.createElement('div');
-                        taskContent.className = 'task-detail-content';
-
-                        taskContent.innerHTML = '<div class="chat-header">' +
-                            '<div class="chat-title">' + taskName + '</div>' +
-                            '<div class="chat-time">刚刚</div>' +
-                        '</div>' +
-                        '<div class="chat-messages">' +
-                            '<div class="message message-user">' +
-                                '<div class="message-avatar">👤</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="message message-ai">' +
-                                '<div class="message-avatar">🤖</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="chat-input-container" data-container-mode="fixed">' +
-                            '<div class="chat-input-wrapper">' +
-                                '<textarea class="chat-input" placeholder="输入搜索关键词,通过高级检索添加多个关键词" rows="3"></textarea>' +
-                                '<div class="chat-input-toolbar">' +
-                                    '<div class="search-filters-row">' +
-                                        '<button class="filter-btn" id="quickModeBtn">' +
-                                            '<span class="filter-icon">⚡</span>' +
-                                            '<span class="filter-text">快速模式</span>' +
-                                            '<span class="filter-arrow">▼</span>' +
-                                        '</button>' +
-                                        '<button class="filter-btn" id="conferenceBtn">' +
-                                            '<span class="filter-text">选择会议/期刊</span>' +
-                                            '<span class="filter-arrow">▼</span>' +
-                                        '</button>' +
-                                        '<button class="filter-btn" id="timeFilterBtn">' +
-                                            '<span class="filter-text">时间不限</span>' +
-                                            '<span class="filter-arrow">▼</span>' +
-                                        '</button>' +
-                                        '<button class="filter-btn filter-btn-advanced" id="advancedSearchBtn">' +
-                                            '<span class="filter-icon">🎯</span>' +
-                                            '<span class="filter-text">高级检索</span>' +
-                                        '</button>' +
-                                    '</div>' +
-                                    '<div class="chat-input-actions-right">' +
-                                        '<button class="btn-icon btn-chat" title="新建对话">💬</button>' +
-                                        '<button class="btn btn-primary chat-send">' +
-                                            '<span>发送</span>' +
-                                        '</button>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>';
-
-                        chatArea.appendChild(taskContent);
-                        taskContent.style.display = 'flex';
-
-                        console.log('[DEBUG] 任务详情已创建并显示');
-
-                        // 滚动到底部
-                        setTimeout(function() {
-                            var chatMessages = taskContent.querySelector('.chat-messages');
-                            if (chatMessages) {
-                                chatMessages.scrollTop = chatMessages.scrollHeight;
-                            }
-                        }, 100);
-                    } catch (error) {
-                        console.error('[DEBUG] 错误:', error);
-                    }
+                    // 调用统一的任务点击处理函数
+                    handleTaskClick(taskId, taskData);
                 },
                 onViewAll: function() {
                     console.log('查看全部任务');
@@ -696,10 +2215,527 @@
 
             var taskName = taskData ? taskData.name : '未知任务';
 
-            var taskContent = document.createElement('div');
-            taskContent.className = 'task-detail-content';
+            // 判断是否是"可信高效任务"，如果是则显示双模块布局
+            if (taskName === '可信高效任务') {
+                chatArea.innerHTML = '';
+                var taskContent = document.createElement('div');
+                taskContent.className = 'paper-task-container';
 
-            taskContent.innerHTML = '<div class="chat-header">' +
+                taskContent.innerHTML = 
+                    // 第一个模块：论文检索和展示（左侧）
+                        '<div class="paper-search-module">' +
+                        '<div class="paper-filters-section">' +
+                            // 论文类型下拉+复选框
+                            '<div class="filter-group">' +
+                                '<label class="filter-group-label">论文类型</label>' +
+                                '<div class="dropdown-checkbox-wrapper">' +
+                                    '<div class="dropdown-checkbox-trigger" id="paperTypeDropdownDetail">' +
+                                        '<span class="dropdown-checkbox-trigger-text">选择论文类型</span>' +
+                                        '<div class="dropdown-checkbox-selected-tags" id="paperTypeSelectedTagsDetail"></div>' +
+                                        '<span class="filter-arrow">▼</span>' +
+                                    '</div>' +
+                                    '<div class="dropdown-checkbox-menu" id="paperTypeMenuDetail">' +
+                                        '<div class="checkbox-item">' +
+                                            '<input type="checkbox" id="type-review-detail" value="review">' +
+                                            '<label for="type-review-detail">综合分析</label>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item">' +
+                                            '<input type="checkbox" id="type-theory-detail" value="theory">' +
+                                            '<label for="type-theory-detail">理论研究</label>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item">' +
+                                            '<input type="checkbox" id="type-practice-detail" value="practice">' +
+                                            '<label for="type-practice-detail">应用实践</label>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item">' +
+                                            '<input type="checkbox" id="type-data-detail" value="data">' +
+                                            '<label for="type-data-detail">数据与基准</label>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            // 会议/期刊下拉+复选框
+                            '<div class="filter-group">' +
+                                '<label class="filter-group-label">会议/期刊</label>' +
+                                '<div class="dropdown-checkbox-wrapper">' +
+                                    '<div class="dropdown-checkbox-trigger" id="conferenceDropdownDetail">' +
+                                        '<span class="dropdown-checkbox-trigger-text">选择会议/期刊</span>' +
+                                        '<div class="dropdown-checkbox-selected-tags" id="conferenceSelectedTagsDetail"></div>' +
+                                        '<span class="filter-arrow">▼</span>' +
+                                    '</div>' +
+                                    '<div class="dropdown-checkbox-menu" id="conferenceMenuDetail">' +
+                                        '<div class="checkbox-item checkbox-item-parent" data-parent="ccfA">' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="conf-ccfA-detail" value="ccfA">' +
+                                                '<label for="conf-ccfA-detail">CCF A类</label>' +
+                                                '<span class="checkbox-item-expand-icon">▶</span>' +
+                                            '</div>' +
+                                            '<div class="checkbox-sub-group">' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-ndss-detail" value="ndss">' +
+                                                    '<label for="conf-ccfA-ndss-detail">NDSS</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-ccs-detail" value="ccs">' +
+                                                    '<label for="conf-ccfA-ccs-detail">CCS</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-sp-detail" value="sp">' +
+                                                    '<label for="conf-ccfA-sp-detail">SP</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-tse-detail" value="tse">' +
+                                                    '<label for="conf-ccfA-tse-detail">TSE</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-icse-detail" value="icse">' +
+                                                    '<label for="conf-ccfA-icse-detail">ICSE</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-aaai-detail" value="aaai">' +
+                                                    '<label for="conf-ccfA-aaai-detail">AAAI</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfA-tdsc-detail" value="tdsc">' +
+                                                    '<label for="conf-ccfA-tdsc-detail">TDSC</label>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item checkbox-item-parent" data-parent="ccfB">' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="conf-ccfB-detail" value="ccfB">' +
+                                                '<label for="conf-ccfB-detail">CCF B类</label>' +
+                                                '<span class="checkbox-item-expand-icon">▶</span>' +
+                                            '</div>' +
+                                            '<div class="checkbox-sub-group">' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-raid-detail" value="raid">' +
+                                                    '<label for="conf-ccfB-raid-detail">RAID</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-dsn-detail" value="dsn">' +
+                                                    '<label for="conf-ccfB-dsn-detail">DSN</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-esorics-detail" value="esorics">' +
+                                                    '<label for="conf-ccfB-esorics-detail">ESORICS</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-ccs-detail" value="ccs-b">' +
+                                                    '<label for="conf-ccfB-ccs-detail">CCS (B类)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-ndss-detail" value="ndss-b">' +
+                                                    '<label for="conf-ccfB-ndss-detail">NDSS (B类)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfB-icse-detail" value="icse-b">' +
+                                                    '<label for="conf-ccfB-icse-detail">ICSE (B类)</label>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item checkbox-item-parent" data-parent="ccfC">' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="conf-ccfC-detail" value="ccfC">' +
+                                                '<label for="conf-ccfC-detail">CCF C类</label>' +
+                                                '<span class="checkbox-item-expand-icon">▶</span>' +
+                                            '</div>' +
+                                            '<div class="checkbox-sub-group">' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-acsac-detail" value="acsac">' +
+                                                    '<label for="conf-ccfC-acsac-detail">ACSAC</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-dimva-detail" value="dimva">' +
+                                                    '<label for="conf-ccfC-dimva-detail">DIMVA</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-sac-detail" value="sac">' +
+                                                    '<label for="conf-ccfC-sac-detail">SAC</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-icics-detail" value="icics">' +
+                                                    '<label for="conf-ccfC-icics-detail">ICICS</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-icws-detail" value="icws">' +
+                                                    '<label for="conf-ccfC-icws-detail">ICWS</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-ccfC-icws2-detail" value="icws2">' +
+                                                    '<label for="conf-ccfC-icws2-detail">ICWS (其他)</label>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="checkbox-item checkbox-item-parent" data-parent="other">' +
+                                            '<div class="checkbox-item">' +
+                                                '<input type="checkbox" id="conf-other-detail" value="other">' +
+                                                '<label for="conf-other-detail">其他知名</label>' +
+                                                '<span class="checkbox-item-expand-icon">▶</span>' +
+                                            '</div>' +
+                                            '<div class="checkbox-sub-group">' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-usenix-detail" value="usenix">' +
+                                                    '<label for="conf-other-usenix-detail">USENIX Security</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-ndss2-detail" value="ndss2">' +
+                                                    '<label for="conf-other-ndss2-detail">NDSS (其他)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-ccs2-detail" value="ccs2">' +
+                                                    '<label for="conf-other-ccs2-detail">CCS (其他)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-sp2-detail" value="sp2">' +
+                                                    '<label for="conf-other-sp2-detail">SP (其他)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-icse2-detail" value="icse2">' +
+                                                    '<label for="conf-other-icse2-detail">ICSE (其他)</label>' +
+                                                '</div>' +
+                                                '<div class="checkbox-sub-item">' +
+                                                    '<input type="checkbox" id="conf-other-aaai2-detail" value="aaai2">' +
+                                                    '<label for="conf-other-aaai2-detail">AAAI (其他)</label>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            // 排序选择器
+                            '<div class="filter-group">' +
+                                '<label class="filter-group-label">排序</label>' +
+                                '<select class="sort-select" id="sortSelectDetail">' +
+                                    '<option value="relevant">最相关</option>' +
+                                    '<option value="latest">最新</option>' +
+                                '</select>' +
+                            '</div>' +
+                            // 时间选择器
+                            '<div class="filter-group">' +
+                                '<label class="filter-group-label">时间</label>' +
+                                '<input type="date" class="time-select" id="timePickerDetail">' +
+                            '</div>' +
+                        '</div>' +
+                        // 论文卡片列表
+                        '<div class="paper-cards-section">' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
+                                '<div class="paper-card-subtitle">Haixia Han, Jiaqing Liang, Jie Shi, Qianyu He, Yanghua Xiao</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2024-03-15</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">基于硬件可信根的可信计算平台构建方法</div>' +
+                                '<div class="paper-card-subtitle">Wei Zhang, Li Chen, Ming Wang, Xiaoyu Liu, Jun Li</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2024-02-28</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信AI模型训练与推理的安全保障机制</div>' +
+                                '<div class="paper-card-subtitle">Yan Liu, Hao Zhang, Qiang Wang, Mei Chen, Lei Wu</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2024-02-10</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信网络架构下的零信任安全通信协议</div>' +
+                                '<div class="paper-card-subtitle">Tao Yang, Fei Liu, Bin Zhao, Ying Zhang, Gang Wang</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2024-01-25</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信存储系统中的数据完整性验证方法</div>' +
+                                '<div class="paper-card-subtitle">Xin Wang, Lei Zhang, Hui Li, Peng Chen, Wei Liu</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2024-01-12</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信软件供应链的安全评估与验证框架</div>' +
+                                '<div class="paper-card-subtitle">Jing Li, Ming Zhao, Yan Wang, Fei Liu, Tao Chen</div>' +
+                                '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。</div>' +
+                                '<div class="paper-card-footer">' +
+                                    '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
+                                    '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    // 第二个模块：对话框（右侧）
+                    '<div class="paper-chat-module">' +
+                        '<div class="paper-chat-header">' +
+                            '<div class="paper-chat-title">对话</div>' +
+                        '</div>' +
+                        '<div class="paper-chat-messages">' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="paper-chat-input-area">' +
+                            '<div class="chat-input-container" data-container-mode="fixed">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions-right">' +
+                                            '<button class="btn btn-primary chat-send">' +
+                                                '<span>发送</span>' +
+                                            '</button>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+
+                chatArea.appendChild(taskContent);
+
+                // 绑定滚动监听，为筛选器区域添加底部阴影
+                var filtersSection = taskContent.querySelector('.paper-filters-section');
+                var cardsSection = taskContent.querySelector('.paper-cards-section');
+                
+                if (filtersSection && cardsSection) {
+                    function updateFiltersShadow() {
+                        if (cardsSection.scrollTop > 0) {
+                            filtersSection.classList.add('scrolled');
+                        } else {
+                            filtersSection.classList.remove('scrolled');
+                        }
+                    }
+                    
+                    cardsSection.addEventListener('scroll', updateFiltersShadow);
+                    // 初始化检查
+                    updateFiltersShadow();
+                }
+
+                // 绑定下拉菜单交互
+                var dropdownTrigger = taskContent.querySelector('#conferenceDropdownDetail');
+                var dropdownMenu = taskContent.querySelector('#conferenceMenuDetail');
+                
+                if (dropdownTrigger && dropdownMenu) {
+                    dropdownTrigger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        dropdownMenu.classList.toggle('show');
+                    });
+
+                    // 点击外部关闭下拉菜单
+                    document.addEventListener('click', function(e) {
+                        if (!dropdownTrigger.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                    // 绑定嵌套复选框展开/收起
+                    var parentCheckboxes = dropdownMenu.querySelectorAll('.checkbox-item-parent');
+                    parentCheckboxes.forEach(function(parent) {
+                        var expandIcon = parent.querySelector('.checkbox-item-expand-icon');
+                        
+                        // 点击展开图标时切换展开状态
+                        if (expandIcon) {
+                            expandIcon.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                parent.classList.toggle('expanded');
+                            });
+                        }
+                    });
+
+                    // 更新选中状态展示的函数
+                    function updateSelectedDisplay() {
+                        var selectedTags = [];
+                        var allCheckboxes = dropdownMenu.querySelectorAll('input[type="checkbox"]');
+                        
+                        allCheckboxes.forEach(function(checkbox) {
+                            if (checkbox.checked) {
+                                var label = dropdownMenu.querySelector('label[for="' + checkbox.id + '"]');
+                                if (label) {
+                                    var labelText = label.textContent.trim();
+                                    selectedTags.push({
+                                        value: checkbox.value,
+                                        text: labelText,
+                                        id: checkbox.id
+                                    });
+                                }
+                            }
+                        });
+
+                        var tagsContainer = taskContent.querySelector('#conferenceSelectedTagsDetail');
+                        if (tagsContainer) {
+                            tagsContainer.innerHTML = '';
+                            
+                            if (selectedTags.length > 0) {
+                                dropdownTrigger.classList.add('has-selected');
+                                
+                                // 显示第一个标签
+                                var firstTag = selectedTags[0];
+                                var firstTagElement = document.createElement('span');
+                                firstTagElement.className = 'dropdown-checkbox-tag';
+                                firstTagElement.innerHTML = '<span>' + firstTag.text + '</span>' +
+                                    '<span class="dropdown-checkbox-tag-close" data-checkbox-id="' + firstTag.id + '">×</span>';
+                                tagsContainer.appendChild(firstTagElement);
+                                
+                                // 如果选中多个，显示第二个标签（数量标签）
+                                if (selectedTags.length >= 2) {
+                                    var remainingCount = selectedTags.length - 1;
+                                    var countTagElement = document.createElement('span');
+                                    countTagElement.className = 'dropdown-checkbox-tag dropdown-checkbox-tag-count';
+                                    countTagElement.innerHTML = '<span>+' + remainingCount + '</span>';
+                                    tagsContainer.appendChild(countTagElement);
+                                }
+
+                                // 绑定标签删除功能
+                                var closeButtons = tagsContainer.querySelectorAll('.dropdown-checkbox-tag-close');
+                                closeButtons.forEach(function(btn) {
+                                    btn.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        var checkboxId = this.getAttribute('data-checkbox-id');
+                                        var checkbox = dropdownMenu.querySelector('#' + checkboxId);
+                                        if (checkbox) {
+                                            checkbox.checked = false;
+                                            updateSelectedDisplay();
+                                        }
+                                    });
+                                });
+                            } else {
+                                dropdownTrigger.classList.remove('has-selected');
+                            }
+                        }
+                    }
+
+                    // 监听所有复选框的变化
+                    var allCheckboxes = dropdownMenu.querySelectorAll('input[type="checkbox"]');
+                    allCheckboxes.forEach(function(checkbox) {
+                        checkbox.addEventListener('change', function() {
+                            updateSelectedDisplay();
+                        });
+                    });
+
+                    // 初始化显示
+                    updateSelectedDisplay();
+                }
+
+                // 绑定论文类型下拉菜单交互
+                var paperTypeDropdownTrigger = taskContent.querySelector('#paperTypeDropdownDetail');
+                var paperTypeDropdownMenu = taskContent.querySelector('#paperTypeMenuDetail');
+                
+                if (paperTypeDropdownTrigger && paperTypeDropdownMenu) {
+                    paperTypeDropdownTrigger.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        paperTypeDropdownMenu.classList.toggle('show');
+                    });
+
+                    // 点击外部关闭下拉菜单
+                    document.addEventListener('click', function(e) {
+                        if (!paperTypeDropdownTrigger.contains(e.target) && !paperTypeDropdownMenu.contains(e.target)) {
+                            paperTypeDropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                    // 更新选中状态展示的函数
+                    function updatePaperTypeSelectedDisplay() {
+                        var selectedTags = [];
+                        var allCheckboxes = paperTypeDropdownMenu.querySelectorAll('input[type="checkbox"]');
+                        
+                        allCheckboxes.forEach(function(checkbox) {
+                            if (checkbox.checked) {
+                                var label = paperTypeDropdownMenu.querySelector('label[for="' + checkbox.id + '"]');
+                                if (label) {
+                                    var labelText = label.textContent.trim();
+                                    selectedTags.push({
+                                        value: checkbox.value,
+                                        text: labelText,
+                                        id: checkbox.id
+                                    });
+                                }
+                            }
+                        });
+
+                        var tagsContainer = taskContent.querySelector('#paperTypeSelectedTagsDetail');
+                        if (tagsContainer) {
+                            tagsContainer.innerHTML = '';
+                            
+                            if (selectedTags.length > 0) {
+                                paperTypeDropdownTrigger.classList.add('has-selected');
+                                
+                                // 显示第一个标签
+                                var firstTag = selectedTags[0];
+                                var firstTagElement = document.createElement('span');
+                                firstTagElement.className = 'dropdown-checkbox-tag';
+                                firstTagElement.innerHTML = '<span>' + firstTag.text + '</span>' +
+                                    '<span class="dropdown-checkbox-tag-close" data-checkbox-id="' + firstTag.id + '">×</span>';
+                                tagsContainer.appendChild(firstTagElement);
+                                
+                                // 如果选中多个，显示第二个标签（数量标签）
+                                if (selectedTags.length >= 2) {
+                                    var remainingCount = selectedTags.length - 1;
+                                    var countTagElement = document.createElement('span');
+                                    countTagElement.className = 'dropdown-checkbox-tag dropdown-checkbox-tag-count';
+                                    countTagElement.innerHTML = '<span>+' + remainingCount + '</span>';
+                                    tagsContainer.appendChild(countTagElement);
+                                }
+
+                                // 绑定标签删除功能
+                                var closeButtons = tagsContainer.querySelectorAll('.dropdown-checkbox-tag-close');
+                                closeButtons.forEach(function(btn) {
+                                    btn.addEventListener('click', function(e) {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        var checkboxId = this.getAttribute('data-checkbox-id');
+                                        var checkbox = paperTypeDropdownMenu.querySelector('#' + checkboxId);
+                                        if (checkbox) {
+                                            checkbox.checked = false;
+                                            updatePaperTypeSelectedDisplay();
+                                        }
+                                    });
+                                });
+                            } else {
+                                paperTypeDropdownTrigger.classList.remove('has-selected');
+                            }
+                        }
+                    }
+
+                    // 监听所有复选框的变化
+                    var allPaperTypeCheckboxes = paperTypeDropdownMenu.querySelectorAll('input[type="checkbox"]');
+                    allPaperTypeCheckboxes.forEach(function(checkbox) {
+                        checkbox.addEventListener('change', function() {
+                            updatePaperTypeSelectedDisplay();
+                        });
+                    });
+
+                    // 初始化显示
+                    updatePaperTypeSelectedDisplay();
+                }
+            } else {
+                // 其他任务使用原来的布局
+                var taskContent = document.createElement('div');
+                taskContent.className = 'task-detail-content';
+
+                taskContent.innerHTML = '<div class="chat-header">' +
                 '<div class="chat-title">' + taskName + '</div>' +
                 '<div class="chat-time">刚刚</div>' +
             '</div>' +
@@ -752,17 +2788,18 @@
                 '</div>' +
             '</div>';
 
-            chatArea.innerHTML = '';
-            chatArea.appendChild(taskContent);
-            taskContent.style.display = 'flex';
+                chatArea.innerHTML = '';
+                chatArea.appendChild(taskContent);
+                taskContent.style.display = 'flex';
 
-            // 滚动到底部
-            setTimeout(function() {
-                var chatMessages = taskContent.querySelector('.chat-messages');
-                if (chatMessages) {
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-            }, 100);
+                // 滚动到底部
+                setTimeout(function() {
+                    var chatMessages = taskContent.querySelector('.chat-messages');
+                    if (chatMessages) {
+                        chatMessages.scrollTop = chatMessages.scrollHeight;
+                    }
+                }, 100);
+            }
         }
 
         // 快速提示填充功能
