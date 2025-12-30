@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
     <style>
+        /* 页面背景色 */
+        body.agent-detail-page {
+            background-color: #F8FAFC !important;
+        }
+
         /* ==========================================
            搜索筛选器样式
            ========================================== */
@@ -231,10 +236,8 @@
             min-width: 0;
             display: flex;
             flex-direction: column;
-            background: var(--clouditera-neutral-background-white);
-            border-radius: 8px;
-            padding: 16px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: transparent;
+            padding: 0;
             overflow: hidden;
         }
 
@@ -846,7 +849,7 @@
             background: var(--clouditera-neutral-background-white);
             border: none;
             border-radius: 8px;
-            padding: 16px;
+            padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
@@ -1421,35 +1424,6 @@
             line-height: 1;
         }
         
-        /* 搜索中文按钮 */
-        .advanced-search-chinese-btn {
-            width: 100%;
-            padding: 10px 16px;
-            border: 1px solid var(--clouditera-neutral-gray-9);
-            border-radius: 6px;
-            background: var(--clouditera-neutral-gray-9);
-            color: var(--clouditera-neutral-background-white);
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: none;
-        }
-        
-        .advanced-search-chinese-btn.show {
-            display: block;
-        }
-        
-        .advanced-search-chinese-btn:hover {
-            background: var(--clouditera-neutral-gray-8);
-            border-color: var(--clouditera-neutral-gray-8);
-        }
-        
-        .advanced-search-chinese-btn:active {
-            background: var(--clouditera-neutral-gray-7);
-            border-color: var(--clouditera-neutral-gray-7);
-        }
-        
         /* 弹框底部操作区 */
         .advanced-search-modal-footer {
             display: flex;
@@ -1994,7 +1968,6 @@
                         <span>全文</span>
                     </button>
                 </div>
-                <button class="advanced-search-chinese-btn" id="advancedSearchChineseBtn">搜索中文</button>
             </div>
             <div class="advanced-search-modal-footer">
                 <button class="advanced-search-modal-cancel-btn" id="advancedSearchModalCancel">取消</button>
@@ -2328,42 +2301,6 @@
                                     '<div class="paper-card-footer">' +
                                         '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        // 第二个模块：对话框（右侧）
-                        '<div class="paper-chat-module">' +
-                            '<div class="paper-chat-header">' +
-                                '<div class="paper-chat-title">对话</div>' +
-                            '</div>' +
-                            '<div class="paper-chat-messages">' +
-                                '<div class="message message-user">' +
-                                    '<div class="message-avatar">👤</div>' +
-                                    '<div class="message-content">' +
-                                        '<div class="message-time">刚刚</div>' +
-                                        '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                '<div class="message message-ai">' +
-                                    '<div class="message-avatar">🤖</div>' +
-                                    '<div class="message-content">' +
-                                        '<div class="message-time">刚刚</div>' +
-                                        '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="paper-chat-input-area">' +
-                                '<div class="chat-input-container" data-container-mode="fixed">' +
-                                    '<div class="chat-input-wrapper">' +
-                                        '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
-                                        '<div class="chat-input-toolbar">' +
-                                            '<div class="chat-input-actions-right">' +
-                                                '<button class="btn btn-primary chat-send">' +
-                                                    '<span>发送</span>' +
-                                                '</button>' +
-                                            '</div>' +
-                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -3449,42 +3386,6 @@
                                 '</div>' +
                             '</div>' +
                         '</div>' +
-                    '</div>' +
-                    // 第二个模块：对话框（右侧）
-                    '<div class="paper-chat-module">' +
-                        '<div class="paper-chat-header">' +
-                            '<div class="paper-chat-title">对话</div>' +
-                        '</div>' +
-                        '<div class="paper-chat-messages">' +
-                            '<div class="message message-user">' +
-                                '<div class="message-avatar">👤</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="message message-ai">' +
-                                '<div class="message-avatar">🤖</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="paper-chat-input-area">' +
-                            '<div class="chat-input-container" data-container-mode="fixed">' +
-                                '<div class="chat-input-wrapper">' +
-                                    '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
-                                    '<div class="chat-input-toolbar">' +
-                                        '<div class="chat-input-actions-right">' +
-                                            '<button class="btn btn-primary chat-send">' +
-                                                '<span>发送</span>' +
-                                            '</button>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
                     '</div>';
 
                 chatArea.appendChild(taskContent);
@@ -4563,7 +4464,6 @@
             const cancelBtn = document.getElementById('advancedSearchModalCancel');
             const confirmBtn = document.getElementById('advancedSearchModalConfirm');
             const clearBtn = document.getElementById('advancedSearchClearBtn');
-            const chineseBtn = document.getElementById('advancedSearchChineseBtn');
             const addFieldBtns = document.querySelectorAll('.advanced-search-add-field-btn');
             
             // 打开弹框
@@ -4594,15 +4494,13 @@
                 advancedSearchConditions.push(condition);
                 renderConditions();
                 updateAddFieldButtons();
-                updateChineseButton();
             }
-            
+
             // 删除检索条件
             function removeCondition(id) {
                 advancedSearchConditions = advancedSearchConditions.filter(c => c.id !== id);
                 renderConditions();
                 updateAddFieldButtons();
-                updateChineseButton();
             }
             
             // 更新检索条件
@@ -4610,7 +4508,6 @@
                 const condition = advancedSearchConditions.find(c => c.id === id);
                 if (condition) {
                     condition[key] = value;
-                    updateChineseButton();
                 }
             }
             
@@ -4708,7 +4605,6 @@
                 advancedSearchConditions = [];
                 renderConditions();
                 updateAddFieldButtons();
-                updateChineseButton();
             }
             
             // 更新添加字段按钮状态
@@ -4717,18 +4613,6 @@
                 addFieldBtns.forEach(btn => {
                     btn.disabled = false;
                 });
-            }
-            
-            // 更新搜索中文按钮显示状态
-            function updateChineseButton() {
-                const hasContent = advancedSearchConditions.some(c => c.keyword && c.keyword.trim() !== '');
-                if (chineseBtn) {
-                    if (hasContent) {
-                        chineseBtn.classList.add('show');
-                    } else {
-                        chineseBtn.classList.remove('show');
-                    }
-                }
             }
             
             // 确认搜索
@@ -4775,14 +4659,7 @@
             if (clearBtn) {
                 clearBtn.addEventListener('click', clearAllConditions);
             }
-            
-            if (chineseBtn) {
-                chineseBtn.addEventListener('click', function() {
-                    // 搜索中文的逻辑
-                    confirmSearch();
-                });
-            }
-            
+
             // 点击遮罩层关闭弹框
             if (modal) {
                 modal.addEventListener('click', function(e) {
