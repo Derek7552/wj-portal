@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="论文研读智能体 - 智能论文研读与分析服务">
-    <title>论文研读 | 云脑</title>
+    <meta name="description" content="文档速读智能体 - 智能文档速读与分析服务">
+    <title>文档速读 | 云脑</title>
     <link rel="stylesheet" href="../../css/common.css">
     <link rel="stylesheet" href="../../css/dashboard.css">
     <link rel="stylesheet" href="../../templates/css/template-detail.css">
@@ -189,10 +189,10 @@
         }
 
         /* ==========================================
-           论文研读详情页布局样式
+           文档速读详情页布局样式
            ========================================== */
 
-        /* 论文研读详情容器 - 左右分栏布局 */
+        /* 文档速读详情容器 - 左右分栏布局 */
         .paper-reading-detail {
             display: flex;
             flex: 1;
@@ -950,11 +950,11 @@
                 <div class="agent-icon">📄</div>
                 <div class="agent-info">
                     <div class="agent-title-wrapper">
-                        <h2 class="agent-title">论文研读</h2>
+                        <h2 class="agent-title">文档速读</h2>
                         <span class="agent-type">基础类</span>
                         <span class="agent-version">v1.1.0</span>
                     </div>
-                    <p class="agent-description">智能论文研读与分析服务，快速理解论文内容，提取关键信息，提供专业的论文解读、总结和知识提取服务</p>
+                    <p class="agent-description">智能文档速读与分析服务，快速理解文档内容，提取关键信息，提供专业的文档解读、总结和知识提取服务</p>
                 </div>
             </div>
             <!-- 管理功能按钮组 -->
@@ -999,43 +999,43 @@
                         <div class="recent-tasks-list">
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">网络安全技术论文研读</div>
+                                <div class="task-name">安全技术白皮书速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">系统架构设计论文研读</div>
+                                <div class="task-name">产品需求文档摘要</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">安全评估方法论文研读</div>
+                                <div class="task-name">安全评估报告速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">密码学算法论文研读</div>
+                                <div class="task-name">技术规范文档速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">漏洞挖掘技术论文研读</div>
+                                <div class="task-name">漏洞分析报告速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">访问控制策略论文研读</div>
+                                <div class="task-name">安全策略文档速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">隐私保护技术论文研读</div>
+                                <div class="task-name">合规性文档速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">区块链安全论文研读</div>
+                                <div class="task-name">技术方案文档速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">入侵检测技术论文研读</div>
+                                <div class="task-name">安全事件报告速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">威胁情报分析论文研读</div>
+                                <div class="task-name">威胁情报文档速读</div>
                             </a>
                         </div>
 
@@ -1052,12 +1052,12 @@
                 <div class="empty-state-container">
                     <!-- 智能体名称 - 优先级最高 -->
                     <div class="empty-agent-name">
-                        <span class="agent-name-text">论文研读</span>
+                        <span class="agent-name-text">文档速读</span>
                     </div>
 
                     <!-- 引导文案 - 次要优先级 -->
                     <div class="empty-state-guide">
-                        <p class="empty-state-guide-text">上传论文文件，开始智能研读</p>
+                        <p class="empty-state-guide-text">上传文档文件，开始智能速读</p>
                     </div>
 
                     <!-- 文件上传区域 -->
@@ -1252,7 +1252,7 @@
             
             // 生成任务ID和名称
             const taskId = 'task-' + Date.now();
-            const taskName = file.name.replace(/\.(pdf|docx)$/i, '') + ' - 论文研读';
+            const taskName = file.name.replace(/\.(pdf|docx)$/i, '') + ' - 文档速读';
             
             // 创建新任务数据
             const newTask = {
@@ -1287,16 +1287,16 @@
         // ==========================================
         // 模拟任务数据
         const mockTasks = [
-            { id: '1', name: '网络安全技术论文研读', status: 'running', active: false },
-            { id: '2', name: '系统架构设计论文研读', status: 'running', active: false },
-            { id: '3', name: '安全评估方法论文研读', status: 'completed', active: false },
-            { id: '4', name: '密码学算法论文研读', status: 'completed', active: false },
-            { id: '5', name: '漏洞挖掘技术论文研读', status: 'completed', active: false },
-            { id: '6', name: '访问控制策略论文研读', status: 'completed', active: false },
-            { id: '7', name: '隐私保护技术论文研读', status: 'completed', active: false },
-            { id: '8', name: '区块链安全论文研读', status: 'completed', active: false },
-            { id: '9', name: '入侵检测技术论文研读', status: 'completed', active: false },
-            { id: '10', name: '威胁情报分析论文研读', status: 'completed', active: false }
+            { id: '1', name: '安全技术白皮书速读', status: 'running', active: false },
+            { id: '2', name: '产品需求文档摘要', status: 'running', active: false },
+            { id: '3', name: '安全评估报告速读', status: 'completed', active: false },
+            { id: '4', name: '技术规范文档速读', status: 'completed', active: false },
+            { id: '5', name: '漏洞分析报告速读', status: 'completed', active: false },
+            { id: '6', name: '安全策略文档速读', status: 'completed', active: false },
+            { id: '7', name: '合规性文档速读', status: 'completed', active: false },
+            { id: '8', name: '技术方案文档速读', status: 'completed', active: false },
+            { id: '9', name: '安全事件报告速读', status: 'completed', active: false },
+            { id: '10', name: '威胁情报文档速读', status: 'completed', active: false }
         ];
 
         // 初始化
@@ -1320,9 +1320,9 @@
                     // 清空chatArea内容，重新创建任务详情
                     var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
 
-                    // 检查是否是"网络安全技术论文研读"任务，如果是则显示新的左右分栏布局
-                    if (taskName === '网络安全技术论文研读' || taskName.includes('网络安全技术论文研读')) {
-                        // 清空chatArea并创建论文研读详情布局
+                    // 检查是否是"安全技术白皮书速读"任务，如果是则显示新的左右分栏布局
+                    if (taskName === '安全技术白皮书速读' || taskName.includes('安全技术白皮书速读')) {
+                        // 清空chatArea并创建文档速读详情布局
                         chatArea.innerHTML = '';
 
                         var paperReadingDetail = document.createElement('div');
@@ -1545,7 +1545,7 @@
                             }
                         }, 100);
 
-                        console.log('[DEBUG] 论文研读详情布局已创建并显示');
+                        console.log('[DEBUG] 文档速读详情布局已创建并显示');
                     } else {
                         // 其他任务使用原有的对话布局
                         chatArea.innerHTML = '';
@@ -1583,7 +1583,7 @@
                                 '<div class="message-avatar">🤖</div>' +
                                 '<div class="message-content">' +
                                     '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">我提供多种论文研读服务，包括：<br>1. 论文摘要提取与总结<br>2. 关键信息提取与分析<br>3. 论文结构梳理与解读<br>4. 核心观点提炼与知识提取</div>' +
+                                    '<div class="message-text">我提供多种文档速读服务，包括：<br>1. 文档摘要提取与总结<br>2. 关键信息提取与分析<br>3. 文档结构梳理与解读<br>4. 核心观点提炼与知识提取</div>' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
@@ -1922,10 +1922,10 @@
                         // 否则重新创建空状态页面
                         chatArea.innerHTML = '<div class="empty-state-container">' +
                             '<div class="empty-agent-name">' +
-                                '<span class="agent-name-text">论文研读</span>' +
+                                '<span class="agent-name-text">文档速读</span>' +
                             '</div>' +
                             '<div class="empty-state-guide">' +
-                                '<p class="empty-state-guide-text">上传论文文件，开始智能研读</p>' +
+                                '<p class="empty-state-guide-text">上传文档文件，开始智能速读</p>' +
                             '</div>' +
                             '<div class="file-upload-container" id="fileUploadContainer">' +
                                 '<div class="file-upload-area" id="fileUploadArea">' +
@@ -2003,10 +2003,10 @@
                         // 否则重新创建空状态页面
                         chatArea.innerHTML = '<div class="empty-state-container">' +
                             '<div class="empty-agent-name">' +
-                                '<span class="agent-name-text">论文研读</span>' +
+                                '<span class="agent-name-text">文档速读</span>' +
                             '</div>' +
                             '<div class="empty-state-guide">' +
-                                '<p class="empty-state-guide-text">上传论文文件，开始智能研读</p>' +
+                                '<p class="empty-state-guide-text">上传文档文件，开始智能速读</p>' +
                             '</div>' +
                             '<div class="file-upload-container" id="fileUploadContainer">' +
                                 '<div class="file-upload-area" id="fileUploadArea">' +
@@ -2230,8 +2230,8 @@
 
             var taskName = taskData ? taskData.name : '未知任务';
 
-            // 检查是否是"网络安全技术论文研读"任务
-            if (taskName === '网络安全技术论文研读' || taskName.includes('网络安全技术论文研读')) {
+            // 检查是否是"安全技术白皮书速读"任务
+            if (taskName === '安全技术白皮书速读' || taskName.includes('安全技术白皮书速读')) {
                 // 使用新的左右分栏布局
                 chatArea.innerHTML = '';
 
@@ -2489,7 +2489,7 @@
                         '<div class="message-avatar">🤖</div>' +
                         '<div class="message-content">' +
                             '<div class="message-time">刚刚</div>' +
-                            '<div class="message-text">我提供多种论文研读服务，包括：<br>1. 论文摘要提取与总结<br>2. 关键信息提取与分析<br>3. 论文结构梳理与解读<br>4. 核心观点提炼与知识提取</div>' +
+                            '<div class="message-text">我提供多种文档速读服务，包括：<br>1. 文档摘要提取与总结<br>2. 关键信息提取与分析<br>3. 文档结构梳理与解读<br>4. 核心观点提炼与知识提取</div>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
