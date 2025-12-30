@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="安全论文详情 - 学术论文智能检索与分析">
+    <title>论文详情 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/security-paper-detail.css">
+</head>
+<body class="agent-detail-page agent-paper-detail-page">
+    <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="../../pages/user-management.html" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <button class="user-menu-item nav-item-logout" id="logoutBtn">
+                            <span class="nav-icon">🚪</span>
+                            <span class="nav-text">退出登录</span>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content-area">
+        <!-- 智能体信息提示 -->
+        <div class="detail-agent-info">
+            <span class="agent-name-text">安全论文检索</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-type-text">基础类</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-version-text">v1.0.0</span>
+        </div>
+
+        <!-- 返回列表按钮和信息标题 -->
+        <div class="detail-title-section">
+            <button class="btn-back-to-list" onclick="goBack();" title="返回列表">
+                <span class="back-icon">←</span>
+            </button>
+            <h1 class="detail-title-main" id="paperTitle">论文标题加载中...</h1>
+            <div class="detail-actions">
+                <button class="btn-action" id="collectBtn" title="收藏">
+                    <span>⭐</span>
+                    <span>收藏</span>
+                </button>
+                <button class="btn-action" title="分享">
+                    <span>🔗</span>
+                    <span>分享</span>
+                </button>
+                <button class="btn-action" title="导出">
+                    <span>📥</span>
+                    <span>导出</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 主内容容器：左右布局 -->
+        <div class="detail-container">
+            <!-- 左侧：论文详情 -->
+            <div class="detail-content">
+                <!-- 详情页头部 -->
+                <div class="detail-header">
+                    <div class="detail-meta">
+                        <span class="meta-item">
+                            <span class="meta-icon">👥</span>
+                            <span id="paperAuthors">作者加载中...</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">📅</span>
+                            <span id="paperDate">发表时间加载中...</span>
+                        </span>
+                        <span class="meta-item">
+                            <span class="meta-icon">📚</span>
+                            <span id="paperConference">会议/期刊加载中...</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 论文摘要 -->
+                <div class="detail-summary">
+                    <div class="summary-label">📋 摘要</div>
+                    <p class="summary-text" id="paperAbstract">摘要加载中...</p>
+                </div>
+
+                <!-- 论文详细信息 -->
+                <article class="detail-article">
+                    <h2>📌 基本信息</h2>
+                    <div class="paper-info-grid">
+                        <div class="paper-info-item">
+                            <div class="info-label">DOI</div>
+                            <div class="info-value" id="paperDoi">-</div>
+                        </div>
+                        <div class="paper-info-item">
+                            <div class="info-label">论文类型</div>
+                            <div class="info-value" id="paperType">-</div>
+                        </div>
+                        <div class="paper-info-item">
+                            <div class="info-label">引用次数</div>
+                            <div class="info-value" id="paperCitations">-</div>
+                        </div>
+                        <div class="paper-info-item">
+                            <div class="info-label">关键词</div>
+                            <div class="info-value" id="paperKeywords">-</div>
+                        </div>
+                    </div>
+
+                    <h2>🎯 研究重点</h2>
+                    <div id="paperHighlights">
+                        <p>加载中...</p>
+                    </div>
+
+                    <h2>💡 创新点</h2>
+                    <div id="paperInnovations">
+                        <p>加载中...</p>
+                    </div>
+
+                    <h2>📊 实验结果</h2>
+                    <div id="paperResults">
+                        <p>加载中...</p>
+                    </div>
+
+                    <h2>🔗 原文链接</h2>
+                    <div class="paper-links">
+                        <a href="#" id="paperPdfLink" class="paper-link-item" target="_blank">
+                            <span class="link-icon">📄</span>
+                            <span>PDF 下载</span>
+                        </a>
+                        <a href="#" id="paperDoiLink" class="paper-link-item" target="_blank">
+                            <span class="link-icon">🔗</span>
+                            <span>DOI 链接</span>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- 相关推荐 -->
+                <div class="detail-related">
+                    <h3 class="related-title">📚 相关论文推荐</h3>
+                    <div class="related-list" id="relatedPapers">
+                        <a href="security-paper-detail.html?id=1" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">基于硬件可信根的可信计算平台构建方法</span>
+                        </a>
+                        <a href="security-paper-detail.html?id=2" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">可信AI模型训练与推理的安全保障机制</span>
+                        </a>
+                        <a href="security-paper-detail.html?id=3" class="related-item">
+                            <span class="related-icon">📄</span>
+                            <span class="related-text">可信网络架构下的零信任安全通信协议</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧：对话区域 -->
+            <div class="detail-chat">
+                <div class="chat-container">
+                    <!-- 对话头部 -->
+                    <div class="chat-header">
+                        <div class="chat-header-main">
+                            <span class="chat-icon">🤖</span>
+                            <span class="chat-title">AI 学术助手</span>
+                        </div>
+                        <button class="btn-icon" id="clearChat" title="清空对话">
+                            🗑️
+                        </button>
+                    </div>
+
+                    <!-- 对话消息区域 -->
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- 欢迎消息 -->
+                        <div class="message message-ai">
+                            <div class="message-avatar">🤖</div>
+                            <div class="message-content">
+                                <div class="message-time">2024-12-30 10:00</div>
+                                <div class="message-bubble">
+                                    <p>您好！我是AI学术助手，我可以帮助您深入理解这篇学术论文。</p>
+                                    <p>您可以向我提问，例如：</p>
+                                    <ul>
+                                        <li>这篇论文的核心贡献是什么？</li>
+                                        <li>实验方法有哪些优缺点？</li>
+                                        <li>如何应用到实际场景中？</li>
+                                        <li>有哪些相关的研究方向？</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 输入区域 -->
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="向AI提问关于这篇论文的问题..."
+                                rows="3"
+                            ></textarea>
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">📎</button>
+                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">Shift+Enter</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/dashboard.js"></script>
+    <script>
+        // 返回上一页函数
+        function goBack() {
+            // 优先使用浏览器历史记录返回
+            if (window.history.length > 1 && document.referrer.includes('security-paper-search.html')) {
+                window.history.back();
+            } else {
+                // 如果没有历史记录或不是从列表页来的，则返回列表页
+                window.location.href = 'security-paper-search.html';
+            }
+        }
+
+        // 论文数据映射表（模拟数据）
+        const paperData = {
+            '0': {
+                title: '可信执行环境（TEE）在云原生应用中的安全隔离机制研究',
+                authors: ['Haixia Han', 'Jiaqing Liang', 'Jie Shi', 'Qianyu He', 'Yanghua Xiao'],
+                conference: 'CCS 2024',
+                date: '2024-03-15',
+                abstract: '本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。',
+                doi: '10.1145/3548606.3560619',
+                type: '会议论文',
+                citations: 156,
+                keywords: ['可信执行环境', 'Intel SGX', 'ARM TrustZone', '云原生', '安全隔离'],
+                highlights: [
+                    '提出了一种新型的TEE架构，支持多租户环境下的安全隔离',
+                    '实现了硬件级别的内存加密，保护敏感数据不被恶意软件窃取',
+                    '设计了高效的远程证明协议，验证应用的可信状态',
+                    '在云原生环境中进行了大规模实验验证'
+                ],
+                innovations: [
+                    '首次将Intel SGX和ARM TrustZone结合用于云原生场景',
+                    '提出了基于硬件的内存加密机制，性能开销低于5%',
+                    '设计了轻量级的远程证明协议，延迟小于10ms',
+                    '支持动态扩展和多租户隔离'
+                ],
+                results: [
+                    '在真实云环境中部署测试，支持1000+并发实例',
+                    '内存加密性能开销平均4.2%，远低于软件方案的20%',
+                    '远程证明延迟平均8.5ms，满足实时应用需求',
+                    '成功阻止了多种已知的侧信道攻击'
+                ],
+                pdfUrl: 'https://dl.acm.org/doi/pdf/10.1145/3548606.3560619',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560619'
+            },
+            '1': {
+                title: '基于硬件可信根的可信计算平台构建方法',
+                authors: ['Wei Zhang', 'Li Chen', 'Ming Wang', 'Xiaoyu Liu', 'Jun Li'],
+                conference: 'CCS 2024',
+                date: '2024-02-28',
+                abstract: '本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。',
+                doi: '10.1145/3548606.3560620',
+                type: '会议论文',
+                citations: 89,
+                keywords: ['可信计算', 'TPM 2.0', '硬件安全模块', '可信启动', '完整性度量'],
+                highlights: [
+                    '构建了基于TPM 2.0的可信启动链',
+                    '实现了硬件到操作系统的全链路可信验证',
+                    '设计了高效的完整性度量机制',
+                    '启动时间优化至3秒内'
+                ],
+                innovations: [
+                    '提出了新型的可信启动链设计方法',
+                    '实现了动态度量和静态度量的结合',
+                    '优化了度量算法，提升了验证效率',
+                    '支持异构硬件平台'
+                ],
+                results: [
+                    '平台启动时间缩短至2.8秒',
+                    '可信度量准确率达到99.5%',
+                    '支持100+硬件配置',
+                    '成功检测所有已知的启动级攻击'
+                ],
+                pdfUrl: '#',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560620'
+            },
+            '2': {
+                title: '可信AI模型训练与推理的安全保障机制',
+                authors: ['Yan Liu', 'Hao Zhang', 'Qiang Wang', 'Mei Chen', 'Lei Wu'],
+                conference: 'CCS 2024',
+                date: '2024-02-10',
+                abstract: '针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。',
+                doi: '10.1145/3548606.3560621',
+                type: '会议论文',
+                citations: 203,
+                keywords: ['可信AI', '差分隐私', '联邦学习', '模型水印', '可验证推理'],
+                highlights: [
+                    '提出了基于差分隐私的可信AI训练框架',
+                    '设计了模型水印技术保护知识产权',
+                    '实现了可验证推理确保输出可信',
+                    '在多个数据集上验证了有效性'
+                ],
+                innovations: [
+                    '首次将差分隐私和联邦学习结合用于可信AI',
+                    '提出了轻量级的模型水印方案',
+                    '设计了高效的可验证推理协议',
+                    '支持异构模型和多方协作'
+                ],
+                results: [
+                    '模型精度下降小于2%',
+                    '隐私保护强度达到ε=1.0',
+                    '水印鲁棒性超过95%',
+                    '推理验证延迟小于50ms'
+                ],
+                pdfUrl: '#',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560621'
+            },
+            '3': {
+                title: '可信网络架构下的零信任安全通信协议',
+                authors: ['Tao Yang', 'Fei Liu', 'Bin Zhao', 'Ying Zhang', 'Gang Wang'],
+                conference: 'CCS 2024',
+                date: '2024-01-25',
+                abstract: '本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。',
+                doi: '10.1145/3548606.3560622',
+                type: '会议论文',
+                citations: 127,
+                keywords: ['零信任', '可信网络', '身份认证', '行为分析', '信任评估'],
+                highlights: [
+                    '提出了零信任架构下的通信协议',
+                    '实现了设备身份的持续验证',
+                    '设计了实时的行为分析系统',
+                    '支持大规模网络部署'
+                ],
+                innovations: [
+                    '首次将零信任理念应用于可信网络',
+                    '提出了动态信任评估模型',
+                    '设计了轻量级的认证协议',
+                    '支持异构网络环境'
+                ],
+                results: [
+                    '协议性能开销平均4.3%',
+                    '在1000节点网络中延迟小于45ms',
+                    '成功检测所有模拟攻击',
+                    '支持10000+并发连接'
+                ],
+                pdfUrl: '#',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560622'
+            },
+            '4': {
+                title: '可信存储系统中的数据完整性验证方法',
+                authors: ['Xin Wang', 'Lei Zhang', 'Hui Li', 'Peng Chen', 'Wei Liu'],
+                conference: 'CCS 2024',
+                date: '2024-01-12',
+                abstract: '本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。',
+                doi: '10.1145/3548606.3560623',
+                type: '会议论文',
+                citations: 98,
+                keywords: ['可信存储', 'Merkle树', '区块链', '完整性验证', '审计日志'],
+                highlights: [
+                    '构建了基于Merkle树的完整性验证系统',
+                    '利用区块链实现审计日志不可篡改',
+                    '支持PB级数据存储',
+                    '验证时间达到毫秒级'
+                ],
+                innovations: [
+                    '首次将Merkle树和区块链结合用于可信存储',
+                    '提出了分布式完整性验证算法',
+                    '设计了高效的审计日志机制',
+                    '支持增量验证和批量验证'
+                ],
+                results: [
+                    '支持PB级数据存储',
+                    '完整性验证时间平均5ms',
+                    '数据丢失率降低至0.001%',
+                    '存储开销增加小于3%'
+                ],
+                pdfUrl: '#',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560623'
+            },
+            '5': {
+                title: '可信软件供应链的安全评估与验证框架',
+                authors: ['Jing Li', 'Ming Zhao', 'Yan Wang', 'Fei Liu', 'Tao Chen'],
+                conference: 'CCS 2024',
+                date: '2023-12-20',
+                abstract: '针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。',
+                doi: '10.1145/3548606.3560624',
+                type: '会议论文',
+                citations: 178,
+                keywords: ['软件供应链', 'SBOM', '代码签名', '依赖分析', '漏洞检测'],
+                highlights: [
+                    '提出了基于SBOM的供应链验证框架',
+                    '实现了自动化的依赖分析',
+                    '设计了全流程的安全检测机制',
+                    '在大规模项目中验证了有效性'
+                ],
+                innovations: [
+                    '首次将SBOM和代码签名结合用于供应链安全',
+                    '提出了自动化的依赖分析算法',
+                    '设计了实时的漏洞检测系统',
+                    '支持多语言和多平台'
+                ],
+                results: [
+                    '在1000个项目中发现156个安全风险',
+                    '验证效率提升40%',
+                    '误报率低于5%',
+                    '支持100+编程语言'
+                ],
+                pdfUrl: '#',
+                doiUrl: 'https://doi.org/10.1145/3548606.3560624'
+            }
+        };
+
+        // 从URL获取论文ID
+        const urlParams = new URLSearchParams(window.location.search);
+        const paperId = urlParams.get('id');
+
+        // 加载论文数据
+        function loadPaperData() {
+            if (!paperId || !paperData[paperId]) {
+                document.getElementById('paperTitle').textContent = '论文未找到';
+                document.getElementById('paperAuthors').textContent = '-';
+                document.getElementById('paperDate').textContent = '-';
+                document.getElementById('paperConference').textContent = '-';
+                document.getElementById('paperAbstract').textContent = '未找到对应的论文信息';
+                return;
+            }
+
+            const paper = paperData[paperId];
+
+            // 更新标题和基本信息
+            document.getElementById('paperTitle').textContent = paper.title;
+            document.getElementById('paperAuthors').textContent = paper.authors.join(', ');
+            document.getElementById('paperDate').textContent = paper.date;
+            document.getElementById('paperConference').textContent = paper.conference;
+            document.getElementById('paperAbstract').textContent = paper.abstract;
+
+            // 更新详细信息
+            document.getElementById('paperDoi').textContent = paper.doi;
+            document.getElementById('paperType').textContent = paper.type;
+            document.getElementById('paperCitations').textContent = paper.citations;
+            document.getElementById('paperKeywords').textContent = paper.keywords.join('、');
+
+            // 更新研究重点
+            const highlightsHtml = '<ul>' + paper.highlights.map(h => `<li>${h}</li>`).join('') + '</ul>';
+            document.getElementById('paperHighlights').innerHTML = highlightsHtml;
+
+            // 更新创新点
+            const innovationsHtml = '<ul>' + paper.innovations.map(i => `<li>${i}</li>`).join('') + '</ul>';
+            document.getElementById('paperInnovations').innerHTML = innovationsHtml;
+
+            // 更新实验结果
+            const resultsHtml = '<ul>' + paper.results.map(r => `<li>${r}</li>`).join('') + '</ul>';
+            document.getElementById('paperResults').innerHTML = resultsHtml;
+
+            // 更新链接
+            document.getElementById('paperPdfLink').href = paper.pdfUrl;
+            document.getElementById('paperDoiLink').href = paper.doiUrl;
+
+            // 更新相关推荐（排除当前论文）
+            const relatedPapersHtml = Object.keys(paperData)
+                .filter(id => id !== paperId)
+                .slice(0, 3)
+                .map(id => `
+                    <a href="security-paper-detail.html?id=${id}" class="related-item">
+                        <span class="related-icon">📄</span>
+                        <span class="related-text">${paperData[id].title}</span>
+                    </a>
+                `).join('');
+            document.getElementById('relatedPapers').innerHTML = relatedPapersHtml;
+        }
+
+        // 页面加载时初始化
+        loadPaperData();
+
+        // 聊天功能（简化版）
+        document.getElementById('chatSend').addEventListener('click', function() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (message) {
+                addUserMessage(message);
+                input.value = '';
+                // 模拟AI回复
+                setTimeout(() => {
+                    addAIMessage('这是一个很好的问题！关于这篇论文的' + message.substring(0, 20) + '...，我需要更详细地分析论文内容才能给出准确的答案。');
+                }, 1000);
+            }
+        });
+
+        // 支持Shift+Enter发送
+        document.getElementById('chatInput').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                document.getElementById('chatSend').click();
+            }
+        });
+
+        function addUserMessage(message) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageHtml = `
+                <div class="message message-user">
+                    <div class="message-content">
+                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
+                        <div class="message-bubble">
+                            <p>${message}</p>
+                        </div>
+                    </div>
+                    <div class="message-avatar">👤</div>
+                </div>
+            `;
+            messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function addAIMessage(message) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageHtml = `
+                <div class="message message-ai">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
+                        <div class="message-bubble">
+                            <p>${message}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        // 清空对话
+        document.getElementById('clearChat').addEventListener('click', function() {
+            const messagesDiv = document.getElementById('chatMessages');
+            messagesDiv.innerHTML = `
+                <div class="message message-ai">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
+                        <div class="message-bubble">
+                            <p>对话已清空。有什么我可以帮您的吗？</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        // 收藏功能
+        document.getElementById('collectBtn').addEventListener('click', function() {
+            this.classList.toggle('collected');
+            if (this.classList.contains('collected')) {
+                this.innerHTML = '<span>⭐</span><span>已收藏</span>';
+            } else {
+                this.innerHTML = '<span>⭐</span><span>收藏</span>';
+            }
+        });
+    </script>
+</body>
+</html>
