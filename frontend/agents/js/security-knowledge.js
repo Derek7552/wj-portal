@@ -1,35 +1,38 @@
 // 安全智库智能体页面交互逻辑
 
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化左侧分类导航
-    initCategoryNav();
-    
-    // 初始化搜索功能
-    initSearch();
-    
     // 初始化侧边栏展开/收起功能
     initSidebarToggle();
-    
+
     // 初始化收藏功能（使用dashboard.js中的函数）
     if (typeof window.initFavorites === 'function') {
         window.initFavorites();
     }
-    
+
     // 初始化首页菜单位置（使用dashboard.js中的函数）
     if (typeof window.initHomeMenuPosition === 'function') {
         window.initHomeMenuPosition();
     }
+
+    // 初始化新任务按钮
+    initNewTaskButton();
+
+    // 初始化近期任务列表
+    initRecentTasks();
+
+    // 初始化聊天输入
+    initChatInput();
 });
 
 // 初始化侧边栏展开/收起功能（安全智库页：默认收起且不支持展开）
 function initSidebarToggle() {
     const sidebar = document.getElementById('sidebar');
-    
+
     if (!sidebar) return;
-    
+
     // 安全智库页：强制收起，不允许展开
     sidebar.classList.add('collapsed');
-    
+
     // 移除展开/收起按钮（如果存在）
     const toggleBtn = document.getElementById('sidebarToggle');
     if (toggleBtn) {
@@ -37,203 +40,194 @@ function initSidebarToggle() {
     }
 }
 
-// 初始化搜索功能
-function initSearch() {
-    const searchInput = document.getElementById('searchInput');
-    const resetBtn = document.getElementById('searchReset');
-    
-    if (!searchInput) return;
-    
-    // 实时搜索
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.trim().toLowerCase();
-        performSearch(searchTerm);
-        toggleResetButton(searchTerm);
-    });
-    
-    // 重置按钮
-    if (resetBtn) {
-        resetBtn.addEventListener('click', function() {
-            searchInput.value = '';
-            performSearch('');
-            toggleResetButton('');
+// 初始化新任务按钮
+function initNewTaskButton() {
+    const newTaskBtn = document.querySelector('.btn-new-chat');
+    if (!newTaskBtn) return;
+
+    newTaskBtn.addEventListener('click', function() {
+        console.log('创建新任务');
+
+        // 移除所有任务的active状态
+        const allTaskItems = document.querySelectorAll('.recent-task-item');
+        allTaskItems.forEach(function(item) {
+            item.classList.remove('active');
         });
-    }
+
+        // 显示空状态页面
+        showEmptyState();
+    });
 }
 
-// 执行搜索（结合分类和来源筛选）
-function performSearch(searchTerm) {
-    applyFilters();
-}
+// 初始化近期任务列表
+function initRecentTasks() {
+    const taskItems = document.querySelectorAll('.recent-task-item');
 
-// 切换重置按钮显示
-function toggleResetButton(searchTerm) {
-    const resetBtn = document.getElementById('searchReset');
-    if (resetBtn) {
-        resetBtn.style.display = searchTerm ? 'block' : 'none';
-    }
-}
-
-// 初始化左侧分类导航
-function initCategoryNav() {
-    const categoryItems = document.querySelectorAll('.category-item[data-category]');
-    const sourceItems = document.querySelectorAll('.category-item[data-source]');
-    
-    // 知识分类
-    categoryItems.forEach(item => {
+    taskItems.forEach(function(item) {
         item.addEventListener('click', function(e) {
             e.preventDefault();
-            
-            // 移除所有活动状态
-            categoryItems.forEach(i => i.classList.remove('active'));
-            // 添加当前活动状态
+
+            // 移除所有任务的active状态
+            taskItems.forEach(function(task) {
+                task.classList.remove('active');
+            });
+
+            // 添加当前任务的active状态
             this.classList.add('active');
-            
-            const category = this.dataset.category;
-            
-            // 应用综合筛选（分类 + 来源 + 搜索）
-            applyFilters();
+
+            // 显示对话内容（这里可以根据实际需求加载历史对话）
+            const taskName = this.querySelector('.task-name').textContent;
+            showChatContent(taskName);
         });
     });
-    
-    // 知识来源分类（父级分类，可展开）
-    const sourceParents = document.querySelectorAll('.category-item-parent');
-    sourceParents.forEach(parent => {
-        const parentItem = parent.querySelector('.category-item');
-        const subItems = parent.querySelectorAll('.category-sub-item');
-        
-        // 点击父级分类，展开/收起子分类
-        if (parentItem) {
-            parentItem.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // 切换展开状态
-                parent.classList.toggle('expanded');
-                
-                // 如果点击的是父级，选中父级并筛选
-                if (!parent.classList.contains('expanded')) {
-                    // 收起时，移除所有活动状态
-                    sourceItems.forEach(i => i.classList.remove('active'));
-                    subItems.forEach(i => i.classList.remove('active'));
-                    // 选中父级
-                    this.classList.add('active');
-                    
-                    // 应用综合筛选
-                    applyFilters();
-                }
-            });
-        }
-        
-        // 点击子分类
-        subItems.forEach(subItem => {
-            subItem.addEventListener('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // 移除所有活动状态
-                sourceItems.forEach(i => i.classList.remove('active'));
-                document.querySelectorAll('.category-sub-item').forEach(i => i.classList.remove('active'));
-                
-                // 添加当前活动状态
-                this.classList.add('active');
-                if (parentItem) {
-                    parentItem.classList.add('active');
-                }
-                
-                // 确保父级展开
-                parent.classList.add('expanded');
-                
-                applyFilters();
-            });
-        });
+}
+
+// 显示空状态页面
+function showEmptyState() {
+    const mainContent = document.querySelector('.agent-main-content');
+    if (!mainContent) return;
+
+    mainContent.innerHTML = `
+        <div class="empty-state-container">
+            <div class="empty-agent-name">
+                <span class="agent-name-text">安全智库</span>
+            </div>
+            <div class="empty-state-guide">
+                <p class="empty-state-guide-text">咨询安全知识，获取最佳实践指南</p>
+            </div>
+            <div class="chat-input-container" data-container-mode="empty">
+                <div class="chat-input-wrapper">
+                    <textarea
+                        class="chat-input"
+                        id="chatInput"
+                        placeholder="输入您的安全问题或咨询内容..."
+                        rows="3"
+                    ></textarea>
+                    <div class="chat-input-toolbar">
+                        <div class="chat-input-actions">
+                            <button class="btn-icon" title="上传文件">📎</button>
+                            <button class="btn-icon" title="插入图片">🖼️</button>
+                            <button class="btn-icon" title="插入代码">💻</button>
+                            <button class="btn-icon" title="插入表格">📊</button>
+                        </div>
+                        <button class="btn btn-primary chat-send" id="chatSend">
+                            <span>发送</span>
+                            <span class="send-shortcut">Shift+Enter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // 重新初始化聊天输入
+    initChatInput();
+}
+
+// 显示对话内容
+function showChatContent(taskName) {
+    const mainContent = document.querySelector('.agent-main-content');
+    if (!mainContent) return;
+
+    // 这里可以根据taskName加载对应的历史对话
+    // 目前显示一个示例对话界面
+    mainContent.innerHTML = `
+        <div class="chat-container">
+            <div class="chat-header">
+                <div class="chat-title">${taskName}</div>
+                <div class="chat-time">刚刚</div>
+            </div>
+            <div class="chat-messages">
+                <div class="message-item user-message">
+                    <div class="message-content">
+                        <p>${taskName}相关问题...</p>
+                    </div>
+                    <div class="message-time">14:30</div>
+                </div>
+                <div class="message-item ai-message">
+                    <div class="message-content">
+                        <p>我可以帮你解答关于${taskName}的问题。请告诉我你想了解哪方面的内容？</p>
+                    </div>
+                    <div class="message-time">14:30</div>
+                </div>
+            </div>
+            <div class="chat-input-container" data-container-mode="chat">
+                <div class="chat-input-wrapper">
+                    <textarea
+                        class="chat-input"
+                        id="chatInput"
+                        placeholder="输入您的问题..."
+                        rows="3"
+                    ></textarea>
+                    <div class="chat-input-toolbar">
+                        <div class="chat-input-actions">
+                            <button class="btn-icon" title="上传文件">📎</button>
+                            <button class="btn-icon" title="插入图片">🖼️</button>
+                            <button class="btn-icon" title="插入代码">💻</button>
+                            <button class="btn-icon" title="插入表格">📊</button>
+                        </div>
+                        <button class="btn btn-primary chat-send" id="chatSend">
+                            <span>发送</span>
+                            <span class="send-shortcut">Shift+Enter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // 重新初始化聊天输入
+    initChatInput();
+
+    // 滚动到消息底部
+    const messagesContainer = mainContent.querySelector('.chat-messages');
+    if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+}
+
+// 初始化聊天输入
+function initChatInput() {
+    const chatInput = document.getElementById('chatInput');
+    const chatSend = document.getElementById('chatSend');
+
+    if (!chatInput || !chatSend) return;
+
+    // 发送按钮点击事件
+    chatSend.addEventListener('click', function() {
+        sendMessage();
     });
-    
-    // 全部来源
-    const allSourceItem = document.querySelector('.category-item[data-source="all"]');
-    if (allSourceItem) {
-        allSourceItem.addEventListener('click', function(e) {
+
+    // 输入框键盘事件
+    chatInput.addEventListener('keydown', function(e) {
+        // Shift + Enter 发送消息
+        if (e.key === 'Enter' && e.shiftKey) {
             e.preventDefault();
-            
-            // 移除所有活动状态
-            sourceItems.forEach(i => i.classList.remove('active'));
-            document.querySelectorAll('.category-sub-item').forEach(i => i.classList.remove('active'));
-            sourceParents.forEach(p => p.classList.remove('expanded'));
-            
-            // 添加当前活动状态
-            this.classList.add('active');
-            
-            applyFilters();
-        });
-    }
-}
-
-// 同步左侧导航状态
-function syncCategoryNav(filter, type) {
-    if (type === 'category') {
-        const categoryItems = document.querySelectorAll('.category-item[data-category]');
-        categoryItems.forEach(item => {
-            if (item.dataset.category === filter) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
-        });
-    }
-}
-
-// 应用分类和来源筛选（结合搜索）
-function applyFilters() {
-    const activeCategory = document.querySelector('.category-item[data-category].active')?.dataset.category || 'all';
-    const activeSource = document.querySelector('.category-item[data-source].active, .category-sub-item.active')?.dataset.source || 'all';
-    const searchTerm = document.getElementById('searchInput')?.value.trim().toLowerCase() || '';
-    
-    const knowledgeCards = document.querySelectorAll('.result-card');
-    let visibleCount = 0;
-    
-    knowledgeCards.forEach(card => {
-        // 分类筛选
-        const categoryMatch = activeCategory === 'all' || card.dataset.category === activeCategory;
-        
-        // 来源筛选
-        const sourceMatch = activeSource === 'all' || card.dataset.source === activeSource;
-        
-        // 搜索筛选
-        const title = card.querySelector('.result-title')?.textContent?.toLowerCase() || '';
-        const summary = card.querySelector('.result-summary')?.textContent?.toLowerCase() || '';
-        const tag = card.querySelector('.result-tag')?.textContent?.toLowerCase() || '';
-        const searchMatch = searchTerm === '' || 
-            title.includes(searchTerm) || 
-            summary.includes(searchTerm) || 
-            tag.includes(searchTerm);
-        
-        if (categoryMatch && sourceMatch && searchMatch) {
-            card.style.display = 'block';
-            visibleCount++;
-        } else {
-            card.style.display = 'none';
+            sendMessage();
         }
     });
-    
-    // 更新结果计数
-    const resultCount = document.querySelector('.result-count');
-    if (resultCount) {
-        resultCount.innerHTML = `共找到 <strong>${visibleCount}</strong> 条知识`;
-    }
-    
-    // 显示/隐藏无结果提示
-    const resultsList = document.querySelector('.search-results-list');
-    if (resultsList) {
-        let noResults = resultsList.querySelector('.no-results');
-        if (visibleCount === 0 && (activeCategory !== 'all' || activeSource !== 'all' || searchTerm !== '')) {
-            if (!noResults) {
-                noResults = document.createElement('div');
-                noResults.className = 'no-results';
-                noResults.innerHTML = '<p>未找到相关知识</p><p style="font-size: 14px; color: var(--text-secondary); margin-top: 8px;">请尝试调整筛选条件</p>';
-                resultsList.appendChild(noResults);
-            }
-        } else if (noResults) {
-            noResults.remove();
-        }
-    }
+
+    // 自动调整输入框高度
+    chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = this.scrollHeight + 'px';
+    });
+}
+
+// 发送消息
+function sendMessage() {
+    const chatInput = document.getElementById('chatInput');
+    if (!chatInput) return;
+
+    const message = chatInput.value.trim();
+    if (!message) return;
+
+    console.log('发送消息:', message);
+
+    // 清空输入框
+    chatInput.value = '';
+    chatInput.style.height = 'auto';
+
+    // 这里可以添加实际的消息发送逻辑
+    // 例如：调用API、显示消息等
 }
