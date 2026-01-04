@@ -1797,6 +1797,79 @@
             });
             } else {
                 console.log('[DEBUG] initAgentSidebar 函数不存在，跳过侧边栏初始化');
+
+                // 手动绑定"新任务"按钮的点击事件
+                var newTaskBtn = document.querySelector('.btn-new-chat');
+                if (newTaskBtn) {
+                    newTaskBtn.addEventListener('click', function() {
+                        console.log('创建新任务');
+
+                        // 清空已上传的文件
+                        uploadedFiles.sast = null;
+                        uploadedFiles.code = null;
+
+                        // 移除所有任务的active状态
+                        var allTaskItems = document.querySelectorAll('.recent-task-item');
+                        allTaskItems.forEach(function(item) {
+                            item.classList.remove('active');
+                        });
+
+                        // 隐藏所有任务结果容器
+                        var taskResultContainer = document.querySelector('#taskResultContainer');
+                        var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                        var phpTaskErrorContainer = document.querySelector('#phpTaskErrorContainer');
+                        var taskDetailContent = document.querySelector('.task-detail-content');
+                        var tasksList = document.querySelector('.tasks-list-container');
+
+                        if (taskResultContainer) taskResultContainer.style.display = 'none';
+                        if (javaTaskLoadingContainer) javaTaskLoadingContainer.style.display = 'none';
+                        if (phpTaskErrorContainer) phpTaskErrorContainer.style.display = 'none';
+                        if (taskDetailContent) taskDetailContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+
+                        // 检查是否存在空状态容器
+                        var emptyStateContainer = document.querySelector('.empty-state-container');
+
+                        // 如果已有空状态容器，直接显示
+                        if (emptyStateContainer) {
+                            emptyStateContainer.style.display = 'flex';
+                            return;
+                        }
+
+                        // 否则重新创建空状态页面
+                        var chatArea = document.querySelector('.agent-main-content');
+                        if (!chatArea) return;
+
+                        chatArea.innerHTML = '<div class="empty-state-container">' +
+                            '<div class="empty-agent-name">' +
+                                '<span class="agent-name-text">缺陷研判</span>' +
+                            '</div>' +
+                            '<div class="empty-state-guide">' +
+                                '<p class="empty-state-guide-text">开始给智能体分配任务</p>' +
+                            '</div>' +
+                            '<div class="chat-input-container" data-container-mode="empty">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" id="chatInput" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions">' +
+                                            '<button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">📎</button>' +
+                                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                                        '</div>' +
+                                        '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                            '<span>发送</span>' +
+                                            '<span class="send-shortcut">Shift+Enter</span>' +
+                                        '</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    });
+                    console.log('[DEBUG] 新任务按钮事件已绑定');
+                } else {
+                    console.log('[DEBUG] 未找到新任务按钮');
+                }
             }
 
             // 初始化聊天输入框组件
