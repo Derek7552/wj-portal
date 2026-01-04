@@ -1552,20 +1552,40 @@
                     maxTasks: 10,
                     onNewTask: function() {
                     console.log('创建新任务');
+
+                    // 清空已上传的文件
+                    uploadedFiles.sast = null;
+                    uploadedFiles.code = null;
+
+                    // 移除所有任务的active状态
+                    var allTaskItems = document.querySelectorAll('.recent-task-item');
+                    allTaskItems.forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+
                     // 点击新任务按钮时，显示空状态页面
                     var chatArea = document.querySelector('.agent-main-content');
                     if (!chatArea) return;
 
+                    // 隐藏所有任务结果容器
+                    var taskResultContainer = document.querySelector('#taskResultContainer');
+                    var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                    var phpTaskErrorContainer = document.querySelector('#phpTaskErrorContainer');
+                    var taskDetailContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+
+                    if (taskResultContainer) taskResultContainer.style.display = 'none';
+                    if (javaTaskLoadingContainer) javaTaskLoadingContainer.style.display = 'none';
+                    if (phpTaskErrorContainer) phpTaskErrorContainer.style.display = 'none';
+                    if (taskDetailContent) taskDetailContent.style.display = 'none';
+                    if (tasksList) tasksList.style.display = 'none';
+
                     // 检查是否存在空状态容器
                     var emptyStateContainer = document.querySelector('.empty-state-container');
-                    var taskContent = document.querySelector('.task-detail-content');
-                    var tasksList = document.querySelector('.tasks-list-container');
 
                     // 如果已有空状态容器，直接显示
                     if (emptyStateContainer) {
                         emptyStateContainer.style.display = 'flex';
-                        if (taskContent) taskContent.style.display = 'none';
-                        if (tasksList) tasksList.style.display = 'none';
                         return;
                     }
 
