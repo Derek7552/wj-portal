@@ -1,0 +1,955 @@
+/* ==========================================
+   个人知识库页面样式
+   ========================================== */
+
+/* ==========================================
+   三栏容器布局
+   ========================================== */
+
+.kb-container {
+    display: grid;
+    grid-template-columns: 280px 1fr 360px;
+    gap: 24px;
+    padding: 24px;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* ==========================================
+   左侧：知识库导航
+   ========================================== */
+
+.kb-sidebar {
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    padding: 16px;
+    height: fit-content;
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+}
+
+/* 知识库区块 */
+.kb-section {
+    margin-bottom: 24px;
+}
+
+.kb-section:last-child {
+    margin-bottom: 0;
+}
+
+.kb-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.kb-section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0 0 12px 0;
+}
+
+.kb-section-title.simple {
+    margin-bottom: 8px;
+}
+
+.btn-add-kb {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--clouditera-neutral-gray-7);
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.btn-add-kb:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.kb-section-icon {
+    font-size: 16px;
+}
+
+/* 知识库列表 */
+.kb-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.kb-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 6px;
+    background: var(--clouditera-neutral-background-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.kb-item:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.kb-item.active {
+    background: var(--clouditera-palette-blue-1);
+    border-left: 3px solid var(--clouditera-brand-primary);
+    padding-left: 7px;
+}
+
+.kb-item-icon {
+    font-size: 18px;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.kb-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.kb-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-gray-9);
+    margin-bottom: 6px;
+    word-wrap: break-word;
+}
+
+.kb-item.active .kb-item-name {
+    color: var(--clouditera-brand-primary);
+}
+
+/* 进度条 */
+.kb-item-progress {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.progress-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--clouditera-neutral-gray-3);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg,
+        var(--clouditera-brand-primary) 0%,
+        var(--clouditera-brand-primary-hover) 100%);
+    transition: width 0.3s;
+}
+
+.progress-text {
+    font-size: 11px;
+    color: var(--clouditera-neutral-gray-6);
+    white-space: nowrap;
+}
+
+/* 空状态 */
+.kb-empty-state {
+    padding: 16px 8px;
+    text-align: center;
+}
+
+.kb-empty-state.with-icon {
+    padding: 24px 8px;
+}
+
+.empty-icon {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+.empty-text {
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-6);
+    margin: 0 0 12px 0;
+    line-height: 1.5;
+}
+
+.btn-collect-kb {
+    padding: 8px 16px;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+    border: 1px solid var(--clouditera-brand-primary);
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-collect-kb:hover {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+}
+
+/* 左侧滚动条 */
+.kb-sidebar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.kb-sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.kb-sidebar::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+    border-radius: 2px;
+}
+
+.kb-sidebar::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
+}
+
+/* ==========================================
+   中间：知识库内容
+   ========================================== */
+
+.kb-content {
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    padding: 24px;
+}
+
+/* 知识库头部 */
+.kb-content-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+.kb-header-main {
+    flex: 1;
+}
+
+.kb-content-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0 0 8px 0;
+}
+
+.kb-update-time {
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+.kb-update-time span {
+    color: var(--clouditera-neutral-gray-8);
+}
+
+.btn-upload-doc {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-upload-doc:hover {
+    background: var(--clouditera-brand-primary-hover);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+.btn-upload-doc:active {
+    transform: translateY(0);
+}
+
+/* 目录区域 */
+.kb-directory-section {
+    margin-top: 16px;
+}
+
+.directory-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.directory-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0;
+}
+
+.btn-directory-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-directory-action:hover {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+/* 文件列表表格 */
+.file-table-container {
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 16px;
+}
+
+.file-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--clouditera-neutral-background-white);
+}
+
+.file-table thead {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+.file-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-8);
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+.file-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+}
+
+.file-table th.sortable:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.sort-icon {
+    display: inline-block;
+    margin-left: 4px;
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+.file-table td {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-9);
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+.file-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.file-table tbody tr:hover {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+/* 文件名列 */
+.col-name {
+    width: 45%;
+}
+
+.col-name .file-icon {
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+.file-name {
+    word-break: break-all;
+}
+
+/* 状态列 */
+.col-status {
+    width: 10%;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.status-success {
+    background: var(--clouditera-semantic-success-background);
+    color: var(--clouditera-semantic-success);
+}
+
+.status-badge.status-failed {
+    background: var(--clouditera-semantic-error-background);
+    color: var(--clouditera-semantic-error);
+}
+
+.status-badge.status-processing {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+}
+
+/* 时间列 */
+.col-time {
+    width: 20%;
+}
+
+/* 大小列 */
+.col-size {
+    width: 15%;
+}
+
+/* 操作列 */
+.col-actions {
+    width: 10%;
+}
+
+.btn-file-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-right: 4px;
+}
+
+.btn-file-action:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.btn-file-action:last-child {
+    margin-right: 0;
+}
+
+/* 分页 */
+.file-pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+}
+
+.pagination-info {
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-7);
+}
+
+.pagination-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-8);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-page:hover:not(:disabled) {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+}
+
+.btn-page.active {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border-color: var(--clouditera-brand-primary);
+}
+
+.btn-page:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ==========================================
+   右侧：AI智能助手
+   ========================================== */
+
+.kb-chat {
+    position: sticky;
+    top: 24px;
+    height: calc(100vh - 200px);
+}
+
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+/* 对话头部 */
+.chat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+    flex-shrink: 0;
+}
+
+.chat-header-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.chat-icon {
+    font-size: 20px;
+}
+
+.chat-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+.btn-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-icon:hover {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+/* 对话消息区 */
+.chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.message-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.message-item:last-child {
+    margin-bottom: 0;
+}
+
+.message-avatar {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    background: var(--clouditera-palette-blue-0);
+}
+
+.message-content {
+    flex: 1;
+    padding: 12px;
+    background: var(--clouditera-neutral-background-primary);
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--clouditera-neutral-gray-9);
+}
+
+.message-content p {
+    margin: 0 0 8px 0;
+}
+
+.message-content p:last-child {
+    margin-bottom: 0;
+}
+
+.message-content ul {
+    margin: 8px 0 0 0;
+    padding-left: 20px;
+}
+
+.message-content li {
+    margin-bottom: 4px;
+}
+
+.user-message .message-avatar {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+}
+
+.user-message .message-content {
+    background: var(--clouditera-palette-blue-1);
+}
+
+/* 滚动条 */
+.chat-messages::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+    border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
+}
+
+/* 输入区域 */
+.chat-input-area {
+    flex-shrink: 0;
+    padding: 12px;
+    border-top: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+.chat-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: none;
+    transition: border-color 0.2s;
+    line-height: 1.5;
+}
+
+.chat-input:focus {
+    outline: none;
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.chat-input-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.btn-send {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-send:hover {
+    background: var(--clouditera-brand-primary-hover);
+}
+
+.send-shortcut {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* ==========================================
+   上传文档对话框
+   ========================================== */
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+}
+
+.modal.show {
+    display: block;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    background: var(--clouditera-neutral-background-white);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0;
+}
+
+.btn-modal-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 24px;
+    color: var(--clouditera-neutral-gray-7);
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 1;
+}
+
+.btn-modal-close:hover {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+.modal-body {
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+/* 上传区域 */
+.upload-area {
+    border: 2px dashed var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    padding: 40px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-area:hover {
+    border-color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.upload-area.dragover {
+    border-color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-1);
+}
+
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+}
+
+.upload-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-gray-9);
+    margin: 0 0 8px 0;
+}
+
+.upload-hint {
+    font-size: 13px;
+    color: var(--clouditera-neutral-gray-6);
+    margin: 0;
+}
+
+/* 上传列表 */
+.upload-list {
+    margin-top: 16px;
+    display: none;
+}
+
+.upload-list.show {
+    display: block;
+}
+
+.upload-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--clouditera-neutral-background-primary);
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.upload-item-icon {
+    font-size: 24px;
+}
+
+.upload-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.upload-item-name {
+    font-size: 14px;
+    color: var(--clouditera-neutral-gray-9);
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.upload-item-size {
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+}
+
+.upload-item-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 16px;
+    color: var(--clouditera-neutral-gray-6);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.upload-item-remove:hover {
+    background: var(--clouditera-semantic-error-background);
+    color: var(--clouditera-semantic-error);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 16px 24px;
+    border-top: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+/* ==========================================
+   响应式设计
+   ========================================== */
+
+@media (max-width: 1400px) {
+    .kb-container {
+        grid-template-columns: 260px 1fr 320px;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .kb-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .kb-sidebar,
+    .kb-chat {
+        display: none;
+    }
+
+    .kb-content {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .kb-container {
+        padding: 16px;
+    }
+
+    .kb-content {
+        padding: 16px;
+    }
+
+    .kb-content-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+
+    .file-table-container {
+        overflow-x: auto;
+    }
+
+    .file-table {
+        min-width: 600px;
+    }
+}
