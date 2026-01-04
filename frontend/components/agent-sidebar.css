@@ -170,6 +170,19 @@
     line-height: 1;
 }
 
+/* 任务状态样式 */
+.task-status-icon.error {
+    color: var(--clouditera-semantic-error);
+}
+
+.task-status-icon.running {
+    color: var(--clouditera-brand-primary);
+}
+
+.task-status-icon.completed {
+    color: var(--clouditera-semantic-success);
+}
+
 .task-name {
     flex: 1;
     font-size: 13px;

@@ -11,11 +11,6 @@
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
     <style>
-        /* 页面背景色 */
-        body.agent-detail-page {
-            background-color: #F8FAFC !important;
-        }
-
         /* ==========================================
            搜索筛选器样式
            ========================================== */
@@ -236,65 +231,35 @@
             min-width: 0;
             display: flex;
             flex-direction: column;
-            background: transparent;
-            padding: 0;
-            overflow-y: auto;
-        }
-
-        /* 滚动条样式 - 自动隐藏 */
-        .paper-search-module::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .paper-search-module::-webkit-scrollbar-track {
-            background: transparent;
-            border-radius: 3px;
-        }
-
-        .paper-search-module::-webkit-scrollbar-thumb {
-            background: transparent;
-            border-radius: 3px;
-            transition: background 0.3s ease;
-        }
-
-        /* 鼠标悬停时显示滚动条 */
-        .paper-search-module:hover::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-        }
-
-        .paper-search-module:hover::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-
-        .paper-search-module::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8 !important;
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            overflow: hidden;
         }
 
         /* 筛选器区域 */
         .paper-filters-section {
             flex-shrink: 0;
-            padding: 16px 20px;
-            margin: 0 0 16px 0;
+            padding: 0 16px 16px 16px;
+            margin-bottom: 0;
             display: flex;
             align-items: center;
             gap: 24px;
             flex-wrap: nowrap;
             transition: box-shadow 0.3s ease;
             position: relative;
-            background: var(--clouditera-neutral-background-white);
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
-        /* 滚动时增强底部阴影 */
+        /* 滚动时添加底部阴影 */
         .paper-filters-section.scrolled {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 8px 12px -4px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 12px -8px rgba(0, 0, 0, 0.15);
         }
 
         .filter-group {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 8px;
             white-space: nowrap;
             flex-shrink: 0;
         }
@@ -304,9 +269,9 @@
         }
 
         .filter-group-label {
-            font-size: 14px;
-            font-weight: 500;
-            color: #595959;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-gray-9);
             display: inline-flex;
             align-items: center;
             white-space: nowrap;
@@ -870,23 +835,19 @@
 
         /* 论文卡片列表 */
         .paper-cards-section {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
-
-        /* 论文卡片容器（用于骨架屏） */
-        .paper-cards-container {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: visible;
+            min-height: 0;
+            padding: 16px;
         }
 
         .paper-card {
             background: var(--clouditera-neutral-background-white);
             border: none;
             border-radius: 8px;
-            padding: 20px;
+            padding: 16px;
+            margin-bottom: 16px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             transition: all 0.3s ease;
         }
@@ -902,12 +863,6 @@
             color: var(--clouditera-neutral-gray-9);
             margin-bottom: 8px;
             line-height: 1.5;
-            cursor: pointer;
-            transition: color 0.2s;
-        }
-
-        .paper-card-title:hover {
-            color: #298CFF !important;
         }
 
         .paper-card-subtitle {
@@ -1143,7 +1098,7 @@
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
             width: 90%;
             max-width: 640px;
-            height: 500px;
+            max-height: 90vh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -1228,14 +1183,7 @@
             flex-direction: column;
             gap: 8px;
         }
-
-        /* 检索表达式头部 - 标签和清空按钮在同一行 */
-        .advanced-search-expression-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        
         .advanced-search-expression-label {
             font-size: 14px;
             font-weight: 500;
@@ -1260,17 +1208,21 @@
         }
         
         .advanced-search-clear-btn {
-            padding: 4px 12px;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            padding: 4px 8px;
             border: none;
             background: transparent;
             color: var(--clouditera-neutral-gray-6);
             font-size: 13px;
             cursor: pointer;
             border-radius: 4px;
-            display: inline-flex;
+            display: flex;
             align-items: center;
             gap: 4px;
             transition: all 0.2s;
+            z-index: 10;
         }
         
         .advanced-search-clear-btn:hover {
@@ -1289,65 +1241,12 @@
             gap: 8px;
             flex-wrap: wrap;
         }
-
-        /* 逻辑运算符选择器 (AND/OR) */
-        .advanced-search-logic-select {
-            padding: 6px 16px;
-            border: none;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #ffffff;
-            cursor: pointer;
-            min-width: 80px;
-            text-align: center;
-            transition: all 0.2s;
-            appearance: none;
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
-            padding-right: 28px;
-        }
-
-        /* AND 选项 - 蓝色背景 */
-        .advanced-search-logic-select[data-value="and"],
-        .advanced-search-logic-select option[value="and"] {
-            background-color: #28d1ff;
-        }
-
-        /* OR 选项 - 紫色背景 */
-        .advanced-search-logic-select[data-value="or"],
-        .advanced-search-logic-select option[value="or"] {
-            background-color: #9285ff;
-        }
-
-        /* 下拉箭头 */
-        .advanced-search-logic-select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ffffff' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-        }
-
-        .advanced-search-logic-select:hover {
-            opacity: 0.9;
-            transform: translateY(-1px);
-        }
-
-        .advanced-search-logic-select:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(41, 140, 255, 0.2);
-        }
-
         
         .advanced-search-field-select {
             padding: 6px 12px;
-            padding-right: 32px;
             border: 1px solid var(--clouditera-neutral-border-primary);
             border-radius: 6px;
             background: var(--clouditera-neutral-background-white);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
-            appearance: none;
             font-size: 13px;
             color: var(--clouditera-neutral-text-primary);
             cursor: pointer;
@@ -1367,15 +1266,9 @@
         
         .advanced-search-operator-select {
             padding: 6px 12px;
-            padding-right: 32px;
             border: 1px solid var(--clouditera-neutral-border-primary);
             border-radius: 6px;
             background: var(--clouditera-neutral-background-white);
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 8px center;
-            background-size: 12px;
-            appearance: none;
             font-size: 13px;
             color: var(--clouditera-neutral-text-primary);
             cursor: pointer;
@@ -1466,6 +1359,35 @@
             line-height: 1;
         }
         
+        /* 搜索中文按钮 */
+        .advanced-search-chinese-btn {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid var(--clouditera-neutral-gray-9);
+            border-radius: 6px;
+            background: var(--clouditera-neutral-gray-9);
+            color: var(--clouditera-neutral-background-white);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: none;
+        }
+        
+        .advanced-search-chinese-btn.show {
+            display: block;
+        }
+        
+        .advanced-search-chinese-btn:hover {
+            background: var(--clouditera-neutral-gray-8);
+            border-color: var(--clouditera-neutral-gray-8);
+        }
+        
+        .advanced-search-chinese-btn:active {
+            background: var(--clouditera-neutral-gray-7);
+            border-color: var(--clouditera-neutral-gray-7);
+        }
+        
         /* 弹框底部操作区 */
         .advanced-search-modal-footer {
             display: flex;
@@ -1546,207 +1468,6 @@
             
             .advanced-search-keyword-input {
                 min-width: 100%;
-            }
-        }
-
-        /* ==========================================
-           单列布局容器（用于React任务）
-           ========================================== */
-
-        .paper-task-container-single {
-            display: flex;
-            flex-direction: row;
-            gap: 16px;
-            height: 100%;
-            width: 100%;
-        }
-
-        /* ==========================================
-           骨架屏样式 (Skeleton Screen)
-           ========================================== */
-
-        /* 骨架屏加载容器 */
-        .skeleton-loading {
-            animation: skeleton-fade-in 0.3s ease-in;
-        }
-
-        @keyframes skeleton-fade-in {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* 骨架屏基础元素 - 矩形条 */
-        .skeleton-bar {
-            background: linear-gradient(
-                90deg,
-                #f0f0f0 0%,
-                #e0e0e0 20%,
-                #f0f0f0 40%,
-                #f0f0f0 100%
-            );
-            background-size: 200% 100%;
-            border-radius: 4px;
-            animation: skeleton-shimmer 3s ease-in-out infinite;
-        }
-
-        /* 骨架屏基础元素 - 圆形 */
-        .skeleton-circle {
-            background: linear-gradient(
-                90deg,
-                #f0f0f0 0%,
-                #e0e0e0 20%,
-                #f0f0f0 40%,
-                #f0f0f0 100%
-            );
-            background-size: 200% 100%;
-            border-radius: 50%;
-            animation: skeleton-shimmer 3s ease-in-out infinite;
-        }
-
-        /* Shimmer动画 */
-        @keyframes skeleton-shimmer {
-            0% {
-                background-position: 200% 0;
-            }
-            100% {
-                background-position: -200% 0;
-            }
-        }
-
-        /* 骨架屏论文卡片 */
-        .skeleton-card {
-            padding: 16px;
-            background: white;
-            border-radius: 8px;
-            border: 1px solid var(--clouditera-neutral-border-secondary);
-        }
-
-        .skeleton-card-meta {
-            display: flex;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .skeleton-card-tags {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        /* 骨架屏聊天区域 */
-        .skeleton-chat-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
-        }
-
-        .skeleton-chat-messages {
-            flex: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-
-        .skeleton-message {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-        }
-
-        .skeleton-message-content {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        /* ==========================================
-           错误/异常状态页面样式 (Error State)
-           ========================================== */
-
-        .error-state-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-            min-height: 500px;
-            padding: 40px;
-        }
-
-        .error-state-content {
-            text-align: center;
-            max-width: 480px;
-        }
-
-        .error-state-icon {
-            font-size: 80px;
-            margin-bottom: 24px;
-            animation: error-fade-in 0.5s ease-in;
-        }
-
-        .error-state-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: var(--clouditera-neutral-text-primary);
-            margin-bottom: 12px;
-        }
-
-        .error-state-description {
-            font-size: 14px;
-            color: var(--clouditera-neutral-text-secondary);
-            line-height: 1.6;
-            margin-bottom: 32px;
-        }
-
-        .error-state-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .btn-error-retry {
-            padding: 10px 24px;
-            background: var(--clouditera-brand-primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-error-retry:hover {
-            background: var(--clouditera-brand-primary-hover);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(41, 140, 255, 0.3);
-        }
-
-        .btn-error-back {
-            padding: 10px 24px;
-            background: white;
-            color: var(--clouditera-neutral-text-primary);
-            border: 1px solid var(--clouditera-neutral-border-primary);
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .btn-error-back:hover {
-            border-color: var(--clouditera-brand-primary);
-            color: var(--clouditera-brand-primary);
-            transform: translateY(-1px);
-        }
-
-        @keyframes error-fade-in {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
             }
         }
     </style>
@@ -1847,7 +1568,7 @@
             </div>
             <!-- 管理功能按钮组 -->
             <div class="agent-header-actions">
-                <button class="btn-agent-action" id="conferenceBtn" title="涵盖学术会议">
+                <button class="btn-agent-action" title="涵盖学术会议">
                     <span class="action-icon">🎓</span>
                     <span class="action-text">涵盖学术会议</span>
                     <span class="action-count">(34579)</span>
@@ -2174,14 +1895,12 @@
             </div>
             <div class="advanced-search-modal-body">
                 <div class="advanced-search-expression-section">
-                    <div class="advanced-search-expression-header">
-                        <label class="advanced-search-expression-label">检索表达式</label>
+                    <label class="advanced-search-expression-label">检索表达式</label>
+                    <div class="advanced-search-expression-container" id="advancedSearchExpressionContainer">
                         <button class="advanced-search-clear-btn" id="advancedSearchClearBtn">
                             <span>🗑️</span>
                             <span>清空</span>
                         </button>
-                    </div>
-                    <div class="advanced-search-expression-container" id="advancedSearchExpressionContainer">
                         <!-- 检索条件项将动态添加到这里 -->
                     </div>
                 </div>
@@ -2211,6 +1930,7 @@
                         <span>全文</span>
                     </button>
                 </div>
+                <button class="advanced-search-chinese-btn" id="advancedSearchChineseBtn">搜索中文</button>
             </div>
             <div class="advanced-search-modal-footer">
                 <button class="advanced-search-modal-cancel-btn" id="advancedSearchModalCancel">取消</button>
@@ -2234,44 +1954,6 @@
             { id: '6', name: 'Django项目代码审查', status: 'completed', active: false },
             { id: '7', name: 'Vue.js安全扫描', status: 'completed', active: false }
         ];
-
-        // 生成骨架屏论文卡片
-        function generateSkeletonCard() {
-            return '<div class="paper-card skeleton-card">' +
-                '<div class="skeleton-bar" style="width: 80%; height: 20px;"></div>' +
-                '<div class="skeleton-bar" style="width: 60%; height: 20px; margin-top: 8px;"></div>' +
-                '<div class="skeleton-card-meta">' +
-                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                    '<div class="skeleton-bar" style="width: 120px; height: 14px;"></div>' +
-                    '<div class="skeleton-bar" style="width: 100px; height: 14px;"></div>' +
-                '</div>' +
-                '<div class="skeleton-bar" style="width: 100%; height: 14px; margin-top: 12px;"></div>' +
-                '<div class="skeleton-bar" style="width: 90%; height: 14px; margin-top: 6px;"></div>' +
-                '<div class="skeleton-bar" style="width: 70%; height: 14px; margin-top: 6px;"></div>' +
-                '<div class="skeleton-card-tags">' +
-                    '<div class="skeleton-bar" style="width: 60px; height: 24px;"></div>' +
-                    '<div class="skeleton-bar" style="width: 50px; height: 24px;"></div>' +
-                    '<div class="skeleton-bar" style="width: 70px; height: 24px;"></div>' +
-                '</div>' +
-            '</div>';
-        }
-
-        // 清空任务内容，返回首页
-        function clearTaskContent() {
-            console.log('[DEBUG] 清空任务内容，返回首页');
-
-            var chatArea = document.getElementById('chatArea');
-            if (chatArea) {
-                // 清空右侧内容区
-                chatArea.innerHTML = '';
-
-                // 移除所有任务的选中状态
-                var allTaskItems = document.querySelectorAll('.recent-task-item');
-                allTaskItems.forEach(function(item) {
-                    item.classList.remove('active');
-                });
-            }
-        }
 
         // 任务点击处理函数（统一处理逻辑）
         function handleTaskClick(taskId, taskData) {
@@ -2530,8 +2212,8 @@
                             '</div>' +
                             // 论文卡片列表
                             '<div class="paper-cards-section">' +
-                                '<div class="paper-card" data-paper-id="0">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=0\'">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
                                     '<div class="paper-card-subtitle">Haixia Han, Jiaqing Liang, Jie Shi, Qianyu He, Yanghua Xiao</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。</div>' +
                                     '<div class="paper-card-footer">' +
@@ -2539,8 +2221,8 @@
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="paper-card" data-paper-id="1">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=1\'">基于硬件可信根的可信计算平台构建方法</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">基于硬件可信根的可信计算平台构建方法</div>' +
                                     '<div class="paper-card-subtitle">Wei Zhang, Li Chen, Ming Wang, Xiaoyu Liu, Jun Li</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。</div>' +
                                     '<div class="paper-card-footer">' +
@@ -2548,8 +2230,8 @@
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="paper-card" data-paper-id="2">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=2\'">可信AI模型训练与推理的安全保障机制</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信AI模型训练与推理的安全保障机制</div>' +
                                     '<div class="paper-card-subtitle">Yan Liu, Hao Zhang, Qiang Wang, Mei Chen, Lei Wu</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。</div>' +
                                     '<div class="paper-card-footer">' +
@@ -2557,8 +2239,8 @@
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="paper-card" data-paper-id="3">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=3\'">可信网络架构下的零信任安全通信协议</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信网络架构下的零信任安全通信协议</div>' +
                                     '<div class="paper-card-subtitle">Tao Yang, Fei Liu, Bin Zhao, Ying Zhang, Gang Wang</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。</div>' +
                                     '<div class="paper-card-footer">' +
@@ -2566,8 +2248,8 @@
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="paper-card" data-paper-id="4">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=4\'">可信存储系统中的数据完整性验证方法</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信存储系统中的数据完整性验证方法</div>' +
                                     '<div class="paper-card-subtitle">Xin Wang, Lei Zhang, Hui Li, Peng Chen, Wei Liu</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。</div>' +
                                     '<div class="paper-card-footer">' +
@@ -2575,13 +2257,49 @@
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                     '</div>' +
                                 '</div>' +
-                                '<div class="paper-card" data-paper-id="5">' +
-                                    '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=5\'">可信软件供应链的安全评估与验证框架</div>' +
+                                '<div class="paper-card">' +
+                                    '<div class="paper-card-title">可信软件供应链的安全评估与验证框架</div>' +
                                     '<div class="paper-card-subtitle">Jing Li, Ming Zhao, Yan Wang, Fei Liu, Tao Chen</div>' +
                                     '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。</div>' +
                                     '<div class="paper-card-footer">' +
                                         '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
                                         '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        // 第二个模块：对话框（右侧）
+                        '<div class="paper-chat-module">' +
+                            '<div class="paper-chat-header">' +
+                                '<div class="paper-chat-title">对话</div>' +
+                            '</div>' +
+                            '<div class="paper-chat-messages">' +
+                                '<div class="message message-user">' +
+                                    '<div class="message-avatar">👤</div>' +
+                                    '<div class="message-content">' +
+                                        '<div class="message-time">刚刚</div>' +
+                                        '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="message message-ai">' +
+                                    '<div class="message-avatar">🤖</div>' +
+                                    '<div class="message-content">' +
+                                        '<div class="message-time">刚刚</div>' +
+                                        '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-chat-input-area">' +
+                                '<div class="chat-input-container" data-container-mode="fixed">' +
+                                    '<div class="chat-input-wrapper">' +
+                                        '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
+                                        '<div class="chat-input-toolbar">' +
+                                            '<div class="chat-input-actions-right">' +
+                                                '<button class="btn btn-primary chat-send">' +
+                                                    '<span>发送</span>' +
+                                                '</button>' +
+                                            '</div>' +
+                                        '</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -3044,384 +2762,6 @@
                     }
 
                     console.log('[DEBUG] 双模块布局已创建并显示');
-                } else if (taskName === 'React应用漏洞扫描') {
-                    // React任务：显示骨架屏，10秒后显示真实内容
-                    var taskContent = document.createElement('div');
-                    taskContent.className = 'paper-task-container-single';
-
-                    // 骨架屏HTML结构（仅左侧内容区）
-                    taskContent.innerHTML =
-                        '<div class="paper-search-module skeleton-loading" style="width: 100%;">' +
-                            // 筛选区骨架
-                            '<div class="paper-filters-section">' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 60px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 120px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 60px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 120px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                            '</div>' +
-                            // 论文卡片骨架（4个）
-                            '<div class="paper-cards-container">' +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                            '</div>' +
-                        '</div>';
-
-                    chatArea.appendChild(taskContent);
-                    taskContent.style.display = 'flex';
-
-                    // 10秒后显示真实内容（复用可信高效任务的内容）
-                    setTimeout(function() {
-                        taskContent.innerHTML =
-                            '<div class="paper-search-module" style="width: 100%;">' +
-                                '<div class="paper-filters-section">' +
-                                    // 论文类型下拉+复选框
-                                    '<div class="filter-group">' +
-                                        '<label class="filter-group-label">论文类型</label>' +
-                                        '<div class="dropdown-checkbox-wrapper">' +
-                                            '<div class="dropdown-checkbox-trigger" id="paperTypeDropdown">' +
-                                                '<span class="dropdown-checkbox-trigger-text">选择论文类型</span>' +
-                                                '<div class="dropdown-checkbox-selected-tags" id="paperTypeSelectedTags"></div>' +
-                                                '<span class="filter-arrow">▼</span>' +
-                                            '</div>' +
-                                            '<div class="dropdown-checkbox-menu" id="paperTypeMenu">' +
-                                                '<div class="checkbox-item">' +
-                                                    '<input type="checkbox" id="type-review" value="review">' +
-                                                    '<label for="type-review">综合分析</label>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item">' +
-                                                    '<input type="checkbox" id="type-theory" value="theory">' +
-                                                    '<label for="type-theory">理论研究</label>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item">' +
-                                                    '<input type="checkbox" id="type-practice" value="practice">' +
-                                                    '<label for="type-practice">应用实践</label>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item">' +
-                                                    '<input type="checkbox" id="type-data" value="data">' +
-                                                    '<label for="type-data">数据与基准</label>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    // 会议/期刊下拉+复选框
-                                    '<div class="filter-group">' +
-                                        '<label class="filter-group-label">会议/期刊</label>' +
-                                        '<div class="dropdown-checkbox-wrapper">' +
-                                            '<div class="dropdown-checkbox-trigger" id="conferenceDropdown">' +
-                                                '<span class="dropdown-checkbox-trigger-text">选择会议/期刊</span>' +
-                                                '<div class="dropdown-checkbox-selected-tags" id="conferenceSelectedTags"></div>' +
-                                                '<span class="filter-arrow">▼</span>' +
-                                            '</div>' +
-                                            '<div class="dropdown-checkbox-menu" id="conferenceMenu">' +
-                                                '<div class="checkbox-item checkbox-item-parent" data-parent="ccfA">' +
-                                                    '<div class="checkbox-item">' +
-                                                        '<input type="checkbox" id="conf-ccfA" value="ccfA">' +
-                                                        '<label for="conf-ccfA">CCF A类</label>' +
-                                                        '<span class="checkbox-item-expand-icon">▶</span>' +
-                                                    '</div>' +
-                                                    '<div class="checkbox-sub-group">' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-ndss" value="ndss">' +
-                                                            '<label for="conf-ccfA-ndss">NDSS</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-ccs" value="ccs">' +
-                                                            '<label for="conf-ccfA-ccs">CCS</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-sp" value="sp">' +
-                                                            '<label for="conf-ccfA-sp">SP</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-tse" value="tse">' +
-                                                            '<label for="conf-ccfA-tse">TSE</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-icse" value="icse">' +
-                                                            '<label for="conf-ccfA-icse">ICSE</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-aaai" value="aaai">' +
-                                                            '<label for="conf-ccfA-aaai">AAAI</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfA-tdsc" value="tdsc">' +
-                                                            '<label for="conf-ccfA-tdsc">TDSC</label>' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item checkbox-item-parent" data-parent="ccfB">' +
-                                                    '<div class="checkbox-item">' +
-                                                        '<input type="checkbox" id="conf-ccfB" value="ccfB">' +
-                                                        '<label for="conf-ccfB">CCF B类</label>' +
-                                                        '<span class="checkbox-item-expand-icon">▶</span>' +
-                                                    '</div>' +
-                                                    '<div class="checkbox-sub-group">' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-raid" value="raid">' +
-                                                            '<label for="conf-ccfB-raid">RAID</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-dsn" value="dsn">' +
-                                                            '<label for="conf-ccfB-dsn">DSN</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-esorics" value="esorics">' +
-                                                            '<label for="conf-ccfB-esorics">ESORICS</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-ccs" value="ccs-b">' +
-                                                            '<label for="conf-ccfB-ccs">CCS (B类)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-ndss" value="ndss-b">' +
-                                                            '<label for="conf-ccfB-ndss">NDSS (B类)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfB-icse" value="icse-b">' +
-                                                            '<label for="conf-ccfB-icse">ICSE (B类)</label>' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item checkbox-item-parent" data-parent="ccfC">' +
-                                                    '<div class="checkbox-item">' +
-                                                        '<input type="checkbox" id="conf-ccfC" value="ccfC">' +
-                                                        '<label for="conf-ccfC">CCF C类</label>' +
-                                                        '<span class="checkbox-item-expand-icon">▶</span>' +
-                                                    '</div>' +
-                                                    '<div class="checkbox-sub-group">' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-acsac" value="acsac">' +
-                                                            '<label for="conf-ccfC-acsac">ACSAC</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-dimva" value="dimva">' +
-                                                            '<label for="conf-ccfC-dimva">DIMVA</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-sac" value="sac">' +
-                                                            '<label for="conf-ccfC-sac">SAC</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-icics" value="icics">' +
-                                                            '<label for="conf-ccfC-icics">ICICS</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-icws" value="icws">' +
-                                                            '<label for="conf-ccfC-icws">ICWS</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-ccfC-icws2" value="icws2">' +
-                                                            '<label for="conf-ccfC-icws2">ICWS (其他)</label>' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                                '<div class="checkbox-item checkbox-item-parent" data-parent="other">' +
-                                                    '<div class="checkbox-item">' +
-                                                        '<input type="checkbox" id="conf-other" value="other">' +
-                                                        '<label for="conf-other">其他知名</label>' +
-                                                        '<span class="checkbox-item-expand-icon">▶</span>' +
-                                                    '</div>' +
-                                                    '<div class="checkbox-sub-group">' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-usenix" value="usenix">' +
-                                                            '<label for="conf-other-usenix">USENIX Security</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-ndss2" value="ndss2">' +
-                                                            '<label for="conf-other-ndss2">NDSS (其他)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-ccs2" value="ccs2">' +
-                                                            '<label for="conf-other-ccs2">CCS (其他)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-sp2" value="sp2">' +
-                                                            '<label for="conf-other-sp2">SP (其他)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-icse2" value="icse2">' +
-                                                            '<label for="conf-other-icse2">ICSE (其他)</label>' +
-                                                        '</div>' +
-                                                        '<div class="checkbox-sub-item">' +
-                                                            '<input type="checkbox" id="conf-other-aaai2" value="aaai2">' +
-                                                            '<label for="conf-other-aaai2">AAAI (其他)</label>' +
-                                                        '</div>' +
-                                                    '</div>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    // 排序选择器
-                                    '<div class="filter-group">' +
-                                        '<label class="filter-group-label">排序</label>' +
-                                        '<select class="sort-select" id="sortSelect">' +
-                                            '<option value="relevant">最相关</option>' +
-                                            '<option value="latest">最新</option>' +
-                                        '</select>' +
-                                    '</div>' +
-                                    // 时间选择器
-                                    '<div class="filter-group">' +
-                                        '<label class="filter-group-label">时间</label>' +
-                                        '<div class="time-picker-wrapper">' +
-                                            '<div class="time-picker-trigger" id="timePickerTrigger">' +
-                                                '<span class="time-picker-text" id="timePickerText">时间不限</span>' +
-                                                '<span class="filter-arrow">▼</span>' +
-                                            '</div>' +
-                                            '<div class="time-picker-dropdown" id="timePickerDropdown">' +
-                                                '<div class="time-option time-option-active" data-value="unlimited">时间不限</div>' +
-                                                '<div class="time-option" data-value="2025">2025年以来</div>' +
-                                                '<div class="time-option" data-value="2023">2023年以来</div>' +
-                                                '<div class="time-option" data-value="2021">2021年以来</div>' +
-                                                '<div class="time-picker-divider"></div>' +
-                                                '<div class="time-picker-custom-label">自定义时间</div>' +
-                                                '<div class="time-picker-range-input">' +
-                                                    '<span class="time-picker-icon">📅</span>' +
-                                                    '<select class="year-select" id="yearStartSelect">' +
-                                                        '<option value="">开始年份</option>' +
-                                                    '</select>' +
-                                                    '<span class="year-separator">-</span>' +
-                                                    '<select class="year-select" id="yearEndSelect">' +
-                                                        '<option value="">结束年份</option>' +
-                                                    '</select>' +
-                                                '</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                                // 论文卡片列表
-                                '<div class="paper-cards-section">' +
-                                    '<div class="paper-card" data-paper-id="0">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=0\'">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
-                                        '<div class="paper-card-subtitle">Haixia Han, Jiaqing Liang, Jie Shi, Qianyu He, Yanghua Xiao</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2024-03-15</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="paper-card" data-paper-id="1">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=1\'">基于硬件可信根的可信计算平台构建方法</div>' +
-                                        '<div class="paper-card-subtitle">Wei Zhang, Li Chen, Ming Wang, Xiaoyu Liu, Jun Li</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2024-02-28</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="paper-card" data-paper-id="2">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=2\'">可信AI模型训练与推理的安全保障机制</div>' +
-                                        '<div class="paper-card-subtitle">Yan Liu, Hao Zhang, Qiang Wang, Mei Chen, Lei Wu</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2024-02-10</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="paper-card" data-paper-id="3">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=3\'">可信网络架构下的零信任安全通信协议</div>' +
-                                        '<div class="paper-card-subtitle">Tao Yang, Fei Liu, Bin Zhao, Ying Zhang, Gang Wang</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2024-01-25</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="paper-card" data-paper-id="4">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=4\'">可信存储系统中的数据完整性验证方法</div>' +
-                                        '<div class="paper-card-subtitle">Xin Wang, Lei Zhang, Hui Li, Peng Chen, Wei Liu</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2024-01-12</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="paper-card" data-paper-id="5">' +
-                                        '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=5\'">可信软件供应链的安全评估与验证框架</div>' +
-                                        '<div class="paper-card-subtitle">Jing Li, Ming Zhao, Yan Wang, Fei Liu, Tao Chen</div>' +
-                                        '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。</div>' +
-                                        '<div class="paper-card-footer">' +
-                                            '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
-                                            '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
-                                        '</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>';
-                    }, 10000); // 10秒后显示真实内容
-
-                } else if (taskName === 'Spring Boot应用审计') {
-                    // Spring Boot任务：显示骨架屏，5秒后显示错误状态
-                    var taskContent = document.createElement('div');
-                    taskContent.className = 'paper-task-container-single';
-
-                    // 骨架屏HTML结构（与React任务相同）
-                    taskContent.innerHTML =
-                        '<div class="paper-search-module skeleton-loading" style="width: 100%;">' +
-                            // 筛选区骨架
-                            '<div class="paper-filters-section">' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 100px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 240px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                            '</div>' +
-                            // 论文卡片骨架（4个）
-                            '<div class="paper-cards-container">' +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                            '</div>' +
-                        '</div>';
-
-                    chatArea.appendChild(taskContent);
-                    taskContent.style.display = 'flex';
-
-                    // 5秒后显示错误状态
-                    setTimeout(function() {
-                        taskContent.innerHTML =
-                            '<div class="error-state-container">' +
-                                '<div class="error-state-content">' +
-                                    '<div class="error-state-icon">⚠️</div>' +
-                                    '<div class="error-state-title">任务执行失败</div>' +
-                                    '<div class="error-state-description">' +
-                                        '抱歉，Spring Boot应用审计任务在执行过程中遇到了问题。<br>' +
-                                        '可能的原因：网络连接超时、资源不可用或服务异常。<br>' +
-                                        '请稍后重试或联系技术支持。' +
-                                    '</div>' +
-                                    '<div class="error-state-actions">' +
-                                        '<button class="btn-error-retry" onclick="handleTaskClick(\'Spring Boot应用审计\')">重试</button>' +
-                                        '<button class="btn-error-back" onclick="clearTaskContent()">返回首页</button>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>';
-                    }, 5000); // 5秒后显示错误状态
-
                 } else {
                     // 其他任务使用原来的布局
                     var taskContent = document.createElement('div');
@@ -3990,8 +3330,8 @@
                         '</div>' +
                         // 论文卡片列表
                         '<div class="paper-cards-section">' +
-                            '<div class="paper-card" data-paper-id="0">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=0\'">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信执行环境（TEE）在云原生应用中的安全隔离机制研究</div>' +
                                 '<div class="paper-card-subtitle">Haixia Han, Jiaqing Liang, Jie Shi, Qianyu He, Yanghua Xiao</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于Intel SGX和ARM TrustZone的可信执行环境架构，通过硬件级别的内存加密和远程证明机制，实现了云原生应用的安全隔离和可信验证，显著提升了敏感数据处理的安全性，为可信计算在云计算场景中的应用提供了新的技术方案。</div>' +
                                 '<div class="paper-card-footer">' +
@@ -3999,8 +3339,8 @@
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="paper-card" data-paper-id="1">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=1\'">基于硬件可信根的可信计算平台构建方法</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">基于硬件可信根的可信计算平台构建方法</div>' +
                                 '<div class="paper-card-subtitle">Wei Zhang, Li Chen, Ming Wang, Xiaoyu Liu, Jun Li</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究提出了一种基于TPM 2.0和硬件安全模块（HSM）的可信计算平台构建框架，通过可信启动链和完整性度量机制，实现了从硬件到操作系统的全链路可信验证，平台启动时间缩短至3秒内，可信度量准确率达到99.5%，为可信计算基础设施提供了重要的技术支撑。</div>' +
                                 '<div class="paper-card-footer">' +
@@ -4008,8 +3348,8 @@
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="paper-card" data-paper-id="2">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=2\'">可信AI模型训练与推理的安全保障机制</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信AI模型训练与推理的安全保障机制</div>' +
                                 '<div class="paper-card-subtitle">Yan Liu, Hao Zhang, Qiang Wang, Mei Chen, Lei Wu</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对AI模型在训练和推理过程中的安全挑战，本文设计了一种基于差分隐私和联邦学习的可信AI框架，通过模型水印和可验证推理机制，实现了模型完整性和输出可信性的双重保障，在保护数据隐私的同时确保了AI系统的可信性，为可信AI应用提供了新的技术路径。</div>' +
                                 '<div class="paper-card-footer">' +
@@ -4017,8 +3357,8 @@
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="paper-card" data-paper-id="3">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=3\'">可信网络架构下的零信任安全通信协议</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信网络架构下的零信任安全通信协议</div>' +
                                 '<div class="paper-card-subtitle">Tao Yang, Fei Liu, Bin Zhao, Ying Zhang, Gang Wang</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本文提出了一种基于可信网络架构的零信任安全通信协议，通过设备身份认证、网络行为分析和动态信任评估机制，实现了端到端的可信通信保障，协议性能开销低于5%，在1000节点网络中的信任评估延迟小于50ms，为可信网络通信提供了重要的技术基础。</div>' +
                                 '<div class="paper-card-footer">' +
@@ -4026,8 +3366,8 @@
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="paper-card" data-paper-id="4">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=4\'">可信存储系统中的数据完整性验证方法</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信存储系统中的数据完整性验证方法</div>' +
                                 '<div class="paper-card-subtitle">Xin Wang, Lei Zhang, Hui Li, Peng Chen, Wei Liu</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 本研究构建了基于Merkle树和区块链的可信存储系统，通过分布式数据完整性验证和不可篡改的审计日志机制，实现了数据存储的可信保障，系统支持PB级数据存储，完整性验证时间缩短至毫秒级，数据丢失率降低至0.001%，为可信存储提供了新的技术方案。</div>' +
                                 '<div class="paper-card-footer">' +
@@ -4035,13 +3375,49 @@
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="paper-card" data-paper-id="5">' +
-                                '<div class="paper-card-title" onclick="window.location.href=\'security-paper-detail.html?id=5\'">可信软件供应链的安全评估与验证框架</div>' +
+                            '<div class="paper-card">' +
+                                '<div class="paper-card-title">可信软件供应链的安全评估与验证框架</div>' +
                                 '<div class="paper-card-subtitle">Jing Li, Ming Zhao, Yan Wang, Fei Liu, Tao Chen</div>' +
                                 '<div class="paper-card-content"><span class="ai-summary-label">【AI摘要】</span> 针对软件供应链安全挑战，本文提出了一种结合SBOM（软件物料清单）和代码签名的可信软件供应链验证框架，通过自动化依赖分析和漏洞检测机制，实现了从源码到部署的全流程可信验证，在1000个开源项目中发现了156个供应链安全风险，验证效率比现有方法提升40%。</div>' +
                                 '<div class="paper-card-footer">' +
                                     '<div class="paper-card-meta"><span>📅 发表时间：2023-12-20</span><span>🎯 命中次数：1</span></div>' +
                                     '<a href="#" class="paper-card-link" target="_blank">🔗 原文链接:CCS 2024</a>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    // 第二个模块：对话框（右侧）
+                    '<div class="paper-chat-module">' +
+                        '<div class="paper-chat-header">' +
+                            '<div class="paper-chat-title">对话</div>' +
+                        '</div>' +
+                        '<div class="paper-chat-messages">' +
+                            '<div class="message message-user">' +
+                                '<div class="message-avatar">👤</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">请帮我检索关于SQL注入漏洞的最新研究论文。</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="message message-ai">' +
+                                '<div class="message-avatar">🤖</div>' +
+                                '<div class="message-content">' +
+                                    '<div class="message-time">刚刚</div>' +
+                                    '<div class="message-text">你好！我将帮你检索SQL注入漏洞相关的最新研究论文。正在搜索相关文献...</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="paper-chat-input-area">' +
+                            '<div class="chat-input-container" data-container-mode="fixed">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" placeholder="输入消息..." rows="2"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions-right">' +
+                                            '<button class="btn btn-primary chat-send">' +
+                                                '<span>发送</span>' +
+                                            '</button>' +
+                                        '</div>' +
+                                    '</div>' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
@@ -5110,6 +4486,7 @@
         // 操作符配置
         const advancedSearchOperators = [
             { value: 'contains', label: '包含' },
+            { value: 'equals', label: '等于' },
             { value: 'not-contains', label: '不包含' }
         ];
         
@@ -5123,6 +4500,7 @@
             const cancelBtn = document.getElementById('advancedSearchModalCancel');
             const confirmBtn = document.getElementById('advancedSearchModalConfirm');
             const clearBtn = document.getElementById('advancedSearchClearBtn');
+            const chineseBtn = document.getElementById('advancedSearchChineseBtn');
             const addFieldBtns = document.querySelectorAll('.advanced-search-add-field-btn');
             
             // 打开弹框
@@ -5147,19 +4525,20 @@
                     id: Date.now() + Math.random(),
                     field: field,
                     operator: 'contains',
-                    keyword: '',
-                    logic: 'and'  // 默认使用 AND 逻辑
+                    keyword: ''
                 };
                 advancedSearchConditions.push(condition);
                 renderConditions();
                 updateAddFieldButtons();
+                updateChineseButton();
             }
-
+            
             // 删除检索条件
             function removeCondition(id) {
                 advancedSearchConditions = advancedSearchConditions.filter(c => c.id !== id);
                 renderConditions();
                 updateAddFieldButtons();
+                updateChineseButton();
             }
             
             // 更新检索条件
@@ -5167,6 +4546,7 @@
                 const condition = advancedSearchConditions.find(c => c.id === id);
                 if (condition) {
                     condition[key] = value;
+                    updateChineseButton();
                 }
             }
             
@@ -5174,89 +4554,84 @@
             function renderConditions() {
                 const container = document.getElementById('advancedSearchExpressionContainer');
                 if (!container) return;
-
+                
                 if (advancedSearchConditions.length === 0) {
-                    container.innerHTML = '';
+                    container.innerHTML = '<button class="advanced-search-clear-btn" id="advancedSearchClearBtn"><span>🗑️</span><span>清空</span></button>';
+                    // 重新绑定清空按钮事件
+                    const newClearBtn = document.getElementById('advancedSearchClearBtn');
+                    if (newClearBtn) {
+                        newClearBtn.addEventListener('click', clearAllConditions);
+                    }
                     return;
                 }
-
-                let html = '';
-
+                
+                let html = '<button class="advanced-search-clear-btn" id="advancedSearchClearBtn"><span>🗑️</span><span>清空</span></button>';
+                
                 advancedSearchConditions.forEach((condition, index) => {
                     html += `
                         <div class="advanced-search-condition-item" data-condition-id="${condition.id}">
-                            ${index > 0 ? `
-                                <select class="advanced-search-logic-select" data-field="logic" data-value="${condition.logic || 'and'}">
-                                    <option value="and" ${(condition.logic || 'and') === 'and' ? 'selected' : ''}>AND</option>
-                                    <option value="or" ${condition.logic === 'or' ? 'selected' : ''}>OR</option>
-                                </select>
-                            ` : ''}
                             <select class="advanced-search-field-select" data-field="field">
-                                ${Object.entries(advancedSearchFields).map(([value, label]) =>
+                                ${Object.entries(advancedSearchFields).map(([value, label]) => 
                                     `<option value="${value}" ${condition.field === value ? 'selected' : ''}>${label}</option>`
                                 ).join('')}
                             </select>
                             <select class="advanced-search-operator-select" data-field="operator">
-                                ${advancedSearchOperators.map(op =>
+                                ${advancedSearchOperators.map(op => 
                                     `<option value="${op.value}" ${condition.operator === op.value ? 'selected' : ''}>${op.label}</option>`
                                 ).join('')}
                             </select>
-                            <input
-                                type="text"
-                                class="advanced-search-keyword-input"
-                                placeholder="请输入关键词"
+                            <input 
+                                type="text" 
+                                class="advanced-search-keyword-input" 
+                                placeholder="请输入关键词" 
                                 value="${condition.keyword || ''}"
                                 data-field="keyword"
                             />
                             ${advancedSearchConditions.length > 1 ? `
-                                <button class="advanced-search-clear-btn" data-action="remove">
+                                <button class="advanced-search-clear-btn" style="position: static;" data-action="remove">
                                     <span>×</span>
                                 </button>
                             ` : ''}
                         </div>
                     `;
                 });
-
+                
                 container.innerHTML = html;
-
+                
                 // 绑定事件
-                // 逻辑运算符选择器事件
-                container.querySelectorAll('.advanced-search-logic-select').forEach(select => {
-                    select.addEventListener('change', function() {
-                        const conditionId = parseFloat(this.closest('.advanced-search-condition-item').dataset.conditionId);
-                        updateCondition(conditionId, 'logic', this.value);
-                        // 更新 data-value 属性以改变背景颜色
-                        this.setAttribute('data-value', this.value);
-                    });
-                });
-
                 container.querySelectorAll('.advanced-search-field-select').forEach(select => {
                     select.addEventListener('change', function() {
                         const conditionId = parseFloat(this.closest('.advanced-search-condition-item').dataset.conditionId);
                         updateCondition(conditionId, 'field', this.value);
                     });
                 });
-
+                
                 container.querySelectorAll('.advanced-search-operator-select').forEach(select => {
                     select.addEventListener('change', function() {
                         const conditionId = parseFloat(this.closest('.advanced-search-condition-item').dataset.conditionId);
                         updateCondition(conditionId, 'operator', this.value);
                     });
                 });
-
+                
                 container.querySelectorAll('.advanced-search-keyword-input').forEach(input => {
                     input.addEventListener('input', function() {
                         const conditionId = parseFloat(this.closest('.advanced-search-condition-item').dataset.conditionId);
                         updateCondition(conditionId, 'keyword', this.value);
                     });
                 });
-
+                
                 container.querySelectorAll('[data-action="remove"]').forEach(btn => {
                     btn.addEventListener('click', function() {
                         const conditionId = parseFloat(this.closest('.advanced-search-condition-item').dataset.conditionId);
                         removeCondition(conditionId);
                     });
                 });
+                
+                // 重新绑定清空按钮事件
+                const newClearBtn = document.getElementById('advancedSearchClearBtn');
+                if (newClearBtn) {
+                    newClearBtn.addEventListener('click', clearAllConditions);
+                }
             }
             
             // 清空所有条件
@@ -5264,14 +4639,28 @@
                 advancedSearchConditions = [];
                 renderConditions();
                 updateAddFieldButtons();
+                updateChineseButton();
             }
             
             // 更新添加字段按钮状态
             function updateAddFieldButtons() {
-                // 移除禁用逻辑，允许无限次添加相同字段
                 addFieldBtns.forEach(btn => {
-                    btn.disabled = false;
+                    const field = btn.dataset.field;
+                    const isUsed = advancedSearchConditions.some(c => c.field === field);
+                    btn.disabled = isUsed;
                 });
+            }
+            
+            // 更新搜索中文按钮显示状态
+            function updateChineseButton() {
+                const hasContent = advancedSearchConditions.some(c => c.keyword && c.keyword.trim() !== '');
+                if (chineseBtn) {
+                    if (hasContent) {
+                        chineseBtn.classList.add('show');
+                    } else {
+                        chineseBtn.classList.remove('show');
+                    }
+                }
             }
             
             // 确认搜索
@@ -5318,7 +4707,14 @@
             if (clearBtn) {
                 clearBtn.addEventListener('click', clearAllConditions);
             }
-
+            
+            if (chineseBtn) {
+                chineseBtn.addEventListener('click', function() {
+                    // 搜索中文的逻辑
+                    confirmSearch();
+                });
+            }
+            
             // 点击遮罩层关闭弹框
             if (modal) {
                 modal.addEventListener('click', function(e) {
@@ -5348,306 +4744,6 @@
             renderConditions();
             updateAddFieldButtons();
         }
-    </script>
-
-    <!-- 学术会议弹框 -->
-    <div class="conference-modal" id="conferenceModal">
-        <div class="modal-overlay" id="modalOverlay"></div>
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">涵盖的学术会议 <span class="modal-title-count">(34579)</span></h2>
-                <button class="modal-close" id="modalClose" title="关闭">×</button>
-            </div>
-            <div class="modal-body" id="conferenceList">
-                <!-- 会议卡片将通过JavaScript动态生成 -->
-            </div>
-        </div>
-    </div>
-
-    <style>
-        /* 模态框样式 */
-        .conference-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .conference-modal.active {
-            display: flex;
-        }
-
-        .modal-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-        }
-
-        .modal-content {
-            position: relative;
-            background: var(--clouditera-neutral-background-white);
-            border-radius: 12px;
-            width: 90%;
-            max-width: 1000px;
-            max-height: 600px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            display: flex;
-            flex-direction: column;
-            animation: modalSlideIn 0.3s ease-out;
-        }
-
-        @keyframes modalSlideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .modal-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--clouditera-neutral-border-primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-shrink: 0;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--clouditera-neutral-text-primary);
-            margin: 0;
-        }
-
-        .modal-title-count {
-            font-weight: 400;
-            color: var(--clouditera-neutral-text-secondary);
-            margin-left: 4px;
-        }
-
-        .modal-close {
-            width: 32px;
-            height: 32px;
-            border: none;
-            background: transparent;
-            font-size: 28px;
-            line-height: 1;
-            color: var(--clouditera-neutral-text-secondary);
-            cursor: pointer;
-            border-radius: 6px;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-close:hover {
-            background: var(--clouditera-neutral-background-secondary);
-            color: var(--clouditera-neutral-text-primary);
-        }
-
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-            max-height: 500px;
-            flex: 1;
-        }
-
-        /* 会议卡片网格 */
-        .conference-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 16px;
-        }
-
-        /* 会议卡片样式 */
-        .conference-card {
-            background: var(--clouditera-neutral-background-white);
-            border: 1px solid var(--clouditera-neutral-border-primary);
-            border-radius: 8px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            transition: all 0.3s;
-            cursor: default;
-        }
-
-        .conference-card:hover {
-            border-color: #298CFF;
-            box-shadow: 0 4px 12px rgba(41, 140, 255, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .conference-logo {
-            font-size: 48px;
-            line-height: 1;
-        }
-
-        .conference-name {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--clouditera-neutral-text-primary);
-            text-align: center;
-            word-break: break-word;
-        }
-
-        .conference-count {
-            font-size: 14px;
-            color: var(--clouditera-neutral-text-primary);
-        }
-
-        .conference-years {
-            font-size: 12px;
-            color: var(--clouditera-neutral-text-secondary);
-            opacity: 0.8;
-        }
-
-        /* 滚动条样式 */
-        .modal-body::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .modal-body::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 3px;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb {
-            background: #c1c1c1;
-            border-radius: 3px;
-        }
-
-        .modal-body::-webkit-scrollbar-thumb:hover {
-            background: #a8a8a8;
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .modal-content {
-                width: 95%;
-                max-height: 80vh;
-            }
-
-            .conference-grid {
-                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-                gap: 12px;
-            }
-
-            .modal-header {
-                padding: 16px;
-            }
-
-            .modal-body {
-                padding: 16px;
-                max-height: 400px;
-            }
-        }
-    </style>
-
-    <script>
-        // 学术会议数据（示例数据，实际应从后端获取）
-        const conferences = [
-            { logo: '🔒', name: 'NDSS', count: 120, yearRange: '1980-2025' },
-            { logo: '🛡️', name: 'CCS', count: 856, yearRange: '1990-2025' },
-            { logo: '🔐', name: 'S&P', count: 1023, yearRange: '1975-2025' },
-            { logo: '🔑', name: 'USENIX Security', count: 945, yearRange: '1992-2025' },
-            { logo: '⚔️', name: 'Black Hat', count: 234, yearRange: '1997-2025' },
-            { logo: '🎯', name: 'DEF CON', count: 189, yearRange: '1993-2025' },
-            { logo: '🌐', name: 'CRYPTO', count: 678, yearRange: '1981-2025' },
-            { logo: '🔬', name: 'EUROCRYPT', count: 542, yearRange: '1982-2025' },
-            { logo: '📡', name: 'ASIACRYPT', count: 423, yearRange: '1991-2025' },
-            { logo: '🛰️', name: 'IEEE S&P', count: 789, yearRange: '1980-2025' },
-            { logo: '💻', name: 'ACSAC', count: 456, yearRange: '1985-2025' },
-            { logo: '🔓', name: 'RAID', count: 312, yearRange: '1998-2025' },
-            { logo: '🌟', name: 'ESORICS', count: 398, yearRange: '1990-2025' },
-            { logo: '🎓', name: 'DIMVA', count: 167, yearRange: '2004-2025' },
-            { logo: '🚀', name: 'ACNS', count: 245, yearRange: '2003-2025' },
-            { logo: '🔭', name: 'PETS', count: 198, yearRange: '2001-2025' },
-            { logo: '🎪', name: 'FC', count: 289, yearRange: '1997-2025' },
-            { logo: '🎨', name: 'TCC', count: 356, yearRange: '2004-2025' },
-            { logo: '🔮', name: 'PKC', count: 412, yearRange: '1998-2025' },
-            { logo: '⚡', name: 'CHES', count: 367, yearRange: '1999-2025' },
-            { logo: '🌈', name: 'CODASPY', count: 178, yearRange: '2011-2025' },
-            { logo: '🎭', name: 'WOOT', count: 145, yearRange: '2007-2025' },
-            { logo: '🎬', name: 'WISEC', count: 201, yearRange: '2008-2025' },
-            { logo: '🎮', name: 'SECURECOMM', count: 156, yearRange: '2005-2025' },
-        ];
-
-        // 获取元素
-        const conferenceBtn = document.getElementById('conferenceBtn');
-        const conferenceModal = document.getElementById('conferenceModal');
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalClose = document.getElementById('modalClose');
-        const conferenceList = document.getElementById('conferenceList');
-
-        // 生成会议卡片
-        function renderConferenceCards() {
-            const grid = document.createElement('div');
-            grid.className = 'conference-grid';
-
-            conferences.forEach(conf => {
-                const card = document.createElement('div');
-                card.className = 'conference-card';
-                card.innerHTML = `
-                    <div class="conference-logo">${conf.logo}</div>
-                    <div class="conference-name">${conf.name}</div>
-                    <div class="conference-count">${conf.count}篇</div>
-                    <div class="conference-years">${conf.yearRange}</div>
-                `;
-                grid.appendChild(card);
-            });
-
-            conferenceList.innerHTML = '';
-            conferenceList.appendChild(grid);
-        }
-
-        // 打开弹框
-        function openModal() {
-            conferenceModal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-            renderConferenceCards();
-        }
-
-        // 关闭弹框
-        function closeModal() {
-            conferenceModal.classList.remove('active');
-            document.body.style.overflow = ''; // 恢复滚动
-        }
-
-        // 绑定事件
-        if (conferenceBtn) {
-            conferenceBtn.addEventListener('click', openModal);
-        }
-
-        if (modalClose) {
-            modalClose.addEventListener('click', closeModal);
-        }
-
-        if (modalOverlay) {
-            modalOverlay.addEventListener('click', closeModal);
-        }
-
-        // ESC键关闭
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && conferenceModal.classList.contains('active')) {
-                closeModal();
-            }
-        });
     </script>
 </body>
 </html>

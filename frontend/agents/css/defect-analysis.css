@@ -1,4 +1,13 @@
 /* ==========================================
+   缺陷研判智能体 - 布局调整
+   ========================================== */
+
+/* 覆盖全局引导文案样式，减少与上传区域的间距 */
+.empty-state-guide {
+    padding-bottom: 0;
+}
+
+/* ==========================================
    缺陷研判智能体 - 文件上传弹出层样式
    ========================================== */
 
@@ -74,6 +83,815 @@
 }
 
 /* ==========================================
+   任务结果展示区域样式
+   ========================================== */
+
+/* 任务结果容器 */
+.task-result-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 0 24px 24px; /* 移除右侧padding，让滚动条贴边 */
+    box-sizing: border-box;
+    max-height: calc(100vh - 150px);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* 为内容添加右侧间距 */
+.task-result-container > * {
+    margin-right: 24px;
+}
+
+/* 自定义滚动条样式 */
+.task-result-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.task-result-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 默认隐藏滚动条 */
+.task-result-container::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 4px;
+    transition: background 0.3s ease;
+}
+
+/* hover 容器时显示滚动条 */
+.task-result-container:hover::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+}
+
+/* hover 滚动条本身时变色 */
+.task-result-container::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-brand-primary);
+}
+
+/* 滚动时显示滚动条（通过 JavaScript 添加 scrolling 类） */
+.task-result-container.scrolling::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+}
+
+/* 布局切换器 */
+.layout-switcher {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    background: var(--clouditera-neutral-background-white);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+    z-index: 100;
+}
+
+.layout-switch-btn {
+    padding: 8px 16px;
+    border: none;
+    background: transparent;
+    color: var(--clouditera-neutral-text-secondary);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.layout-switch-btn:hover {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-neutral-text-primary);
+}
+
+.layout-switch-btn.active {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+}
+
+/* 工作空间头部 */
+.workspace-header {
+    margin-bottom: 24px;
+}
+
+.workspace-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0 0 16px 0;
+    line-height: 1.4;
+}
+
+/* Tab 切换 */
+.workspace-tabs {
+    display: flex;
+    gap: 8px;
+    border-bottom: 2px solid var(--clouditera-neutral-border-secondary);
+}
+
+.workspace-tab {
+    padding: 12px 24px;
+    border: none;
+    background: transparent;
+    color: var(--clouditera-neutral-text-secondary);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.2s;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+}
+
+.workspace-tab:hover {
+    color: var(--clouditera-neutral-text-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.workspace-tab.active {
+    color: var(--clouditera-brand-primary);
+    border-bottom-color: var(--clouditera-brand-primary);
+}
+
+/* ==========================================
+   方案A：垂直单列布局
+   ========================================== */
+
+.workspace-content.layout-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 结果卡片 */
+.result-card {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+.result-card:hover {
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+.result-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+.result-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0;
+    line-height: 1.4;
+}
+
+.result-card-body {
+    padding: 24px;
+}
+
+/* 下载链接 */
+.download-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.download-link:hover {
+    background: var(--clouditera-palette-blue-1);
+}
+
+.download-icon {
+    font-size: 16px;
+}
+
+/* 大型下载链接 */
+.download-link-large {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--clouditera-neutral-background-secondary);
+    border: 2px dashed var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.download-link-large:hover {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-brand-primary);
+    border-style: solid;
+}
+
+.download-link-large .download-icon {
+    font-size: 40px;
+    opacity: 0.8;
+}
+
+.download-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.download-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.4;
+}
+
+.download-size {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.4;
+}
+
+/* 文件展示组件 */
+.file-display {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+    transition: all 0.3s;
+}
+
+.file-display.file-display-clickable {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.file-display.file-display-clickable:hover {
+    background: var(--clouditera-palette-blue-0);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.08);
+}
+
+.file-icon {
+    font-size: 32px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.file-name {
+    flex: 1;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.file-status-icon {
+    font-size: 24px;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.file-status-icon.success {
+    opacity: 0.8;
+}
+
+.file-status-icon.download {
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.file-display-clickable:hover .file-status-icon.download {
+    opacity: 1;
+    transform: translateY(2px);
+}
+
+/* 保留旧样式以防其他地方使用 */
+.target-info-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.target-info-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+}
+
+.target-label {
+    min-width: 80px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+.target-value {
+    flex: 1;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    font-family: monospace;
+}
+
+.target-status {
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.target-status.uploaded {
+    background: var(--clouditera-palette-green-1);
+    color: var(--clouditera-semantic-success);
+}
+
+/* 数据指标网格 */
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 16px;
+}
+
+.metric-card {
+    padding: 20px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(15, 23, 42, 0.08);
+}
+
+.metric-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--clouditera-neutral-text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+}
+
+.metric-label {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.4;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Metric Tooltip 提示组件 */
+.metric-tooltip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.metric-tooltip-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.metric-tooltip-icon:hover {
+    color: var(--clouditera-brand-primary);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Tooltip 内容气泡 */
+.metric-tooltip-content {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 8px 12px;
+    background: var(--clouditera-neutral-gray-11);
+    color: var(--clouditera-neutral-background-white);
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 6px;
+    min-width: 120px;
+    max-width: 280px;
+    white-space: normal;
+    text-align: left;
+    word-wrap: break-word;
+    writing-mode: horizontal-tb;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+/* Tooltip 箭头 */
+.metric-tooltip-content::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 4px solid transparent;
+    border-top-color: var(--clouditera-neutral-gray-11);
+}
+
+/* Hover 显示 Tooltip */
+.metric-tooltip:hover .metric-tooltip-content {
+    opacity: 1;
+    visibility: visible;
+    bottom: calc(100% + 12px);
+}
+
+/* 语义化指标卡片 */
+.metric-card.metric-success .metric-value {
+    color: var(--clouditera-semantic-success);
+}
+
+.metric-card.metric-warning .metric-value {
+    color: var(--clouditera-semantic-warning);
+}
+
+.metric-card.metric-info .metric-value {
+    color: var(--clouditera-brand-primary);
+}
+
+.metric-card.metric-error .metric-value {
+    color: var(--clouditera-semantic-error);
+}
+
+/* Top10 列表 */
+.top-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.top-item {
+    display: grid;
+    grid-template-columns: 56px 1fr 200px 80px;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.top-item:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.top-rank {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 50%;
+}
+
+/* 严重等级标签 */
+.severity-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+/* 高危 - 红色 */
+.severity-tag.severity-high {
+    background: var(--clouditera-palette-red-0);
+    color: var(--clouditera-semantic-error);
+    border: 1px solid var(--clouditera-palette-red-2);
+}
+
+/* 中危 - 橙色 */
+.severity-tag.severity-medium {
+    background: var(--clouditera-palette-orange-0);
+    color: var(--clouditera-semantic-warning);
+    border: 1px solid var(--clouditera-palette-orange-2);
+}
+
+/* 低危 - 蓝色 */
+.severity-tag.severity-low {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+    border: 1px solid var(--clouditera-palette-blue-2);
+}
+
+/* 未知 - 灰色 */
+.severity-tag.severity-unknown {
+    background: var(--clouditera-neutral-gray-1);
+    color: var(--clouditera-neutral-text-secondary);
+    border: 1px solid var(--clouditera-neutral-gray-4);
+}
+
+/* ==========================================
+   审计列表表格样式
+   ========================================== */
+
+/* 审计列表容器 */
+.audit-list-content {
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* 审计表格 */
+.audit-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 表头 */
+.audit-table thead {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.audit-table th {
+    padding: 16px;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    border-bottom: 2px solid var(--clouditera-neutral-border-primary);
+    white-space: nowrap;
+}
+
+/* 可排序的表头 */
+.audit-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.audit-table th.sortable:hover {
+    background: var(--clouditera-palette-blue-0);
+    color: var(--clouditera-brand-primary);
+}
+
+/* 排序图标 */
+.sort-icon {
+    display: inline-block;
+    margin-left: 6px;
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary);
+    transition: all 0.2s;
+}
+
+.audit-table th.sortable:hover .sort-icon {
+    color: var(--clouditera-brand-primary);
+}
+
+/* 表格行 */
+.audit-table tbody tr {
+    transition: all 0.2s;
+}
+
+.audit-table tbody tr:hover {
+    background: var(--clouditera-palette-blue-0);
+}
+
+.audit-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+/* 表格单元格 */
+.audit-table td {
+    padding: 16px;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+}
+
+/* 爆发行单元格 - 使用等宽字体 */
+.audit-table .location-cell {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    color: var(--clouditera-neutral-text-secondary);
+    font-size: 13px;
+}
+
+/* 审计结果单元格 */
+.audit-table .result-cell {
+    text-align: left;
+}
+
+/* 缺陷类型单元格 */
+.audit-table .defect-cell {
+    max-width: 300px;
+    word-break: break-word;
+}
+
+/* 等级单元格 */
+.audit-table .severity-cell {
+    text-align: left;
+}
+
+/* 审计结果标签 */
+.audit-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+    transition: all 0.2s;
+}
+
+/* 误报标签 - 橙色/警告色系 */
+.audit-tag.audit-false-positive {
+    background: var(--clouditera-palette-orange-0);
+    color: var(--clouditera-semantic-warning);
+    border: 1px solid var(--clouditera-palette-orange-2);
+}
+
+/* 真实标签 - 绿色/成功色系 */
+.audit-tag.audit-true-positive {
+    background: var(--clouditera-palette-green-0);
+    color: var(--clouditera-semantic-success);
+    border: 1px solid var(--clouditera-palette-green-2);
+}
+
+/* 表格列宽设置 */
+.audit-table .location-header {
+    width: 20%;
+    min-width: 160px;
+}
+
+.audit-table .result-header {
+    width: 15%;
+    min-width: 120px;
+}
+
+.audit-table .defect-header {
+    width: 45%;
+    min-width: 250px;
+}
+
+.audit-table .severity-header {
+    width: 20%;
+    min-width: 120px;
+}
+
+.top-name {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    font-weight: 500;
+}
+
+.top-bar {
+    height: 24px;
+    background: var(--clouditera-neutral-border-secondary);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.top-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg,
+        var(--clouditera-brand-primary),
+        var(--clouditera-palette-blue-5));
+    border-radius: 12px;
+    transition: width 0.6s ease;
+}
+
+.top-bar.top-bar-warning .top-bar-fill {
+    background: linear-gradient(90deg,
+        var(--clouditera-semantic-warning),
+        var(--clouditera-palette-orange-5));
+}
+
+.top-count {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    text-align: right;
+}
+
+/* ==========================================
+   方案C：宫格布局
+   ========================================== */
+
+.workspace-content.layout-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+/* 第1行：研判目标信息 + 审计报告（2列） */
+.workspace-content.layout-grid .result-card:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.workspace-content.layout-grid .result-card:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+}
+
+/* 第2行：审计数据统计（横跨2列） */
+.workspace-content.layout-grid .result-card:nth-child(3) {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+/* 第2行的指标卡片自动换行布局 */
+.workspace-content.layout-grid .result-card:nth-child(3) .metrics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+/* 第3行：高频漏洞Top10 + 高频误报Top10（2列） */
+.workspace-content.layout-grid .result-card:nth-child(4) {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.workspace-content.layout-grid .result-card:nth-child(5) {
+    grid-column: 2;
+    grid-row: 3;
+}
+
+/* 宫格布局：Top10 列表紧凑显示 */
+.workspace-content.layout-grid .top-item {
+    grid-template-columns: 48px 1fr 120px 60px;
+    gap: 8px;
+    padding: 10px;
+}
+
+.workspace-content.layout-grid .top-rank {
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+}
+
+.workspace-content.layout-grid .severity-tag {
+    padding: 2px 8px;
+    font-size: 11px;
+}
+
+.workspace-content.layout-grid .top-name {
+    font-size: 13px;
+}
+
+.workspace-content.layout-grid .top-count {
+    font-size: 13px;
+}
+
+/* ==========================================
    响应式设计
    ========================================== */
 
@@ -82,17 +900,1032 @@
     .file-upload-popover {
         width: 280px;
     }
-    
+
     .file-upload-option {
         padding: 10px 12px;
     }
-    
+
     .file-upload-option-title {
         font-size: 13px;
     }
-    
+
     .file-upload-option-subtitle {
         font-size: 11px;
+    }
+}
+
+/* ==========================================
+   重要提示卡片样式
+   ========================================== */
+
+/* 提示卡片容器 */
+.notice-card {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto 0;
+    padding: 16px;
+    background: var(--clouditera-palette-orange-0);
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+/* 提示卡片头部 */
+.notice-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* 提示图标 */
+.notice-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* 提示标题 */
+.notice-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--clouditera-palette-orange-7);
+    line-height: 1.5;
+}
+
+/* 提示文本 */
+.notice-card-text {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ==========================================
+   双文件上传区域样式
+   ========================================== */
+
+/* 上传统一容器 - 外层边框 */
+.upload-wrapper {
+    width: 100%;
+    max-width: 960px;
+    margin: 16px auto 0;
+    padding: 32px;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 12px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+}
+
+.upload-wrapper:hover {
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+/* 双上传容器 - 内部布局 */
+.dual-upload-container {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* 上传卡片 - 移除独立边框 */
+.upload-card {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* 上传卡片头部 */
+.upload-card-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+/* 必填标识 */
+.required-mark {
+    color: var(--clouditera-semantic-error);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+/* 上传卡片标题 */
+.upload-card-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.5;
+}
+
+/* 上传区域 */
+.upload-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    border: 2px dashed var(--clouditera-neutral-border-primary);
+    border-radius: 8px;
+    padding: 32px 16px;
+    text-align: center;
+    background: var(--clouditera-neutral-background-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.upload-area:hover {
+    border-color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+}
+
+.upload-area.drag-over {
+    border-color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-1);
+    border-style: solid;
+}
+
+/* 上传图标 */
+.upload-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.8;
+}
+
+/* 上传文本 */
+.upload-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.upload-hint {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.upload-format {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+.upload-size {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-tertiary);
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* 版本一致性提示区域 */
+.upload-notice {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--clouditera-neutral-border-secondary);
+}
+
+.notice-text {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    text-align: left;
+}
+
+.notice-link {
+    color: var(--clouditera-brand-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.notice-link:hover {
+    color: var(--clouditera-brand-primary-hover);
+    text-decoration: underline;
+}
+
+.notice-link:active {
+    color: var(--clouditera-brand-primary-pressed);
+}
+
+/* 文件信息 */
+.file-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 16px;
+    padding: 12px;
+    background: var(--clouditera-palette-blue-0);
+    border-radius: 6px;
+}
+
+.file-info-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.file-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary);
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.file-size {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+.file-remove-btn {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: var(--clouditera-neutral-text-tertiary);
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+    padding: 0;
+}
+
+.file-remove-btn:hover {
+    background: var(--clouditera-neutral-background-secondary);
+    color: var(--clouditera-semantic-error);
+}
+
+/* 开始分析按钮区域 */
+.analysis-action {
+    display: flex;
+    justify-content: center;
+    margin-top: 32px;
+}
+
+.btn-start-analysis {
+    min-width: 200px;
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0 32px;
+    transition: all 0.3s ease;
+}
+
+/* 响应式设计 - 双上传框 */
+@media (max-width: 992px) {
+    .dual-upload-container {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .upload-area {
+        min-height: 160px;
+    }
+}
+
+@media (max-width: 992px) {
+    /* 宫格布局在平板上改为单列 */
+    .workspace-content.layout-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .workspace-content.layout-grid .result-card:nth-child(1),
+    .workspace-content.layout-grid .result-card:nth-child(2),
+    .workspace-content.layout-grid .result-card:nth-child(3),
+    .workspace-content.layout-grid .result-card:nth-child(4),
+    .workspace-content.layout-grid .result-card:nth-child(5) {
+        grid-column: 1;
+    }
+
+    /* 占满整行的加载卡片在平板/移动端保持占满 */
+    .loading-card-fullwidth {
+        grid-column: 1;
+    }
+
+    .workspace-content.layout-grid .result-card:nth-child(3) .metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    /* Top10 列表在平板上调整 */
+    .top-item {
+        grid-template-columns: 50px 1fr 150px 70px;
+    }
+
+    .severity-tag {
+        padding: 3px 8px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    .layout-switcher {
+        top: 16px;
+        right: 16px;
+    }
+
+    .layout-switch-btn {
+        padding: 6px 12px;
+        font-size: 13px;
+    }
+
+    .workspace-title {
+        font-size: 20px;
+    }
+
+    .workspace-tab {
+        padding: 10px 16px;
+        font-size: 14px;
+    }
+
+    .task-result-container {
+        padding: 16px 0 16px 16px; /* 移除右侧padding */
+        max-height: calc(100vh - 120px);
+    }
+
+    .task-result-container > * {
+        margin-right: 16px; /* 移动端减小右侧间距 */
+    }
+
+    .result-card-header {
+        padding: 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .result-card-body {
+        padding: 16px;
+    }
+
+    .result-card-title {
+        font-size: 16px;
+    }
+
+    .download-link-large {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .download-link-large .download-icon {
+        font-size: 32px;
+    }
+
+    .download-name {
+        font-size: 14px;
+    }
+
+    .download-size {
+        font-size: 12px;
+    }
+
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .metric-card {
+        padding: 16px;
+    }
+
+    .metric-value {
+        font-size: 24px;
+    }
+
+    .metric-label {
+        font-size: 12px;
+    }
+
+    /* 移动端 Tooltip 调整 */
+    .metric-tooltip-icon {
+        font-size: 12px;
+        width: 14px;
+        height: 14px;
+    }
+
+    .metric-tooltip-content {
+        font-size: 11px;
+        padding: 6px 10px;
+        max-width: 200px;
+        white-space: normal;
+        word-break: break-word;
+    }
+
+    .top-item {
+        grid-template-columns: 44px 1fr 100px;
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .top-bar {
+        display: none;
+    }
+
+    .top-rank {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+
+    .severity-tag {
+        padding: 2px 6px;
+        font-size: 10px;
+    }
+
+    .top-name {
+        font-size: 13px;
+    }
+
+    .top-count {
+        font-size: 13px;
+    }
+
+    .file-display {
+        padding: 16px;
+        gap: 10px;
+    }
+
+    .file-icon {
+        font-size: 28px;
+    }
+
+    .file-name {
+        font-size: 14px;
+    }
+
+    .file-status-icon {
+        font-size: 20px;
+    }
+
+    .target-info-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .target-label {
+        min-width: auto;
+    }
+
+    .notice-card {
+        padding: 12px;
+        margin-bottom: 0;
+    }
+
+    .notice-icon {
+        font-size: 16px;
+    }
+
+    .notice-title {
+        font-size: 13px;
+    }
+
+    .notice-card-text {
+        font-size: 12px;
+    }
+
+    .upload-wrapper {
+        padding: 24px 16px;
+        margin: 16px auto 0;
+    }
+
+    .dual-upload-container {
+        gap: 16px;
+    }
+
+    .upload-area {
+        min-height: 140px;
+        padding: 24px 12px;
+    }
+
+    .upload-icon {
+        font-size: 40px;
+    }
+
+    .upload-notice {
+        margin-top: 16px;
+        padding-top: 16px;
+    }
+
+    .notice-text {
+        font-size: 12px;
+    }
+
+    .btn-start-analysis {
+        min-width: 160px;
+        height: 44px;
+        font-size: 15px;
+    }
+
+    /* 审计列表表格移动端样式 */
+    .audit-list-content {
+        margin-right: 16px;
+    }
+
+    .audit-table {
+        font-size: 13px;
+    }
+
+    .audit-table th {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .audit-table td {
+        padding: 12px 8px;
+        font-size: 13px;
+    }
+
+    .audit-table .location-cell {
+        font-size: 12px;
+        word-break: break-all;
+    }
+
+    .audit-table .defect-cell {
+        font-size: 12px;
+    }
+
+    .audit-tag {
+        padding: 2px 8px;
+        font-size: 11px;
+    }
+
+    .audit-table .severity-tag {
+        padding: 2px 6px;
+        font-size: 10px;
+    }
+
+    .sort-icon {
+        font-size: 10px;
+        margin-left: 4px;
+    }
+
+    /* 移动端列宽调整 */
+    .audit-table .location-header {
+        min-width: 120px;
+    }
+
+    .audit-table .result-header {
+        min-width: 80px;
+    }
+
+    .audit-table .defect-header {
+        min-width: 200px;
+    }
+
+    .audit-table .severity-header {
+        min-width: 80px;
+    }
+}
+
+/* ==========================================
+   Java加载状态 - 进度状态卡片
+   ========================================== */
+
+/* 进度卡片容器 - 横跨第1行2列 */
+.progress-cards-container {
+    grid-column: 1 / 3;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+}
+
+/* 单个进度卡片 */
+.progress-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 24px;
+    background: var(--clouditera-neutral-background-white);
+    border: 2px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 12px;
+    transition: all 0.3s;
+    min-height: 160px;
+}
+
+/* 进行中的卡片 */
+.progress-card.active {
+    border-color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+    box-shadow: 0 4px 12px rgba(41, 140, 255, 0.15);
+}
+
+/* 进度图标 */
+.progress-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    line-height: 1;
+}
+
+/* 进行中的图标添加旋转动画 */
+.progress-card.active .progress-icon {
+    animation: spin 2s linear infinite;
+}
+
+/* 进度标题 */
+.progress-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+/* 进度状态文字 */
+.progress-status {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.5;
+}
+
+.progress-card.active .progress-status {
+    color: var(--clouditera-brand-primary);
+    font-weight: 500;
+}
+
+/* 失败状态进度卡片 */
+.progress-card.failed {
+    border-color: var(--clouditera-semantic-error);
+    background: var(--clouditera-palette-red-0);
+    box-shadow: 0 4px 12px rgba(255, 77, 79, 0.15);
+}
+
+.progress-card.failed .progress-status {
+    color: var(--clouditera-semantic-error);
+    font-weight: 500;
+}
+
+/* ==========================================
+   骨架屏样式
+   ========================================== */
+
+/* 骨架屏卡片 - 横跨第2行2列 */
+.skeleton-card {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+/* Java加载页面专用布局 - 确保骨架屏在进度卡片下方 */
+#javaOverviewContent .skeleton-card {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+#javaOverviewContent .progress-cards-container {
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+#javaOverviewContent .loading-card-fullwidth {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+/* 骨架屏指标网格 */
+.skeleton-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 16px;
+}
+
+/* 单个骨架屏指标 */
+.skeleton-metric {
+    padding: 20px;
+    background: var(--clouditera-neutral-background-secondary);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* 骨架屏线条 */
+.skeleton-line {
+    background: linear-gradient(
+        90deg,
+        var(--clouditera-neutral-gray-3) 0%,
+        var(--clouditera-neutral-gray-2) 50%,
+        var(--clouditera-neutral-gray-3) 100%
+    );
+    background-size: 200% 100%;
+    border-radius: 4px;
+    animation: shimmer 1.5s infinite;
+}
+
+/* 骨架屏数值 */
+.skeleton-value {
+    height: 32px;
+    width: 80%;
+    margin: 0 auto 12px;
+}
+
+/* 骨架屏标签 */
+.skeleton-label {
+    height: 16px;
+    width: 60%;
+    margin: 0 auto;
+}
+
+/* 骨架屏闪烁动画 */
+@keyframes shimmer {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* ==========================================
+   加载提示样式
+   ========================================== */
+
+/* 加载卡片 */
+.loading-card {
+    background: var(--clouditera-neutral-background-white);
+}
+
+/* 占满整行的加载卡片（用于Java加载状态页面） */
+.loading-card-fullwidth {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+/* 加载内容容器 */
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 40px 20px;
+}
+
+/* 加载文字 */
+.loading-text {
+    font-size: 15px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.6;
+}
+
+/* 加载旋转器容器 */
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 旋转图标 */
+.spinner-icon {
+    font-size: 40px;
+    color: var(--clouditera-brand-primary);
+    animation: spin 1.5s linear infinite;
+    display: inline-block;
+}
+
+/* 加载状态文字 */
+.loading-status {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-brand-primary);
+    line-height: 1.5;
+}
+
+/* 旋转动画 */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 审计列表加载占位符 */
+.loading-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    padding: 80px 40px;
+}
+
+/* ==========================================
+   错误提示样式（用于PHP失败状态）
+   ========================================== */
+
+/* 错误卡片 */
+.error-card {
+    background: var(--clouditera-neutral-background-white);
+}
+
+/* 占满整行的错误卡片 */
+.error-card-fullwidth {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+/* 错误内容容器 */
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    padding: 40px 20px;
+    gap: 20px;
+}
+
+/* 错误图标 */
+.error-icon {
+    font-size: 48px;
+    line-height: 1;
+}
+
+/* 错误文字 */
+.error-text {
+    font-size: 15px;
+    color: var(--clouditera-neutral-text-primary);
+    line-height: 1.6;
+    text-align: center;
+    max-width: 500px;
+}
+
+/* 错误链接 */
+.error-link {
+    color: var(--clouditera-brand-primary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.error-link:hover {
+    color: var(--clouditera-brand-primary-hover);
+    border-bottom-color: var(--clouditera-brand-primary-hover);
+}
+
+.error-link:active {
+    color: var(--clouditera-brand-primary-active);
+}
+
+/* 删除按钮 - 次要按钮样式（符合Clouditera设计规范） */
+.btn-delete-upload {
+    min-width: 120px;
+    padding: 8px 24px;
+    background-color: var(--clouditera-neutral-background-white);
+    color: var(--clouditera-neutral-text-primary);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-delete-upload:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+    background: rgba(41, 140, 255, 0.04);
+}
+
+.btn-delete-upload:active {
+    border-color: var(--clouditera-brand-primary-active);
+    color: var(--clouditera-brand-primary-active);
+    background: rgba(41, 140, 255, 0.08);
+}
+
+.btn-delete-upload:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(41, 140, 255, 0.1);
+}
+
+/* PHP加载页面专用布局 */
+#phpOverviewContent .skeleton-card {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+#phpOverviewContent .progress-cards-container {
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+#phpOverviewContent .error-card-fullwidth {
+    grid-column: 1 / 3;
+    grid-row: 3;
+}
+
+/* ==========================================
+   响应式 - 进度卡片和加载状态
+   ========================================== */
+
+@media (max-width: 992px) {
+    /* 平板上进度卡片改为单列 */
+    .progress-cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .skeleton-metrics-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    }
+
+    /* 错误卡片在平板/移动端保持占满 */
+    .error-card-fullwidth {
+        grid-column: 1;
+    }
+
+    #phpOverviewContent .error-card-fullwidth {
+        grid-column: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    /* 移动端进度卡片 */
+    .progress-card {
+        padding: 24px 16px;
+        min-height: 140px;
+    }
+
+    .progress-icon {
+        font-size: 40px;
+        margin-bottom: 12px;
+    }
+
+    .progress-title {
+        font-size: 16px;
+    }
+
+    .progress-status {
+        font-size: 13px;
+    }
+
+    /* 移动端骨架屏 */
+    .skeleton-metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .skeleton-metric {
+        padding: 16px;
+    }
+
+    /* 移动端加载提示 */
+    .loading-content {
+        min-height: 160px;
+        padding: 32px 16px;
+    }
+
+    .loading-text {
+        font-size: 14px;
+    }
+
+    .spinner-icon {
+        font-size: 32px;
+    }
+
+    /* 移动端错误提示 */
+    .error-content {
+        min-height: 160px;
+        padding: 32px 16px;
+        gap: 16px;
+    }
+
+    .error-icon {
+        font-size: 40px;
+    }
+
+    .error-text {
+        font-size: 14px;
+    }
+
+    .btn-delete-upload {
+        width: 100%;
+        min-width: auto;
+        padding: 10px 24px;
+    }
+
+    .loading-status {
+        font-size: 13px;
     }
 }
 

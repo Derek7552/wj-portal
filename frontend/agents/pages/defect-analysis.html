@@ -155,7 +155,7 @@
                                 <div class="task-name">Java安全缺陷评估</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
+                                <span class="task-status-icon error">❌</span>
                                 <div class="task-name">PHP代码风险分析</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -206,40 +206,713 @@
 
                     <!-- 引导文案 - 次要优先级 -->
                     <div class="empty-state-guide">
-                        <p class="empty-state-guide-text">开始给智能体分配任务</p>
+                        <p class="empty-state-guide-text">上传必需文件开始分析</p>
                     </div>
 
-                    <!-- 输入区域 -->
-                    <div class="chat-input-container" data-container-mode="empty">
-                        <div class="chat-input-wrapper">
-                            <!-- 输入框区域 -->
-                            <textarea
-                                class="chat-input"
-                                id="chatInput"
-                                placeholder="输入您的问题或粘贴代码..."
-                                rows="3"
-                            ></textarea>
+                    <!-- 重要提示卡片 -->
+                    <div class="notice-card">
+                        <p class="notice-card-text">
+                            同时保证工程代码文件需与检测报告对应的代码文件版本保持一致，
+                            <a href="#" class="notice-link" id="viewSastTools">查看已适配SAST工具</a>
+                        </p>
+                    </div>
 
-                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
-                            <div class="chat-input-toolbar">
-                                <div class="chat-input-actions">
-                                    <button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">
-                                        📎
-                                    </button>
-                                    <button class="btn-icon" title="插入图片">
-                                        🖼️
-                                    </button>
-                                    <button class="btn-icon" title="插入代码">
-                                        💻
-                                    </button>
-                                    <button class="btn-icon" title="插入表格">
-                                        📊
-                                    </button>
+                    <!-- 双文件上传区域 - 统一容器 -->
+                    <div class="upload-wrapper">
+                        <div class="dual-upload-container">
+                            <!-- SAST任务报告上传区 -->
+                            <div class="upload-card" id="sastReportCard">
+                                <input type="file" id="sastReportInput" accept=".docx,.xlsx" style="display: none;">
+                                <div class="upload-card-header">
+                                    <span class="required-mark">*</span>
+                                    <span class="upload-card-title">SAST任务报告</span>
                                 </div>
-                                <button class="btn btn-primary chat-send" id="chatSend">
-                                    <span>发送</span>
-                                    <span class="send-shortcut">Shift+Enter</span>
-                                </button>
+                                <div class="upload-area" id="sastUploadArea">
+                                    <div class="upload-icon">📄</div>
+                                    <div class="upload-text">
+                                        <p class="upload-hint">点击或拖拽上传</p>
+                                        <p class="upload-format">支持 docx、xlsx 格式</p>
+                                        <p class="upload-size">大小不超过 500M</p>
+                                    </div>
+                                </div>
+                                <!-- 文件信息区域（上传后显示） -->
+                                <div class="file-info" id="sastFileInfo" style="display: none;">
+                                    <div class="file-info-row">
+                                        <span class="file-name" id="sastFileName"></span>
+                                        <button class="file-remove-btn" id="sastRemoveBtn" title="移除文件">✕</button>
+                                    </div>
+                                    <div class="file-size" id="sastFileSize"></div>
+                                </div>
+                            </div>
+
+                            <!-- 工程代码文件上传区 -->
+                            <div class="upload-card" id="codeFileCard">
+                                <input type="file" id="codeFileInput" accept=".zip,.tar.gz" style="display: none;">
+                                <div class="upload-card-header">
+                                    <span class="required-mark">*</span>
+                                    <span class="upload-card-title">工程代码文件</span>
+                                </div>
+                                <div class="upload-area" id="codeUploadArea">
+                                    <div class="upload-icon">📦</div>
+                                    <div class="upload-text">
+                                        <p class="upload-hint">点击或拖拽上传</p>
+                                        <p class="upload-format">支持 zip、tar.gz 格式</p>
+                                        <p class="upload-size">大小不超过 1G</p>
+                                    </div>
+                                </div>
+                                <!-- 文件信息区域（上传后显示） -->
+                                <div class="file-info" id="codeFileInfo" style="display: none;">
+                                    <div class="file-info-row">
+                                        <span class="file-name" id="codeFileName"></span>
+                                        <button class="file-remove-btn" id="codeRemoveBtn" title="移除文件">✕</button>
+                                    </div>
+                                    <div class="file-size" id="codeFileSize"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 开始分析按钮 -->
+                    <div class="analysis-action" id="analysisAction" style="display: none;">
+                        <button class="btn btn-primary btn-start-analysis" id="btnStartAnalysis">
+                            <span>开始分析</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 任务结果展示区域 -->
+                <div class="task-result-container" id="taskResultContainer" style="display: none;">
+                    <!-- 标题和Tab -->
+                    <div class="workspace-header">
+                        <h2 class="workspace-title">工作空间</h2>
+                        <div class="workspace-tabs">
+                            <button class="workspace-tab active" data-tab="overview">审计概览</button>
+                            <button class="workspace-tab" data-tab="list">审计列表</button>
+                        </div>
+                    </div>
+
+                    <!-- 审计概览内容 -->
+                    <div class="workspace-content layout-grid" id="overviewContent">
+                        <!-- 研判目标信息卡片 -->
+                        <div class="result-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📋 研判目标信息</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="file-display">
+                                    <span class="file-icon">📊</span>
+                                    <span class="file-name">python_security_report.xlsx</span>
+                                    <span class="file-status-icon success">✅</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 审计报告卡片 -->
+                        <div class="result-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📊 审计报告</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <a href="#" class="file-display file-display-clickable" download>
+                                    <span class="file-icon">📊</span>
+                                    <span class="file-name">audit_report.xlsx</span>
+                                    <span class="file-status-icon download">⬇️</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 审计数据统计卡片 -->
+                        <div class="result-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📊 审计数据统计</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="metrics-grid">
+                                    <div class="metric-card">
+                                        <div class="metric-value">1,245</div>
+                                        <div class="metric-label">结果总数</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">1,032</div>
+                                        <div class="metric-label">已审计</div>
+                                    </div>
+                                    <div class="metric-card">
+                                        <div class="metric-value">213</div>
+                                        <div class="metric-label">审计中</div>
+                                    </div>
+                                    <div class="metric-card metric-success">
+                                        <div class="metric-value">687</div>
+                                        <div class="metric-label">真实数</div>
+                                    </div>
+                                    <div class="metric-card metric-warning">
+                                        <div class="metric-value">345</div>
+                                        <div class="metric-label">误报数</div>
+                                    </div>
+                                    <div class="metric-card metric-info">
+                                        <div class="metric-value">66.6%</div>
+                                        <div class="metric-label">
+                                            结果收敛率
+                                            <span class="metric-tooltip">
+                                                <span class="metric-tooltip-icon">ⓘ</span>
+                                                <span class="metric-tooltip-content">（误报数/已审计数）x100%</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="metric-card metric-error">
+                                        <div class="metric-value">28</div>
+                                        <div class="metric-label">
+                                            审计失败
+                                            <span class="metric-tooltip">
+                                                <span class="metric-tooltip-icon">ⓘ</span>
+                                                <span class="metric-tooltip-content">可点击"重试"对审计失败的目标进行再次研判</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 高频漏洞类型 Top10 -->
+                        <div class="result-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📈 高频漏洞类型 Top10</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="top-list">
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-high">高危</span>
+                                        <span class="top-name">CWE-89:SQL注入</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 100%;"></div>
+                                        </div>
+                                        <span class="top-count">145次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-high">高危</span>
+                                        <span class="top-name">CWE-79:跨站脚本</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 82%;"></div>
+                                        </div>
+                                        <span class="top-count">119次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-high">高危</span>
+                                        <span class="top-name">CWE-78:OS命令注入</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 68%;"></div>
+                                        </div>
+                                        <span class="top-count">98次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                        <span class="top-name">CWE-22:路径遍历</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 55%;"></div>
+                                        </div>
+                                        <span class="top-count">79次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-high">高危</span>
+                                        <span class="top-name">CWE-502:不安全的反序列化</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 45%;"></div>
+                                        </div>
+                                        <span class="top-count">65次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                        <span class="top-name">CWE-798:硬编码凭证</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 38%;"></div>
+                                        </div>
+                                        <span class="top-count">55次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-high">高危</span>
+                                        <span class="top-name">CWE-611:XML外部实体引用</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 31%;"></div>
+                                        </div>
+                                        <span class="top-count">45次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                        <span class="top-name">CWE-327:使用已破解的加密算法</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 24%;"></div>
+                                        </div>
+                                        <span class="top-count">35次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                        <span class="top-name">CWE-918:服务器端请求伪造</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 19%;"></div>
+                                        </div>
+                                        <span class="top-count">28次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-low">低危</span>
+                                        <span class="top-name">CWE-338:使用弱随机数</span>
+                                        <div class="top-bar">
+                                            <div class="top-bar-fill" style="width: 15%;"></div>
+                                        </div>
+                                        <span class="top-count">22次</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 高频误报类型 Top10 -->
+                        <div class="result-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📉 高频误报类型 Top10</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="top-list">
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-low">低危</span>
+                                        <span class="top-name">CWE-22:路径遍历</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 100%;"></div>
+                                        </div>
+                                        <span class="top-count">128次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-low">低危</span>
+                                        <span class="top-name">CWE-798:硬编码凭证</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 76%;"></div>
+                                        </div>
+                                        <span class="top-count">97次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-89:SQL注入</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 62%;"></div>
+                                        </div>
+                                        <span class="top-count">79次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-79:跨站脚本</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 51%;"></div>
+                                        </div>
+                                        <span class="top-count">65次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-78:OS命令注入</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 43%;"></div>
+                                        </div>
+                                        <span class="top-count">55次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-low">低危</span>
+                                        <span class="top-name">CWE-338:使用弱随机数</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 35%;"></div>
+                                        </div>
+                                        <span class="top-count">45次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-low">低危</span>
+                                        <span class="top-name">CWE-327:使用已破解的加密算法</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 29%;"></div>
+                                        </div>
+                                        <span class="top-count">37次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-918:服务器端请求伪造</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 23%;"></div>
+                                        </div>
+                                        <span class="top-count">29次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-611:XML外部实体引用</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 18%;"></div>
+                                        </div>
+                                        <span class="top-count">23次</span>
+                                    </div>
+                                    <div class="top-item">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                        <span class="top-name">CWE-502:不安全的反序列化</span>
+                                        <div class="top-bar top-bar-warning">
+                                            <div class="top-bar-fill" style="width: 14%;"></div>
+                                        </div>
+                                        <span class="top-count">18次</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 审计列表内容 -->
+                    <div class="audit-list-content" id="listContent" style="display: none;">
+                        <table class="audit-table">
+                            <thead>
+                                <tr>
+                                    <th class="location-header">爆发行</th>
+                                    <th class="sortable result-header">
+                                        审计结果
+                                        <span class="sort-icon">⇅</span>
+                                    </th>
+                                    <th class="defect-header">缺陷类型</th>
+                                    <th class="sortable severity-header">
+                                        等级
+                                        <span class="sort-icon">⇅</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="location-cell">cwe-416.java 109</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-416:后续使用已释放的内存</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">auth_handler.py 245</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-89:SQL注入</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">user_service.java 78</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-79:跨站脚本</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">file_manager.cpp 512</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-22:路径遍历</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">config_loader.py 33</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-798:硬编码凭证</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">api_controller.java 156</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-78:OS命令注入</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">session_manager.php 92</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-327:使用已破解的加密算法</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">data_parser.java 201</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-502:不安全的反序列化</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">random_util.py 45</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-338:使用弱随机数</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-low">低危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">http_client.java 334</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-918:服务器端请求伪造</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">xml_parser.cpp 67</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-611:XML外部实体引用</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">logger.java 128</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-117:日志输出转义不当</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-low">低危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">validator.py 56</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-20:输入验证不当</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-medium">中危</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">crypto_util.cpp 189</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-false-positive">误报</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-326:加密强度不足</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-unknown">未知</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="location-cell">network_handler.java 421</td>
+                                    <td class="result-cell">
+                                        <span class="audit-tag audit-true-positive">真实</span>
+                                    </td>
+                                    <td class="defect-cell">CWE-295:证书验证不当</td>
+                                    <td class="severity-cell">
+                                        <span class="severity-tag severity-high">高危</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Java安全缺陷评估 - 加载状态 -->
+                <div class="task-result-container" id="javaTaskLoadingContainer" style="display: none;">
+                    <div class="workspace-header">
+                        <h2 class="workspace-title">工作空间</h2>
+                        <div class="workspace-tabs">
+                            <button class="workspace-tab active" data-tab="overview">审计概览</button>
+                            <button class="workspace-tab" data-tab="list">审计列表</button>
+                        </div>
+                    </div>
+
+                    <!-- 审计概览 - 加载状态 -->
+                    <div class="workspace-content layout-grid" id="javaOverviewContent">
+                        <!-- 第1行：3个进度状态卡片 -->
+                        <div class="progress-cards-container">
+                            <div class="progress-card active">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">来源识别中</div>
+                                <div class="progress-status">进行中</div>
+                            </div>
+                            <div class="progress-card">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">数据提取</div>
+                                <div class="progress-status">等待中</div>
+                            </div>
+                            <div class="progress-card">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">结果研判</div>
+                                <div class="progress-status">等待中</div>
+                            </div>
+                        </div>
+
+                        <!-- 第2行：审计数据统计骨架屏 -->
+                        <div class="result-card skeleton-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📊 审计数据统计</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="skeleton-metrics-grid">
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第3行：高频漏洞类型 Top10 加载提示 -->
+                        <div class="result-card loading-card loading-card-fullwidth">
+                            <div class="result-card-body">
+                                <div class="loading-content">
+                                    <div class="loading-text">正在分析用户上传的文件包...</div>
+                                    <div class="loading-spinner">
+                                        <span class="spinner-icon">⟳</span>
+                                        <span class="loading-status">提取中</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 审计列表 - 加载状态 -->
+                    <div class="audit-list-content" id="javaListContent" style="display: none;">
+                        <div class="loading-placeholder">
+                            <div class="loading-spinner">
+                                <span class="spinner-icon">⟳</span>
+                                <span class="loading-status">数据加载中...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHP代码风险分析 - 失败状态 -->
+                <div class="task-result-container" id="phpTaskErrorContainer" style="display: none;">
+                    <div class="workspace-header">
+                        <h2 class="workspace-title">工作空间</h2>
+                        <div class="workspace-tabs">
+                            <button class="workspace-tab active" data-tab="overview">审计概览</button>
+                            <button class="workspace-tab" data-tab="list">审计列表</button>
+                        </div>
+                    </div>
+
+                    <!-- 审计概览 - 失败状态 -->
+                    <div class="workspace-content layout-grid" id="phpOverviewContent">
+                        <!-- 第1行：3个进度状态卡片 -->
+                        <div class="progress-cards-container">
+                            <div class="progress-card failed">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">来源识别中</div>
+                                <div class="progress-status">❌来源识别失败</div>
+                            </div>
+                            <div class="progress-card">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">数据提取</div>
+                                <div class="progress-status">等待中</div>
+                            </div>
+                            <div class="progress-card">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-title">结果研判</div>
+                                <div class="progress-status">等待中</div>
+                            </div>
+                        </div>
+
+                        <!-- 第2行：审计数据统计骨架屏 -->
+                        <div class="result-card skeleton-card">
+                            <div class="result-card-header">
+                                <h3 class="result-card-title">📊 审计数据统计</h3>
+                            </div>
+                            <div class="result-card-body">
+                                <div class="skeleton-metrics-grid">
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                    <div class="skeleton-metric">
+                                        <div class="skeleton-line skeleton-value"></div>
+                                        <div class="skeleton-line skeleton-label"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 第3行：失败提示卡片 -->
+                        <div class="result-card error-card error-card-fullwidth">
+                            <div class="result-card-body">
+                                <div class="error-content">
+                                    <div class="error-icon">⚠️</div>
+                                    <div class="error-text">
+                                        工具暂未适配，查看 <a href="#" class="error-link" id="viewSastToolsError">已适配SAST工具</a>，请重新上传
+                                    </div>
+                                    <button class="btn btn-secondary btn-delete-upload" id="btnDeletePhpUpload">删除</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 审计列表 - 失败状态 -->
+                    <div class="audit-list-content" id="phpListContent" style="display: none;">
+                        <div class="loading-placeholder">
+                            <div class="loading-spinner">
+                                <span class="spinner-icon">⟳</span>
+                                <span class="loading-status">数据加载中...</span>
                             </div>
                         </div>
                     </div>
@@ -249,10 +922,20 @@
     </main>
 
     <script src="../../js/dashboard.js"></script>
-    <script src="../../components/agent-sidebar.js"></script>
+    <!-- <script src="../../components/agent-sidebar.js"></script> -->
     <script src="../../components/chat-input.js"></script>
     <script src="../../templates/js/template-detail.js"></script>
     <script>
+        console.log('[DEBUG] ========================================');
+        console.log('[DEBUG] 缺陷研判页面脚本开始加载');
+        console.log('[DEBUG] 当前时间:', new Date().toLocaleString());
+        console.log('[DEBUG] ========================================');
+
+        // 捕获所有JavaScript错误
+        window.addEventListener('error', function(e) {
+            console.error('[DEBUG] JavaScript错误:', e.message, '位置:', e.filename, '行号:', e.lineno);
+        });
+
         // 模拟任务数据
         const mockTasks = [
             { id: '1', name: 'Python代码缺陷研判', status: 'running', active: false },
@@ -267,52 +950,609 @@
             { id: '10', name: 'Flask代码缺陷评估', status: 'completed', active: false }
         ];
 
+        // ==========================================
+        // 任务点击处理函数
+        // ==========================================
+
+        /**
+         * 处理任务点击
+         */
+        function handleTaskClick(taskId, taskData) {
+            console.log('[DEBUG] handleTaskClick 被调用:', taskId, taskData);
+
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) {
+                console.error('[DEBUG] 未找到chatArea');
+                return;
+            }
+
+            var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+            // 检查是否是Python代码缺陷研判任务
+            if (taskName === 'Python代码缺陷研判') {
+                console.log('[DEBUG] 显示Python代码缺陷研判任务结果');
+
+                // 隐藏空状态容器和其他内容
+                var emptyStateContainer = document.querySelector('.empty-state-container');
+                var taskResultContainer = document.querySelector('#taskResultContainer');
+                var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                var taskDetailContent = document.querySelector('.task-detail-content');
+
+                if (emptyStateContainer) {
+                    emptyStateContainer.style.display = 'none';
+                }
+                if (taskDetailContent) {
+                    taskDetailContent.style.display = 'none';
+                }
+                if (javaTaskLoadingContainer) {
+                    javaTaskLoadingContainer.style.display = 'none';
+                }
+                if (taskResultContainer) {
+                    taskResultContainer.style.display = 'block';
+                }
+
+                console.log('[DEBUG] 任务结果页面已显示');
+
+                // 重新初始化布局切换和Tab切换功能（因为元素现在可见了）
+                setTimeout(function() {
+                    initLayoutSwitcher();
+                    initWorkspaceTabs();
+                    initScrollbarAutoHide();
+                    console.log('[DEBUG] 布局切换、Tab切换和滚动条已重新初始化');
+                }, 100);
+
+                return;
+            }
+
+            // 检查是否是Java安全缺陷评估任务
+            if (taskName === 'Java安全缺陷评估') {
+                console.log('[DEBUG] 显示Java安全缺陷评估加载状态');
+
+                // 隐藏空状态容器和其他内容
+                var emptyStateContainer = document.querySelector('.empty-state-container');
+                var taskResultContainer = document.querySelector('#taskResultContainer');
+                var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                var taskDetailContent = document.querySelector('.task-detail-content');
+
+                console.log('[DEBUG] 容器查找结果:');
+                console.log('[DEBUG] - emptyStateContainer:', emptyStateContainer);
+                console.log('[DEBUG] - taskResultContainer:', taskResultContainer);
+                console.log('[DEBUG] - javaTaskLoadingContainer:', javaTaskLoadingContainer);
+                console.log('[DEBUG] - taskDetailContent:', taskDetailContent);
+
+                if (emptyStateContainer) {
+                    console.log('[DEBUG] 隐藏 emptyStateContainer');
+                    emptyStateContainer.style.display = 'none';
+                }
+                if (taskDetailContent) {
+                    console.log('[DEBUG] 隐藏 taskDetailContent');
+                    taskDetailContent.style.display = 'none';
+                }
+                if (taskResultContainer) {
+                    console.log('[DEBUG] 隐藏 taskResultContainer');
+                    taskResultContainer.style.display = 'none';
+                }
+                if (javaTaskLoadingContainer) {
+                    console.log('[DEBUG] 显示 javaTaskLoadingContainer');
+                    javaTaskLoadingContainer.style.display = 'block';
+                    console.log('[DEBUG] javaTaskLoadingContainer display 已设置为:', javaTaskLoadingContainer.style.display);
+                } else {
+                    console.error('[DEBUG] 未找到 javaTaskLoadingContainer!');
+                }
+
+                console.log('[DEBUG] Java加载状态页面显示完成');
+
+                // 重新初始化Tab切换功能
+                setTimeout(function() {
+                    initJavaWorkspaceTabs();
+                    initScrollbarAutoHide();
+                    console.log('[DEBUG] Java Tab切换和滚动条已初始化');
+                }, 100);
+
+                return;
+            }
+
+            // 检查是否是PHP代码风险分析任务
+            if (taskName === 'PHP代码风险分析') {
+                console.log('[DEBUG] 显示PHP代码风险分析失败状态');
+
+                // 隐藏空状态容器和其他内容
+                var emptyStateContainer = document.querySelector('.empty-state-container');
+                var taskResultContainer = document.querySelector('#taskResultContainer');
+                var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                var phpTaskErrorContainer = document.querySelector('#phpTaskErrorContainer');
+                var taskDetailContent = document.querySelector('.task-detail-content');
+
+                if (emptyStateContainer) {
+                    emptyStateContainer.style.display = 'none';
+                }
+                if (taskDetailContent) {
+                    taskDetailContent.style.display = 'none';
+                }
+                if (taskResultContainer) {
+                    taskResultContainer.style.display = 'none';
+                }
+                if (javaTaskLoadingContainer) {
+                    javaTaskLoadingContainer.style.display = 'none';
+                }
+                if (phpTaskErrorContainer) {
+                    phpTaskErrorContainer.style.display = 'block';
+                }
+
+                console.log('[DEBUG] PHP失败状态页面已显示');
+
+                // 重新初始化Tab切换功能
+                setTimeout(function() {
+                    initPhpWorkspaceTabs();
+                    initScrollbarAutoHide();
+                    initPhpErrorHandlers();
+                    console.log('[DEBUG] PHP Tab切换、滚动条和错误处理已初始化');
+                }, 100);
+
+                return;
+            }
+
+            // 其他任务显示普通对话界面（这里省略原有逻辑）
+            console.log('[DEBUG] 显示普通任务对话界面');
+        }
+
+        // ==========================================
+        // 双文件上传功能
+        // ==========================================
+
+        // 文件上传状态
+        let uploadedFiles = {
+            sast: null,    // SAST任务报告
+            code: null     // 工程代码文件
+        };
+
+        /**
+         * 初始化双文件上传功能
+         */
+        function initDualFileUpload() {
+            // SAST任务报告上传
+            const sastUploadArea = document.getElementById('sastUploadArea');
+            const sastInput = document.getElementById('sastReportInput');
+            const sastRemoveBtn = document.getElementById('sastRemoveBtn');
+
+            // 工程代码文件上传
+            const codeUploadArea = document.getElementById('codeUploadArea');
+            const codeInput = document.getElementById('codeFileInput');
+            const codeRemoveBtn = document.getElementById('codeRemoveBtn');
+
+            // 绑定SAST上传事件
+            if (sastUploadArea && sastInput) {
+                sastUploadArea.addEventListener('click', () => sastInput.click());
+                sastInput.addEventListener('change', (e) => handleFileSelect(e, 'sast'));
+
+                // 拖拽上传
+                sastUploadArea.addEventListener('dragover', handleDragOver);
+                sastUploadArea.addEventListener('dragleave', handleDragLeave);
+                sastUploadArea.addEventListener('drop', (e) => handleDrop(e, 'sast'));
+            }
+
+            // 绑定代码文件上传事件
+            if (codeUploadArea && codeInput) {
+                codeUploadArea.addEventListener('click', () => codeInput.click());
+                codeInput.addEventListener('change', (e) => handleFileSelect(e, 'code'));
+
+                // 拖拽上传
+                codeUploadArea.addEventListener('dragover', handleDragOver);
+                codeUploadArea.addEventListener('dragleave', handleDragLeave);
+                codeUploadArea.addEventListener('drop', (e) => handleDrop(e, 'code'));
+            }
+
+            // 绑定移除文件事件
+            if (sastRemoveBtn) {
+                sastRemoveBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFile('sast');
+                });
+            }
+
+            if (codeRemoveBtn) {
+                codeRemoveBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    removeFile('code');
+                });
+            }
+
+            // 绑定开始分析按钮事件
+            const btnStartAnalysis = document.getElementById('btnStartAnalysis');
+            if (btnStartAnalysis) {
+                btnStartAnalysis.addEventListener('click', startAnalysis);
+            }
+
+            // 绑定"查看已适配SAST工具"链接事件
+            const viewSastToolsLink = document.getElementById('viewSastTools');
+            if (viewSastToolsLink) {
+                viewSastToolsLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showSastToolsInfo();
+                });
+            }
+        }
+
+        /**
+         * 显示SAST工具信息
+         */
+        function showSastToolsInfo() {
+            // 记录用户点击行为
+            console.log('用户点击了"查看已适配SAST工具"');
+            // TODO: 后续可添加跳转或展示逻辑
+        }
+
+        /**
+         * 处理拖拽悬停
+         */
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.add('drag-over');
+        }
+
+        /**
+         * 处理拖拽离开
+         */
+        function handleDragLeave(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.remove('drag-over');
+        }
+
+        /**
+         * 处理文件拖放
+         */
+        function handleDrop(e, type) {
+            e.preventDefault();
+            e.stopPropagation();
+            e.currentTarget.classList.remove('drag-over');
+
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                processFile(files[0], type);
+            }
+        }
+
+        /**
+         * 处理文件选择
+         */
+        function handleFileSelect(e, type) {
+            const files = e.target.files;
+            if (files.length > 0) {
+                processFile(files[0], type);
+            }
+        }
+
+        /**
+         * 处理文件
+         */
+        function processFile(file, type) {
+            // 验证文件
+            const validation = validateFile(file, type);
+            if (!validation.valid) {
+                alert(validation.message);
+                return;
+            }
+
+            // 保存文件
+            uploadedFiles[type] = file;
+
+            // 更新UI
+            updateUploadUI(type, file);
+
+            // 检查是否可以启用开始分析按钮
+            checkAnalysisButton();
+        }
+
+        /**
+         * 验证文件
+         */
+        function validateFile(file, type) {
+            if (type === 'sast') {
+                const validExtensions = ['.docx', '.xlsx'];
+                const maxSize = 500 * 1024 * 1024; // 500MB
+
+                const ext = '.' + file.name.split('.').pop().toLowerCase();
+                if (!validExtensions.includes(ext)) {
+                    return { valid: false, message: '请上传 docx 或 xlsx 格式的文件' };
+                }
+                if (file.size > maxSize) {
+                    return { valid: false, message: '文件大小不能超过 500M' };
+                }
+            } else if (type === 'code') {
+                const validExtensions = ['.zip', '.gz'];
+                const maxSize = 1024 * 1024 * 1024; // 1GB
+
+                const fileName = file.name.toLowerCase();
+                const isValid = validExtensions.some(ext => fileName.endsWith(ext)) ||
+                               fileName.endsWith('.tar.gz');
+
+                if (!isValid) {
+                    return { valid: false, message: '请上传 zip 或 tar.gz 格式的文件' };
+                }
+                if (file.size > maxSize) {
+                    return { valid: false, message: '文件大小不能超过 1G' };
+                }
+            }
+
+            return { valid: true };
+        }
+
+        /**
+         * 更新上传UI
+         */
+        function updateUploadUI(type, file) {
+            const prefix = type === 'sast' ? 'sast' : 'code';
+
+            // 隐藏上传区域
+            const uploadArea = document.getElementById(prefix + 'UploadArea');
+            if (uploadArea) {
+                uploadArea.style.display = 'none';
+            }
+
+            // 显示文件信息
+            const fileInfo = document.getElementById(prefix + 'FileInfo');
+            if (fileInfo) {
+                const fileName = document.getElementById(prefix + 'FileName');
+                const fileSize = document.getElementById(prefix + 'FileSize');
+
+                if (fileName) fileName.textContent = file.name;
+                if (fileSize) fileSize.textContent = formatFileSize(file.size);
+
+                fileInfo.style.display = 'flex';
+            }
+        }
+
+        /**
+         * 移除文件
+         */
+        function removeFile(type) {
+            uploadedFiles[type] = null;
+
+            const prefix = type === 'sast' ? 'sast' : 'code';
+
+            // 显示上传区域
+            const uploadArea = document.getElementById(prefix + 'UploadArea');
+            if (uploadArea) {
+                uploadArea.style.display = 'flex';
+            }
+
+            // 隐藏文件信息
+            const fileInfo = document.getElementById(prefix + 'FileInfo');
+            if (fileInfo) {
+                fileInfo.style.display = 'none';
+            }
+
+            // 清空input
+            const input = document.getElementById(prefix === 'sast' ? 'sastReportInput' : 'codeFileInput');
+            if (input) {
+                input.value = '';
+            }
+
+            // 检查按钮状态
+            checkAnalysisButton();
+        }
+
+        /**
+         * 格式化文件大小
+         */
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 B';
+            const k = 1024;
+            const sizes = ['B', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+        }
+
+        /**
+         * 检查并更新开始分析按钮状态
+         */
+        function checkAnalysisButton() {
+            const analysisAction = document.getElementById('analysisAction');
+            if (!analysisAction) return;
+
+            const bothUploaded = uploadedFiles.sast && uploadedFiles.code;
+
+            // 两个文件都上传后才显示按钮
+            if (bothUploaded) {
+                analysisAction.style.display = 'flex';
+            } else {
+                analysisAction.style.display = 'none';
+            }
+        }
+
+        /**
+         * 开始分析
+         */
+        function startAnalysis() {
+            if (!uploadedFiles.sast || !uploadedFiles.code) {
+                alert('请先上传所有必需文件');
+                return;
+            }
+
+            console.log('开始分析，已上传文件：', uploadedFiles);
+
+            // 切换到对话模式
+            switchToChatMode();
+        }
+
+        /**
+         * 切换到对话模式
+         */
+        function switchToChatMode() {
+            const chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) {
+                console.error('未找到主内容区域');
+                return;
+            }
+
+            // 清空内容
+            chatArea.innerHTML = '';
+
+            // 创建任务详情内容
+            const taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            // 生成任务名称（使用文件名）
+            const taskName = '缺陷研判分析';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">' +
+                            '已上传文件：<br>' +
+                            '📄 SAST任务报告: ' + uploadedFiles.sast.name + ' (' + formatFileSize(uploadedFiles.sast.size) + ')<br>' +
+                            '📦 工程代码文件: ' + uploadedFiles.code.name + ' (' + formatFileSize(uploadedFiles.code.size) + ')<br><br>' +
+                            '请开始分析这些文件中的安全缺陷。' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">' +
+                            '收到！我已经接收到您上传的文件：<br><br>' +
+                            '✅ SAST任务报告: ' + uploadedFiles.sast.name + '<br>' +
+                            '✅ 工程代码文件: ' + uploadedFiles.code.name + '<br><br>' +
+                            '我将为您进行全面的安全缺陷研判，包括：<br>' +
+                            '1. 分析SAST报告中的缺陷详情<br>' +
+                            '2. 结合代码上下文评估风险等级<br>' +
+                            '3. 提供修复建议和优先级排序<br>' +
+                            '4. 识别潜在的安全风险点<br><br>' +
+                            '请告诉我您想要重点关注哪方面的分析？' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" placeholder="输入您的问题或需求..." rows="3"></textarea>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon file-upload-trigger" title="上传文件" data-action="file-upload">📎</button>' +
+                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            console.log('已切换到对话模式');
+
+            // 滚动到底部
+            setTimeout(function() {
+                const chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+
+            // 重新初始化文件上传弹出层（因为DOM已重新创建）
+            initFileUploadPopover();
+        }
+
+        // ==========================================
+        // 原有文件上传弹出层功能
+        // ==========================================
+
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('[DEBUG] ===== DOMContentLoaded 事件触发 =====');
+            console.log('[DEBUG] mockTasks:', mockTasks);
+
+            // 初始化双文件上传功能
+            console.log('[DEBUG] 调用 initDualFileUpload');
+            initDualFileUpload();
+
             // 初始化文件上传弹出层
+            console.log('[DEBUG] 调用 initFileUploadPopover');
             initFileUploadPopover();
             
             // 为静态任务项绑定点击事件，添加选中状态
             var staticTaskItems = document.querySelectorAll('.recent-task-item');
-            staticTaskItems.forEach(function(item) {
+            console.log('[DEBUG] 找到静态任务项数量:', staticTaskItems.length);
+
+            staticTaskItems.forEach(function(item, index) {
+                console.log('[DEBUG] 绑定第', index + 1, '个任务项');
+
                 item.addEventListener('click', function(e) {
+                    console.log('[DEBUG] ===== 任务项被点击 =====');
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // 移除所有任务项的 active 状态
                     var allItems = document.querySelectorAll('.recent-task-item');
                     allItems.forEach(function(taskItem) {
                         taskItem.classList.remove('active');
                     });
-                    
+
                     // 为当前点击的任务项添加 active 状态
                     item.classList.add('active');
-                    
+
                     // 获取任务名称
                     var taskNameElement = item.querySelector('.task-name');
-                    if (!taskNameElement) return;
+                    console.log('[DEBUG] taskNameElement:', taskNameElement);
+
+                    if (!taskNameElement) {
+                        console.log('[DEBUG] 未找到任务名称元素');
+                        return;
+                    }
+
                     var taskNameText = taskNameElement.textContent.trim();
-                    
+                    console.log('[DEBUG] 提取的任务名称:', "'" + taskNameText + "'");
+                    console.log('[DEBUG] 任务名称长度:', taskNameText.length);
+
                     // 查找对应的任务数据
+                    console.log('[DEBUG] mockTasks:', mockTasks);
                     var taskData = mockTasks.find(function(task) {
+                        console.log('[DEBUG] 比较:', "'" + task.name + "' === '" + taskNameText + "'", task.name === taskNameText);
                         return task.name === taskNameText;
                     });
-                    
+
+                    console.log('[DEBUG] 点击任务:', taskNameText, '找到数据:', taskData);
+
                     if (taskData) {
+                        console.log('[DEBUG] 找到任务数据，准备调用处理函数');
                         // 调用 onTaskClick 回调
                         var sidebarInstance = window.agentSidebarInstance;
+                        console.log('[DEBUG] sidebarInstance:', sidebarInstance);
                         if (sidebarInstance && sidebarInstance.onTaskClick) {
+                            console.log('[DEBUG] 调用 sidebarInstance.onTaskClick');
                             sidebarInstance.onTaskClick(taskData.id, taskData);
+                        } else {
+                            console.log('[DEBUG] 直接调用 handleTaskClick');
+                            // 直接处理任务点击
+                            handleTaskClick(taskData.id, taskData);
                         }
+                    } else {
+                        console.log('[DEBUG] 未找到任务数据，任务名称:', taskNameText);
+                        console.log('[DEBUG] 所有可用任务:', mockTasks.map(function(t) { return t.name; }));
                     }
                 });
             });
             
             // 初始化侧导航组件
-            initAgentSidebar({
-                tasks: mockTasks,
-                maxTasks: 10,
-                onNewTask: function() {
+            if (typeof initAgentSidebar === 'function') {
+                initAgentSidebar({
+                    tasks: mockTasks,
+                    maxTasks: 10,
+                    onNewTask: function() {
                     console.log('创建新任务');
                     // 点击新任务按钮时，显示空状态页面
                     var chatArea = document.querySelector('.agent-main-content');
@@ -390,6 +1630,73 @@
 
                         // 清空chatArea内容，重新创建任务详情
                         var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+                        // 检查是否是Python代码缺陷研判任务
+                        if (taskName === 'Python代码缺陷研判') {
+                            // 显示任务结果页面
+                            var emptyStateContainer = document.querySelector('.empty-state-container');
+                            var taskResultContainer = document.querySelector('#taskResultContainer');
+                            var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                            var taskDetailContent = document.querySelector('.task-detail-content');
+
+                            if (emptyStateContainer) {
+                                emptyStateContainer.style.display = 'none';
+                            }
+                            if (taskDetailContent) {
+                                taskDetailContent.style.display = 'none';
+                            }
+                            if (javaTaskLoadingContainer) {
+                                javaTaskLoadingContainer.style.display = 'none';
+                            }
+                            if (taskResultContainer) {
+                                taskResultContainer.style.display = 'block';
+                            }
+
+                            console.log('[DEBUG] 显示任务结果页面');
+
+                            // 重新初始化布局切换和Tab切换功能
+                            setTimeout(function() {
+                                initLayoutSwitcher();
+                                initWorkspaceTabs();
+                                initScrollbarAutoHide();
+                                console.log('[DEBUG] 布局切换、Tab切换和滚动条已重新初始化');
+                            }, 100);
+
+                            return;
+                        }
+
+                        // 检查是否是Java安全缺陷评估任务
+                        if (taskName === 'Java安全缺陷评估') {
+                            // 显示Java加载状态页面
+                            var emptyStateContainer = document.querySelector('.empty-state-container');
+                            var taskResultContainer = document.querySelector('#taskResultContainer');
+                            var javaTaskLoadingContainer = document.querySelector('#javaTaskLoadingContainer');
+                            var taskDetailContent = document.querySelector('.task-detail-content');
+
+                            if (emptyStateContainer) {
+                                emptyStateContainer.style.display = 'none';
+                            }
+                            if (taskDetailContent) {
+                                taskDetailContent.style.display = 'none';
+                            }
+                            if (taskResultContainer) {
+                                taskResultContainer.style.display = 'none';
+                            }
+                            if (javaTaskLoadingContainer) {
+                                javaTaskLoadingContainer.style.display = 'block';
+                            }
+
+                            console.log('[DEBUG] 显示Java加载状态页面');
+
+                            // 重新初始化Tab切换功能
+                            setTimeout(function() {
+                                initJavaWorkspaceTabs();
+                                initScrollbarAutoHide();
+                                console.log('[DEBUG] Java Tab切换和滚动条已初始化');
+                            }, 100);
+
+                            return;
+                        }
 
                         // 清空chatArea并重新创建任务详情
                         chatArea.innerHTML = '';
@@ -470,14 +1777,30 @@
                     showAllTasks();
                 }
             });
+            } else {
+                console.log('[DEBUG] initAgentSidebar 函数不存在，跳过侧边栏初始化');
+            }
 
             // 初始化聊天输入框组件
-            initChatInput({
-                onSend: function(message) {
-                    console.log('发送消息:', message);
-                    // 模拟发送，实际应该调用API
-                }
-            });
+            if (typeof initChatInput === 'function') {
+                initChatInput({
+                    onSend: function(message) {
+                        console.log('发送消息:', message);
+                        // 模拟发送，实际应该调用API
+                    }
+                });
+            } else {
+                console.log('[DEBUG] initChatInput 函数不存在，跳过聊天输入框初始化');
+            }
+
+            // 初始化布局切换功能
+            initLayoutSwitcher();
+
+            // 初始化Tab切换功能
+            initWorkspaceTabs();
+
+            // 初始化滚动条自动隐藏功能
+            initScrollbarAutoHide();
         });
 
         // 显示全部任务列表
@@ -713,22 +2036,23 @@
          * @param {HTMLElement} triggerBtn - 触发按钮
          */
         function toggleFileUploadPopover(triggerBtn) {
-            const wrapper = triggerBtn.closest('.chat-input-wrapper');
-            if (!wrapper) return;
-            
+            // 找到按钮所在的 actions 容器
+            const actionsContainer = triggerBtn.closest('.chat-input-actions');
+            if (!actionsContainer) return;
+
             // 确保父容器相对定位
-            if (wrapper.style.position !== 'relative') {
-                wrapper.style.position = 'relative';
+            if (actionsContainer.style.position !== 'relative') {
+                actionsContainer.style.position = 'relative';
             }
-            
-            // 查找或创建弹出层（在wrapper中查找）
-            let popover = wrapper.querySelector('.file-upload-popover');
-            
+
+            // 查找或创建弹出层（在 actions 容器中查找）
+            let popover = actionsContainer.querySelector('.file-upload-popover');
+
             if (!popover) {
                 popover = createFileUploadPopover();
-                wrapper.appendChild(popover);
+                actionsContainer.appendChild(popover);
             }
-            
+
             // 切换显示状态
             const isShowing = popover.classList.contains('show');
             if (isShowing) {
@@ -769,7 +2093,7 @@
             option1.className = 'file-upload-option';
             option1.setAttribute('data-upload-type', 'sast-report');
             option1.innerHTML = `
-                <div class="file-upload-option-title">sast任务报告</div>
+                <div class="file-upload-option-title"><span style="color: var(--clouditera-semantic-error);">*</span> sast任务报告</div>
                 <div class="file-upload-option-subtitle">支持单个docx、xlsx格式缺陷报告上传，大小不超过500M</div>
             `;
             option1.addEventListener('click', function(e) {
@@ -783,7 +2107,7 @@
             option2.className = 'file-upload-option';
             option2.setAttribute('data-upload-type', 'code-file');
             option2.innerHTML = `
-                <div class="file-upload-option-title">工程代码文件</div>
+                <div class="file-upload-option-title"><span style="color: var(--clouditera-semantic-error);">*</span> 工程代码文件</div>
                 <div class="file-upload-option-subtitle">支持单个zip、tar.gz 格式的工程代码文件上传，大小不超过1G</div>
             `;
             option2.addEventListener('click', function(e) {
@@ -889,7 +2213,306 @@
             // 或者将文件信息添加到输入框中
             // 或者显示文件信息预览等
         }
-        
+
+        // ==========================================
+        // 布局切换功能
+        // ==========================================
+
+        /**
+         * 初始化布局切换功能
+         */
+        function initLayoutSwitcher() {
+            var switchBtns = document.querySelectorAll('.layout-switch-btn');
+            var workspaceContent = document.querySelector('.workspace-content');
+
+            if (!workspaceContent) {
+                console.log('未找到workspace-content，跳过布局切换初始化');
+                return;
+            }
+
+            console.log('[DEBUG] 初始化布局切换, 找到按钮数:', switchBtns.length);
+
+            switchBtns.forEach(function(btn) {
+                // 移除旧的事件监听器（如果有）
+                var newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                // 添加新的事件监听器
+                newBtn.addEventListener('click', function() {
+                    var layout = this.getAttribute('data-layout');
+                    console.log('[DEBUG] 点击布局切换按钮:', layout);
+
+                    // 重新获取所有按钮（因为可能被替换了）
+                    var allBtns = document.querySelectorAll('.layout-switch-btn');
+                    var content = document.querySelector('.workspace-content');
+
+                    // 更新按钮激活状态
+                    allBtns.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // 切换布局
+                    if (layout === 'vertical') {
+                        content.classList.remove('layout-grid');
+                        content.classList.add('layout-vertical');
+                        console.log('[DEBUG] 切换到方案A：垂直布局');
+                    } else if (layout === 'grid') {
+                        content.classList.remove('layout-vertical');
+                        content.classList.add('layout-grid');
+                        console.log('[DEBUG] 切换到方案C：宫格布局');
+                    }
+                });
+            });
+        }
+
+        // ==========================================
+        // 滚动条自动隐藏功能
+        // ==========================================
+
+        /**
+         * 初始化滚动条自动隐藏功能
+         */
+        function initScrollbarAutoHide() {
+            var container = document.querySelector('.task-result-container');
+            if (!container) {
+                console.log('未找到task-result-container，跳过滚动条初始化');
+                return;
+            }
+
+            var scrollTimer = null;
+
+            container.addEventListener('scroll', function() {
+                // 滚动时添加 scrolling 类
+                container.classList.add('scrolling');
+
+                // 清除之前的定时器
+                if (scrollTimer) {
+                    clearTimeout(scrollTimer);
+                }
+
+                // 滚动停止 1 秒后移除 scrolling 类
+                scrollTimer = setTimeout(function() {
+                    container.classList.remove('scrolling');
+                }, 1000);
+            });
+
+            console.log('[DEBUG] 滚动条自动隐藏已初始化');
+        }
+
+        // ==========================================
+        // Tab切换功能
+        // ==========================================
+
+        /**
+         * 初始化Tab切换功能
+         */
+        function initWorkspaceTabs() {
+            var tabBtns = document.querySelectorAll('.workspace-tab');
+            var overviewContent = document.querySelector('#overviewContent');
+            var listContent = document.querySelector('#listContent');
+
+            if (!overviewContent || !listContent) {
+                console.log('未找到Tab内容区域，跳过Tab切换初始化');
+                return;
+            }
+
+            console.log('[DEBUG] 初始化Tab切换, 找到Tab数:', tabBtns.length);
+
+            tabBtns.forEach(function(btn) {
+                // 移除旧的事件监听器（如果有）
+                var newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                // 添加新的事件监听器
+                newBtn.addEventListener('click', function() {
+                    var tab = this.getAttribute('data-tab');
+                    console.log('[DEBUG] 点击Tab:', tab);
+
+                    // 重新获取所有Tab按钮
+                    var allTabs = document.querySelectorAll('.workspace-tab');
+                    var overview = document.querySelector('#overviewContent');
+                    var list = document.querySelector('#listContent');
+
+                    // 更新Tab激活状态
+                    allTabs.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // 切换内容显示
+                    if (tab === 'overview') {
+                        overview.style.display = 'grid';
+                        list.style.display = 'none';
+                        console.log('[DEBUG] 切换到审计概览');
+                    } else if (tab === 'list') {
+                        overview.style.display = 'none';
+                        list.style.display = 'block';
+                        console.log('[DEBUG] 切换到审计列表');
+                    }
+                });
+            });
+        }
+
+        /**
+         * 初始化Java加载状态Tab切换功能
+         */
+        function initJavaWorkspaceTabs() {
+            var tabBtns = document.querySelectorAll('#javaTaskLoadingContainer .workspace-tab');
+            var overviewContent = document.querySelector('#javaOverviewContent');
+            var listContent = document.querySelector('#javaListContent');
+
+            if (!overviewContent || !listContent) {
+                console.log('未找到Java Tab内容区域，跳过Tab切换初始化');
+                return;
+            }
+
+            console.log('[DEBUG] 初始化Java Tab切换, 找到Tab数:', tabBtns.length);
+
+            tabBtns.forEach(function(btn) {
+                // 移除旧的事件监听器（如果有）
+                var newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                // 添加新的事件监听器
+                newBtn.addEventListener('click', function() {
+                    var tab = this.getAttribute('data-tab');
+                    console.log('[DEBUG] 点击Java Tab:', tab);
+
+                    // 重新获取所有Tab按钮
+                    var allTabs = document.querySelectorAll('#javaTaskLoadingContainer .workspace-tab');
+                    var overview = document.querySelector('#javaOverviewContent');
+                    var list = document.querySelector('#javaListContent');
+
+                    // 更新Tab激活状态
+                    allTabs.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // 切换内容显示
+                    if (tab === 'overview') {
+                        overview.style.display = 'grid';
+                        list.style.display = 'none';
+                        console.log('[DEBUG] 切换到Java审计概览');
+                    } else if (tab === 'list') {
+                        overview.style.display = 'none';
+                        list.style.display = 'block';
+                        console.log('[DEBUG] 切换到Java审计列表');
+                    }
+                });
+            });
+        }
+
+        /**
+         * 初始化PHP工作空间Tab切换
+         */
+        function initPhpWorkspaceTabs() {
+            var tabBtns = document.querySelectorAll('#phpTaskErrorContainer .workspace-tab');
+            var overviewContent = document.querySelector('#phpOverviewContent');
+            var listContent = document.querySelector('#phpListContent');
+
+            if (!overviewContent || !listContent) {
+                console.log('未找到PHP Tab内容区域，跳过Tab切换初始化');
+                return;
+            }
+
+            console.log('[DEBUG] 初始化PHP Tab切换, 找到Tab数:', tabBtns.length);
+
+            tabBtns.forEach(function(btn) {
+                // 移除旧的事件监听器（如果有）
+                var newBtn = btn.cloneNode(true);
+                btn.parentNode.replaceChild(newBtn, btn);
+
+                // 添加新的事件监听器
+                newBtn.addEventListener('click', function() {
+                    var tab = this.getAttribute('data-tab');
+                    console.log('[DEBUG] 点击PHP Tab:', tab);
+
+                    // 重新获取所有Tab按钮
+                    var allTabs = document.querySelectorAll('#phpTaskErrorContainer .workspace-tab');
+                    var overview = document.querySelector('#phpOverviewContent');
+                    var list = document.querySelector('#phpListContent');
+
+                    // 更新Tab激活状态
+                    allTabs.forEach(function(b) {
+                        b.classList.remove('active');
+                    });
+                    this.classList.add('active');
+
+                    // 切换内容显示
+                    if (tab === 'overview') {
+                        overview.style.display = 'grid';
+                        list.style.display = 'none';
+                        console.log('[DEBUG] 切换到PHP审计概览');
+                    } else if (tab === 'list') {
+                        overview.style.display = 'none';
+                        list.style.display = 'block';
+                        console.log('[DEBUG] 切换到PHP审计列表');
+                    }
+                });
+            });
+        }
+
+        /**
+         * 初始化PHP错误处理事件
+         */
+        function initPhpErrorHandlers() {
+            console.log('[DEBUG] 初始化PHP错误处理事件');
+
+            // "已适配SAST工具"链接点击事件
+            var viewSastToolsErrorLink = document.getElementById('viewSastToolsError');
+            if (viewSastToolsErrorLink) {
+                viewSastToolsErrorLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[DEBUG] 点击"已适配SAST工具"链接');
+
+                    // 触发现有的SAST工具弹窗
+                    var viewSastToolsBtn = document.getElementById('viewSastTools');
+                    if (viewSastToolsBtn) {
+                        viewSastToolsBtn.click();
+                    }
+                });
+            }
+
+            // "删除"按钮点击事件
+            var deleteBtn = document.getElementById('btnDeletePhpUpload');
+            if (deleteBtn) {
+                deleteBtn.addEventListener('click', function() {
+                    console.log('[DEBUG] 点击删除按钮');
+
+                    // 确认对话框
+                    if (confirm('确定要删除已上传的文件吗？')) {
+                        console.log('[DEBUG] 确认删除，清空文件并返回首页');
+
+                        // 清空上传的文件
+                        uploadedFiles.sast = null;
+                        uploadedFiles.code = null;
+
+                        // 隐藏PHP错误容器
+                        var phpTaskErrorContainer = document.querySelector('#phpTaskErrorContainer');
+                        if (phpTaskErrorContainer) {
+                            phpTaskErrorContainer.style.display = 'none';
+                        }
+
+                        // 显示空状态页面
+                        var emptyStateContainer = document.querySelector('.empty-state-container');
+                        if (emptyStateContainer) {
+                            emptyStateContainer.style.display = 'flex';
+                        }
+
+                        // 移除任务的active状态
+                        var allTaskItems = document.querySelectorAll('.recent-task-item');
+                        allTaskItems.forEach(function(item) {
+                            item.classList.remove('active');
+                        });
+
+                        console.log('[DEBUG] 已返回缺陷研判首页');
+                    }
+                });
+            }
+        }
+
     </script>
 </body>
 </html>
