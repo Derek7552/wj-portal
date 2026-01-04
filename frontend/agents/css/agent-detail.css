@@ -860,19 +860,19 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 4px;
     padding: 0;
 }
 
 .empty-agent-name .agent-name-icon {
     font-size: 40px;
-    filter: drop-shadow(0 2px 8px rgba(102, 126, 234, 0.3));
+    filter: drop-shadow(0 2px 8px rgba(41, 140, 255, 0.3));
 }
 
 .empty-agent-name .agent-name-text {
     font-size: 28px;
     font-weight: 700;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, var(--clouditera-brand-primary) 0%, var(--clouditera-brand-primary-hover) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -889,7 +889,7 @@
 .empty-state-guide-text {
     font-size: 16px;
     font-weight: 500;
-    color: #595959;
+    color: var(--clouditera-neutral-gray-7);
     margin: 0;
     opacity: 0.85;
 }
