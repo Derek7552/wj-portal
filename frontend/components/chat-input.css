@@ -57,6 +57,7 @@
     min-height: 120px;
     line-height: 1.6;
     box-sizing: border-box;
+    border-radius: 8px 8px 0 0; /* 顶部圆角，确保与父容器圆角一致 */
 }
 
 .chat-input:focus {
