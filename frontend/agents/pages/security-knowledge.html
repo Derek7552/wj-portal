@@ -10,6 +10,158 @@
     <link rel="stylesheet" href="../css/agent-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <style>
+        /* ==========================================
+           知识库选择下拉框样式
+           ========================================== */
+
+        /* 筛选器按钮 */
+        .filter-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 6px;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-7);
+            cursor: pointer;
+            transition: all 0.2s;
+            height: 36px;
+            box-sizing: border-box;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--clouditera-brand-primary);
+            color: var(--clouditera-brand-primary);
+            background: var(--clouditera-palette-blue-0);
+        }
+
+        .filter-btn:active {
+            background: var(--clouditera-palette-blue-1);
+        }
+
+        .filter-btn:focus {
+            outline: none;
+            border-color: var(--clouditera-brand-primary);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+        }
+
+        /* 筛选器图标 */
+        .filter-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        /* 筛选器文本 */
+        .filter-text {
+            font-weight: 400;
+            line-height: 1;
+        }
+
+        /* 下拉箭头 */
+        .filter-arrow {
+            font-size: 10px;
+            color: var(--clouditera-neutral-gray-6);
+            line-height: 1;
+            margin-left: 2px;
+        }
+
+        .filter-btn:hover .filter-arrow {
+            color: var(--clouditera-brand-primary);
+        }
+
+        /* 知识库下拉框容器 */
+        .knowledge-base-dropdown-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        /* 知识库下拉菜单 */
+        .knowledge-base-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 4px);
+            left: 0;
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-primary);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 160px;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-8px);
+            transition: all 0.2s ease;
+        }
+
+        .knowledge-base-dropdown-menu.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* 知识库菜单项 */
+        .knowledge-base-menu-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-size: 13px;
+            color: var(--clouditera-neutral-gray-9);
+        }
+
+        .knowledge-base-menu-item:first-child {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .knowledge-base-menu-item:last-child {
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+        }
+
+        .knowledge-base-menu-item:hover {
+            background: var(--clouditera-palette-blue-0);
+            color: var(--clouditera-brand-primary);
+        }
+
+        .knowledge-base-menu-item.active {
+            background: var(--clouditera-palette-blue-1);
+            color: var(--clouditera-brand-primary);
+            font-weight: 500;
+        }
+
+        .menu-item-icon {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+        .menu-item-text {
+            flex: 1;
+            line-height: 1;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .filter-btn {
+                padding: 6px 10px;
+                font-size: 12px;
+                height: 32px;
+            }
+
+            .filter-text {
+                font-size: 12px;
+            }
+
+            .knowledge-base-dropdown-menu {
+                min-width: 140px;
+            }
+        }
+    </style>
 </head>
 <body class="agent-detail-page">
     <!-- 左侧导航栏 -->
@@ -242,21 +394,34 @@
                                 rows="3"
                             ></textarea>
 
-                            <!-- 工具栏：左侧操作按钮 + 右侧发送按钮 -->
+                            <!-- 工具栏：左侧下拉选择器 + 右侧发送按钮 -->
                             <div class="chat-input-toolbar">
                                 <div class="chat-input-actions">
-                                    <button class="btn-icon" title="上传文件">
-                                        📎
-                                    </button>
-                                    <button class="btn-icon" title="插入图片">
-                                        🖼️
-                                    </button>
-                                    <button class="btn-icon" title="插入代码">
-                                        💻
-                                    </button>
-                                    <button class="btn-icon" title="插入表格">
-                                        📊
-                                    </button>
+                                    <div class="knowledge-base-dropdown-wrapper">
+                                        <button class="filter-btn knowledge-base-btn">
+                                            <span class="filter-icon">📚</span>
+                                            <span class="filter-text">全部</span>
+                                            <span class="filter-arrow">▼</span>
+                                        </button>
+                                        <div class="knowledge-base-dropdown-menu">
+                                            <div class="knowledge-base-menu-item" data-kb="all">
+                                                <span class="menu-item-icon">📚</span>
+                                                <span class="menu-item-text">全部</span>
+                                            </div>
+                                            <div class="knowledge-base-menu-item" data-kb="personal">
+                                                <span class="menu-item-icon">📖</span>
+                                                <span class="menu-item-text">个人知识库</span>
+                                            </div>
+                                            <div class="knowledge-base-menu-item" data-kb="enterprise">
+                                                <span class="menu-item-icon">🏢</span>
+                                                <span class="menu-item-text">企业知识库</span>
+                                            </div>
+                                            <div class="knowledge-base-menu-item" data-kb="industry">
+                                                <span class="menu-item-icon">🌐</span>
+                                                <span class="menu-item-text">行业知识库</span>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <button class="btn btn-primary chat-send" id="chatSend">
                                     <span>发送</span>

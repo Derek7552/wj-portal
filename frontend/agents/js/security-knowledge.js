@@ -105,10 +105,31 @@ function showEmptyState() {
                     ></textarea>
                     <div class="chat-input-toolbar">
                         <div class="chat-input-actions">
-                            <button class="btn-icon" title="上传文件">📎</button>
-                            <button class="btn-icon" title="插入图片">🖼️</button>
-                            <button class="btn-icon" title="插入代码">💻</button>
-                            <button class="btn-icon" title="插入表格">📊</button>
+                            <div class="knowledge-base-dropdown-wrapper">
+                                <button class="filter-btn knowledge-base-btn">
+                                    <span class="filter-icon">📚</span>
+                                    <span class="filter-text">全部</span>
+                                    <span class="filter-arrow">▼</span>
+                                </button>
+                                <div class="knowledge-base-dropdown-menu">
+                                    <div class="knowledge-base-menu-item active" data-kb="all">
+                                        <span class="menu-item-icon">📚</span>
+                                        <span class="menu-item-text">全部</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="personal">
+                                        <span class="menu-item-icon">📖</span>
+                                        <span class="menu-item-text">个人知识库</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="enterprise">
+                                        <span class="menu-item-icon">🏢</span>
+                                        <span class="menu-item-text">企业知识库</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="industry">
+                                        <span class="menu-item-icon">🌐</span>
+                                        <span class="menu-item-text">行业知识库</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button class="btn btn-primary chat-send" id="chatSend">
                             <span>发送</span>
@@ -161,10 +182,31 @@ function showChatContent(taskName) {
                     ></textarea>
                     <div class="chat-input-toolbar">
                         <div class="chat-input-actions">
-                            <button class="btn-icon" title="上传文件">📎</button>
-                            <button class="btn-icon" title="插入图片">🖼️</button>
-                            <button class="btn-icon" title="插入代码">💻</button>
-                            <button class="btn-icon" title="插入表格">📊</button>
+                            <div class="knowledge-base-dropdown-wrapper">
+                                <button class="filter-btn knowledge-base-btn">
+                                    <span class="filter-icon">📚</span>
+                                    <span class="filter-text">全部</span>
+                                    <span class="filter-arrow">▼</span>
+                                </button>
+                                <div class="knowledge-base-dropdown-menu">
+                                    <div class="knowledge-base-menu-item active" data-kb="all">
+                                        <span class="menu-item-icon">📚</span>
+                                        <span class="menu-item-text">全部</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="personal">
+                                        <span class="menu-item-icon">📖</span>
+                                        <span class="menu-item-text">个人知识库</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="enterprise">
+                                        <span class="menu-item-icon">🏢</span>
+                                        <span class="menu-item-text">企业知识库</span>
+                                    </div>
+                                    <div class="knowledge-base-menu-item" data-kb="industry">
+                                        <span class="menu-item-icon">🌐</span>
+                                        <span class="menu-item-text">行业知识库</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <button class="btn btn-primary chat-send" id="chatSend">
                             <span>发送</span>
@@ -212,6 +254,63 @@ function initChatInput() {
         this.style.height = 'auto';
         this.style.height = this.scrollHeight + 'px';
     });
+
+    // 初始化知识库下拉框
+    initKnowledgeBaseDropdown();
+}
+
+// 初始化知识库下拉框
+function initKnowledgeBaseDropdown() {
+    const dropdownBtn = document.querySelector('.knowledge-base-btn');
+    const dropdownMenu = document.querySelector('.knowledge-base-dropdown-menu');
+    const menuItems = document.querySelectorAll('.knowledge-base-menu-item');
+
+    if (!dropdownBtn || !dropdownMenu) return;
+
+    // 点击下拉按钮
+    dropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        dropdownMenu.classList.toggle('show');
+    });
+
+    // 点击菜单项
+    menuItems.forEach(function(item) {
+        item.addEventListener('click', function(e) {
+            e.stopPropagation();
+
+            // 移除其他项的active状态
+            menuItems.forEach(function(i) {
+                i.classList.remove('active');
+            });
+
+            // 添加当前项的active状态
+            this.classList.add('active');
+
+            // 更新按钮显示
+            const icon = this.querySelector('.menu-item-icon').textContent;
+            const text = this.querySelector('.menu-item-text').textContent;
+            dropdownBtn.querySelector('.filter-icon').textContent = icon;
+            dropdownBtn.querySelector('.filter-text').textContent = text;
+
+            // 关闭下拉菜单
+            dropdownMenu.classList.remove('show');
+
+            // 记录选择的知识库
+            const kb = this.getAttribute('data-kb');
+            console.log('选择知识库:', kb, text);
+        });
+    });
+
+    // 点击页面其他地方关闭下拉菜单
+    document.addEventListener('click', function() {
+        dropdownMenu.classList.remove('show');
+    });
+
+    // 设置默认选中项（全部）
+    const defaultItem = document.querySelector('.knowledge-base-menu-item[data-kb="all"]');
+    if (defaultItem) {
+        defaultItem.classList.add('active');
+    }
 }
 
 // 发送消息
