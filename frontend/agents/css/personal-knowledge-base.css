@@ -30,20 +30,20 @@ body.personal-kb-page .main-content-area {
 }
 
 .agent-name-text {
-    color: var(--clouditera-neutral-gray-7);
+    color: var(--clouditera-neutral-gray-5);
 }
 
 .agent-separator {
-    color: #bfbfbf;
+    color: var(--clouditera-neutral-gray-5);
 }
 
 .agent-type-text,
 .agent-version-text {
-    color: var(--clouditera-neutral-gray-6);
+    color: var(--clouditera-neutral-gray-5);
 }
 
 .detail-title-section {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     margin-top: 0;
     display: flex;
     align-items: center;
@@ -110,9 +110,9 @@ body.personal-kb-page .main-content-area {
     display: grid;
     grid-template-columns: 280px 1fr 360px;
     gap: 24px;
-    padding: 24px;
-    max-width: 1600px;
-    margin: 0 auto;
+    padding: 0;
+    max-width: none;
+    margin: 0;
 }
 
 /* ==========================================
@@ -124,8 +124,7 @@ body.personal-kb-page .main-content-area {
     border-radius: 8px;
     border: 1px solid var(--clouditera-neutral-border-primary);
     padding: 16px;
-    height: fit-content;
-    max-height: calc(100vh - 200px);
+    height: calc(100vh - 200px);
     overflow-y: auto;
 }
 
@@ -186,12 +185,14 @@ body.personal-kb-page .main-content-area {
 .kb-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 4px;
+    margin-bottom: 12px;
 }
 
+/* 知识库项（简化版） */
 .kb-item {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     gap: 10px;
     padding: 10px;
     border-radius: 6px;
@@ -214,34 +215,31 @@ body.personal-kb-page .main-content-area {
     font-size: 18px;
     line-height: 1;
     flex-shrink: 0;
-    margin-top: 2px;
-}
-
-.kb-item-content {
-    flex: 1;
-    min-width: 0;
 }
 
 .kb-item-name {
+    flex: 1;
     font-size: 13px;
     font-weight: 500;
     color: var(--clouditera-neutral-gray-9);
-    margin-bottom: 6px;
     word-wrap: break-word;
+    min-width: 0;
 }
 
 .kb-item.active .kb-item-name {
     color: var(--clouditera-brand-primary);
 }
 
-/* 进度条 */
-.kb-item-progress {
+/* 总进度条（在列表下方） */
+.kb-section-progress {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 0 10px;
+    margin-top: 4px;
 }
 
-.progress-bar {
+.kb-quota-bar {
     flex: 1;
     height: 4px;
     background: var(--clouditera-neutral-gray-3);
@@ -249,7 +247,7 @@ body.personal-kb-page .main-content-area {
     overflow: hidden;
 }
 
-.progress-fill {
+.kb-quota-fill {
     height: 100%;
     background: linear-gradient(90deg,
         var(--clouditera-brand-primary) 0%,
@@ -257,7 +255,7 @@ body.personal-kb-page .main-content-area {
     transition: width 0.3s;
 }
 
-.progress-text {
+.kb-quota-text {
     font-size: 11px;
     color: var(--clouditera-neutral-gray-6);
     white-space: nowrap;
@@ -329,6 +327,28 @@ body.personal-kb-page .main-content-area {
     border-radius: 8px;
     border: 1px solid var(--clouditera-neutral-border-primary);
     padding: 24px;
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 中间栏滚动条样式 */
+.kb-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.kb-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.kb-content::-webkit-scrollbar-thumb {
+    background: var(--clouditera-neutral-border-primary);
+    border-radius: 2px;
+}
+
+.kb-content::-webkit-scrollbar-thumb:hover {
+    background: var(--clouditera-neutral-gray-5);
 }
 
 /* 知识库头部 */
@@ -350,6 +370,13 @@ body.personal-kb-page .main-content-area {
     font-weight: 600;
     color: var(--clouditera-neutral-gray-9);
     margin: 0 0 8px 0;
+}
+
+.kb-content-description {
+    font-size: 13px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin: 0 0 8px 0;
+    line-height: 1.5;
 }
 
 .kb-update-time {
@@ -509,18 +536,68 @@ body.personal-kb-page .main-content-area {
     font-weight: 500;
 }
 
-.status-badge.status-success {
-    background: var(--clouditera-semantic-success-background);
+/* 已完成 */
+.status-badge.status-completed {
+    background: #f6ffed;
     color: var(--clouditera-semantic-success);
 }
 
+/* 队列中 */
+.status-badge.status-queued {
+    background: #e6f4ff;
+    color: var(--clouditera-brand-primary);
+}
+
+/* 向量化中 */
+.status-badge.status-vectorizing {
+    background: #e6f4ff;
+    color: var(--clouditera-brand-primary);
+}
+
+/* 失败 */
 .status-badge.status-failed {
-    background: var(--clouditera-semantic-error-background);
+    background: #fff1f0;
     color: var(--clouditera-semantic-error);
 }
 
+/* 切片中 */
+.status-badge.status-slicing {
+    background: #e6f4ff;
+    color: var(--clouditera-brand-primary);
+}
+
+/* 向量化队列中 */
+.status-badge.status-vector-queued {
+    background: #fff7e6;
+    color: var(--clouditera-semantic-warning);
+}
+
+/* 已取消 */
+.status-badge.status-cancelled {
+    background: var(--clouditera-neutral-background-primary);
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+/* 已上传 */
+.status-badge.status-uploaded {
+    background: #f9f0ff;
+    color: var(--clouditera-palette-purple-5);
+}
+
+/* 未知 */
+.status-badge.status-unknown {
+    background: var(--clouditera-neutral-background-primary);
+    color: var(--clouditera-neutral-text-disabled);
+}
+
+/* 兼容旧状态名 */
+.status-badge.status-success {
+    background: #f6ffed;
+    color: var(--clouditera-semantic-success);
+}
+
 .status-badge.status-processing {
-    background: var(--clouditera-palette-blue-0);
+    background: #e6f4ff;
     color: var(--clouditera-brand-primary);
 }
 
@@ -629,7 +706,8 @@ body.personal-kb-page .main-content-area {
     height: 100%;
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
-    border: 1px solid var(--clouditera-neutral-border-primary);
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 对话头部 */
@@ -638,7 +716,7 @@ body.personal-kb-page .main-content-area {
     align-items: center;
     justify-content: space-between;
     padding: 16px;
-    border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     flex-shrink: 0;
 }
 
@@ -655,90 +733,100 @@ body.personal-kb-page .main-content-area {
 .chat-title {
     font-size: 16px;
     font-weight: 600;
-    color: var(--clouditera-neutral-gray-9);
+    color: #ffffff;
+    margin: 0;
 }
 
-.btn-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    border: none;
-    background: transparent;
-    border-radius: 4px;
+.chat-header .btn-icon {
+    color: #ffffff;
+    opacity: 0.8;
     font-size: 16px;
+    padding: 6px;
+    background: transparent;
+    border: none;
     cursor: pointer;
+    border-radius: 4px;
     transition: all 0.2s;
 }
 
-.btn-icon:hover {
-    background: var(--clouditera-neutral-background-primary);
+.chat-header .btn-icon:hover {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.1);
 }
 
-/* 对话消息区 */
+/* 消息列表 */
 .chat-messages {
     flex: 1;
-    padding: 16px;
     overflow-y: auto;
+    padding: 20px;
+    background-color: #fafafa;
 }
 
-.message-item {
+/* 消息结构 */
+.message {
     display: flex;
     gap: 12px;
-    margin-bottom: 16px;
-}
-
-.message-item:last-child {
-    margin-bottom: 0;
+    margin-bottom: 20px;
 }
 
 .message-avatar {
-    flex-shrink: 0;
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    background: var(--clouditera-palette-blue-0);
+    font-size: 20px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
 .message-content {
-    flex: 1;
-    padding: 12px;
-    background: var(--clouditera-neutral-background-primary);
-    border-radius: 8px;
-    font-size: 14px;
-    line-height: 1.6;
-    color: var(--clouditera-neutral-gray-9);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: calc(100% - 48px);
 }
 
-.message-content p {
+.message-time {
+    font-size: 12px;
+    color: #bfbfbf;
+    margin-bottom: 8px;
+}
+
+.message-bubble {
+    background: #ffffff;
+    padding: 12px 16px;
+    border-radius: 8px;
+    line-height: 1.6;
+    font-size: 14px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.message-bubble p {
     margin: 0 0 8px 0;
 }
 
-.message-content p:last-child {
+.message-bubble p:last-child {
     margin-bottom: 0;
 }
 
-.message-content ul {
-    margin: 8px 0 0 0;
+.message-bubble ul,
+.message-bubble ol {
+    margin: 8px 0;
     padding-left: 20px;
 }
 
-.message-content li {
-    margin-bottom: 4px;
+.message-bubble li {
+    margin: 4px 0;
 }
 
-.user-message .message-avatar {
-    background: var(--clouditera-brand-primary);
-    color: var(--clouditera-neutral-background-white);
+.message-ai .message-bubble {
+    background: #ffffff;
 }
 
-.user-message .message-content {
-    background: var(--clouditera-palette-blue-1);
+.message-user .message-bubble {
+    background: #e6f7ff;
 }
 
 /* 滚动条 */
@@ -760,58 +848,95 @@ body.personal-kb-page .main-content-area {
 }
 
 /* 输入区域 */
-.chat-input-area {
-    flex-shrink: 0;
-    padding: 12px;
+.chat-input-container {
     border-top: 1px solid var(--clouditera-neutral-border-primary);
+    padding: 16px;
+    background-color: var(--clouditera-neutral-background-white);
+}
+
+.chat-input-wrapper {
+    position: relative;
+    background-color: #ffffff;
+    border: 1px solid #d9d9d9;
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+.chat-input-wrapper:focus-within {
+    border-color: #1890ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.1);
 }
 
 .chat-input {
     width: 100%;
-    min-height: 80px;
+    border: none;
     padding: 12px;
-    border: 1px solid var(--clouditera-neutral-border-primary);
-    border-radius: 6px;
+    padding-bottom: 52px;
     font-size: 14px;
     font-family: inherit;
     resize: none;
-    transition: border-color 0.2s;
-    line-height: 1.5;
+    min-height: 100px;
+    line-height: 1.6;
 }
 
 .chat-input:focus {
     outline: none;
-    border-color: var(--clouditera-brand-primary);
-    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
-.chat-input-footer {
+.chat-input::placeholder {
+    color: #bfbfbf;
+}
+
+/* 工具栏 */
+.chat-input-toolbar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    justify-content: flex-end;
-    margin-top: 8px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    background-color: transparent;
 }
 
-.btn-send {
+.chat-input-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+}
+
+.chat-input-actions .btn-icon {
+    font-size: 16px;
+    padding: 6px 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+    color: #8c8c8c;
+}
+
+.chat-input-actions .btn-icon:hover {
+    background-color: #f5f5f5;
+    color: #262626;
+}
+
+.chat-send {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 6px;
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: var(--clouditera-brand-primary);
-    color: var(--clouditera-neutral-background-white);
-    border: none;
-    border-radius: 6px;
-    font-size: 14px;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.btn-send:hover {
-    background: var(--clouditera-brand-primary-hover);
+    gap: 6px;
 }
 
 .send-shortcut {
-    font-size: 12px;
-    opacity: 0.8;
+    font-size: 11px;
+    opacity: 0.7;
 }
 
 /* ==========================================
@@ -892,6 +1017,107 @@ body.personal-kb-page .main-content-area {
     padding: 24px;
     max-height: 60vh;
     overflow-y: auto;
+}
+
+/* 表单样式 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group:last-child {
+    margin-bottom: 0;
+}
+
+.form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-gray-9);
+    margin-bottom: 8px;
+}
+
+.form-label-required {
+    color: var(--clouditera-semantic-error);
+    margin-right: 4px;
+}
+
+/* 输入框容器（带字符计数） */
+.form-input-wrapper {
+    position: relative;
+}
+
+.form-input {
+    width: 100%;
+    padding: 10px 60px 10px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--clouditera-neutral-gray-9);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 6px;
+    transition: all 0.2s;
+    box-sizing: border-box;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px rgba(41, 140, 255, 0.1);
+}
+
+.form-input::placeholder {
+    color: var(--clouditera-neutral-gray-5);
+}
+
+.form-input-counter {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+    pointer-events: none;
+}
+
+/* 文本域容器（带字符计数） */
+.form-textarea-wrapper {
+    position: relative;
+}
+
+.form-textarea {
+    width: 100%;
+    padding: 10px 12px;
+    padding-bottom: 28px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--clouditera-neutral-gray-9);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 6px;
+    transition: all 0.2s;
+    resize: vertical;
+    min-height: 100px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--clouditera-brand-primary);
+    box-shadow: 0 0 0 2px rgba(41, 140, 255, 0.1);
+}
+
+.form-textarea::placeholder {
+    color: var(--clouditera-neutral-gray-5);
+}
+
+.form-textarea-counter {
+    position: absolute;
+    right: 12px;
+    bottom: 8px;
+    font-size: 12px;
+    color: var(--clouditera-neutral-gray-6);
+    pointer-events: none;
 }
 
 /* 上传区域 */
@@ -1001,6 +1227,136 @@ body.personal-kb-page .main-content-area {
     gap: 12px;
     padding: 16px 24px;
     border-top: 1px solid var(--clouditera-neutral-border-primary);
+}
+
+/* ==========================================
+   目录下拉菜单
+   ========================================== */
+
+.dropdown-wrapper {
+    position: relative;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 160px;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    padding: 4px;
+    z-index: 1000;
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 4px;
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-primary);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.dropdown-item:hover:not(:disabled) {
+    background: var(--clouditera-neutral-background-primary);
+}
+
+.dropdown-item:disabled {
+    color: var(--clouditera-neutral-text-disabled);
+    cursor: not-allowed;
+}
+
+.dropdown-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* ==========================================
+   文档管理模式
+   ========================================== */
+
+.doc-manage-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-secondary {
+    padding: 6px 16px;
+    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: var(--clouditera-neutral-background-white);
+    color: var(--clouditera-neutral-text-primary);
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    border-color: var(--clouditera-brand-primary);
+    color: var(--clouditera-brand-primary);
+}
+
+.btn-primary {
+    padding: 6px 16px;
+    border: none;
+    background: var(--clouditera-brand-primary);
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: var(--clouditera-brand-primary-hover);
+}
+
+.btn-primary:disabled {
+    background: var(--clouditera-neutral-background-tertiary);
+    color: var(--clouditera-neutral-text-disabled);
+    cursor: not-allowed;
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+/* ==========================================
+   文件选择复选框
+   ========================================== */
+
+.col-checkbox {
+    width: 48px;
+    text-align: center;
+    padding: 12px 8px;
+}
+
+.file-checkbox {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: var(--clouditera-brand-primary);
+}
+
+/* 管理模式下隐藏操作列 */
+.file-table.manage-mode .col-actions {
+    display: none;
 }
 
 /* ==========================================

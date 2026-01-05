@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="知识库广场 - 探索行业与企业知识库">
+    <title>知识库广场 | 云脑</title>
+    <link rel="stylesheet" href="../../css/common.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link rel="stylesheet" href="../css/agent-detail.css">
+    <link rel="stylesheet" href="../css/knowledge-square.css">
+</head>
+<body class="agent-detail-page knowledge-square-page">
+    <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
+    <aside class="sidebar collapsed" id="sidebar">
+        <!-- Logo 区 -->
+        <div class="sidebar-logo">
+            <a href="../../dashboard.html" class="logo-link" title="云脑">
+                <div class="logo-icon">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="32" height="32" rx="6" fill="#2563EB"/>
+                        <path d="M16 8L20 14H12L16 8Z" fill="white"/>
+                        <path d="M10 18L14 24H6L10 18Z" fill="white" opacity="0.8"/>
+                        <path d="M22 18L26 24H18L22 18Z" fill="white" opacity="0.8"/>
+                    </svg>
+                </div>
+                <h1 class="logo-text">云脑</h1>
+            </a>
+        </div>
+
+        <!-- 主导航菜单 -->
+        <div class="sidebar-content">
+            <nav class="sidebar-nav">
+                <!-- 首页 - 带收藏快捷入口 -->
+                <div class="nav-item-home-wrapper">
+                    <a href="../../dashboard.html" class="nav-item nav-item-home" title="首页">
+                        <span class="nav-icon">🏠</span>
+                        <span class="nav-text">首页</span>
+                    </a>
+                    <div class="home-menu" id="homeMenu">
+                        <a href="../../dashboard.html" class="home-menu-favorite-item">
+                            <span class="home-menu-favorite-icon">🏠</span>
+                            <span class="home-menu-favorite-name">首页</span>
+                        </a>
+                        <div class="home-menu-favorites" id="homeMenuFavorites">
+                            <div class="home-menu-favorites-empty" id="homeMenuFavoritesEmpty" style="display: none;">
+                                <p class="home-menu-empty-text">暂无收藏</p>
+                            </div>
+                            <div class="home-menu-favorites-list" id="homeMenuFavoritesList"></div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- 底部导航 -->
+            <nav class="sidebar-nav-bottom">
+                <a href="../../templates.html" class="nav-item" title="UI模板">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-text">UI模板</span>
+                </a>
+
+                <a href="#" class="nav-item" title="用户反馈">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-text">用户反馈</span>
+                </a>
+
+                <a href="#" class="nav-item" title="帮助中心">
+                    <span class="nav-icon">❓</span>
+                    <span class="nav-text">帮助中心</span>
+                </a>
+
+                <div class="nav-item-user-wrapper">
+                    <a href="#" class="nav-item nav-item-user" id="userNavItem" title="个人中心">
+                        <div class="user-avatar" id="userAvatar">T</div>
+                        <span class="user-name" id="userName">测试用户</span>
+                    </a>
+                    <div class="user-menu" id="userMenu">
+                        <a href="../../pages/user-management.html" class="user-menu-item">
+                            <span class="nav-icon">👤</span>
+                            <span class="nav-text">个人中心</span>
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">⚙️</span>
+                            <span class="nav-text">系统设置</span>
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <span class="nav-icon">🔓</span>
+                            <span class="nav-text">退出登录</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 主要内容区域 -->
+    <main class="main-content-area">
+        <!-- 智能体信息提示 -->
+        <div class="detail-agent-info">
+            <span class="agent-name-text">安全智库</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-type-text">基础类</span>
+            <span class="agent-separator">·</span>
+            <span class="agent-version-text">v1.0.3</span>
+        </div>
+
+        <!-- 返回按钮和标题 -->
+        <div class="detail-title-section">
+            <button class="btn-back-to-list" onclick="window.location.href='security-knowledge.html';" title="返回">
+                <span class="back-icon">←</span>
+            </button>
+            <h1 class="detail-title-main">知识库广场</h1>
+        </div>
+
+        <!-- 主内容区 -->
+        <div class="square-container">
+            <!-- Tab 切换 -->
+            <div class="square-tabs">
+                <button class="tab-item active" data-tab="industry">
+                    <span class="tab-icon">🏭</span>
+                    <span class="tab-text">行业知识库</span>
+                </button>
+                <button class="tab-item" data-tab="enterprise">
+                    <span class="tab-icon">🏢</span>
+                    <span class="tab-text">企业知识库</span>
+                </button>
+                <button class="tab-item" data-tab="favorites">
+                    <span class="tab-icon">⭐</span>
+                    <span class="tab-text">已收藏</span>
+                </button>
+            </div>
+
+            <!-- 知识库卡片网格 -->
+            <div class="kb-grid" id="kbGrid">
+                <!-- 卡片由 JavaScript 动态渲染 -->
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/common.js"></script>
+    <script src="../../js/dashboard.js"></script>
+    <script src="../js/knowledge-square.js"></script>
+</body>
+</html>

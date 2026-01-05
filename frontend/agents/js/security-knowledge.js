@@ -150,28 +150,61 @@ function showChatContent(taskName) {
     const mainContent = document.querySelector('.agent-main-content');
     if (!mainContent) return;
 
+    // 获取当前时间
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+    const dateTimeStr = now.toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    }).replace(/\//g, '-');
+
     // 这里可以根据taskName加载对应的历史对话
     // 目前显示一个示例对话界面
     mainContent.innerHTML = `
         <div class="chat-container">
-            <div class="chat-header">
-                <div class="chat-title">${taskName}</div>
-                <div class="chat-time">刚刚</div>
+            <!-- 对话/任务名称 -->
+            <div class="chat-task-name">
+                <div class="task-name-text">${taskName}</div>
+                <div class="task-time">${dateTimeStr}</div>
             </div>
-            <div class="chat-messages">
-                <div class="message-item user-message">
+
+            <!-- 对话消息区域 -->
+            <div class="chat-messages" id="chatMessages">
+                <!-- 用户消息 -->
+                <div class="message message-user">
+                    <div class="message-avatar">👤</div>
                     <div class="message-content">
-                        <p>${taskName}相关问题...</p>
+                        <div class="message-time">${timeStr}</div>
+                        <div class="message-bubble">
+                            <p>请帮我详细讲解一下${taskName}的相关内容，包括实施要点和注意事项。</p>
+                        </div>
                     </div>
-                    <div class="message-time">14:30</div>
                 </div>
-                <div class="message-item ai-message">
+
+                <!-- AI消息 -->
+                <div class="message message-ai">
+                    <div class="message-avatar">🤖</div>
                     <div class="message-content">
-                        <p>我可以帮你解答关于${taskName}的问题。请告诉我你想了解哪方面的内容？</p>
+                        <div class="message-time">${timeStr}</div>
+                        <div class="message-bubble">
+                            <p>好的，我来为您详细介绍${taskName}。</p>
+                            <p>这个主题涵盖了以下几个关键方面：</p>
+                            <ul>
+                                <li>核心概念和原理</li>
+                                <li>实施步骤与方法</li>
+                                <li>常见问题与解决方案</li>
+                                <li>最佳实践建议</li>
+                            </ul>
+                            <p>您想深入了解哪个方面呢？或者有其他具体问题可以随时向我提问。</p>
+                        </div>
                     </div>
-                    <div class="message-time">14:30</div>
                 </div>
             </div>
+
+            <!-- 输入区域 -->
             <div class="chat-input-container" data-container-mode="chat">
                 <div class="chat-input-wrapper">
                     <textarea

@@ -119,18 +119,7 @@
                         <button class="btn-add-kb" title="创建知识库">+</button>
                     </div>
                     <div class="kb-list">
-                        <div class="kb-item active" data-kb-id="default">
-                            <span class="kb-item-icon">📦</span>
-                            <div class="kb-item-content">
-                                <div class="kb-item-name">云起无畏的知识库</div>
-                                <div class="kb-item-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 33.3%"></div>
-                                    </div>
-                                    <span class="progress-text">1/3</span>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- 知识库列表由 JavaScript 动态渲染 -->
                     </div>
                 </div>
 
@@ -146,7 +135,7 @@
                 <div class="kb-section">
                     <div class="kb-section-header">
                         <h3 class="kb-section-title simple">已收藏</h3>
-                        <span class="kb-section-icon">💙</span>
+                        <span class="kb-section-icon">⭐</span>
                     </div>
                     <div class="kb-empty-state with-icon">
                         <div class="empty-icon">
@@ -157,7 +146,7 @@
                             </svg>
                         </div>
                         <p class="empty-text">您还未有收藏的知识库，快去收藏吧~</p>
-                        <button class="btn-collect-kb">💙 收藏知识库</button>
+                        <button class="btn-collect-kb">⭐ 收藏知识库</button>
                     </div>
                 </div>
             </aside>
@@ -167,7 +156,8 @@
                 <!-- 知识库头部 -->
                 <div class="kb-content-header">
                     <div class="kb-header-main">
-                        <h2 class="kb-content-title">云起无畏的知识库</h2>
+                        <h2 class="kb-content-title">日常资料1</h2>
+                        <p class="kb-content-description">个人学习资料收集</p>
                         <div class="kb-update-time">
                             最近更新：<span id="updateTime">2026-01-04 16:29:02</span>
                         </div>
@@ -182,9 +172,34 @@
                 <div class="kb-directory-section">
                     <div class="directory-header">
                         <h3 class="directory-title">目录</h3>
-                        <button class="btn-directory-action" title="展开/折叠全部">
-                            <span>📁</span>
-                        </button>
+                        <div class="directory-actions">
+                            <!-- 文档管理模式按钮 -->
+                            <div class="doc-manage-actions" id="docManageActions" style="display: none;">
+                                <button class="btn btn-secondary btn-sm" id="cancelManageBtn">取消</button>
+                                <button class="btn btn-primary btn-sm" id="deleteSelectedBtn">删除选中项</button>
+                            </div>
+                            <!-- 文件夹菜单按钮 -->
+                            <div class="dropdown-wrapper">
+                                <button class="btn-directory-action" id="directoryMenuBtn" title="更多操作">
+                                    <span>📁</span>
+                                </button>
+                                <!-- 下拉菜单 -->
+                                <div class="dropdown-menu" id="directoryMenu">
+                                    <button class="dropdown-item" id="docManageMenuItem">
+                                        <span class="dropdown-icon">📄</span>
+                                        <span>文档管理</span>
+                                    </button>
+                                    <button class="dropdown-item" id="kbSettingsMenuItem">
+                                        <span class="dropdown-icon">⚙️</span>
+                                        <span>知识库设置</span>
+                                    </button>
+                                    <button class="dropdown-item" id="deleteKbMenuItem">
+                                        <span class="dropdown-icon">🗑️</span>
+                                        <span>删除知识库</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- 文件列表表格 -->
@@ -192,6 +207,9 @@
                         <table class="file-table">
                             <thead>
                                 <tr>
+                                    <th class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" id="selectAllCheckbox" class="file-checkbox">
+                                    </th>
                                     <th class="col-name">
                                         文件名称
                                     </th>
@@ -208,7 +226,71 @@
                                 </tr>
                             </thead>
                             <tbody id="fileTableBody">
-                                <tr class="file-row">
+                                <!-- 1. 已完成 -->
+                                <tr class="file-row" data-file-id="1">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="1">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">网络安全技术规范2024版.pdf</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-completed">已完成</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:15:23</td>
+                                    <td class="col-size">2.5MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 2. 队列中 -->
+                                <tr class="file-row" data-file-id="2">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="2">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">渗透测试实战指南.docx</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-queued">队列中</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:20:45</td>
+                                    <td class="col-size">1.8MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 3. 向量化中 -->
+                                <tr class="file-row" data-file-id="3">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="3">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">等保2.0测评指南.pdf</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-vectorizing">向量化中</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:18:30</td>
+                                    <td class="col-size">3.2MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 4. 失败 -->
+                                <tr class="file-row" data-file-id="4">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="4">
+                                    </td>
                                     <td class="col-name">
                                         <span class="file-icon">📄</span>
                                         <span class="file-name">FuzzEnFuzz.no_watermark.zh-CN.pdf</span>
@@ -223,13 +305,133 @@
                                         <button class="btn-file-action" title="删除">🗑️</button>
                                     </td>
                                 </tr>
+
+                                <!-- 5. 切片中 -->
+                                <tr class="file-row" data-file-id="5">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="5">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">应急响应处置流程.pdf</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-slicing">切片中</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:22:10</td>
+                                    <td class="col-size">4.7MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 6. 向量化队列中 -->
+                                <tr class="file-row" data-file-id="6">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="6">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">Web安全攻防技术.docx</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-vector-queued">向量化队列中</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:19:55</td>
+                                    <td class="col-size">2.1MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 7. 已取消 -->
+                                <tr class="file-row" data-file-id="7">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="7">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">云安全架构设计.pdf</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-cancelled">已取消</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 09:45:30</td>
+                                    <td class="col-size">5.3MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 8. 已上传 -->
+                                <tr class="file-row" data-file-id="8">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="8">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">数据安全管理办法.docx</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-uploaded">已上传</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 10:25:12</td>
+                                    <td class="col-size">1.2MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 9. 未知 -->
+                                <tr class="file-row" data-file-id="9">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="9">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">安全事件报告模板.xlsx</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-unknown">未知</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 08:30:00</td>
+                                    <td class="col-size">856KB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
+
+                                <!-- 10. 已完成 (再来一个) -->
+                                <tr class="file-row" data-file-id="10">
+                                    <td class="col-checkbox" style="display: none;">
+                                        <input type="checkbox" class="file-checkbox" data-file-id="10">
+                                    </td>
+                                    <td class="col-name">
+                                        <span class="file-icon">📄</span>
+                                        <span class="file-name">安全培训课件2024.pptx</span>
+                                    </td>
+                                    <td class="col-status">
+                                        <span class="status-badge status-completed">已完成</span>
+                                    </td>
+                                    <td class="col-time">2026-01-05 09:12:48</td>
+                                    <td class="col-size">8.9MB</td>
+                                    <td class="col-actions">
+                                        <button class="btn-file-action" title="下载">📥</button>
+                                        <button class="btn-file-action" title="删除">🗑️</button>
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
 
                     <!-- 分页 -->
                     <div class="file-pagination">
-                        <div class="pagination-info">共 1 条</div>
+                        <div class="pagination-info">共 10 条</div>
                         <div class="pagination-controls">
                             <button class="btn-page" disabled>‹</button>
                             <button class="btn-page active">1</button>
@@ -256,39 +458,103 @@
                     <!-- 对话消息区域 -->
                     <div class="chat-messages" id="chatMessages">
                         <!-- 欢迎消息 -->
-                        <div class="message-item ai-message">
+                        <div class="message message-ai">
                             <div class="message-avatar">🤖</div>
                             <div class="message-content">
-                                <p>你好！我是AI智能助手，可以帮你分析和理解知识库中的文档内容。</p>
-                                <p>你可以问我：</p>
-                                <ul>
-                                    <li>总结某个文档的核心内容</li>
-                                    <li>解释专业术语</li>
-                                    <li>查找相关知识点</li>
-                                </ul>
+                                <div class="message-time">2026-01-04 16:30</div>
+                                <div class="message-bubble">
+                                    <p>你好！我是AI智能助手，可以帮你分析和理解知识库中的文档内容。</p>
+                                    <p>你可以问我：</p>
+                                    <ul>
+                                        <li>总结某个文档的核心内容</li>
+                                        <li>解释专业术语</li>
+                                        <li>查找相关知识点</li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- 输入区域 -->
-                    <div class="chat-input-area">
-                        <textarea
-                            class="chat-input"
-                            id="chatInput"
-                            placeholder="询问知识库相关问题..."
-                            rows="3"
-                        ></textarea>
-                        <div class="chat-input-footer">
-                            <button class="btn-send" id="sendBtn">
-                                <span>发送</span>
-                                <span class="send-shortcut">Shift+Enter</span>
-                            </button>
+                    <div class="chat-input-container">
+                        <div class="chat-input-wrapper">
+                            <textarea
+                                class="chat-input"
+                                id="chatInput"
+                                placeholder="询问知识库相关问题..."
+                                rows="3"
+                            ></textarea>
+                            <div class="chat-input-toolbar">
+                                <div class="chat-input-actions">
+                                    <button class="btn-icon" title="上传文件">📎</button>
+                                    <button class="btn-icon" title="插入图片">🖼️</button>
+                                </div>
+                                <button class="btn btn-primary chat-send" id="chatSend">
+                                    <span>发送</span>
+                                    <span class="send-shortcut">⌘ + Enter</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </main>
+
+    <!-- 新建知识库对话框 -->
+    <div class="modal" id="createKbModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">新建知识库</h3>
+                <button class="btn-modal-close" id="closeCreateKbModalBtn">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="createKbForm">
+                    <!-- 知识库名称（必填） -->
+                    <div class="form-group">
+                        <label class="form-label">
+                            <span class="form-label-required">*</span>知识库名称
+                        </label>
+                        <div class="form-input-wrapper">
+                            <input
+                                type="text"
+                                class="form-input"
+                                id="kbNameInput"
+                                placeholder="请输入知识库名称"
+                                maxlength="40"
+                                required
+                            />
+                            <span class="form-input-counter">
+                                <span id="kbNameCount">0</span>/40
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 描述（可选） -->
+                    <div class="form-group">
+                        <label class="form-label">描述</label>
+                        <div class="form-textarea-wrapper">
+                            <textarea
+                                class="form-textarea"
+                                id="kbDescInput"
+                                placeholder="请输入知识库描述"
+                                maxlength="100"
+                                rows="4"
+                            ></textarea>
+                            <span class="form-textarea-counter">
+                                <span id="kbDescCount">0</span>/100
+                            </span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelCreateKbBtn">取消</button>
+                <button class="btn btn-primary" id="confirmCreateKbBtn">确定</button>
+            </div>
+        </div>
+    </div>
 
     <!-- 上传文档对话框 -->
     <div class="modal" id="uploadModal">
