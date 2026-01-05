@@ -32,27 +32,39 @@
 
     /**
      * 检查密码强度
-     * 返回: { level: 'weak'|'medium'|'strong', score: 0-3 }
+     * 新规则:
+     * - 弱: 纯数字
+     * - 中: 数字+字母(单一大小写)
+     * - 强: 数字+小写+大写
+     * 返回: { level: 'weak'|'medium'|'strong', score: 1-3 }
      */
     function checkPasswordStrength(password) {
-        let score = 0;
+        // 检查是否包含空格
+        if (/\s/.test(password)) {
+            return { level: 'weak', score: 1 };
+        }
 
-        // 长度检查
-        if (password.length >= 8) score++;
+        const hasNumber = /[0-9]/.test(password);
+        const hasLowerCase = /[a-z]/.test(password);
+        const hasUpperCase = /[A-Z]/.test(password);
 
-        // 包含字母和数字
-        if (/[a-z]/.test(password) && /[0-9]/.test(password)) score++;
+        // 弱: 纯数字
+        if (hasNumber && !hasLowerCase && !hasUpperCase) {
+            return { level: 'weak', score: 1 };
+        }
 
-        // 包含大小写字母
-        if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
+        // 强: 数字+小写+大写
+        if (hasNumber && hasLowerCase && hasUpperCase) {
+            return { level: 'strong', score: 3 };
+        }
 
-        // 包含特殊字符
-        if (/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)) score++;
+        // 中: 数字+字母(单一大小写)
+        if (hasNumber && (hasLowerCase || hasUpperCase)) {
+            return { level: 'medium', score: 2 };
+        }
 
-        // 根据分数返回等级
-        if (score <= 1) return { level: 'weak', score: 1 };
-        if (score === 2 || score === 3) return { level: 'medium', score: 2 };
-        return { level: 'strong', score: 3 };
+        // 其他情况视为弱(例如纯字母)
+        return { level: 'weak', score: 1 };
     }
 
     /**
@@ -212,24 +224,291 @@
             }, 1000);
         }
 
-        // 重新发送点击事件
-        resendBtn.addEventListener('click', function() {
-            const email = localStorage.getItem('passwordResetEmail');
-            if (email) {
-                // 清除频率限制，允许重新发送
-                localStorage.removeItem('passwordResetLastSend');
+        // 重新发送点击事件(只绑定一次)
+        if (!resendBtn.hasAttribute('data-listener-attached')) {
+            resendBtn.setAttribute('data-listener-attached', 'true');
+            resendBtn.addEventListener('click', function() {
+                const email = localStorage.getItem('passwordResetEmail');
+                if (email) {
+                    // 清除频率限制，允许重新发送
+                    localStorage.removeItem('passwordResetLastSend');
 
-                // 回到邮箱输入视图
-                showView('emailInputView');
+                    // 回到邮箱输入视图
+                    showView('emailInputView');
 
-                // 填充邮箱并自动提交
-                const emailInput = document.getElementById('email');
-                if (emailInput) {
-                    emailInput.value = email;
-                    setTimeout(() => {
-                        forgotPasswordForm.dispatchEvent(new Event('submit'));
-                    }, 100);
+                    // 填充邮箱并自动提交
+                    const emailInput = document.getElementById('email');
+                    if (emailInput) {
+                        emailInput.value = email;
+                        setTimeout(() => {
+                            forgotPasswordForm.dispatchEvent(new Event('submit'));
+                        }, 100);
+                    }
                 }
+            });
+        }
+    }
+
+    // ============================================
+    // 验证码验证逻辑
+    // ============================================
+
+    const verifyCodeForm = document.getElementById('verifyCodeForm');
+    if (verifyCodeForm) {
+        const codeInput = document.getElementById('verificationCode');
+        const codeError = document.getElementById('codeError');
+        const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+        let isVerifying = false;
+
+        // 验证码输入限制(只允许数字)
+        codeInput.addEventListener('input', function() {
+            // 只保留数字
+            this.value = this.value.replace(/[^0-9]/g, '');
+
+            // 清除错误提示
+            if (codeError.classList.contains('show')) {
+                clearError(codeInput, codeError);
+            }
+        });
+
+        // 表单提交
+        verifyCodeForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (isVerifying) return;
+
+            const code = codeInput.value.trim();
+
+            // 验证码格式检查
+            if (code.length !== 6) {
+                showError(codeInput, codeError, '请输入6位验证码');
+                return;
+            }
+
+            if (!/^\d{6}$/.test(code)) {
+                showError(codeInput, codeError, '验证码只能包含数字');
+                return;
+            }
+
+            clearError(codeInput, codeError);
+
+            // 显示加载状态
+            isVerifying = true;
+            verifyCodeBtn.disabled = true;
+            verifyCodeBtn.querySelector('.btn-text').style.display = 'none';
+            verifyCodeBtn.querySelector('.btn-loading').style.display = 'inline-flex';
+
+            try {
+                // TODO: 调用实际的API验证验证码
+                // const response = await fetch('/api/password/verify-code', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         email: localStorage.getItem('passwordResetEmail'),
+                //         code: code
+                //     })
+                // });
+
+                // 模拟API调用
+                await new Promise(resolve => setTimeout(resolve, 1000));
+
+                // 模拟验证结果(实际应从API返回)
+                // 这里简单判断:验证码为 123456 时通过
+                const isValid = code === '123456';
+
+                if (!isValid) {
+                    showError(codeInput, codeError, '验证码错误，请重新输入');
+                    return;
+                }
+
+                // 验证成功，保存验证状态
+                localStorage.setItem('passwordResetCodeVerified', 'true');
+
+                // 显示密码重置表单
+                showView('resetPasswordView');
+
+            } catch (error) {
+                console.error('验证码验证失败:', error);
+                showError(codeInput, codeError, '验证失败，请稍后重试');
+            } finally {
+                isVerifying = false;
+                verifyCodeBtn.disabled = false;
+                verifyCodeBtn.querySelector('.btn-text').style.display = 'inline';
+                verifyCodeBtn.querySelector('.btn-loading').style.display = 'none';
+            }
+        });
+    }
+
+    // ============================================
+    // 页面内密码重置表单逻辑
+    // ============================================
+
+    const resetPasswordFormInPage = document.getElementById('resetPasswordFormInPage');
+    if (resetPasswordFormInPage) {
+        const newPasswordInput = document.getElementById('newPassword');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const passwordError = document.getElementById('passwordError');
+        const confirmError = document.getElementById('confirmError');
+        const submitResetBtn = document.getElementById('submitResetBtn');
+        const passwordStrength = document.getElementById('passwordStrength');
+        const strengthText = document.getElementById('strengthText');
+        const passwordMatch = document.getElementById('passwordMatch');
+
+        let isSubmitting = false;
+
+        // 密码可见性切换
+        setupPasswordToggle('toggleNewPassword', 'newPassword');
+        setupPasswordToggle('toggleConfirmPassword', 'confirmPassword');
+
+        // 实时密码强度检查
+        newPasswordInput.addEventListener('input', function() {
+            const password = this.value;
+
+            if (password.length === 0) {
+                passwordStrength.style.display = 'none';
+                clearError(newPasswordInput, passwordError);
+                return;
+            }
+
+            passwordStrength.style.display = 'block';
+            const { level } = checkPasswordStrength(password);
+
+            // 更新强度样式
+            passwordStrength.className = 'password-strength ' + level;
+
+            // 更新文本
+            const levelText = {
+                'weak': '密码强度: 弱',
+                'medium': '密码强度: 中等',
+                'strong': '密码强度: 强'
+            };
+            strengthText.textContent = levelText[level];
+
+            // 验证最小长度和不能包含空格
+            if (password.length < 8) {
+                showError(newPasswordInput, passwordError, '密码至少需要8位');
+            } else if (/\s/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码不能包含空格');
+            } else if (!/[0-9]/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码必须包含数字');
+            } else if (!/[a-zA-Z]/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码必须包含字母');
+            } else {
+                clearError(newPasswordInput, passwordError);
+            }
+
+            // 检查密码匹配
+            checkPasswordMatchInPage();
+        });
+
+        // 实时密码匹配检查
+        confirmPasswordInput.addEventListener('input', checkPasswordMatchInPage);
+
+        function checkPasswordMatchInPage() {
+            const password = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (confirmPassword.length === 0) {
+                passwordMatch.classList.remove('show');
+                clearError(confirmPasswordInput, confirmError);
+                return;
+            }
+
+            if (password === confirmPassword) {
+                passwordMatch.classList.add('show');
+                clearError(confirmPasswordInput, confirmError);
+            } else {
+                passwordMatch.classList.remove('show');
+                showError(confirmPasswordInput, confirmError, '两次输入的密码不一致');
+            }
+        }
+
+        // 表单提交
+        resetPasswordFormInPage.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (isSubmitting) return;
+
+            const password = newPasswordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            // 验证密码
+            if (password.length < 8) {
+                showError(newPasswordInput, passwordError, '密码至少需要8位');
+                newPasswordInput.focus();
+                return;
+            }
+
+            if (/\s/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码不能包含空格');
+                newPasswordInput.focus();
+                return;
+            }
+
+            if (!/[0-9]/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码必须包含数字');
+                newPasswordInput.focus();
+                return;
+            }
+
+            if (!/[a-zA-Z]/.test(password)) {
+                showError(newPasswordInput, passwordError, '密码必须包含字母');
+                newPasswordInput.focus();
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError(confirmPasswordInput, confirmError, '两次输入的密码不一致');
+                confirmPasswordInput.focus();
+                return;
+            }
+
+            // 检查是否已验证验证码
+            const isCodeVerified = localStorage.getItem('passwordResetCodeVerified');
+            if (!isCodeVerified) {
+                showView('emailSentView');
+                return;
+            }
+
+            // 显示加载状态
+            isSubmitting = true;
+            submitResetBtn.disabled = true;
+            submitResetBtn.querySelector('.btn-text').style.display = 'none';
+            submitResetBtn.querySelector('.btn-loading').style.display = 'inline-flex';
+
+            try {
+                // TODO: 调用实际的API重置密码
+                // const response = await fetch('/api/password/reset', {
+                //     method: 'POST',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify({
+                //         email: localStorage.getItem('passwordResetEmail'),
+                //         password: password
+                //     })
+                // });
+
+                // 模拟API调用
+                await new Promise(resolve => setTimeout(resolve, 1500));
+
+                // 清除本地存储的数据
+                localStorage.removeItem('passwordResetLastSend');
+                localStorage.removeItem('passwordResetEmail');
+                localStorage.removeItem('passwordResetCodeVerified');
+
+                // 显示成功视图
+                showView('successView');
+
+                // 启动跳转倒计时
+                startRedirectCountdown();
+
+            } catch (error) {
+                console.error('密码重置失败:', error);
+                showError(newPasswordInput, passwordError, '重置失败，请稍后重试');
+            } finally {
+                isSubmitting = false;
+                submitResetBtn.disabled = false;
+                submitResetBtn.querySelector('.btn-text').style.display = 'inline';
+                submitResetBtn.querySelector('.btn-loading').style.display = 'none';
             }
         });
     }
