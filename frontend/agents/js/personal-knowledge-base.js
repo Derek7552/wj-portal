@@ -34,6 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化目录菜单
     initDirectoryMenu();
+
+    // 初始化知识库广场跳转按钮
+    initKnowledgeSquareButton();
 });
 
 // 知识库数据
@@ -1020,5 +1023,19 @@ function restoreModalForCreate() {
     }
     if (confirmBtn) {
         confirmBtn.textContent = '创建';
+    }
+}
+
+// ==========================================
+// 知识库广场跳转功能
+// ==========================================
+
+function initKnowledgeSquareButton() {
+    const goToSquareBtn = document.getElementById('goToKnowledgeSquareBtn');
+
+    if (goToSquareBtn) {
+        goToSquareBtn.addEventListener('click', function() {
+            window.location.href = 'knowledge-square.html';
+        });
     }
 }
