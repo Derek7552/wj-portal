@@ -2,6 +2,19 @@
    攻击面扫描详情页面样式
    ========================================== */
 
+/* 首页的主内容区保留白色背景和边框 */
+.agent-detail-page .agent-main-content {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+}
+
+/* 详情页（有 attack-surface-detail 时）移除主内容区的背景和边框 */
+.agent-detail-page .agent-main-content:has(.attack-surface-detail) {
+    background: none;
+    border: none;
+}
+
 .attack-surface-detail {
     display: flex;
     flex-direction: row;
@@ -14,13 +27,13 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
     min-width: 0;
     overflow-y: auto;
-    background: var(--clouditera-neutral-background-white);
-    border: 1px solid var(--clouditera-neutral-border-secondary);
-    border-radius: 8px;
-    padding: 20px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
 }
 
 /* 系统暴露面 */
@@ -29,15 +42,25 @@
     border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* 左侧面板内的section添加线框和内边距 */
+/* 左侧面板内的section添加卡片样式，形成独立模块 */
 .attack-surface-left .exposure-section {
     background: var(--clouditera-neutral-background-white);
     border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
-    padding: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
 }
+
+/* 鼠标悬停时的效果 */
+.attack-surface-left .exposure-section:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 移除之前的 last-child 规则 */
 
 .exposure-section-title {
     font-size: 16px;
@@ -156,6 +179,15 @@
     color: var(--clouditera-semantic-error);
 }
 
+/* Ping状态 - 有效 */
+.ping-status.valid .ping-status-dot {
+    background: var(--clouditera-semantic-success);
+}
+
+.ping-status.valid .ping-status-text {
+    color: var(--clouditera-semantic-success);
+}
+
 /* 分页器 */
 .exposure-pagination {
     display: flex;
@@ -270,14 +302,22 @@
     border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* 左侧面板内的暗网情报section添加线框和内边距 */
+/* 左侧面板内的暗网情报section添加卡片样式 */
 .attack-surface-left .dark-web-section {
     background: var(--clouditera-neutral-background-white);
     border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
-    padding: 16px;
+    padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s;
+}
+
+/* 鼠标悬停时的效果 */
+.attack-surface-left .dark-web-section:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .dark-web-section-title {
@@ -287,7 +327,7 @@
     margin-bottom: 16px;
 }
 
-/* 右侧面板 - 分析对话 */
+/* 右侧面板 - 分析对话（任务详情页） */
 .attack-surface-right {
     width: 480px;
     display: flex;
@@ -300,6 +340,7 @@
     border: 1px solid var(--clouditera-neutral-border-secondary);
     border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 /* 标签页 */
@@ -689,6 +730,57 @@
     font-size: 14px;
     color: var(--clouditera-neutral-text-secondary);
     line-height: 1.6;
+}
+
+/* 查询资产按钮 */
+.btn-query-asset {
+    padding: 4px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clouditera-brand-primary);
+    background: var(--clouditera-palette-blue-0);
+    border: 1px solid var(--clouditera-brand-primary);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-query-asset:hover {
+    background: var(--clouditera-brand-primary);
+    color: var(--clouditera-neutral-background-white);
+    box-shadow: 0 2px 8px rgba(41, 140, 255, 0.3);
+}
+
+.btn-query-asset:active {
+    transform: scale(0.95);
+}
+
+.btn-query-asset:focus {
+    outline: 2px solid var(--clouditera-brand-primary);
+    outline-offset: 2px;
+}
+
+/* 资产链接样式 */
+.asset-link {
+    color: var(--clouditera-brand-primary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.asset-link:hover {
+    color: var(--clouditera-brand-primary-hover);
+    text-decoration: underline;
+}
+
+.asset-link:active {
+    color: var(--clouditera-brand-primary-active);
+}
+
+.asset-link:visited {
+    color: var(--clouditera-palette-purple-5);
 }
 
 /* 响应式设计 */

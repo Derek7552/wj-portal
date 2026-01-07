@@ -269,6 +269,66 @@
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 手动绑定"新任务"按钮点击事件
+            var newTaskBtn = document.querySelector('.btn-new-chat');
+            if (newTaskBtn) {
+                newTaskBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('点击新任务按钮');
+
+                    // 清除所有任务项的 active 状态
+                    var taskItems = document.querySelectorAll('.recent-task-item');
+                    taskItems.forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+
+                    var chatArea = document.querySelector('.agent-main-content');
+                    if (!chatArea) return;
+
+                    // 检查是否存在各种内容容器
+                    var emptyStateContainer = document.querySelector('.empty-state-container');
+                    var taskContent = document.querySelector('.task-detail-content');
+                    var tasksList = document.querySelector('.tasks-list-container');
+                    var attackSurfaceDetail = document.querySelector('.attack-surface-detail');
+
+                    // 如果已有空状态容器，直接显示并隐藏其他内容
+                    if (emptyStateContainer) {
+                        emptyStateContainer.style.display = 'flex';
+                        if (taskContent) taskContent.style.display = 'none';
+                        if (tasksList) tasksList.style.display = 'none';
+                        if (attackSurfaceDetail) attackSurfaceDetail.style.display = 'none';
+                        return;
+                    }
+
+                    // 否则重新创建空状态页面
+                    chatArea.innerHTML = '<div class="empty-state-container">' +
+                        '<div class="empty-agent-name">' +
+                            '<span class="agent-name-text">攻击面检查</span>' +
+                        '</div>' +
+                        '<div class="empty-state-guide">' +
+                            '<p class="empty-state-guide-text">开始给智能体分配任务</p>' +
+                        '</div>' +
+                        '<div class="chat-input-container" data-container-mode="empty">' +
+                            '<div class="chat-input-wrapper">' +
+                                '<textarea class="chat-input" id="chatInput" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
+                                '<div class="chat-input-toolbar">' +
+                                    '<div class="chat-input-actions">' +
+                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                                        '<button class="btn-icon" title="插入代码">💻</button>' +
+                                        '<button class="btn-icon" title="插入表格">📊</button>' +
+                                    '</div>' +
+                                    '<button class="btn btn-primary chat-send" id="chatSend">' +
+                                        '<span>发送</span>' +
+                                        '<span class="send-shortcut">Shift+Enter</span>' +
+                                    '</button>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+                });
+            }
+
             // 初始化侧导航组件（如果函数存在）
             if (typeof initAgentSidebar === 'function') {
                 initAgentSidebar({
@@ -280,16 +340,24 @@
                     var chatArea = document.querySelector('.agent-main-content');
                     if (!chatArea) return;
 
-                    // 检查是否存在空状态容器
+                    // 清除所有任务项的 active 状态
+                    var taskItems = document.querySelectorAll('.recent-task-item');
+                    taskItems.forEach(function(item) {
+                        item.classList.remove('active');
+                    });
+
+                    // 检查是否存在各种内容容器
                     var emptyStateContainer = document.querySelector('.empty-state-container');
                     var taskContent = document.querySelector('.task-detail-content');
                     var tasksList = document.querySelector('.tasks-list-container');
+                    var attackSurfaceDetail = document.querySelector('.attack-surface-detail');
 
-                    // 如果已有空状态容器，直接显示
+                    // 如果已有空状态容器，直接显示并隐藏其他内容
                     if (emptyStateContainer) {
                         emptyStateContainer.style.display = 'flex';
                         if (taskContent) taskContent.style.display = 'none';
                         if (tasksList) tasksList.style.display = 'none';
+                        if (attackSurfaceDetail) attackSurfaceDetail.style.display = 'none';
                         return;
                     }
 
@@ -783,24 +851,24 @@
                     '<div class="exposure-section">' +
                         '<h3 class="exposure-section-title">系统暴露面</h3>' +
                         '<div class="exposure-stats">' +
-                            '<div class="exposure-stat-item active">' +
+                            '<div class="exposure-stat-item active" data-type="info-system">' +
                                 '<div class="exposure-stat-value">55</div>' +
                                 '<div class="exposure-stat-label">信息系统</div>' +
                             '</div>' +
-                            '<div class="exposure-stat-item">' +
+                            '<div class="exposure-stat-item" data-type="mobile-app">' +
                                 '<div class="exposure-stat-value">6</div>' +
                                 '<div class="exposure-stat-label">移动端应用</div>' +
                             '</div>' +
-                            '<div class="exposure-stat-item">' +
+                            '<div class="exposure-stat-item" data-type="domain">' +
                                 '<div class="exposure-stat-value">1</div>' +
                                 '<div class="exposure-stat-label">域名</div>' +
                             '</div>' +
-                            '<div class="exposure-stat-item">' +
+                            '<div class="exposure-stat-item" data-type="code-doc">' +
                                 '<div class="exposure-stat-value">459</div>' +
                                 '<div class="exposure-stat-label">代码/文档</div>' +
                             '</div>' +
                         '</div>' +
-                        '<div class="exposure-table-container">' +
+                        '<div class="exposure-table-container" id="exposureTableContainer">' +
                             '<table class="exposure-table">' +
                                 '<thead>' +
                                     '<tr>' +
@@ -823,11 +891,11 @@
                                     '</tr>' +
                                     '<tr>' +
                                         '<td>http://21...</td>' +
-                                        '<td>UNKOWN</td>' +
+                                        '<td>企业管理系统</td>' +
                                         '<td>--</td>' +
-                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
-                                        '<td>TCP</td>' +
-                                        '<td>--</td>' +
+                                        '<td><div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div></td>' +
+                                        '<td>HTTP</td>' +
+                                        '<td>京ICP备12345678号</td>' +
                                     '</tr>' +
                                     '<tr>' +
                                         '<td>ssl://111...</td>' +
@@ -839,11 +907,11 @@
                                     '</tr>' +
                                     '<tr>' +
                                         '<td>http://11...</td>' +
-                                        '<td>UNKOWN</td>' +
+                                        '<td>数据分析平台</td>' +
                                         '<td>--</td>' +
-                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
-                                        '<td>TCP</td>' +
-                                        '<td>--</td>' +
+                                        '<td><div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div></td>' +
+                                        '<td>HTTP</td>' +
+                                        '<td>京ICP备87654321号</td>' +
                                     '</tr>' +
                                     '<tr>' +
                                         '<td>https://2...</td>' +
@@ -855,11 +923,11 @@
                                     '</tr>' +
                                     '<tr>' +
                                         '<td>https://1...</td>' +
-                                        '<td>UNKOWN</td>' +
+                                        '<td>安全监控中心</td>' +
                                         '<td>--</td>' +
-                                        '<td><div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div></td>' +
-                                        '<td>TCP</td>' +
-                                        '<td>--</td>' +
+                                        '<td><div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div></td>' +
+                                        '<td>HTTPS</td>' +
+                                        '<td>京ICP备11223344号</td>' +
                                     '</tr>' +
                                 '</tbody>' +
                             '</table>' +
@@ -1002,12 +1070,175 @@
                 '</div>' +
             '</div>';
 
+            // 表格数据模拟函数
+            function getTableDataByType(type) {
+                var tableData = {
+                    'info-system': {
+                        headers: ['URL', '网站标题', '组件', 'ping', '协议', '备案'],
+                        rows: [
+                            ['ssl://210.12.34.56', 'UNKNOWN', '--', '<div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div>', 'TCP', '--'],
+                            ['http://210.12.34.57', '企业管理系统', '--', '<div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div>', 'HTTP', '京ICP备12345678号'],
+                            ['ssl://111.23.45.67', 'UNKNOWN', 'unknown', '<div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div>', 'TCP', '--'],
+                            ['http://111.23.45.68', '数据分析平台', '--', '<div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div>', 'HTTP', '京ICP备87654321号'],
+                            ['https://202.34.56.78', 'UNKNOWN', '[]', '<div class="ping-status"><span class="ping-status-dot"></span><span class="ping-status-text">无效</span></div>', 'TCP', '--'],
+                            ['https://192.168.1.100', '安全监控中心', '--', '<div class="ping-status valid"><span class="ping-status-dot"></span><span class="ping-status-text">有效</span></div>', 'HTTPS', '京ICP备11223344号']
+                        ]
+                    },
+                    'mobile-app': {
+                        headers: ['网站标题', '类型', '疑似资产'],
+                        rows: [
+                            ['企业安全管理平台', 'Web应用', '<button class="btn-query-asset" data-title="企业安全管理平台">查询</button>'],
+                            ['移动办公系统', 'API服务', '<button class="btn-query-asset" data-title="移动办公系统">查询</button>'],
+                            ['数据采集终端', 'Web应用', '<button class="btn-query-asset" data-title="数据采集终端">查询</button>'],
+                            ['智能监控中心', 'Web应用', '<button class="btn-query-asset" data-title="智能监控中心">查询</button>'],
+                            ['远程控制面板', 'API服务', '<button class="btn-query-asset" data-title="远程控制面板">查询</button>'],
+                            ['安全巡检系统', 'Web应用', '<button class="btn-query-asset" data-title="安全巡检系统">查询</button>']
+                        ]
+                    },
+                    'domain': {
+                        headers: ['域名', 'ICP备案', '疑似资产'],
+                        rows: [
+                            ['www.example.com', '京ICP备12345678号', '<button class="btn-query-asset" data-title="www.example.com">查询</button>'],
+                            ['api.example.com', '京ICP备12345678号', '<button class="btn-query-asset" data-title="api.example.com">查询</button>'],
+                            ['admin.example.com', '京ICP备12345678号', '<button class="btn-query-asset" data-title="admin.example.com">查询</button>'],
+                            ['test.example.com', '沪ICP备87654321号', '<button class="btn-query-asset" data-title="test.example.com">查询</button>'],
+                            ['backup.example.com', '沪ICP备87654321号', '<button class="btn-query-asset" data-title="backup.example.com">查询</button>'],
+                            ['cdn.example.com', '粤ICP备11223344号', '<button class="btn-query-asset" data-title="cdn.example.com">查询</button>']
+                        ]
+                    },
+                    'code-doc': {
+                        headers: ['名称', '地址', '类型', '描述'],
+                        rows: [
+                            ['<a href="#" class="asset-link" data-name="公司前端项目">公司前端项目</a>', '<a href="https://github.com/company/frontend" class="asset-link" target="_blank">https://github.com/company/frontend</a>', '代码', '企业官网前端代码仓库'],
+                            ['<a href="#" class="asset-link" data-name="API接口服务">API接口服务</a>', '<a href="https://gitlab.com/company/api-service" class="asset-link" target="_blank">https://gitlab.com/company/api-service</a>', '代码', '后端API接口服务代码'],
+                            ['<a href="#" class="asset-link" data-name="移动端应用">移动端应用</a>', '<a href="https://github.com/company/mobile-app" class="asset-link" target="_blank">https://github.com/company/mobile-app</a>', '代码', 'Android/iOS移动应用源码'],
+                            ['<a href="#" class="asset-link" data-name="系统架构文档.md">系统架构文档.md</a>', '<a href="https://docs.company.com/architecture.md" class="asset-link" target="_blank">https://docs.company.com/architecture.md</a>', '文档', '系统整体架构设计文档'],
+                            ['<a href="#" class="asset-link" data-name="API接口文档.md">API接口文档.md</a>', '<a href="https://docs.company.com/api-docs.md" class="asset-link" target="_blank">https://docs.company.com/api-docs.md</a>', '文档', 'RESTful API接口说明文档'],
+                            ['<a href="#" class="asset-link" data-name="部署手册.md">部署手册.md</a>', '<a href="https://docs.company.com/deploy.md" class="asset-link" target="_blank">https://docs.company.com/deploy.md</a>', '文档', '系统部署和运维手册'],
+                            ['<a href="#" class="asset-link" data-name="安全规范.md">安全规范.md</a>', '<a href="https://docs.company.com/security.md" class="asset-link" target="_blank">https://docs.company.com/security.md</a>', '文档', '信息安全开发规范文档'],
+                            ['<a href="#" class="asset-link" data-name="数据库设计.md">数据库设计.md</a>', '<a href="https://docs.company.com/database.md" class="asset-link" target="_blank">https://docs.company.com/database.md</a>', '文档', '数据库表结构设计文档']
+                        ]
+                    }
+                };
+
+                return tableData[type] || tableData['info-system'];
+            }
+
+            // 更新表格数据
+            function updateTableData(type) {
+                var container = document.getElementById('exposureTableContainer');
+                if (!container) return;
+
+                var data = getTableDataByType(type);
+                var tableHTML = '<table class="exposure-table">' +
+                    '<thead><tr>';
+
+                // 生成表头
+                data.headers.forEach(function(header) {
+                    tableHTML += '<th>' + header + '</th>';
+                });
+                tableHTML += '</tr></thead><tbody>';
+
+                // 生成表格内容
+                data.rows.forEach(function(row) {
+                    tableHTML += '<tr>';
+                    row.forEach(function(cell) {
+                        tableHTML += '<td>' + cell + '</td>';
+                    });
+                    tableHTML += '</tr>';
+                });
+
+                tableHTML += '</tbody></table>';
+                container.innerHTML = tableHTML;
+
+                // 绑定"查询"按钮点击事件
+                bindQueryAssetButtons();
+
+                // 绑定资产名称链接点击事件（仅对代码/文档类型）
+                if (type === 'code-doc') {
+                    bindAssetNameLinks();
+                }
+            }
+
+            // 绑定资产名称链接点击事件
+            function bindAssetNameLinks() {
+                var assetLinks = document.querySelectorAll('.asset-link[data-name]');
+                assetLinks.forEach(function(link) {
+                    link.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        var assetName = this.getAttribute('data-name');
+                        console.log('点击资产名称:', assetName);
+                        // 可以在这里添加预览文档或其他功能
+                        // 例如：显示文档内容、打开新窗口等
+                    });
+                });
+            }
+
+            // 绑定"查询资产"按钮事件
+            function bindQueryAssetButtons() {
+                var queryButtons = document.querySelectorAll('.btn-query-asset');
+                queryButtons.forEach(function(btn) {
+                    btn.addEventListener('click', function() {
+                        var title = this.getAttribute('data-title');
+                        sendAssetQueryMessage(title);
+                    });
+                });
+            }
+
+            // 发送资产查询消息到对话区域
+            function sendAssetQueryMessage(assetTitle) {
+                var chatMessagesContainer = document.querySelector('.chat-messages');
+                if (!chatMessagesContainer) return;
+
+                var message = '详情分析「' + assetTitle + '」资产';
+                var timestamp = new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' });
+
+                // 创建用户消息
+                var userMessageHTML = '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">' + timestamp + '</div>' +
+                        '<div class="message-text">' + message + '</div>' +
+                    '</div>' +
+                '</div>';
+
+                // 添加到对话区域
+                chatMessagesContainer.insertAdjacentHTML('beforeend', userMessageHTML);
+
+                // 滚动到底部
+                var messagesContainer = document.querySelector('.chat-messages-container');
+                if (messagesContainer) {
+                    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                }
+
+                // 模拟AI回复（可选）
+                setTimeout(function() {
+                    var aiMessageHTML = '<div class="message message-ai">' +
+                        '<div class="message-avatar">🤖</div>' +
+                        '<div class="message-content">' +
+                            '<div class="message-time">' + new Date().toLocaleTimeString('zh-CN', { hour: '2-digit', minute: '2-digit' }) + '</div>' +
+                            '<div class="message-text">正在分析「' + assetTitle + '」资产的详细信息，请稍候...</div>' +
+                        '</div>' +
+                    '</div>';
+                    chatMessagesContainer.insertAdjacentHTML('beforeend', aiMessageHTML);
+
+                    if (messagesContainer) {
+                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+                    }
+                }, 500);
+            }
+
             // 绑定统计项点击事件
             var statItems = chatArea.querySelectorAll('.exposure-stat-item');
             statItems.forEach(function(item) {
                 item.addEventListener('click', function() {
+                    // 切换选中状态
                     statItems.forEach(function(i) { i.classList.remove('active'); });
                     item.classList.add('active');
+
+                    // 获取数据类型并更新表格
+                    var type = item.getAttribute('data-type');
+                    updateTableData(type);
                 });
             });
 

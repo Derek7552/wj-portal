@@ -220,13 +220,6 @@
             flex: 1;
         }
         
-        .toolbar-center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 0 0 auto;
-        }
-        
         .toolbar-right {
             display: flex;
             align-items: center;
@@ -266,24 +259,7 @@
             font-size: 14px;
             color: var(--clouditera-neutral-text-secondary);
         }
-        
-        .auto-zoom-btn {
-            padding: 6px 12px;
-            font-size: 14px;
-            border: 1px solid var(--clouditera-neutral-border-primary);
-            background: var(--clouditera-neutral-background-white);
-            border-radius: 6px;
-            cursor: pointer;
-            color: var(--clouditera-neutral-text-primary);
-            transition: all 0.2s;
-        }
-        
-        .auto-zoom-btn:hover {
-            border-color: var(--clouditera-brand-primary);
-            color: var(--clouditera-brand-primary);
-            background: var(--clouditera-palette-blue-0);
-        }
-        
+
         .download-btn {
             padding: 8px 16px;
             font-size: 14px;
@@ -402,17 +378,7 @@
         .column-content li {
             margin-bottom: 8px;
         }
-        
-        .column-footer {
-            padding: 16px 24px;
-            border-top: 1px solid var(--clouditera-neutral-border-secondary);
-            background: var(--clouditera-neutral-background-secondary);
-            text-align: center;
-            font-size: 12px;
-            color: var(--clouditera-neutral-text-secondary);
-            flex-shrink: 0;
-        }
-        
+
         /* 同步滚动 */
         .bilingual-content.sync-scroll {
             position: relative;
@@ -931,9 +897,6 @@
                             <button class="toolbar-btn" id="btnPrevPage" title="上一页">▲</button>
                             <button class="toolbar-btn" id="btnNextPage" title="下一页">▼</button>
                         </div>
-                        <div class="toolbar-center">
-                            <button class="auto-zoom-btn" id="btnAutoZoom">+ 自动缩放</button>
-                        </div>
                         <div class="toolbar-right">
                             <button class="download-btn download-btn-primary" id="btnDownloadBilingual">
                                 <span>下载双语PDF</span>
@@ -955,9 +918,8 @@
                             <div class="column-content" id="englishContent">
                                 ${englishContent}
                             </div>
-                            <div class="column-footer">38</div>
                         </div>
-                        
+
                         <!-- 右侧：中文翻译 -->
                         <div class="bilingual-column" id="chineseColumn">
                             <div class="column-header">
@@ -967,7 +929,6 @@
                             <div class="column-content" id="chineseContent">
                                 ${chineseContent}
                             </div>
-                            <div class="column-footer">38</div>
                         </div>
                     </div>
                 </div>
@@ -1038,27 +999,18 @@
             // 下载按钮
             const btnDownloadBilingual = document.getElementById('btnDownloadBilingual');
             const btnDownloadTranslated = document.getElementById('btnDownloadTranslated');
-            
+
             if (btnDownloadBilingual) {
                 btnDownloadBilingual.addEventListener('click', function() {
                     alert('下载双语PDF功能开发中...');
                     // TODO: 实现下载双语PDF
                 });
             }
-            
+
             if (btnDownloadTranslated) {
                 btnDownloadTranslated.addEventListener('click', function() {
                     alert('下载译文PDF功能开发中...');
                     // TODO: 实现下载译文PDF
-                });
-            }
-            
-            // 自动缩放
-            const btnAutoZoom = document.getElementById('btnAutoZoom');
-            if (btnAutoZoom) {
-                btnAutoZoom.addEventListener('click', function() {
-                    // TODO: 实现自动缩放功能
-                    alert('自动缩放功能开发中...');
                 });
             }
         }
@@ -1154,10 +1106,73 @@
             { id: '10', name: '网络安全态势感知论文翻译', status: 'completed', active: false }
         ];
 
+        // 新任务按钮处理函数
+        function handleNewTaskClick() {
+            console.log('创建新翻译任务');
+
+            // 清除所有任务的选中状态
+            clearActiveTask();
+
+            // 点击新任务按钮时，显示空状态页面
+            var chatArea = document.querySelector('.agent-main-content');
+            if (!chatArea) return;
+
+            // 直接重新创建空状态页面（确保从任何状态都能正确返回首页）
+            chatArea.innerHTML = '<div class="empty-state-container">' +
+                '<div class="empty-agent-name">' +
+                    '<span class="agent-name-text">论文翻译</span>' +
+                '</div>' +
+                '<div class="empty-state-guide">' +
+                    '<p class="empty-state-guide-text">上传论文文件，开始智能翻译</p>' +
+                '</div>' +
+                '<div class="file-upload-container" id="fileUploadContainer">' +
+                    '<div class="file-upload-area" id="fileUploadArea">' +
+                        '<input type="file" id="fileInput" accept=".pdf" style="display: none;">' +
+                        '<div class="file-upload-icon">📄</div>' +
+                        '<div class="file-upload-text">' +
+                            '<p class="file-upload-title">上传论文文件</p>' +
+                            '<p class="file-upload-hint">支持 PDF 格式，文件大小不超过 15MB</p>' +
+                            '<p class="file-upload-action">点击上传或拖拽文件到此处</p>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="file-info-container" id="fileInfoContainer" style="display: none;">' +
+                        '<div class="file-info-header">' +
+                            '<div class="file-info-icon">📄</div>' +
+                            '<div class="file-info-details">' +
+                                '<div class="file-info-name" id="fileName"></div>' +
+                                '<div class="file-info-size" id="fileSize"></div>' +
+                            '</div>' +
+                            '<button class="file-remove-btn" id="fileRemoveBtn" title="移除文件">✕</button>' +
+                        '</div>' +
+                        '<div class="file-info-actions">' +
+                            '<button class="btn btn-primary btn-analyze" id="btnAnalyze">' +
+                                '<span>开始分析</span>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="file-upload-error" id="fileUploadError" style="display: none;"></div>' +
+                '</div>' +
+            '</div>';
+
+            // 重新初始化文件上传功能
+            setTimeout(function() {
+                initFileUpload();
+            }, 100);
+        }
+
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化文件上传功能
             initFileUpload();
+
+            // 绑定"新任务"按钮点击事件
+            var btnNewChat = document.querySelector('.btn-new-chat');
+            if (btnNewChat) {
+                btnNewChat.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    handleNewTaskClick();
+                });
+            }
 
             // 无论 initAgentSidebar 是否存在，都绑定任务点击事件
             setTimeout(function() {
@@ -1169,76 +1184,7 @@
                 window.agentSidebarInstance = initAgentSidebar({
                 tasks: mockTasks,
                 maxTasks: 10,
-                onNewTask: function() {
-                    console.log('创建新翻译任务');
-
-                    // 清除所有任务的选中状态
-                    clearActiveTask();
-
-                    // 点击新任务按钮时，显示空状态页面
-                    var chatArea = document.querySelector('.agent-main-content');
-                    if (!chatArea) return;
-
-                    // 检查是否存在空状态容器
-                    var emptyStateContainer = document.querySelector('.empty-state-container');
-                    var taskContent = document.querySelector('.task-detail-content');
-                    var tasksList = document.querySelector('.tasks-list-container');
-
-                    // 如果已有空状态容器，直接显示
-                    if (emptyStateContainer) {
-                        emptyStateContainer.style.display = 'flex';
-                        if (taskContent) taskContent.style.display = 'none';
-                        if (tasksList) tasksList.style.display = 'none';
-                        // 重新初始化文件上传功能
-                        setTimeout(function() {
-                            initFileUpload();
-                            resetFileUpload();
-                        }, 100);
-                        return;
-                    }
-
-                    // 否则重新创建空状态页面
-                    chatArea.innerHTML = '<div class="empty-state-container">' +
-                        '<div class="empty-agent-name">' +
-                            '<span class="agent-name-text">论文翻译</span>' +
-                        '</div>' +
-                        '<div class="empty-state-guide">' +
-                            '<p class="empty-state-guide-text">上传论文文件，开始智能翻译</p>' +
-                        '</div>' +
-                        '<div class="file-upload-container" id="fileUploadContainer">' +
-                            '<div class="file-upload-area" id="fileUploadArea">' +
-                                '<input type="file" id="fileInput" accept=".pdf" style="display: none;">' +
-                                '<div class="file-upload-icon">📄</div>' +
-                                '<div class="file-upload-text">' +
-                                    '<p class="file-upload-title">上传论文文件</p>' +
-                                    '<p class="file-upload-hint">支持 PDF 格式，文件大小不超过 15MB</p>' +
-                                    '<p class="file-upload-action">点击上传或拖拽文件到此处</p>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="file-info-container" id="fileInfoContainer" style="display: none;">' +
-                                '<div class="file-info-header">' +
-                                    '<div class="file-info-icon">📄</div>' +
-                                    '<div class="file-info-details">' +
-                                        '<div class="file-info-name" id="fileName"></div>' +
-                                        '<div class="file-info-size" id="fileSize"></div>' +
-                                    '</div>' +
-                                    '<button class="file-remove-btn" id="fileRemoveBtn" title="移除文件">✕</button>' +
-                                '</div>' +
-                                '<div class="file-info-actions">' +
-                                    '<button class="btn btn-primary btn-analyze" id="btnAnalyze">' +
-                                        '<span>开始分析</span>' +
-                                    '</button>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="file-upload-error" id="fileUploadError" style="display: none;"></div>' +
-                        '</div>' +
-                    '</div>';
-                    
-                    // 重新初始化文件上传功能
-                    setTimeout(function() {
-                        initFileUpload();
-                    }, 100);
-                },
+                onNewTask: handleNewTaskClick,
                 onTaskClick: function(taskId, taskData) {
                     // 复用统一的任务点击处理函数
                     handleTaskClick(taskId, taskData);
