@@ -423,26 +423,59 @@
             .bilingual-content {
                 flex-direction: column;
             }
-            
+
             .bilingual-column {
                 border-right: none;
                 border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
             }
-            
+
             .bilingual-column:last-child {
                 border-bottom: none;
             }
-            
+
             .toolbar-left,
             .toolbar-center,
             .toolbar-right {
                 gap: 8px;
             }
-            
+
             .download-btn {
                 padding: 6px 12px;
                 font-size: 13px;
             }
+        }
+
+        /* ==========================================
+           任务列表交互状态
+           ========================================== */
+
+        /* 任务项默认状态 */
+        .recent-task-item {
+            position: relative;
+            transition: all 0.2s ease;
+            border-left: 4px solid transparent;
+        }
+
+        /* 任务项 Hover 状态 */
+        .recent-task-item:hover {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        /* 任务项选中状态 */
+        .recent-task-item.active {
+            background: var(--clouditera-palette-blue-0);
+            border-left-color: var(--clouditera-brand-primary);
+        }
+
+        /* 选中状态下的任务名称颜色 */
+        .recent-task-item.active .task-name {
+            color: var(--clouditera-brand-primary);
+            font-weight: 500;
+        }
+
+        /* 选中状态下的状态图标 */
+        .recent-task-item.active .task-status-icon {
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -831,11 +864,11 @@
         // 开始分析
         function startAnalysis(file) {
             console.log('开始分析文件:', file.name);
-            
+
             // 生成任务ID和名称
             const taskId = 'task-' + Date.now();
             const taskName = file.name.replace(/\.pdf$/i, '') + ' - 论文翻译';
-            
+
             // 创建新任务数据
             const newTask = {
                 id: taskId,
@@ -845,10 +878,10 @@
                 fileName: file.name,
                 fileSize: file.size
             };
-            
+
             // 将新任务添加到任务列表开头
             mockTasks.unshift(newTask);
-            
+
             // 如果侧边栏实例存在，更新任务列表
             if (window.agentSidebarInstance) {
                 if (typeof window.agentSidebarInstance.updateTasks === 'function') {
@@ -861,7 +894,14 @@
                     window.agentSidebarInstance.setActiveTask(newTask.id);
                 }
             }
-            
+
+            // 重新绑定任务点击事件（因为添加了新任务）
+            setTimeout(function() {
+                bindTaskClickEvents();
+                // 设置新创建的任务为选中状态
+                setActiveTaskById(taskId);
+            }, 100);
+
             // 显示双语对照页面
             showBilingualView(newTask, file);
         }
@@ -1118,13 +1158,23 @@
         document.addEventListener('DOMContentLoaded', function() {
             // 初始化文件上传功能
             initFileUpload();
-            
-            // 初始化侧导航组件
-            window.agentSidebarInstance = initAgentSidebar({
+
+            // 无论 initAgentSidebar 是否存在，都绑定任务点击事件
+            setTimeout(function() {
+                bindTaskClickEvents();
+            }, 100);
+
+            // 初始化侧导航组件（如果函数存在）
+            if (typeof initAgentSidebar === 'function') {
+                window.agentSidebarInstance = initAgentSidebar({
                 tasks: mockTasks,
                 maxTasks: 10,
                 onNewTask: function() {
                     console.log('创建新翻译任务');
+
+                    // 清除所有任务的选中状态
+                    clearActiveTask();
+
                     // 点击新任务按钮时，显示空状态页面
                     var chatArea = document.querySelector('.agent-main-content');
                     if (!chatArea) return;
@@ -1190,100 +1240,15 @@
                     }, 100);
                 },
                 onTaskClick: function(taskId, taskData) {
-                    console.log('[DEBUG] 点击任务:', taskId, taskData);
-
-                    try {
-                        var chatArea = document.querySelector('.agent-main-content');
-                        if (!chatArea) {
-                            console.error('[DEBUG] 未找到chatArea');
-                            return;
-                        }
-
-                        console.log('[DEBUG] 找到chatArea');
-
-                        // 清空chatArea内容，重新创建任务详情
-                        var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
-
-                        // 清空chatArea并重新创建任务详情
-                        chatArea.innerHTML = '';
-
-                        var taskContent = document.createElement('div');
-                        taskContent.className = 'task-detail-content';
-
-                        taskContent.innerHTML = '<div class="chat-header">' +
-                            '<div class="chat-title">' + taskName + '</div>' +
-                            '<div class="chat-time">刚刚</div>' +
-                        '</div>' +
-                        '<div class="chat-messages">' +
-                            '<div class="message message-user">' +
-                                '<div class="message-avatar">👤</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">请帮我翻译这篇论文的摘要部分。</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="message message-ai">' +
-                                '<div class="message-avatar">🤖</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">好的，我将为您翻译论文摘要。请提供需要翻译的文本内容，我会确保准确理解学术术语并提供高质量的翻译。</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="message message-user">' +
-                                '<div class="message-avatar">👤</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">支持哪些语言对？</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="message message-ai">' +
-                                '<div class="message-avatar">🤖</div>' +
-                                '<div class="message-content">' +
-                                    '<div class="message-time">刚刚</div>' +
-                                    '<div class="message-text">我支持多种语言互译，包括：<br>1. 中英文互译（最常用）<br>2. 英文与其他主要语言（法语、德语、日语等）<br>3. 学术术语的准确翻译和润色</div>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>' +
-                        '<div class="chat-input-container" data-container-mode="fixed">' +
-                            '<div class="chat-input-wrapper">' +
-                                '<textarea class="chat-input" placeholder="输入需要翻译的论文内容或粘贴文本..." rows="3"></textarea>' +
-                                '<div class="chat-input-toolbar">' +
-                                    '<div class="chat-input-actions">' +
-                                        '<button class="btn-icon" title="上传文件">📎</button>' +
-                                        '<button class="btn-icon" title="插入图片">🖼️</button>' +
-                                        '<button class="btn-icon" title="插入代码">💻</button>' +
-                                        '<button class="btn-icon" title="插入表格">📊</button>' +
-                                    '</div>' +
-                                    '<button class="btn btn-primary chat-send">' +
-                                        '<span>发送</span>' +
-                                        '<span class="send-shortcut">Shift+Enter</span>' +
-                                    '</button>' +
-                                '</div>' +
-                            '</div>' +
-                        '</div>';
-
-                        chatArea.appendChild(taskContent);
-                        taskContent.style.display = 'flex';
-
-                        console.log('[DEBUG] 任务详情已创建并显示');
-
-                        // 滚动到底部
-                        setTimeout(function() {
-                            var chatMessages = taskContent.querySelector('.chat-messages');
-                            if (chatMessages) {
-                                chatMessages.scrollTop = chatMessages.scrollHeight;
-                            }
-                        }, 100);
-                    } catch (error) {
-                        console.error('[DEBUG] 错误:', error);
-                    }
+                    // 复用统一的任务点击处理函数
+                    handleTaskClick(taskId, taskData);
                 },
                 onViewAll: function() {
                     console.log('查看全部任务');
                     showAllTasks();
                 }
             });
-
+            }
         });
 
         // 显示全部任务列表
@@ -1456,6 +1421,169 @@
             chatArea.innerHTML = '';
             chatArea.appendChild(taskContent);
             taskContent.style.display = 'flex';
+
+            // 滚动到底部
+            setTimeout(function() {
+                var chatMessages = taskContent.querySelector('.chat-messages');
+                if (chatMessages) {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                }
+            }, 100);
+        }
+
+        // 绑定任务项点击事件
+        function bindTaskClickEvents() {
+            console.log('[DEBUG] 绑定任务点击事件');
+            const taskItems = document.querySelectorAll('.recent-task-item');
+            console.log('[DEBUG] 找到任务项数量:', taskItems.length);
+
+            taskItems.forEach(function(item, index) {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('[DEBUG] 任务项被点击, index:', index);
+
+                    // 获取对应的任务数据
+                    const task = mockTasks[index];
+                    console.log('[DEBUG] 任务数据:', task);
+
+                    // 直接调用任务点击处理函数,不依赖 agentSidebarInstance
+                    if (task) {
+                        handleTaskClick(task.id, task);
+                    }
+                });
+            });
+        }
+
+        // 任务点击处理函数
+        function handleTaskClick(taskId, taskData) {
+            console.log('[DEBUG] 处理任务点击:', taskId, taskData);
+
+            try {
+                var chatArea = document.querySelector('.agent-main-content');
+                if (!chatArea) {
+                    console.error('[DEBUG] 未找到chatArea');
+                    return;
+                }
+
+                console.log('[DEBUG] 找到chatArea');
+
+                // 更新任务选中状态
+                setActiveTaskById(taskId);
+
+                // 检查是否是"网络安全论文翻译"任务（已上传文件的任务）
+                var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
+
+                // 如果是"网络安全论文翻译"或"机器学习研究论文翻译"（正在运行的任务），直接显示双语对照页面
+                if (taskId === '1' || taskId === '2' || (taskData && taskData.status === 'running')) {
+                    console.log('[DEBUG] 显示双语对照页面');
+                    // 直接显示双语对照页面（已上传文件后的分析结果）
+                    showBilingualView(taskData, null);
+                    return;
+                }
+
+                // 其他已完成的任务，显示聊天历史
+                showTaskChatHistory(chatArea, taskName);
+            } catch (error) {
+                console.error('[DEBUG] 错误:', error);
+            }
+        }
+
+        // 设置任务选中状态
+        function setActiveTaskById(taskId) {
+            console.log('[DEBUG] 设置任务选中状态:', taskId);
+
+            // 移除所有任务的选中状态
+            var allTaskItems = document.querySelectorAll('.recent-task-item');
+            allTaskItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+
+            // 根据 taskId 找到对应的任务项并添加选中状态
+            var taskIndex = mockTasks.findIndex(function(task) {
+                return task.id === taskId;
+            });
+
+            console.log('[DEBUG] 任务索引:', taskIndex);
+
+            if (taskIndex !== -1 && allTaskItems[taskIndex]) {
+                allTaskItems[taskIndex].classList.add('active');
+                console.log('[DEBUG] 已添加 active 类到任务项:', taskIndex);
+            }
+        }
+
+        // 清除所有任务的选中状态
+        function clearActiveTask() {
+            console.log('[DEBUG] 清除所有任务选中状态');
+            var allTaskItems = document.querySelectorAll('.recent-task-item');
+            allTaskItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+        }
+
+        // 显示任务聊天历史
+        function showTaskChatHistory(chatArea, taskName) {
+            // 清空chatArea并重新创建任务详情
+            chatArea.innerHTML = '';
+
+            var taskContent = document.createElement('div');
+            taskContent.className = 'task-detail-content';
+
+            taskContent.innerHTML = '<div class="chat-header">' +
+                '<div class="chat-title">' + taskName + '</div>' +
+                '<div class="chat-time">刚刚</div>' +
+            '</div>' +
+            '<div class="chat-messages">' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">请帮我翻译这篇论文的摘要部分。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">好的，我将为您翻译论文摘要。请提供需要翻译的文本内容，我会确保准确理解学术术语并提供高质量的翻译。</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-user">' +
+                    '<div class="message-avatar">👤</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">支持哪些语言对？</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="message message-ai">' +
+                    '<div class="message-avatar">🤖</div>' +
+                    '<div class="message-content">' +
+                        '<div class="message-time">刚刚</div>' +
+                        '<div class="message-text">我支持多种语言互译，包括：<br>1. 中英文互译（最常用）<br>2. 英文与其他主要语言（法语、德语、日语等）<br>3. 学术术语的准确翻译和润色</div>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="chat-input-container" data-container-mode="fixed">' +
+                '<div class="chat-input-wrapper">' +
+                    '<textarea class="chat-input" placeholder="输入需要翻译的论文内容或粘贴文本..." rows="3"></textarea>' +
+                    '<div class="chat-input-toolbar">' +
+                        '<div class="chat-input-actions">' +
+                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
+                            '<button class="btn-icon" title="插入代码">💻</button>' +
+                            '<button class="btn-icon" title="插入表格">📊</button>' +
+                        '</div>' +
+                        '<button class="btn btn-primary chat-send">' +
+                            '<span>发送</span>' +
+                            '<span class="send-shortcut">Shift+Enter</span>' +
+                        '</button>' +
+                    '</div>' +
+                '</div>' +
+            '</div>';
+
+            chatArea.appendChild(taskContent);
+            taskContent.style.display = 'flex';
+
+            console.log('[DEBUG] 任务详情已创建并显示');
 
             // 滚动到底部
             setTimeout(function() {
