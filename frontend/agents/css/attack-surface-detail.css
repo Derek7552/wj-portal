@@ -2,6 +2,12 @@
    攻击面扫描详情页面样式
    ========================================== */
 
+/* 任务状态图标 - 失败状态 */
+.task-status-icon.failed {
+    filter: grayscale(0);
+    opacity: 1;
+}
+
 /* 首页的主内容区保留白色背景和边框 */
 .agent-detail-page .agent-main-content {
     background: var(--clouditera-neutral-background-white);
@@ -18,7 +24,7 @@
 .attack-surface-detail {
     display: flex;
     flex-direction: row;
-    gap: 16px;
+    gap: 2px;
     height: 100%;
 }
 
@@ -29,12 +35,29 @@
     flex-direction: column;
     gap: 20px;
     min-width: 0;
-    overflow-y: auto;
+    overflow-y: auto; /* 保持整体滚动，让三个section独立滚动 */
     background: transparent;
     border: none;
     border-radius: 0;
     padding: 0;
+    height: 100%;
 }
+
+/* 移除之前强制每个section填充整个高度的规则 */
+/* 让系统暴露面、社工暴露面、暗网情报自然占据高度 */
+.attack-surface-left .exposure-section {
+    display: flex;
+    flex-direction: column;
+    /* 移除 flex: 1，让每个section根据内容自然撑开 */
+}
+
+/* 特殊处理：当 exposure-section 包含 loading-placeholder 时，填充整个高度 */
+.attack-surface-left .exposure-section:has(.loading-placeholder) {
+    flex: 1;
+    min-height: 0;
+}
+
+/* 移除强制section内部滚动的规则，让section内容自然显示 */
 
 /* 系统暴露面 */
 .exposure-section {
@@ -327,13 +350,61 @@
     margin-bottom: 16px;
 }
 
+/* 可拖拽的分隔条 */
+.resizer {
+    width: 16px;
+    cursor: col-resize;
+    flex-shrink: 0;
+    background: transparent;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+/* 分隔条中间的视觉指示线 */
+.resizer::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background: var(--clouditera-neutral-border-secondary);
+    border-radius: 2px;
+    transition: all 0.2s;
+}
+
+/* 鼠标悬停效果 */
+.resizer:hover {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.resizer:hover::after {
+    background: var(--clouditera-brand-primary);
+    height: 60px;
+    box-shadow: 0 0 8px rgba(41, 140, 255, 0.3);
+}
+
+/* 拖拽中的状态 */
+.resizer.resizing {
+    background: var(--clouditera-neutral-background-secondary);
+}
+
+.resizer.resizing::after {
+    background: var(--clouditera-brand-primary);
+    height: 100%;
+    box-shadow: 0 0 12px rgba(41, 140, 255, 0.5);
+}
+
 /* 右侧面板 - 分析对话（任务详情页） */
 .attack-surface-right {
     width: 480px;
     display: flex;
     flex-direction: column;
     gap: 0;
-    min-width: 0;
+    min-width: 320px;
+    max-width: 800px;
+    height: 100%;
     overflow: hidden;
     flex-shrink: 0;
     background: var(--clouditera-neutral-background-white);
@@ -401,6 +472,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    height: 100%;
 }
 
 /* 内容区域 */
@@ -412,6 +484,7 @@
     min-height: 0;
     overflow-y: auto;
     animation: fadeIn 0.3s ease-in-out;
+    height: 100%;
 }
 
 .analysis-content.active {
@@ -781,6 +854,307 @@
 
 .asset-link:visited {
     color: var(--clouditera-palette-purple-5);
+}
+
+/* ==========================================
+   加载状态样式
+   ========================================== */
+
+/* 左侧面板加载占位符 */
+.loading-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    gap: 24px;
+    flex: 1; /* 填充整个左侧面板高度，与右侧分析对话高度一致 */
+    min-height: 0; /* 允许flex布局正确计算高度 */
+}
+
+/* ==========================================
+   失败状态样式
+   ========================================== */
+
+/* 左侧面板失败占位符 */
+.error-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+    gap: 24px;
+    flex: 1; /* 填充整个左侧面板高度，与右侧分析对话高度一致 */
+    min-height: 0; /* 允许flex布局正确计算高度 */
+    text-align: center;
+}
+
+/* 失败图标（左侧面板） */
+.error-icon {
+    font-size: 64px;
+    line-height: 1;
+}
+
+.error-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-semantic-error);
+    margin: 0;
+}
+
+.error-text {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    line-height: 1.6;
+    margin: 0;
+    max-width: 400px;
+}
+
+/* 重试按钮 */
+.btn-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    margin-top: 8px;
+}
+
+.retry-icon {
+    font-size: 16px;
+    line-height: 1;
+}
+
+/* 右侧面板失败状态容器 */
+.error-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    gap: 24px;
+    height: 100%;
+    min-height: 400px;
+}
+
+/* 大型失败图标（右侧面板） */
+.error-icon-large {
+    font-size: 72px;
+    line-height: 1;
+    animation: errorShake 0.5s ease-in-out;
+}
+
+@keyframes errorShake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-10px);
+    }
+    75% {
+        transform: translateX(10px);
+    }
+}
+
+.error-state-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--clouditera-semantic-error);
+    margin: 0;
+}
+
+.error-state-description {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 500px;
+}
+
+/* 错误详情卡片 */
+.error-details-card {
+    width: 100%;
+    max-width: 500px;
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: left;
+}
+
+.error-details-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0 0 16px 0;
+}
+
+.error-details-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.error-detail-item {
+    display: flex;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+.error-detail-label {
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    white-space: nowrap;
+}
+
+.error-detail-value {
+    color: var(--clouditera-neutral-text-secondary);
+    word-break: break-word;
+}
+
+/* 失败状态操作按钮组 */
+.error-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.error-actions .btn {
+    min-width: 120px;
+}
+
+/* 特殊处理：当 exposure-section 包含 error-placeholder 时，填充整个高度 */
+.attack-surface-left .exposure-section:has(.error-placeholder) {
+    flex: 1;
+    min-height: 0;
+}
+
+/* 小型加载旋转器（左侧面板） */
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--clouditera-neutral-border-secondary);
+    border-top-color: var(--clouditera-brand-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.loading-text {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    text-align: center;
+    margin: 0;
+}
+
+/* 右侧面板加载状态容器 */
+.loading-state-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    gap: 24px;
+    height: 100%;
+    min-height: 400px;
+}
+
+/* 大型加载旋转器（右侧面板） */
+.loading-spinner-large {
+    width: 64px;
+    height: 64px;
+    border: 5px solid var(--clouditera-neutral-border-secondary);
+    border-top-color: var(--clouditera-brand-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-state-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--clouditera-neutral-text-primary);
+    margin: 0;
+}
+
+.loading-state-description {
+    font-size: 14px;
+    color: var(--clouditera-neutral-text-secondary);
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* 加载进度步骤 */
+.loading-progress-steps {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.progress-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: var(--clouditera-neutral-background-secondary);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    min-width: 100px;
+    min-height: 80px;
+    transition: all 0.3s;
+}
+
+.progress-step.active {
+    background: var(--clouditera-palette-blue-0);
+    border-color: var(--clouditera-brand-primary);
+}
+
+.step-icon {
+    font-size: 24px;
+    color: var(--clouditera-neutral-text-tertiary);
+    line-height: 1;
+}
+
+.progress-step.active .step-icon {
+    color: var(--clouditera-brand-primary);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+.step-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-secondary);
+}
+
+.progress-step.active .step-text {
+    color: var(--clouditera-brand-primary);
+    font-weight: 600;
 }
 
 /* 响应式设计 */
