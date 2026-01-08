@@ -1182,6 +1182,85 @@
                 justify-content: center;
             }
         }
+
+        /* ==========================================
+           加载状态样式
+           ========================================== */
+
+        /* 加载状态容器 */
+        .loading-state-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            padding: 24px;
+        }
+
+        /* 加载旋转图标 */
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--clouditera-neutral-border-secondary);
+            border-top-color: var(--clouditera-brand-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* 加载提示文字 */
+        .loading-text {
+            color: var(--clouditera-neutral-text-secondary);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* 旋转动画 */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ==========================================
+           错误/失败状态样式
+           ========================================== */
+
+        /* 错误状态容器 */
+        .error-state-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            padding: 24px;
+        }
+
+        /* 错误图标 */
+        .error-icon {
+            font-size: 48px;
+            color: var(--clouditera-semantic-error);
+        }
+
+        /* 错误提示文字 */
+        .error-text {
+            color: var(--clouditera-neutral-text-primary);
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* 错误描述 */
+        .error-description {
+            color: var(--clouditera-neutral-text-secondary);
+            font-size: 14px;
+            text-align: center;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body class="agent-detail-page">
@@ -1327,7 +1406,7 @@
                                 <div class="task-name">产品需求文档摘要</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
+                                <span class="task-status-icon failed">❌</span>
                                 <div class="task-name">安全评估报告速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -1610,7 +1689,7 @@
         const mockTasks = [
             { id: '1', name: '安全技术白皮书速读', status: 'running', active: false },
             { id: '2', name: '产品需求文档摘要', status: 'running', active: false },
-            { id: '3', name: '安全评估报告速读', status: 'completed', active: false },
+            { id: '3', name: '安全评估报告速读', status: 'failed', active: false },
             { id: '4', name: '技术规范文档速读', status: 'completed', active: false },
             { id: '5', name: '漏洞分析报告速读', status: 'completed', active: false },
             { id: '6', name: '安全策略文档速读', status: 'completed', active: false },
@@ -1988,6 +2067,149 @@
                         }, 100);
 
                         console.log('[DEBUG] 文档速读详情布局已创建并显示');
+                    } else if (taskName === '产品需求文档摘要' || taskName.includes('产品需求文档摘要')) {
+                        // 产品需求文档摘要 - 显示加载状态
+                        chatArea.innerHTML = '';
+
+                        var paperReadingDetail = document.createElement('div');
+                        paperReadingDetail.className = 'paper-reading-detail';
+
+                        // 左侧加载状态
+                        var questionsTablePanel = document.createElement('div');
+                        questionsTablePanel.className = 'questions-table-panel';
+                        questionsTablePanel.innerHTML =
+                            '<div class="loading-state-container">' +
+                                '<div class="loading-spinner"></div>' +
+                                '<div class="loading-text">正在加载文档内容...</div>' +
+                            '</div>';
+
+                        // 右侧交互面板
+                        var paperInteractionPanel = document.createElement('div');
+                        paperInteractionPanel.className = 'paper-interaction-panel';
+                        paperInteractionPanel.innerHTML =
+                            '<div class="paper-tabs">' +
+                                '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                                '<button class="paper-tab" data-tab="guide">导读</button>' +
+                            '</div>' +
+                            '<div class="paper-tab-content active" data-content="chat">' +
+                                '<div class="paper-chat-content">' +
+                                    '<div class="paper-chat-messages">' +
+                                        '<div class="loading-state-container">' +
+                                            '<div class="loading-spinner"></div>' +
+                                            '<div class="loading-text">正在加载对话内容...</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<div class="chat-input-container" data-container-mode="fixed">' +
+                                        '<div class="chat-input-wrapper">' +
+                                            '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                            '<div class="chat-input-toolbar">' +
+                                                '<div class="chat-input-actions">' +
+                                                    '<button class="btn-icon" title="上传文件">📎</button>' +
+                                                '</div>' +
+                                                '<button class="btn btn-primary chat-send">' +
+                                                    '<span>发送</span>' +
+                                                '</button>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-tab-content" data-content="guide">' +
+                                '<div class="paper-guide-content">' +
+                                    '<div class="loading-state-container">' +
+                                        '<div class="loading-spinner"></div>' +
+                                        '<div class="loading-text">正在生成文档导读...</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+
+                        // 创建可拖拽的分隔条
+                        var resizer = document.createElement('div');
+                        resizer.className = 'resizer';
+
+                        paperReadingDetail.appendChild(questionsTablePanel);
+                        paperReadingDetail.appendChild(resizer);
+                        paperReadingDetail.appendChild(paperInteractionPanel);
+                        chatArea.appendChild(paperReadingDetail);
+
+                        // 初始化标签页切换功能
+                        initPaperTabs();
+
+                        // 初始化拖拽分隔条功能
+                        initResizer(resizer, questionsTablePanel, paperInteractionPanel);
+
+                        console.log('[DEBUG] 产品需求文档摘要加载状态已创建并显示');
+                    } else if (taskName === '安全评估报告速读' || taskName.includes('安全评估报告速读')) {
+                        // 安全评估报告速读 - 显示失败状态
+                        chatArea.innerHTML = '';
+
+                        var paperReadingDetail = document.createElement('div');
+                        paperReadingDetail.className = 'paper-reading-detail';
+
+                        // 左侧失败状态
+                        var questionsTablePanel = document.createElement('div');
+                        questionsTablePanel.className = 'questions-table-panel';
+                        questionsTablePanel.innerHTML =
+                            '<div class="error-state-container">' +
+                                '<div class="error-icon">❌</div>' +
+                                '<div class="error-text">加载失败</div>' +
+                                '<div class="error-description">文档内容加载失败，请稍后重试</div>' +
+                            '</div>';
+
+                        // 右侧交互面板
+                        var paperInteractionPanel = document.createElement('div');
+                        paperInteractionPanel.className = 'paper-interaction-panel';
+                        paperInteractionPanel.innerHTML =
+                            '<div class="paper-tabs">' +
+                                '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                                '<button class="paper-tab" data-tab="guide">导读</button>' +
+                            '</div>' +
+                            '<div class="paper-tab-content active" data-content="chat">' +
+                                '<div class="paper-chat-content">' +
+                                    '<div class="paper-chat-messages">' +
+                                        '<div class="paper-chat-empty">暂无对话内容</div>' +
+                                    '</div>' +
+                                    '<div class="chat-input-container" data-container-mode="fixed">' +
+                                        '<div class="chat-input-wrapper">' +
+                                            '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                            '<div class="chat-input-toolbar">' +
+                                                '<div class="chat-input-actions">' +
+                                                    '<button class="btn-icon" title="上传文件">📎</button>' +
+                                                '</div>' +
+                                                '<button class="btn btn-primary chat-send">' +
+                                                    '<span>发送</span>' +
+                                                '</button>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="paper-tab-content" data-content="guide">' +
+                                '<div class="paper-guide-content">' +
+                                    '<div class="error-state-container">' +
+                                        '<div class="error-icon">❌</div>' +
+                                        '<div class="error-text">加载失败</div>' +
+                                        '<div class="error-description">文档导读生成失败，请稍后重试</div>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>';
+
+                        // 创建可拖拽的分隔条
+                        var resizer = document.createElement('div');
+                        resizer.className = 'resizer';
+
+                        paperReadingDetail.appendChild(questionsTablePanel);
+                        paperReadingDetail.appendChild(resizer);
+                        paperReadingDetail.appendChild(paperInteractionPanel);
+                        chatArea.appendChild(paperReadingDetail);
+
+                        // 初始化标签页切换功能
+                        initPaperTabs();
+
+                        // 初始化拖拽分隔条功能
+                        initResizer(resizer, questionsTablePanel, paperInteractionPanel);
+
+                        console.log('[DEBUG] 安全评估报告速读失败状态已创建并显示');
                     } else {
                         // 其他任务使用原有的对话布局
                         chatArea.innerHTML = '';
@@ -2862,6 +3084,147 @@
                         });
                     }
                 }, 100);
+            } else if (taskName === '产品需求文档摘要' || taskName.includes('产品需求文档摘要')) {
+                // 产品需求文档摘要 - 显示加载状态
+                chatArea.innerHTML = '';
+
+                var paperReadingDetail = document.createElement('div');
+                paperReadingDetail.className = 'paper-reading-detail';
+
+                // 左侧加载状态
+                var questionsTablePanel = document.createElement('div');
+                questionsTablePanel.className = 'questions-table-panel';
+                questionsTablePanel.innerHTML =
+                    '<div class="loading-state-container">' +
+                        '<div class="loading-spinner"></div>' +
+                        '<div class="loading-text">正在加载文档内容...</div>' +
+                    '</div>';
+
+                // 右侧交互面板
+                var paperInteractionPanel = document.createElement('div');
+                paperInteractionPanel.className = 'paper-interaction-panel';
+                paperInteractionPanel.innerHTML =
+                    '<div class="paper-tabs">' +
+                        '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                        '<button class="paper-tab" data-tab="guide">导读</button>' +
+                    '</div>' +
+                    '<div class="paper-tab-content active" data-content="chat">' +
+                        '<div class="paper-chat-content">' +
+                            '<div class="paper-chat-messages">' +
+                                '<div class="loading-state-container">' +
+                                    '<div class="loading-spinner"></div>' +
+                                    '<div class="loading-text">正在加载对话内容...</div>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="chat-input-container" data-container-mode="fixed">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions">' +
+                                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '</div>' +
+                                        '<button class="btn btn-primary chat-send">' +
+                                            '<span>发送</span>' +
+                                        '</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="paper-tab-content" data-content="guide">' +
+                        '<div class="paper-guide-content">' +
+                            '<div class="loading-state-container">' +
+                                '<div class="loading-spinner"></div>' +
+                                '<div class="loading-text">正在生成文档导读...</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+
+                // 创建可拖拽的分隔条
+                var resizer = document.createElement('div');
+                resizer.className = 'resizer';
+
+                paperReadingDetail.appendChild(questionsTablePanel);
+                paperReadingDetail.appendChild(resizer);
+                paperReadingDetail.appendChild(paperInteractionPanel);
+                chatArea.appendChild(paperReadingDetail);
+
+                // 初始化标签页切换功能
+                initPaperTabs();
+
+                // 初始化拖拽分隔条功能
+                initResizer(resizer, questionsTablePanel, paperInteractionPanel);
+            } else if (taskName === '安全评估报告速读' || taskName.includes('安全评估报告速读')) {
+                // 安全评估报告速读 - 显示失败状态
+                chatArea.innerHTML = '';
+
+                var paperReadingDetail = document.createElement('div');
+                paperReadingDetail.className = 'paper-reading-detail';
+
+                // 左侧失败状态
+                var questionsTablePanel = document.createElement('div');
+                questionsTablePanel.className = 'questions-table-panel';
+                questionsTablePanel.innerHTML =
+                    '<div class="error-state-container">' +
+                        '<div class="error-icon">❌</div>' +
+                        '<div class="error-text">加载失败</div>' +
+                        '<div class="error-description">文档内容加载失败，请稍后重试</div>' +
+                    '</div>';
+
+                // 右侧交互面板
+                var paperInteractionPanel = document.createElement('div');
+                paperInteractionPanel.className = 'paper-interaction-panel';
+                paperInteractionPanel.innerHTML =
+                    '<div class="paper-tabs">' +
+                        '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                        '<button class="paper-tab" data-tab="guide">导读</button>' +
+                    '</div>' +
+                    '<div class="paper-tab-content active" data-content="chat">' +
+                        '<div class="paper-chat-content">' +
+                            '<div class="paper-chat-messages">' +
+                                '<div class="paper-chat-empty">暂无对话内容</div>' +
+                            '</div>' +
+                            '<div class="chat-input-container" data-container-mode="fixed">' +
+                                '<div class="chat-input-wrapper">' +
+                                    '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                    '<div class="chat-input-toolbar">' +
+                                        '<div class="chat-input-actions">' +
+                                            '<button class="btn-icon" title="上传文件">📎</button>' +
+                                        '</div>' +
+                                        '<button class="btn btn-primary chat-send">' +
+                                            '<span>发送</span>' +
+                                        '</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="paper-tab-content" data-content="guide">' +
+                        '<div class="paper-guide-content">' +
+                            '<div class="error-state-container">' +
+                                '<div class="error-icon">❌</div>' +
+                                '<div class="error-text">加载失败</div>' +
+                                '<div class="error-description">文档导读生成失败，请稍后重试</div>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>';
+
+                // 创建可拖拽的分隔条
+                var resizer = document.createElement('div');
+                resizer.className = 'resizer';
+
+                paperReadingDetail.appendChild(questionsTablePanel);
+                paperReadingDetail.appendChild(resizer);
+                paperReadingDetail.appendChild(paperInteractionPanel);
+                chatArea.appendChild(paperReadingDetail);
+
+                // 初始化标签页切换功能
+                initPaperTabs();
+
+                // 初始化拖拽分隔条功能
+                initResizer(resizer, questionsTablePanel, paperInteractionPanel);
+
+                console.log('[DEBUG] 安全评估报告速读失败状态已创建并显示');
             } else {
                 // 其他任务使用原有的对话布局
                 var taskContent = document.createElement('div');
