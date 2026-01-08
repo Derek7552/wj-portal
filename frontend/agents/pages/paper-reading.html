@@ -262,56 +262,224 @@
             background: var(--clouditera-neutral-background-white);
             border: 1px solid var(--clouditera-neutral-border-secondary);
             border-radius: 8px;
-            overflow: hidden;
+            overflow-y: auto;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
             min-width: 320px;
             max-width: 60%;
             height: 100%;
         }
 
-        /* 左侧表格标签页 */
-        .questions-tabs {
-            flex-shrink: 0;
+        /* 论文研读内容容器 */
+        .paper-reading-content {
+            padding: 24px;
             display: flex;
-            border-bottom: 1px solid var(--clouditera-neutral-border-primary);
-            background: var(--clouditera-neutral-background-white);
-            padding: 0 16px;
-        }
-
-        .questions-tab {
-            padding: 16px 24px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--clouditera-neutral-text-secondary);
-            background: none;
-            border: none;
-            border-bottom: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            margin-bottom: -1px;
-        }
-
-        .questions-tab:hover {
-            color: var(--clouditera-brand-primary);
-            background: var(--clouditera-palette-blue-0);
-        }
-
-        .questions-tab.active {
-            color: var(--clouditera-brand-primary);
-            border-bottom-color: var(--clouditera-brand-primary);
-        }
-
-        /* 表格标签页内容 */
-        .questions-tab-content {
-            flex: 1;
-            display: none;
             flex-direction: column;
-            overflow: hidden;
+            gap: 24px;
         }
 
-        .questions-tab-content.active {
+        /* 章节标题 */
+        .reading-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-title);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--clouditera-brand-primary);
             display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reading-section-title::before {
+            content: '';
+            width: 4px;
+            height: 18px;
+            background: var(--clouditera-brand-primary);
+            border-radius: 2px;
+        }
+
+        /* 章节内容 */
+        .reading-section {
+            background: var(--clouditera-neutral-background-white);
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        /* 信息项 */
+        .reading-info-item {
+            margin-bottom: 16px;
+        }
+
+        .reading-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .reading-info-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .reading-info-value {
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+        }
+
+        /* 高亮信息框 */
+        .reading-highlight-box {
+            background: var(--clouditera-neutral-background-secondary);
+            border-left: 4px solid var(--clouditera-brand-primary);
+            padding: 16px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
+        /* 列表样式 */
+        .reading-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .reading-list-item {
+            padding: 12px 0;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .reading-list-item:last-child {
+            border-bottom: none;
+        }
+
+        .reading-list-icon {
+            color: var(--clouditera-brand-primary);
+            font-size: 18px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .reading-list-content {
+            flex: 1;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+        }
+
+        /* 评分标签 */
+        .reading-score-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 48px;
+            height: 32px;
+            padding: 0 12px;
+            background: var(--clouditera-brand-primary);
+            color: var(--clouditera-neutral-background-white);
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+        }
+
+        /* 威胁模型卡片 */
+        .threat-card {
+            background: var(--clouditera-palette-red-0);
+            border: 1px solid var(--clouditera-danger-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .threat-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-danger-primary);
+            margin-bottom: 8px;
+        }
+
+        .threat-card-content {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+        }
+
+        /* 技术方案卡片 */
+        .solution-card {
+            background: var(--clouditera-palette-green-0);
+            border: 1px solid var(--clouditera-success-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .solution-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-success-primary);
+            margin-bottom: 8px;
+        }
+
+        .solution-card-content {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+        }
+
+        /* 性能指标网格 */
+        .performance-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .performance-item {
+            background: var(--clouditera-neutral-background-secondary);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .performance-label {
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .performance-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--clouditera-brand-primary);
+        }
+
+        /* 笔记区域 */
+        .reading-notes {
+            background: var(--clouditera-palette-yellow-0);
+            border: 1px solid var(--clouditera-warning-border);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+        }
+
+        .reading-notes-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--clouditera-warning-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .reading-notes-content {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
         }
 
         /* 表格容器 */
@@ -367,6 +535,77 @@
             color: var(--clouditera-neutral-text-secondary);
             font-size: 14px;
             padding: 24px;
+        }
+
+        /* 加载状态容器 */
+        .loading-state-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            padding: 24px;
+        }
+
+        /* 加载旋转图标 */
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid var(--clouditera-neutral-border-secondary);
+            border-top-color: var(--clouditera-brand-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        /* 加载提示文字 */
+        .loading-text {
+            color: var(--clouditera-neutral-text-secondary);
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* 旋转动画 */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* 错误/失败状态容器 */
+        .error-state-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 16px;
+            padding: 24px;
+        }
+
+        /* 错误图标 */
+        .error-icon {
+            font-size: 48px;
+            color: var(--clouditera-danger-primary);
+        }
+
+        /* 错误提示文字 */
+        .error-text {
+            color: var(--clouditera-neutral-text-primary);
+            font-size: 14px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* 错误描述文字 */
+        .error-description {
+            color: var(--clouditera-neutral-text-secondary);
+            font-size: 13px;
+            text-align: center;
+            margin-top: -8px;
         }
 
         /* PDF查看器工具栏 */
@@ -1063,7 +1302,7 @@
                                 <div class="task-name">系统架构设计论文研读</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
+                                <span class="task-status-icon failed">❌</span>
                                 <div class="task-name">安全评估方法论文研读</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -1346,7 +1585,7 @@
         const mockTasks = [
             { id: '1', name: '网络安全技术论文研读', status: 'running', active: false },
             { id: '2', name: '系统架构设计论文研读', status: 'running', active: false },
-            { id: '3', name: '安全评估方法论文研读', status: 'completed', active: false },
+            { id: '3', name: '安全评估方法论文研读', status: 'failed', active: false },
             { id: '4', name: '密码学算法论文研读', status: 'completed', active: false },
             { id: '5', name: '漏洞挖掘技术论文研读', status: 'completed', active: false },
             { id: '6', name: '访问控制策略论文研读', status: 'completed', active: false },
@@ -1380,8 +1619,10 @@
                     // 清空chatArea内容，重新创建任务详情
                     var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
 
-                    // 检查是否是"网络安全技术论文研读"任务，如果是则显示新的左右分栏布局
-                    if (taskName === '网络安全技术论文研读' || taskName.includes('网络安全技术论文研读')) {
+                    // 检查是否是"网络安全技术论文研读"或"系统架构设计论文研读"或"安全评估方法论文研读"任务，如果是则显示新的左右分栏布局
+                    if (taskName === '网络安全技术论文研读' || taskName.includes('网络安全技术论文研读') ||
+                        taskName === '系统架构设计论文研读' || taskName.includes('系统架构设计论文研读') ||
+                        taskName === '安全评估方法论文研读' || taskName.includes('安全评估方法论文研读')) {
                         // 清空chatArea并创建论文研读详情布局
                         chatArea.innerHTML = '';
 
@@ -1391,90 +1632,333 @@
                         // 左侧数据表格面板
                         var questionsTablePanel = document.createElement('div');
                         questionsTablePanel.className = 'questions-table-panel';
-                        
-                        // 示例数据 - 根据图片描述创建的问题列表
-                        var questionsData = [
-                            {sequence: 1, rag_doc_id: '001d6a2fc7e2420d93e76ec4270c317a', question_index: 1, question: '如何在智能'},
-                            {sequence: 2, rag_doc_id: '001d6a2fc7e2420d93e76ec4270c317a', question_index: 2, question: '在提出的隐'},
-                            {sequence: 3, rag_doc_id: '001d6a2fc7e2420d93e76ec4270c317a', question_index: 3, question: '提出的认证'},
-                            {sequence: 4, rag_doc_id: '001d6a2fc7e2420d93e76ec4270c317a', question_index: 4, question: '什么是TEE'},
-                            {sequence: 5, rag_doc_id: '04fc82d023ed459a9d371390bb26ecd1', question_index: 1, question: '什么是TEE-'},
-                            {sequence: 6, rag_doc_id: '07c22725635f4305904c6c061f11a8e6', question_index: 1, question: '耳蜗植入物'},
-                            {sequence: 7, rag_doc_id: '0c5893926e344e4d87e4ca337ebc9ca8', question_index: 1, question: '什么是EUCI'},
-                            {sequence: 8, rag_doc_id: '1484eada02964241a3e61eab8d0f909b', question_index: 1, question: '什么是Heim'},
-                            {sequence: 9, rag_doc_id: '1dddec34f3f64fb0b3fd1550e92bf8e3', question_index: 1, question: '什么是TYPE'},
-                            {sequence: 10, rag_doc_id: '301df28c47074c97a0a4ed3a35b7d489', question_index: 1, question: '如何通过基:'}
-                        ];
-                        
-                        // 生成表格行HTML
-                        var tableRowsHtml = questionsData.map(function(item) {
-                            return '<tr>' +
-                                '<td>' + item.sequence + '</td>' +
-                                '<td>' + item.rag_doc_id + '</td>' +
-                                '<td>' + item.question_index + '</td>' +
-                                '<td>' + item.question + '</td>' +
-                            '</tr>';
-                        }).join('');
-                        
-                        questionsTablePanel.innerHTML = 
-                            '<div class="questions-tabs">' +
-                                '<button class="questions-tab active" data-table-tab="questions">Questions</button>' +
-                                '<button class="questions-tab" data-table-tab="document_stats">Document_Stats</button>' +
-                                '<button class="questions-tab" data-table-tab="summary">Summary</button>' +
-                            '</div>' +
-                            '<div class="questions-tab-content active" data-table-content="questions">' +
-                                '<div class="questions-table-container">' +
-                                    '<table class="questions-table">' +
-                                        '<thead>' +
-                                            '<tr>' +
-                                                '<th>sequence</th>' +
-                                                '<th>rag_doc_id</th>' +
-                                                '<th>question_index</th>' +
-                                                '<th>question</th>' +
-                                            '</tr>' +
-                                        '</thead>' +
-                                        '<tbody>' +
-                                            tableRowsHtml +
-                                        '</tbody>' +
-                                    '</table>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="questions-tab-content" data-table-content="document_stats">' +
-                                '<div class="questions-table-empty">Document Stats 内容加载中...</div>' +
-                            '</div>' +
-                            '<div class="questions-tab-content" data-table-content="summary">' +
-                                '<div class="questions-table-empty">Summary 内容加载中...</div>' +
-                            '</div>';
+
+                        // 根据任务名称决定显示内容
+                        var isLoadingTask = (taskName === '系统架构设计论文研读' || taskName.includes('系统架构设计论文研读'));
+                        var isFailedTask = (taskName === '安全评估方法论文研读' || taskName.includes('安全评估方法论文研读'));
+
+                        if (isLoadingTask) {
+                            // 系统架构设计论文研读 - 显示加载状态（不显示标签页）
+                            questionsTablePanel.innerHTML =
+                                '<div class="loading-state-container">' +
+                                    '<div class="loading-spinner"></div>' +
+                                    '<div class="loading-text">正在加载论文内容...</div>' +
+                                '</div>';
+                        } else if (isFailedTask) {
+                            // 安全评估方法论文研读 - 显示失败状态（不显示标签页）
+                            questionsTablePanel.innerHTML =
+                                '<div class="error-state-container">' +
+                                    '<div class="error-icon">❌</div>' +
+                                    '<div class="error-text">加载失败</div>' +
+                                    '<div class="error-description">论文内容加载失败，请稍后重试</div>' +
+                                '</div>';
+                        } else {
+                            // 网络安全技术论文研读 - 显示纵向内容
+                            questionsTablePanel.innerHTML =
+                                '<div class="paper-reading-content">' +
+                                    // 1. 论文基本信息
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">论文基本信息</h2>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">英文标题</div>' +
+                                            '<div class="reading-info-value">An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">中文标题</div>' +
+                                            '<div class="reading-info-value">一种高效的工业物联网设备图像加密方案</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">作者与机构</div>' +
+                                            '<div class="reading-info-value">Mingwu Zhang, Bo Peng, Yu Chen<br>Hubei University of Technology, Wuhan, China</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">发表信息</div>' +
+                                            '<div class="reading-info-value">2023 IEEE Conference on Security and Privacy<br>影响因子：8.2</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 2. 摘要与翻译
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">摘要与翻译</h2>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">英文摘要</div>' +
+                                            '<div class="reading-highlight-box">' +
+                                                'This paper proposes an efficient image encryption algorithm for industrial Internet-of-Things (IoT) devices. The scheme uses initial conditions from a hyperchaotic Chen system computed by SHA-512, pixel scrambling, image encryption, and cyclic shift to permute the plain image, and an XOR operation to improve correlation. The scheme is stated to be efficient and practical for sensitive image protections in Internet of Vehicles (IoVs) and Wireless Body Area Networks (WBAN).' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">中文翻译</div>' +
+                                            '<div class="reading-highlight-box">' +
+                                                '本文提出了一种高效的工业物联网（IoT）设备图像加密算法。该方案使用SHA-512计算的超混沌Chen系统的初始条件、像素置乱、图像加密和循环移位来置换明文图像，并使用XOR运算来提高相关性。该方案对于车联网（IoVs）和无线体域网络（WBAN）等敏感图像保护具有高效性和实用性。' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 3. 研究背景与威胁模型
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">研究背景与威胁模型</h2>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">研究背景</div>' +
+                                            '<div class="reading-info-value">随着工业物联网的快速发展，大量敏感图像数据在资源受限的IoT设备间传输，面临严重的安全威胁。传统加密算法计算复杂度高，不适用于低功耗设备。</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">威胁模型</div>' +
+                                            '<div class="threat-card">' +
+                                                '<div class="threat-card-title">🔴 主要安全威胁</div>' +
+                                                '<div class="threat-card-content">' +
+                                                    '<strong>1. 统计分析攻击：</strong>攻击者通过分析加密图像的统计特性推断原始信息<br>' +
+                                                    '<strong>2. 差分攻击：</strong>通过比较明文微小变化对密文的影响来破解密钥<br>' +
+                                                    '<strong>3. 暴力破解：</strong>遍历所有可能的密钥空间进行破解<br>' +
+                                                    '<strong>4. 已知明文攻击：</strong>利用已知的明文-密文对推断加密密钥' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 4. 技术方案与创新点
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">技术方案与创新点</h2>' +
+                                        '<div class="solution-card">' +
+                                            '<div class="solution-card-title">🟢 核心技术方案</div>' +
+                                            '<div class="solution-card-content">' +
+                                                '<ul class="reading-list">' +
+                                                    '<li class="reading-list-item">' +
+                                                        '<span class="reading-list-icon">✓</span>' +
+                                                        '<span class="reading-list-content"><strong>超混沌Chen系统：</strong>使用SHA-512哈希函数生成超混沌系统初始条件，增强密钥的随机性和不可预测性</span>' +
+                                                    '</li>' +
+                                                    '<li class="reading-list-item">' +
+                                                        '<span class="reading-list-icon">✓</span>' +
+                                                        '<span class="reading-list-content"><strong>像素置乱技术：</strong>通过混沌序列对图像像素位置进行置乱，打破像素间的空间相关性</span>' +
+                                                    '</li>' +
+                                                    '<li class="reading-list-item">' +
+                                                        '<span class="reading-list-icon">✓</span>' +
+                                                        '<span class="reading-list-content"><strong>循环移位操作：</strong>对置乱后的图像进行循环移位，进一步增强扩散效果</span>' +
+                                                    '</li>' +
+                                                    '<li class="reading-list-item">' +
+                                                        '<span class="reading-list-icon">✓</span>' +
+                                                        '<span class="reading-list-content"><strong>XOR运算：</strong>使用混沌序列与图像数据进行XOR运算，提高加密图像的随机性</span>' +
+                                                    '</li>' +
+                                                '</ul>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item" style="margin-top: 16px;">' +
+                                            '<div class="reading-info-label">关键创新点</div>' +
+                                            '<div class="reading-info-value">' +
+                                                '• 首次将超混沌Chen系统与SHA-512结合应用于IoT图像加密<br>' +
+                                                '• 设计了适合低功耗设备的轻量级加密流程<br>' +
+                                                '• 实现了像素级混沌加密与宏观置乱的有机结合' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 5. 安全性分析
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">安全性分析</h2>' +
+                                        '<ul class="reading-list">' +
+                                            '<li class="reading-list-item">' +
+                                                '<span class="reading-list-icon">🛡️</span>' +
+                                                '<span class="reading-list-content"><strong>密钥空间分析：</strong>密钥空间达到 2^512，远超 2^100 的安全阈值，可有效抵御暴力破解攻击</span>' +
+                                            '</li>' +
+                                            '<li class="reading-list-item">' +
+                                                '<span class="reading-list-icon">🛡️</span>' +
+                                                '<span class="reading-list-content"><strong>统计特性分析：</strong>加密图像直方图均匀分布，相关系数接近0，有效抵抗统计分析攻击</span>' +
+                                            '</li>' +
+                                            '<li class="reading-list-item">' +
+                                                '<span class="reading-list-icon">🛡️</span>' +
+                                                '<span class="reading-list-content"><strong>差分攻击抵抗：</strong>NPCR达到99.6%，UACI达到33.4%，明文微小变化会导致密文完全不同</span>' +
+                                            '</li>' +
+                                            '<li class="reading-list-item">' +
+                                                '<span class="reading-list-icon">🛡️</span>' +
+                                                '<span class="reading-list-content"><strong>信息熵分析：</strong>加密图像信息熵接近理想值8，表明密文具有高度随机性</span>' +
+                                            '</li>' +
+                                        '</ul>' +
+                                    '</div>' +
+                                    // 6. 性能评估
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">性能评估</h2>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">实验环境</div>' +
+                                            '<div class="reading-info-value">Raspberry Pi 4B (ARM Cortex-A72, 1.5GHz, 4GB RAM)</div>' +
+                                        '</div>' +
+                                        '<div class="performance-grid">' +
+                                            '<div class="performance-item">' +
+                                                '<div class="performance-label">加密速度</div>' +
+                                                '<div class="performance-value">42ms</div>' +
+                                            '</div>' +
+                                            '<div class="performance-item">' +
+                                                '<div class="performance-label">解密速度</div>' +
+                                                '<div class="performance-value">38ms</div>' +
+                                            '</div>' +
+                                            '<div class="performance-item">' +
+                                                '<div class="performance-label">内存占用</div>' +
+                                                '<div class="performance-value">256KB</div>' +
+                                            '</div>' +
+                                            '<div class="performance-item">' +
+                                                '<div class="performance-label">能耗</div>' +
+                                                '<div class="performance-value">85mW</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item" style="margin-top: 16px;">' +
+                                            '<div class="reading-info-label">性能对比</div>' +
+                                            '<div class="reading-info-value">相比AES-256加密速度提升35%，内存占用降低40%，适合资源受限的IoT设备</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 7. 核心贡献与评分
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">核心贡献与评分</h2>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">主要贡献</div>' +
+                                            '<ul class="reading-list">' +
+                                                '<li class="reading-list-item">' +
+                                                    '<span class="reading-list-icon">⭐</span>' +
+                                                    '<span class="reading-list-content">提出了基于超混沌系统的轻量级图像加密算法</span>' +
+                                                '</li>' +
+                                                '<li class="reading-list-item">' +
+                                                    '<span class="reading-list-icon">⭐</span>' +
+                                                    '<span class="reading-list-content">实现了安全性与性能的良好平衡，适用于IoT场景</span>' +
+                                                '</li>' +
+                                                '<li class="reading-list-item">' +
+                                                    '<span class="reading-list-icon">⭐</span>' +
+                                                    '<span class="reading-list-content">在车联网和无线体域网中验证了方案的实用性</span>' +
+                                                '</li>' +
+                                            '</ul>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">论文评分</div>' +
+                                            '<div style="display: flex; align-items: center; gap: 16px; margin-top: 8px;">' +
+                                                '<span class="reading-score-badge">6/10</span>' +
+                                                '<span class="reading-info-value">综合评分良好，方案创新性强，实验充分，但理论证明可进一步加强</span>' +
+                                            '</div>' +
+                                        '</div>' +
+                                        '<div class="reading-info-item">' +
+                                            '<div class="reading-info-label">研究局限性</div>' +
+                                            '<div class="reading-info-value">' +
+                                                '• 仅在模拟环境中测试，缺少大规模真实部署验证<br>' +
+                                                '• 未考虑量子计算对加密方案的潜在威胁<br>' +
+                                                '• 密钥管理和分发机制需要进一步完善' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    // 8. 研读笔记
+                                    '<div class="reading-section">' +
+                                        '<h2 class="reading-section-title">研读笔记</h2>' +
+                                        '<div class="reading-notes">' +
+                                            '<div class="reading-notes-title">📝 个人理解与思考</div>' +
+                                            '<div class="reading-notes-content">' +
+                                                '<strong>优势：</strong><br>' +
+                                                '1. 算法设计思路清晰，将混沌理论与实际IoT场景结合得很好<br>' +
+                                                '2. 性能测试全面，包括加密速度、安全性、资源消耗等多个维度<br>' +
+                                                '3. 适用场景明确，针对车联网和无线体域网的特点进行了优化<br><br>' +
+                                                '<strong>待深入研究的问题：</strong><br>' +
+                                                '• 如何在更复杂的网络环境中保证密钥的安全分发？<br>' +
+                                                '• 超混沌系统参数选择的理论依据是什么？<br>' +
+                                                '• 该方案是否能扩展到视频流加密场景？<br>' +
+                                                '• 与其他轻量级加密算法（如ChaCha20）的性能对比如何？' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
+                        }
 
                         // 右侧交互面板
                         var paperInteractionPanel = document.createElement('div');
                         paperInteractionPanel.className = 'paper-interaction-panel';
-                        paperInteractionPanel.innerHTML = 
-                            '<div class="paper-tabs">' +
-                                '<button class="paper-tab active" data-tab="chat">对话</button>' +
-                                '<button class="paper-tab" data-tab="guide">导读</button>' +
-                            '</div>' +
-                            '<div class="paper-tab-content active" data-content="chat">' +
-                                '<div class="paper-chat-content">' +
-                                    '<div class="paper-chat-messages">' +
-                                        '<div class="paper-chat-empty">暂无对话内容</div>' +
-                                    '</div>' +
-                                    '<div class="chat-input-container" data-container-mode="fixed">' +
-                                        '<div class="chat-input-wrapper">' +
-                                            '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
-                                            '<div class="chat-input-toolbar">' +
-                                                '<div class="chat-input-actions">' +
-                                                    '<button class="btn-icon" title="上传文件">📎</button>' +
+
+                        if (isLoadingTask) {
+                            // 系统架构设计论文研读 - 对话区保持样式但无内容
+                            paperInteractionPanel.innerHTML =
+                                '<div class="paper-tabs">' +
+                                    '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                                    '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                '</div>' +
+                                '<div class="paper-tab-content active" data-content="chat">' +
+                                    '<div class="paper-chat-content">' +
+                                        '<div class="paper-chat-messages">' +
+                                            '<div class="paper-chat-empty">暂无对话内容</div>' +
+                                        '</div>' +
+                                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                                            '<div class="chat-input-wrapper">' +
+                                                '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                                '<div class="chat-input-toolbar">' +
+                                                    '<div class="chat-input-actions">' +
+                                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                                    '</div>' +
+                                                    '<button class="btn btn-primary chat-send">' +
+                                                        '<span>发送</span>' +
+                                                    '</button>' +
                                                 '</div>' +
-                                                '<button class="btn btn-primary chat-send">' +
-                                                    '<span>发送</span>' +
-                                                '</button>' +
                                             '</div>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class="paper-tab-content" data-content="guide">' +
+                                '<div class="paper-tab-content" data-content="guide">' +
+                                    '<div class="paper-guide-content">' +
+                                        '<div class="loading-state-container">' +
+                                            '<div class="loading-spinner"></div>' +
+                                            '<div class="loading-text">正在生成论文导读...</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
+                        } else if (isFailedTask) {
+                            // 安全评估方法论文研读 - 对话区保持样式但无内容，导读区显示失败状态
+                            paperInteractionPanel.innerHTML =
+                                '<div class="paper-tabs">' +
+                                    '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                                    '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                '</div>' +
+                                '<div class="paper-tab-content active" data-content="chat">' +
+                                    '<div class="paper-chat-content">' +
+                                        '<div class="paper-chat-messages">' +
+                                            '<div class="paper-chat-empty">暂无对话内容</div>' +
+                                        '</div>' +
+                                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                                            '<div class="chat-input-wrapper">' +
+                                                '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                                '<div class="chat-input-toolbar">' +
+                                                    '<div class="chat-input-actions">' +
+                                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                                    '</div>' +
+                                                    '<button class="btn btn-primary chat-send">' +
+                                                        '<span>发送</span>' +
+                                                    '</button>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-tab-content" data-content="guide">' +
+                                    '<div class="paper-guide-content">' +
+                                        '<div class="error-state-container">' +
+                                            '<div class="error-icon">❌</div>' +
+                                            '<div class="error-text">加载失败</div>' +
+                                            '<div class="error-description">论文导读生成失败，请稍后重试</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>';
+                        } else {
+                            // 网络安全技术论文研读 - 显示完整内容
+                            paperInteractionPanel.innerHTML =
+                                '<div class="paper-tabs">' +
+                                    '<button class="paper-tab active" data-tab="chat">对话</button>' +
+                                    '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                '</div>' +
+                                '<div class="paper-tab-content active" data-content="chat">' +
+                                    '<div class="paper-chat-content">' +
+                                        '<div class="paper-chat-messages">' +
+                                            '<div class="paper-chat-empty">暂无对话内容</div>' +
+                                        '</div>' +
+                                        '<div class="chat-input-container" data-container-mode="fixed">' +
+                                            '<div class="chat-input-wrapper">' +
+                                                '<textarea class="chat-input" placeholder="Enter 发送; Shift + Enter 换行" rows="3"></textarea>' +
+                                                '<div class="chat-input-toolbar">' +
+                                                    '<div class="chat-input-actions">' +
+                                                        '<button class="btn-icon" title="上传文件">📎</button>' +
+                                                    '</div>' +
+                                                    '<button class="btn btn-primary chat-send">' +
+                                                        '<span>发送</span>' +
+                                                    '</button>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-tab-content" data-content="guide">' +
                                 '<div class="paper-guide-content">' +
                                     '<div class="guide-header">' +
                                         '<div class="guide-title">An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices</div>' +
@@ -1568,6 +2052,7 @@
                                     '</div>' +
                                 '</div>' +
                             '</div>';
+                        }
 
                         // 创建可拖拽分隔条
                         var resizer = document.createElement('div');
@@ -1583,9 +2068,9 @@
 
                         // 初始化可拖拽分隔条功能
                         initPaperResizer();
-                        
-                        // 初始化左侧表格标签页切换功能
-                        initQuestionsTableTabs();
+
+                        // 网络安全技术论文研读不需要标签页切换功能（已改为纵向显示）
+                        // initQuestionsTableTabs();
 
                         // 初始化导读下载按钮
                         initGuideDownloadButton();
@@ -2648,9 +3133,9 @@
 
                 // 初始化可拖拽分隔条功能
                 initPaperResizer();
-                
-                // 初始化左侧表格标签页切换功能
-                initQuestionsTableTabs();
+
+                // 网络安全技术论文研读不需要标签页切换功能（已改为纵向显示）
+                // initQuestionsTableTabs();
 
                 // 初始化导读下载按钮
                 initGuideDownloadButton();
