@@ -16,7 +16,8 @@
     "ds:help": "node scripts/update-ds.js help"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "@playwright/test": "^1.57.0",
+    "live-server": "^1.2.2",
+    "playwright": "^1.57.0"
   }
 }
-

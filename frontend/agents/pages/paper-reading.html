@@ -192,26 +192,80 @@
            论文研读详情页布局样式
            ========================================== */
 
+        /* 移除主内容区的背景和边框（仅针对论文研读详情页） */
+        .agent-main-content:has(.paper-reading-detail) {
+            background: none;
+            border: none;
+        }
+
         /* 论文研读详情容器 - 左右分栏布局 */
         .paper-reading-detail {
             display: flex;
             flex: 1;
             min-height: 0;
-            gap: 16px;
+            gap: 0;
             overflow: hidden;
             height: 100%;
         }
 
+        /* 可拖拽的分隔条 */
+        .resizer {
+            width: 16px;
+            cursor: col-resize;
+            flex-shrink: 0;
+            background: transparent;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        /* 分隔条中间的视觉指示线 */
+        .resizer::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: var(--clouditera-neutral-border-secondary);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        /* 鼠标悬停效果 */
+        .resizer:hover {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .resizer:hover::after {
+            background: var(--clouditera-brand-primary);
+            height: 60px;
+            box-shadow: 0 0 8px rgba(41, 140, 255, 0.3);
+        }
+
+        /* 拖拽中的状态 */
+        .resizer.resizing {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .resizer.resizing::after {
+            background: var(--clouditera-brand-primary);
+            height: 100%;
+            box-shadow: 0 0 12px rgba(41, 140, 255, 0.5);
+        }
+
         /* 左侧数据表格面板 */
         .questions-table-panel {
-            flex: 0 0 33.33%;
+            flex: 1;
             display: flex;
             flex-direction: column;
             background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            min-width: 0;
+            min-width: 320px;
+            max-width: 60%;
             height: 100%;
         }
 
@@ -555,15 +609,18 @@
 
         /* 右侧交互面板 */
         .paper-interaction-panel {
-            flex: 0 0 66.67%;
+            width: 800px;
             display: flex;
             flex-direction: column;
             background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            min-width: 0;
+            min-width: 480px;
+            max-width: 1200px;
             height: 100%;
+            flex-shrink: 0;
         }
 
         /* 标签页导航 */
@@ -1301,11 +1358,14 @@
 
         // 初始化
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('[DEBUG] DOMContentLoaded 事件触发');
+
             // 初始化文件上传功能
             initFileUpload();
-            
+
             // 定义 onTaskClick 回调函数
             function handleTaskClick(taskId, taskData) {
+                console.log('[DEBUG] ========== handleTaskClick 被调用 ==========');
                 console.log('[DEBUG] 点击任务:', taskId, taskData);
 
                 try {
@@ -1507,14 +1567,22 @@
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
+                            '</div>';
+
+                        // 创建可拖拽分隔条
+                        var resizer = document.createElement('div');
+                        resizer.className = 'resizer';
 
                         paperReadingDetail.appendChild(questionsTablePanel);
+                        paperReadingDetail.appendChild(resizer);
                         paperReadingDetail.appendChild(paperInteractionPanel);
                         chatArea.appendChild(paperReadingDetail);
 
                         // 初始化标签页切换功能
                         initPaperTabs();
+
+                        // 初始化可拖拽分隔条功能
+                        initPaperResizer();
                         
                         // 初始化左侧表格标签页切换功能
                         initQuestionsTableTabs();
@@ -1546,6 +1614,20 @@
                         }, 100);
 
                         console.log('[DEBUG] 论文研读详情布局已创建并显示');
+
+                        // 确保在所有DOM操作完成后，设置任务项的active状态
+                        setTimeout(function() {
+                            var allTaskItems = document.querySelectorAll('.recent-task-item');
+                            allTaskItems.forEach(function(item) {
+                                var itemTaskName = item.querySelector('.task-name');
+                                if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
+                                    item.classList.add('active');
+                                    console.log('[DEBUG] 设置任务项active状态:', taskName);
+                                } else {
+                                    item.classList.remove('active');
+                                }
+                            });
+                        }, 0);
                     } else {
                         // 其他任务使用原有的对话布局
                         chatArea.innerHTML = '';
@@ -1615,6 +1697,20 @@
                                 chatMessages.scrollTop = chatMessages.scrollHeight;
                             }
                         }, 100);
+
+                        // 确保设置任务项的active状态
+                        setTimeout(function() {
+                            var allTaskItems = document.querySelectorAll('.recent-task-item');
+                            allTaskItems.forEach(function(item) {
+                                var itemTaskName = item.querySelector('.task-name');
+                                if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
+                                    item.classList.add('active');
+                                    console.log('[DEBUG] 设置任务项active状态:', taskName);
+                                } else {
+                                    item.classList.remove('active');
+                                }
+                            });
+                        }, 0);
                     }
                 } catch (error) {
                     console.error('[DEBUG] 错误:', error);
@@ -1709,6 +1805,73 @@
                     var targetContent = document.querySelector('.questions-tab-content[data-table-content="' + targetTab + '"]');
                     if (targetContent) {
                         targetContent.classList.add('active');
+                    }
+                });
+            };
+
+            // 初始化可拖拽分隔条功能（全局函数）
+            window.initPaperResizer = function() {
+                var resizer = document.querySelector('.paper-reading-detail .resizer');
+                var leftPanel = document.querySelector('.questions-table-panel');
+                var rightPanel = document.querySelector('.paper-interaction-panel');
+
+                if (!resizer || !leftPanel || !rightPanel) {
+                    console.warn('未找到可拖拽分隔条或面板元素');
+                    return;
+                }
+
+                // 从 localStorage 读取保存的宽度
+                var savedWidth = localStorage.getItem('paper-interaction-panel-width');
+                if (savedWidth) {
+                    rightPanel.style.width = savedWidth + 'px';
+                }
+
+                var isResizing = false;
+                var startX = 0;
+                var startWidth = 0;
+
+                // 鼠标按下开始拖拽
+                resizer.addEventListener('mousedown', function(e) {
+                    isResizing = true;
+                    startX = e.clientX;
+                    startWidth = parseInt(window.getComputedStyle(rightPanel).width, 10);
+
+                    // 添加拖拽中的样式
+                    resizer.classList.add('resizing');
+                    document.body.style.cursor = 'col-resize';
+                    document.body.style.userSelect = 'none';
+
+                    e.preventDefault();
+                });
+
+                // 鼠标移动调整宽度
+                document.addEventListener('mousemove', function(e) {
+                    if (!isResizing) return;
+
+                    var deltaX = e.clientX - startX;
+                    var newWidth = startWidth - deltaX; // 注意：向左拖动增加右侧宽度，向右拖动减少右侧宽度
+
+                    // 限制最小和最大宽度
+                    var minWidth = 480;
+                    var maxWidth = 1200;
+                    newWidth = Math.max(minWidth, Math.min(maxWidth, newWidth));
+
+                    rightPanel.style.width = newWidth + 'px';
+                });
+
+                // 鼠标松开结束拖拽
+                document.addEventListener('mouseup', function() {
+                    if (isResizing) {
+                        isResizing = false;
+
+                        // 移除拖拽中的样式
+                        resizer.classList.remove('resizing');
+                        document.body.style.cursor = '';
+                        document.body.style.userSelect = '';
+
+                        // 保存当前宽度到 localStorage
+                        var currentWidth = parseInt(window.getComputedStyle(rightPanel).width, 10);
+                        localStorage.setItem('paper-interaction-panel-width', currentWidth);
                     }
                 });
             };
@@ -1971,6 +2134,50 @@
 
             // 绑定近期任务项的点击事件（使用事件委托，确保即使initAgentSidebar重新渲染也能工作）
             bindRecentTaskClickEvents(handleTaskClick);
+
+            // 备用方案：延迟后直接给每个任务项绑定点击事件（防止事件委托失败）
+            setTimeout(function() {
+                console.log('[DEBUG] 执行备用方案：直接绑定点击事件');
+                var allTaskItems = document.querySelectorAll('.recent-task-item');
+                console.log('[DEBUG] 找到任务项数量:', allTaskItems.length);
+
+                allTaskItems.forEach(function(item, index) {
+                    item.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        console.log('[DEBUG] ===== 备用方案点击事件触发 =====');
+                        console.log('[DEBUG] 点击了第', index + 1, '个任务项');
+
+                        var taskName = this.querySelector('.task-name');
+                        if (taskName) {
+                            var taskNameText = taskName.textContent.trim();
+                            console.log('[DEBUG] 任务名称:', taskNameText);
+
+                            var taskData = mockTasks.find(function(task) {
+                                return task.name === taskNameText;
+                            });
+
+                            if (!taskData) {
+                                var statusIcon = this.querySelector('.task-status-icon');
+                                var status = statusIcon && statusIcon.classList.contains('completed') ? 'completed' :
+                                             statusIcon && statusIcon.classList.contains('running') ? 'running' : 'pending';
+                                taskData = {
+                                    id: String(mockTasks.length + 1),
+                                    name: taskNameText,
+                                    status: status,
+                                    active: false
+                                };
+                            }
+
+                            handleTaskClick(taskData.id, taskData);
+                        }
+                    });
+                });
+
+                console.log('[DEBUG] 备用方案绑定完成');
+            }, 500);
+
             
             // 如果 initAgentSidebar 不存在，手动绑定新任务按钮
             if (typeof initAgentSidebar !== 'function') {
@@ -2047,33 +2254,36 @@
         });
 
         // 绑定近期任务项的点击事件（使用事件委托）
+        var recentTasksEventBound = false; // 防止重复绑定的标记
         function bindRecentTaskClickEvents(onTaskClickHandler) {
-            // 使用事件委托，在父容器上绑定事件，这样即使HTML被重新渲染也能工作
-            var recentTasksList = document.querySelector('.recent-tasks-list');
-            if (!recentTasksList) {
-                console.warn('[DEBUG] 未找到近期任务列表容器，尝试延迟绑定');
-                // 延迟绑定，等待DOM完全加载
-                setTimeout(function() {
-                    bindRecentTaskClickEvents(onTaskClickHandler);
-                }, 100);
+            // 如果已经绑定过，直接返回
+            if (recentTasksEventBound) {
+                console.log('[DEBUG] 近期任务点击事件已绑定，跳过重复绑定');
                 return;
             }
-            
-            // 移除之前可能绑定的事件监听器（通过克隆节点来移除）
-            var newRecentTasksList = recentTasksList.cloneNode(true);
-            recentTasksList.parentNode.replaceChild(newRecentTasksList, recentTasksList);
-            
-            // 在父容器上绑定事件委托
-            newRecentTasksList.addEventListener('click', function(e) {
+
+            // 使用事件委托，在document上绑定事件，确保无论HTML如何变化都能工作
+            console.log('[DEBUG] 开始绑定近期任务点击事件');
+
+            document.addEventListener('click', function(e) {
                 // 查找被点击的任务项
                 var taskItem = e.target.closest('.recent-task-item');
+
+                // 只在点击任务项相关元素时输出调试信息
+                if (e.target.classList.contains('task-name') ||
+                    e.target.classList.contains('task-status-icon') ||
+                    e.target.classList.contains('recent-task-item') ||
+                    e.target.closest('.recent-tasks-list')) {
+                    console.log('[DEBUG] 点击了近期任务区域, target:', e.target, 'taskItem:', taskItem);
+                }
+
                 if (!taskItem) {
                     return;
                 }
-                
+
                 e.preventDefault();
                 e.stopPropagation();
-                
+
                 var taskName = taskItem.querySelector('.task-name');
                 if (!taskName) {
                     console.error('[DEBUG] 未找到任务名称元素');
@@ -2081,40 +2291,45 @@
                 }
                 var taskNameText = taskName.textContent.trim();
                 console.log('[DEBUG] 点击任务:', taskNameText);
-                
+
                 // 移除所有任务项的active状态
                 var allItems = document.querySelectorAll('.recent-task-item');
-                allItems.forEach(function(taskItem) {
-                    taskItem.classList.remove('active');
+                allItems.forEach(function(item) {
+                    item.classList.remove('active');
                 });
-                
+
                 // 为当前点击的任务项添加active状态
                 taskItem.classList.add('active');
-                
+
                 // 查找对应的任务数据
                 var taskData = mockTasks.find(function(task) {
                     return task.name === taskNameText;
                 });
-                
+
                 if (!taskData) {
                     // 如果找不到，创建一个默认的任务数据
                     var statusIcon = taskItem.querySelector('.task-status-icon');
-                    var status = statusIcon && statusIcon.classList.contains('completed') ? 'completed' : 
+                    var status = statusIcon && statusIcon.classList.contains('completed') ? 'completed' :
                                  statusIcon && statusIcon.classList.contains('running') ? 'running' : 'pending';
-                    taskData = { 
-                        id: String(mockTasks.length + 1), 
-                        name: taskNameText, 
+                    taskData = {
+                        id: String(mockTasks.length + 1),
+                        name: taskNameText,
                         status: status,
                         active: false
                     };
                 }
-                
+
+                console.log('[DEBUG] 准备调用handleTaskClick，taskData:', taskData);
+
                 // 调用 onTaskClick 回调（如果存在）
                 if (onTaskClickHandler && typeof onTaskClickHandler === 'function') {
                     onTaskClickHandler(taskData.id, taskData);
+                } else {
+                    console.error('[DEBUG] onTaskClickHandler 不是函数或不存在:', onTaskClickHandler);
                 }
             });
-            
+
+            recentTasksEventBound = true;
             console.log('[DEBUG] 近期任务点击事件已绑定（事件委托模式）');
         }
 
@@ -2419,12 +2634,20 @@
                         '</div>' +
                     '</div>';
 
+                // 创建可拖拽分隔条
+                var resizer = document.createElement('div');
+                resizer.className = 'resizer';
+
                 paperReadingDetail.appendChild(questionsTablePanel);
+                paperReadingDetail.appendChild(resizer);
                 paperReadingDetail.appendChild(paperInteractionPanel);
                 chatArea.appendChild(paperReadingDetail);
 
                 // 初始化标签页切换功能
                 initPaperTabs();
+
+                // 初始化可拖拽分隔条功能
+                initPaperResizer();
                 
                 // 初始化左侧表格标签页切换功能
                 initQuestionsTableTabs();

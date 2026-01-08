@@ -256,6 +256,11 @@
                     </form>
             </aside>
 
+            <!-- 拖拽分隔条 -->
+            <div class="panel-resizer" id="panelResizer">
+                <div class="panel-resizer-handle"></div>
+            </div>
+
             <!-- 右侧：对话区域 -->
             <div class="phishing-chat-panel">
                     <!-- 警告横幅 -->
@@ -498,7 +503,89 @@
                     // 模拟发送，实际应该调用API
                 }
             });
+
+            // 初始化拖拽分隔条
+            initPanelResizer();
         });
+
+        // ==========================================
+        // 拖拽分隔条功能
+        // ==========================================
+        function initPanelResizer() {
+            const resizer = document.getElementById('panelResizer');
+            const configPanel = document.querySelector('.phishing-config-panel');
+            const chatPanel = document.querySelector('.phishing-chat-panel');
+
+            if (!resizer || !configPanel || !chatPanel) {
+                console.warn('拖拽分隔条初始化失败：未找到必要元素');
+                return;
+            }
+
+            let isResizing = false;
+            let startX = 0;
+            let startWidth = 0;
+
+            // 从 localStorage 读取保存的宽度
+            const savedWidth = localStorage.getItem('phishing-config-panel-width');
+            if (savedWidth) {
+                const width = parseInt(savedWidth, 10);
+                if (width >= 300 && width <= 600) {
+                    configPanel.style.flexBasis = width + 'px';
+                }
+            }
+
+            // 鼠标按下开始拖拽
+            resizer.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                isResizing = true;
+                startX = e.clientX;
+                startWidth = configPanel.offsetWidth;
+
+                // 添加拖拽状态类
+                resizer.classList.add('resizing');
+                document.body.classList.add('resizing');
+            });
+
+            // 鼠标移动时调整宽度
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+
+                const deltaX = e.clientX - startX;
+                const newWidth = startWidth + deltaX;
+
+                // 限制最小和最大宽度
+                const minWidth = 300;
+                const maxWidth = 600;
+                const containerWidth = configPanel.parentElement.offsetWidth;
+                const chatMinWidth = 400;
+                const maxAllowedWidth = containerWidth - chatMinWidth - 24 - 24 - 4; // 减去间距和分隔条
+
+                const finalWidth = Math.min(
+                    Math.max(newWidth, minWidth),
+                    Math.min(maxWidth, maxAllowedWidth)
+                );
+
+                configPanel.style.flexBasis = finalWidth + 'px';
+            });
+
+            // 鼠标松开结束拖拽
+            document.addEventListener('mouseup', function() {
+                if (!isResizing) return;
+
+                isResizing = false;
+                resizer.classList.remove('resizing');
+                document.body.classList.remove('resizing');
+
+                // 保存当前宽度到 localStorage
+                const currentWidth = configPanel.offsetWidth;
+                localStorage.setItem('phishing-config-panel-width', currentWidth);
+            });
+
+            // 防止拖拽时选中文本
+            resizer.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+            });
+        }
 
         // 显示全部任务列表
         function showAllTasks() {
