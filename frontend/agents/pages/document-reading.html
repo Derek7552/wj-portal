@@ -192,26 +192,79 @@
            文档速读详情页布局样式
            ========================================== */
 
+        /* 移除主内容区的背景和边框（仅针对文档速读详情页） */
+        .agent-main-content:has(.paper-reading-detail) {
+            background: none;
+            border: none;
+        }
+
         /* 文档速读详情容器 - 左右分栏布局 */
         .paper-reading-detail {
             display: flex;
             flex: 1;
             min-height: 0;
-            gap: 16px;
+            gap: 0;
             overflow: hidden;
             height: 100%;
         }
 
+        /* 可拖拽的分隔条 */
+        .resizer {
+            width: 16px;
+            cursor: col-resize;
+            flex-shrink: 0;
+            background: transparent;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        /* 分隔条中间的视觉指示线 */
+        .resizer::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 40px;
+            background: var(--clouditera-neutral-border-secondary);
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        /* 鼠标悬停效果 */
+        .resizer:hover {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .resizer:hover::after {
+            background: var(--clouditera-brand-primary);
+            height: 60px;
+            box-shadow: 0 0 8px rgba(41, 140, 255, 0.3);
+        }
+
+        /* 拖拽中的状态 */
+        .resizer.resizing {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .resizer.resizing::after {
+            background: var(--clouditera-brand-primary);
+            height: 100%;
+            box-shadow: 0 0 12px rgba(41, 140, 255, 0.5);
+        }
+
         /* 左侧数据表格面板 */
         .questions-table-panel {
-            flex: 0 0 33.33%;
+            flex: 2;
             display: flex;
             flex-direction: column;
             background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
             border-radius: 8px;
-            overflow: hidden;
+            overflow-y: auto;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            min-width: 0;
+            min-width: 320px;
             height: 100%;
         }
 
@@ -313,6 +366,272 @@
             color: var(--clouditera-neutral-text-secondary);
             font-size: 14px;
             padding: 24px;
+        }
+
+        /* 文档速读内容区 - 垂直布局 */
+        .document-reading-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 阅读区块 */
+        .reading-section {
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .reading-section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-primary);
+            margin: 0 0 16px 0;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+        }
+
+        /* 可折叠标题 */
+        .reading-section-title.collapsible {
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.2s;
+        }
+
+        .reading-section-title.collapsible:hover {
+            color: var(--clouditera-brand-primary);
+        }
+
+        .section-icon {
+            display: inline-block;
+            transition: transform 0.3s ease;
+            font-size: 12px;
+        }
+
+        .reading-section-title.collapsible.collapsed .section-icon {
+            transform: rotate(-90deg);
+        }
+
+        /* 可折叠内容 */
+        .reading-section-collapsible-content {
+            display: none;
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .reading-section-collapsible-content.active {
+            display: block;
+            opacity: 1;
+            max-height: none;
+        }
+
+        /* 基本信息项 */
+        .reading-info-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            gap: 16px;
+        }
+
+        .reading-info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .reading-info-label {
+            flex: 0 0 80px;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-secondary);
+            font-weight: 500;
+        }
+
+        .reading-info-value {
+            flex: 1;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            word-break: break-word;
+        }
+
+        /* 统计网格 */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stats-item {
+            background: var(--clouditera-neutral-background-secondary);
+            padding: 12px;
+            border-radius: 6px;
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+        }
+
+        .stats-label {
+            font-size: 12px;
+            color: var(--clouditera-neutral-text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .stats-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-primary);
+        }
+
+        .stats-value.stats-success {
+            color: var(--clouditera-semantic-success);
+        }
+
+        .stats-value.stats-warning {
+            color: var(--clouditera-semantic-warning);
+        }
+
+        .stats-value.stats-info {
+            color: var(--clouditera-brand-primary);
+        }
+
+        /* 高亮信息框 */
+        .highlight-item {
+            background: var(--clouditera-palette-blue-0);
+            border-left: 3px solid var(--clouditera-brand-primary);
+            padding: 12px 16px;
+            margin-bottom: 12px;
+            border-radius: 4px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .highlight-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .highlight-icon {
+            flex-shrink: 0;
+            font-size: 18px;
+            line-height: 1.5;
+        }
+
+        .highlight-content {
+            flex: 1;
+        }
+
+        .highlight-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--clouditera-brand-primary);
+            margin-bottom: 6px;
+        }
+
+        .highlight-text {
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            line-height: 1.6;
+        }
+
+        /* 文档结构列表 */
+        .structure-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .structure-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            transition: background 0.2s;
+        }
+
+        .structure-item:hover {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .structure-item:last-child {
+            border-bottom: none;
+        }
+
+        .structure-title {
+            flex: 1;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .structure-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            height: 24px;
+            background: var(--clouditera-palette-blue-1);
+            color: var(--clouditera-brand-primary);
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 0 6px;
+            flex-shrink: 0;
+        }
+
+        .structure-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 14px;
+            color: var(--clouditera-neutral-text-primary);
+        }
+
+        .structure-pages {
+            font-size: 13px;
+            color: var(--clouditera-neutral-text-secondary);
+            padding: 4px 8px;
+            background: var(--clouditera-neutral-background-secondary);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        /* 紧凑型表格 */
+        .compact-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .compact-table thead {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .compact-table th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: var(--clouditera-neutral-text-primary);
+            border-bottom: 1px solid var(--clouditera-neutral-border-primary);
+        }
+
+        .compact-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
+            color: var(--clouditera-neutral-text-primary);
+        }
+
+        .compact-table tbody tr:hover {
+            background: var(--clouditera-neutral-background-secondary);
+        }
+
+        .compact-table tbody tr:last-child td {
+            border-bottom: none;
         }
 
         /* PDF查看器工具栏 */
@@ -555,14 +874,16 @@
 
         /* 右侧交互面板 */
         .paper-interaction-panel {
-            flex: 0 0 66.67%;
+            flex: 1;
             display: flex;
             flex-direction: column;
             background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            min-width: 0;
+            min-width: 480px;
+            max-width: 800px;
             height: 100%;
         }
 
@@ -623,7 +944,7 @@
             flex: 1;
             overflow-y: auto;
             padding: 16px;
-            background: var(--clouditera-neutral-background-primary);
+            background: var(--clouditera-neutral-background-white);
         }
 
         .paper-chat-empty {
@@ -1356,34 +1677,222 @@
                             '</tr>';
                         }).join('');
                         
-                        questionsTablePanel.innerHTML = 
-                            '<div class="questions-tabs">' +
-                                '<button class="questions-tab active" data-table-tab="questions">Questions</button>' +
-                                '<button class="questions-tab" data-table-tab="document_stats">Document_Stats</button>' +
-                                '<button class="questions-tab" data-table-tab="summary">Summary</button>' +
-                            '</div>' +
-                            '<div class="questions-tab-content active" data-table-content="questions">' +
-                                '<div class="questions-table-container">' +
-                                    '<table class="questions-table">' +
-                                        '<thead>' +
-                                            '<tr>' +
-                                                '<th>sequence</th>' +
-                                                '<th>rag_doc_id</th>' +
-                                                '<th>question_index</th>' +
-                                                '<th>question</th>' +
-                                            '</tr>' +
-                                        '</thead>' +
-                                        '<tbody>' +
-                                            tableRowsHtml +
-                                        '</tbody>' +
-                                    '</table>' +
+                        questionsTablePanel.innerHTML =
+                            '<div class="document-reading-content">' +
+                                // 1. 任务基本信息
+                                '<div class="reading-section">' +
+                                    '<h2 class="reading-section-title">任务基本信息</h2>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">任务名称</div>' +
+                                        '<div class="reading-info-value">安全技术白皮书速读</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">目标类型</div>' +
+                                        '<div class="reading-info-value">代码安全检测</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">目标文件</div>' +
+                                        '<div class="reading-info-value">/src/main/java/com/example/SecurityService.java</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">检测规则</div>' +
+                                        '<div class="reading-info-value">OWASP Top 10, CWE Top 25</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">检测引擎</div>' +
+                                        '<div class="reading-info-value">CodeQL v2.15.3</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">负责人</div>' +
+                                        '<div class="reading-info-value">张三</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">最近检测</div>' +
+                                        '<div class="reading-info-value">2026-01-08 14:25:30</div>' +
+                                    '</div>' +
+                                    '<div class="reading-info-item">' +
+                                        '<div class="reading-info-label">创建时间</div>' +
+                                        '<div class="reading-info-value">2026-01-05 09:00:00</div>' +
+                                    '</div>' +
                                 '</div>' +
-                            '</div>' +
-                            '<div class="questions-tab-content" data-table-content="document_stats">' +
-                                '<div class="questions-table-empty">Document Stats 内容加载中...</div>' +
-                            '</div>' +
-                            '<div class="questions-tab-content" data-table-content="summary">' +
-                                '<div class="questions-table-empty">Summary 内容加载中...</div>' +
+
+                                // 2. 缺陷等级分布概览
+                                '<div class="reading-section">' +
+                                    '<h2 class="reading-section-title">缺陷等级分布概览</h2>' +
+                                    '<div class="stats-grid">' +
+                                        '<div class="stats-item">' +
+                                            '<div class="stats-label">高危缺陷</div>' +
+                                            '<div class="stats-value" style="color: var(--clouditera-semantic-error);">12 个</div>' +
+                                        '</div>' +
+                                        '<div class="stats-item">' +
+                                            '<div class="stats-label">中危缺陷</div>' +
+                                            '<div class="stats-value stats-warning">28 个</div>' +
+                                        '</div>' +
+                                        '<div class="stats-item">' +
+                                            '<div class="stats-label">低危缺陷</div>' +
+                                            '<div class="stats-value stats-info">45 个</div>' +
+                                        '</div>' +
+                                        '<div class="stats-item">' +
+                                            '<div class="stats-label">提示信息</div>' +
+                                            '<div class="stats-value" style="color: var(--clouditera-neutral-text-secondary);">67 个</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+
+                                // 3. 检测规则分布概览
+                                '<div class="reading-section">' +
+                                    '<h2 class="reading-section-title collapsible" data-section="detection-rules">' +
+                                        '<span class="section-icon">▼</span> 检测规则分布概览' +
+                                    '</h2>' +
+                                    '<div class="reading-section-collapsible-content active" data-content="detection-rules">' +
+                                        '<div class="questions-table-container">' +
+                                            '<table class="questions-table">' +
+                                                '<thead>' +
+                                                    '<tr>' +
+                                                        '<th style="width: 80px;">序号</th>' +
+                                                        '<th>检测规则</th>' +
+                                                        '<th style="width: 100px;">缺陷数量</th>' +
+                                                    '</tr>' +
+                                                '</thead>' +
+                                                '<tbody>' +
+                                                    '<tr>' +
+                                                        '<td>1</td>' +
+                                                        '<td>SQL 注入漏洞检测</td>' +
+                                                        '<td>8</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>2</td>' +
+                                                        '<td>跨站脚本攻击（XSS）</td>' +
+                                                        '<td>15</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>3</td>' +
+                                                        '<td>不安全的反序列化</td>' +
+                                                        '<td>5</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>4</td>' +
+                                                        '<td>身份验证缺陷</td>' +
+                                                        '<td>12</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>5</td>' +
+                                                        '<td>敏感数据暴露</td>' +
+                                                        '<td>18</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>6</td>' +
+                                                        '<td>访问控制缺陷</td>' +
+                                                        '<td>10</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>7</td>' +
+                                                        '<td>安全配置错误</td>' +
+                                                        '<td>22</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>8</td>' +
+                                                        '<td>使用含已知漏洞的组件</td>' +
+                                                        '<td>14</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>9</td>' +
+                                                        '<td>不足的日志记录和监控</td>' +
+                                                        '<td>6</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>10</td>' +
+                                                        '<td>服务端请求伪造（SSRF）</td>' +
+                                                        '<td>3</td>' +
+                                                    '</tr>' +
+                                                '</tbody>' +
+                                            '</table>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
+
+                                // 4. CWE规则缺陷分布概览
+                                '<div class="reading-section">' +
+                                    '<h2 class="reading-section-title collapsible" data-section="cwe-rules">' +
+                                        '<span class="section-icon">▼</span> CWE规则缺陷分布概览' +
+                                    '</h2>' +
+                                    '<div class="reading-section-collapsible-content active" data-content="cwe-rules">' +
+                                        '<div class="questions-table-container">' +
+                                            '<table class="questions-table">' +
+                                                '<thead>' +
+                                                    '<tr>' +
+                                                        '<th style="width: 80px;">序号</th>' +
+                                                        '<th style="width: 120px;">CWE 编号</th>' +
+                                                        '<th>CWE 规则名称</th>' +
+                                                        '<th style="width: 100px;">缺陷数量</th>' +
+                                                    '</tr>' +
+                                                '</thead>' +
+                                                '<tbody>' +
+                                                    '<tr>' +
+                                                        '<td>1</td>' +
+                                                        '<td>CWE-89</td>' +
+                                                        '<td>SQL 命令中使用的特殊元素转义处理不恰当（SQL 注入）</td>' +
+                                                        '<td>8</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>2</td>' +
+                                                        '<td>CWE-79</td>' +
+                                                        '<td>在 Web 页面生成时对输入的转义处理不恰当（跨站脚本）</td>' +
+                                                        '<td>15</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>3</td>' +
+                                                        '<td>CWE-502</td>' +
+                                                        '<td>不可信数据的反序列化</td>' +
+                                                        '<td>5</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>4</td>' +
+                                                        '<td>CWE-287</td>' +
+                                                        '<td>身份验证不恰当</td>' +
+                                                        '<td>12</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>5</td>' +
+                                                        '<td>CWE-798</td>' +
+                                                        '<td>使用硬编码的凭证</td>' +
+                                                        '<td>18</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>6</td>' +
+                                                        '<td>CWE-862</td>' +
+                                                        '<td>缺少授权检查</td>' +
+                                                        '<td>10</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>7</td>' +
+                                                        '<td>CWE-22</td>' +
+                                                        '<td>路径名的限制不恰当（路径遍历）</td>' +
+                                                        '<td>7</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>8</td>' +
+                                                        '<td>CWE-352</td>' +
+                                                        '<td>跨站请求伪造（CSRF）</td>' +
+                                                        '<td>9</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>9</td>' +
+                                                        '<td>CWE-434</td>' +
+                                                        '<td>危险类型文件的不加限制上传</td>' +
+                                                        '<td>4</td>' +
+                                                    '</tr>' +
+                                                    '<tr>' +
+                                                        '<td>10</td>' +
+                                                        '<td>CWE-918</td>' +
+                                                        '<td>服务端请求伪造（SSRF）</td>' +
+                                                        '<td>3</td>' +
+                                                    '</tr>' +
+                                                '</tbody>' +
+                                            '</table>' +
+                                        '</div>' +
+                                    '</div>' +
+                                '</div>' +
                             '</div>';
 
                         // 右侧交互面板
@@ -1417,110 +1926,43 @@
                             '<div class="paper-tab-content" data-content="guide">' +
                                 '<div class="paper-guide-content">' +
                                     '<div class="guide-header">' +
-                                        '<div class="guide-title">An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices</div>' +
+                                        '<div class="guide-title">核心内容</div>' +
                                         '<button class="guide-download-btn" id="guideDownloadBtn">' +
                                             '<span>⬇</span>' +
                                             '<span>下载</span>' +
                                         '</button>' +
                                     '</div>' +
-                                    '<div class="guide-section guide-basic-info">' +
-                                        '<div class="guide-basic-item">' +
-                                            '<div class="guide-label">基本信息</div>' +
-                                            '<div class="guide-value" style="margin-top: 12px;">' +
-                                                '<div style="margin-bottom: 8px;"><strong>标题翻译：</strong>一种高效的工业物联网设备图像加密方案</div>' +
-                                                '<div><strong>作者：</strong>Mingwu Zhang, Bo Peng, Yu Chen</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="guide-section guide-abstract">' +
-                                        '<div class="guide-abstract-original">' +
-                                            '<div class="guide-label sub-label">原文摘要</div>' +
-                                            '<div class="guide-abstract-content" style="margin-top: 12px;">This paper proposes an efficient image encryption algorithm for industrial Internet-of-Things (IoT) devices. The scheme uses initial conditions from a hyperchaotic Chen system computed by SHA-512, pixel scrambling, image encryption, and cyclic shift to permute the plain image, and an XOR operation to improve correlation. The scheme is stated to be efficient and practical for sensitive image protections in Internet of Vehicles (IoVs) and Wireless Body Area Networks (WBAN).</div>' +
-                                        '</div>' +
-                                        '<div class="guide-abstract-translation" style="margin-top: 16px;">' +
-                                            '<div class="guide-label trans-label">摘要翻译</div>' +
-                                            '<div class="guide-abstract-content" style="margin-top: 12px;">本文提出了一种高效的工业物联网（IoT）设备图像加密算法。该方案使用SHA-512计算的超混沌Chen系统的初始条件、像素置乱、图像加密和循环移位来置换明文图像，并使用XOR运算来提高相关性。该方案对于车联网（IoVs）和无线体域网络（WBAN）等敏感图像保护具有高效性和实用性。</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="guide-section guide-rating">' +
-                                        '<div class="guide-label rating-label">内容质量评分</div>' +
-                                        '<div style="margin-top: 16px;">' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">总体评分</div>' +
-                                                    '<div class="guide-rating-description">综合评估论文的整体质量和价值</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">社会价值</div>' +
-                                                    '<div class="guide-rating-description">论文提出了一种高效的工业物联网设备图像加密算法，具有实际应用价值</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">原创性与创新性</div>' +
-                                                    '<div class="guide-rating-description">论文提出了一种基于超混沌系统的创新图像加密算法</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">结构与逻辑性</div>' +
-                                                    '<div class="guide-rating-description">论文结构完整清晰，推理严谨，结论有据可依</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">内容撰写质量</div>' +
-                                                    '<div class="guide-rating-description">语言流畅，专业术语准确，摘要和标题精确，图表清晰</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                            '<div class="guide-rating-item">' +
-                                                '<div style="flex: 1;">' +
-                                                    '<div class="guide-rating-label">背景时效性</div>' +
-                                                    '<div class="guide-rating-description">研究的问题具有实际意义，符合当前技术热点</div>' +
-                                                '</div>' +
-                                                '<div class="guide-rating-score">6</div>' +
-                                            '</div>' +
-                                        '</div>' +
-                                    '</div>' +
-                                    '<div class="guide-section guide-keywords">' +
-                                        '<div class="guide-label keyword-label">研究主题关键词</div>' +
-                                        '<div class="guide-keyword-list" style="margin-top: 16px;">' +
-                                            '<div class="guide-keyword-item">' +
-                                                '<div class="guide-keyword-label">关键词1：</div>' +
-                                                '<div class="guide-keyword-value">Internet-of-Things (物联网)</div>' +
-                                            '</div>' +
-                                            '<div class="guide-keyword-item">' +
-                                                '<div class="guide-keyword-label">关键词2：</div>' +
-                                                '<div class="guide-keyword-value">hyperchaotic system (超混沌系统)</div>' +
-                                            '</div>' +
-                                            '<div class="guide-keyword-item">' +
-                                                '<div class="guide-keyword-label">关键词3：</div>' +
-                                                '<div class="guide-keyword-value">SHA-512</div>' +
-                                            '</div>' +
+                                    '<div class="guide-section guide-core-content">' +
+                                        '<div class="guide-content-text" style="font-size: 14px; line-height: 1.8; color: var(--clouditera-neutral-text-primary);">' +
+                                            '<p style="margin: 0 0 16px 0; text-indent: 2em;">该 CWE TOP 25 缺陷报告详细列出了四个高危缺陷，包括文件信息、缺陷等级、类型、路径、描述、潜在风险、成因分析及修复建议。</p>' +
+                                            '<p style="margin: 0 0 16px 0; text-indent: 2em;">其中，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-416.java:109</code> 和 <code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:54、83、27</code> 的缺陷类型分别为 <strong style="color: var(--clouditera-semantic-error);">CWE-416</strong>（后续使用已释放的内存）和 <strong style="color: var(--clouditera-semantic-error);">CWE-862</strong>（缺失授权）。</p>' +
+                                            '<p style="margin: 0 0 16px 0; text-indent: 2em;">报告指出，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:54</code> 和 <code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">27</code> 的缺陷可能导致未授权访问敏感数据或功能，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:83</code> 的缺陷并不存在，不需要修复。</p>' +
+                                            '<p style="margin: 0 0 16px 0; text-indent: 2em;">报告建议实施明确的授权检查机制，遵循最小权限原则，使用框架提供的安全注解，对敏感端点进行角色/权限验证。</p>' +
                                         '</div>' +
                                     '</div>' +
                                 '</div>' +
-                            '</div>' +
+                            '</div>';
+
+                        // 创建可拖拽的分隔条
+                        var resizer = document.createElement('div');
+                        resizer.className = 'resizer';
 
                         paperReadingDetail.appendChild(questionsTablePanel);
+                        paperReadingDetail.appendChild(resizer);
                         paperReadingDetail.appendChild(paperInteractionPanel);
                         chatArea.appendChild(paperReadingDetail);
 
                         // 初始化标签页切换功能
                         initPaperTabs();
-                        
+
                         // 初始化左侧表格标签页切换功能
                         initQuestionsTableTabs();
 
                         // 初始化导读下载按钮
                         initGuideDownloadButton();
+
+                        // 初始化拖拽分隔条功能
+                        initResizer(resizer, questionsTablePanel, paperInteractionPanel);
                         
                         // 清理可能出现的 [object HTMLDivElement] 文本
                         setTimeout(function() {
@@ -1709,6 +2151,36 @@
                     var targetContent = document.querySelector('.questions-tab-content[data-table-content="' + targetTab + '"]');
                     if (targetContent) {
                         targetContent.classList.add('active');
+                    }
+                });
+            };
+
+            // 初始化可折叠区块功能
+            window.initCollapsibleSections = function() {
+                // 使用事件委托处理所有可折叠标题的点击
+                var documentReadingContent = document.querySelector('.document-reading-content');
+                if (!documentReadingContent) {
+                    return;
+                }
+
+                documentReadingContent.addEventListener('click', function(e) {
+                    var collapsibleTitle = e.target.closest('.reading-section-title.collapsible');
+                    if (!collapsibleTitle) {
+                        return;
+                    }
+
+                    var sectionName = collapsibleTitle.getAttribute('data-section');
+                    if (!sectionName) {
+                        return;
+                    }
+
+                    // 切换折叠状态
+                    collapsibleTitle.classList.toggle('collapsed');
+
+                    // 找到对应的内容区域并切换显示
+                    var content = document.querySelector('.reading-section-collapsible-content[data-content="' + sectionName + '"]');
+                    if (content) {
+                        content.classList.toggle('active');
                     }
                 });
             };
@@ -2327,111 +2799,47 @@
                     '<div class="paper-tab-content" data-content="guide">' +
                         '<div class="paper-guide-content">' +
                             '<div class="guide-header">' +
-                                '<div class="guide-title">An Efficient Image Encryption Scheme for Industrial Internet-of-Things Devices</div>' +
+                                '<div class="guide-title">核心内容</div>' +
                                 '<button class="guide-download-btn" id="guideDownloadBtn">' +
                                     '<span>⬇</span>' +
                                     '<span>下载</span>' +
                                 '</button>' +
                             '</div>' +
-                            '<div class="guide-section guide-basic-info">' +
-                                '<div class="guide-basic-item">' +
-                                    '<div class="guide-label">基本信息</div>' +
-                                    '<div class="guide-value" style="margin-top: 12px;">' +
-                                        '<div style="margin-bottom: 8px;"><strong>标题翻译：</strong>一种高效的工业物联网设备图像加密方案</div>' +
-                                        '<div><strong>作者：</strong>Mingwu Zhang, Bo Peng, Yu Chen</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="guide-section guide-abstract">' +
-                                '<div class="guide-abstract-original">' +
-                                    '<div class="guide-label sub-label">原文摘要</div>' +
-                                    '<div class="guide-abstract-content" style="margin-top: 12px;">This paper proposes an efficient image encryption algorithm for industrial Internet-of-Things (IoT) devices. The scheme uses initial conditions from a hyperchaotic Chen system computed by SHA-512, pixel scrambling, image encryption, and cyclic shift to permute the plain image, and an XOR operation to improve correlation. The scheme is stated to be efficient and practical for sensitive image protections in Internet of Vehicles (IoVs) and Wireless Body Area Networks (WBAN).</div>' +
-                                '</div>' +
-                                '<div class="guide-abstract-translation" style="margin-top: 16px;">' +
-                                    '<div class="guide-label trans-label">摘要翻译</div>' +
-                                    '<div class="guide-abstract-content" style="margin-top: 12px;">本文提出了一种高效的工业物联网（IoT）设备图像加密算法。该方案使用SHA-512计算的超混沌Chen系统的初始条件、像素置乱、图像加密和循环移位来置换明文图像，并使用XOR运算来提高相关性。该方案对于车联网（IoVs）和无线体域网络（WBAN）等敏感图像保护具有高效性和实用性。</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="guide-section guide-rating">' +
-                                '<div class="guide-label rating-label">内容质量评分</div>' +
-                                '<div style="margin-top: 16px;">' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">总体评分</div>' +
-                                            '<div class="guide-rating-description">综合评估论文的整体质量和价值</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">社会价值</div>' +
-                                            '<div class="guide-rating-description">论文提出了一种高效的工业物联网设备图像加密算法，具有实际应用价值</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">原创性与创新性</div>' +
-                                            '<div class="guide-rating-description">论文提出了一种基于超混沌系统的创新图像加密算法</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">结构与逻辑性</div>' +
-                                            '<div class="guide-rating-description">论文结构完整清晰，推理严谨，结论有据可依</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">内容撰写质量</div>' +
-                                            '<div class="guide-rating-description">语言流畅，专业术语准确，摘要和标题精确，图表清晰</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                    '<div class="guide-rating-item">' +
-                                        '<div style="flex: 1;">' +
-                                            '<div class="guide-rating-label">背景时效性</div>' +
-                                            '<div class="guide-rating-description">研究的问题具有实际意义，符合当前技术热点</div>' +
-                                        '</div>' +
-                                        '<div class="guide-rating-score">6</div>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>' +
-                            '<div class="guide-section guide-keywords">' +
-                                '<div class="guide-label keyword-label">研究主题关键词</div>' +
-                                '<div class="guide-keyword-list" style="margin-top: 16px;">' +
-                                    '<div class="guide-keyword-item">' +
-                                        '<div class="guide-keyword-label">关键词1：</div>' +
-                                        '<div class="guide-keyword-value">Internet-of-Things (物联网)</div>' +
-                                    '</div>' +
-                                    '<div class="guide-keyword-item">' +
-                                        '<div class="guide-keyword-label">关键词2：</div>' +
-                                        '<div class="guide-keyword-value">hyperchaotic system (超混沌系统)</div>' +
-                                    '</div>' +
-                                    '<div class="guide-keyword-item">' +
-                                        '<div class="guide-keyword-label">关键词3：</div>' +
-                                        '<div class="guide-keyword-value">SHA-512</div>' +
-                                    '</div>' +
+                            '<div class="guide-section guide-core-content">' +
+                                '<div class="guide-content-text" style="font-size: 14px; line-height: 1.8; color: var(--clouditera-neutral-text-primary);">' +
+                                    '<p style="margin: 0 0 16px 0; text-indent: 2em;">该 CWE TOP 25 缺陷报告详细列出了四个高危缺陷，包括文件信息、缺陷等级、类型、路径、描述、潜在风险、成因分析及修复建议。</p>' +
+                                    '<p style="margin: 0 0 16px 0; text-indent: 2em;">其中，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-416.java:109</code> 和 <code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:54、83、27</code> 的缺陷类型分别为 <strong style="color: var(--clouditera-semantic-error);">CWE-416</strong>（后续使用已释放的内存）和 <strong style="color: var(--clouditera-semantic-error);">CWE-862</strong>（缺失授权）。</p>' +
+                                    '<p style="margin: 0 0 16px 0; text-indent: 2em;">报告指出，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:54</code> 和 <code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">27</code> 的缺陷可能导致未授权访问敏感数据或功能，<code style="padding: 2px 6px; background: var(--clouditera-neutral-background-secondary); border-radius: 4px; font-family: monospace; font-size: 13px;">cwe-862.java:83</code> 的缺陷并不存在，不需要修复。</p>' +
+                                    '<p style="margin: 0 0 16px 0; text-indent: 2em;">报告建议实施明确的授权检查机制，遵循最小权限原则，使用框架提供的安全注解，对敏感端点进行角色/权限验证。</p>' +
                                 '</div>' +
                             '</div>' +
                         '</div>' +
                     '</div>';
 
+                // 创建可拖拽的分隔条
+                var resizer = document.createElement('div');
+                resizer.className = 'resizer';
+
                 paperReadingDetail.appendChild(questionsTablePanel);
+                paperReadingDetail.appendChild(resizer);
                 paperReadingDetail.appendChild(paperInteractionPanel);
                 chatArea.appendChild(paperReadingDetail);
 
                 // 初始化标签页切换功能
                 initPaperTabs();
-                
+
                 // 初始化左侧表格标签页切换功能
                 initQuestionsTableTabs();
 
+                // 初始化可折叠区块功能
+                initCollapsibleSections();
+
                 // 初始化导读下载按钮
                 initGuideDownloadButton();
-                
+
+                // 初始化拖拽分隔条功能
+                initResizer(resizer, questionsTablePanel, paperInteractionPanel);
+
                 // 清理可能出现的 [object HTMLDivElement] 文本
                 setTimeout(function() {
                     var guideContent = document.querySelector('.paper-guide-content');
@@ -2533,6 +2941,96 @@
                 input.focus();
             }
         }
+
+        // 初始化拖拽分隔条功能（全局函数）
+        window.initResizer = function(resizer, leftPanel, rightPanel) {
+            if (!resizer || !leftPanel || !rightPanel) {
+                console.warn('拖拽分隔条初始化失败：缺少必要元素');
+                return;
+            }
+
+            var isResizing = false;
+            var startX = 0;
+            var startLeftWidth = 0;
+            var startRightWidth = 0;
+            var containerWidth = 0;
+
+            // 鼠标按下事件
+            resizer.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                isResizing = true;
+                startX = e.clientX;
+
+                // 获取父容器宽度
+                var container = resizer.parentElement;
+                containerWidth = container.offsetWidth;
+
+                // 获取左右面板的当前宽度
+                startLeftWidth = leftPanel.offsetWidth;
+                startRightWidth = rightPanel.offsetWidth;
+
+                // 添加拖拽中的样式
+                resizer.classList.add('resizing');
+                document.body.style.cursor = 'col-resize';
+                document.body.style.userSelect = 'none';
+
+                console.log('[DEBUG] 开始拖拽 - 容器宽度:', containerWidth, '左侧宽度:', startLeftWidth, '右侧宽度:', startRightWidth);
+            });
+
+            // 鼠标移动事件
+            document.addEventListener('mousemove', function(e) {
+                if (!isResizing) return;
+
+                e.preventDefault();
+                var deltaX = e.clientX - startX;
+
+                // 计算新的宽度
+                var newLeftWidth = startLeftWidth + deltaX;
+                var newRightWidth = startRightWidth - deltaX;
+
+                // 计算分隔条的宽度（16px）
+                var resizerWidth = 16;
+
+                // 获取左右面板的最小和最大宽度
+                var leftMinWidth = 320; // 左侧最小宽度
+                var rightMinWidth = 480; // 右侧最小宽度
+                var rightMaxWidth = 1200; // 右侧最大宽度
+                var leftMaxWidth = containerWidth - rightMinWidth - resizerWidth; // 左侧最大宽度 = 容器宽度 - 右侧最小宽度 - 分隔条宽度
+
+                // 限制新宽度在合理范围内
+                if (newLeftWidth < leftMinWidth) {
+                    newLeftWidth = leftMinWidth;
+                    newRightWidth = containerWidth - leftMinWidth - resizerWidth;
+                } else if (newLeftWidth > leftMaxWidth) {
+                    newLeftWidth = leftMaxWidth;
+                    newRightWidth = rightMinWidth;
+                } else if (newRightWidth < rightMinWidth) {
+                    newRightWidth = rightMinWidth;
+                    newLeftWidth = containerWidth - rightMinWidth - resizerWidth;
+                } else if (newRightWidth > rightMaxWidth) {
+                    newRightWidth = rightMaxWidth;
+                    newLeftWidth = containerWidth - rightMaxWidth - resizerWidth;
+                }
+
+                // 应用新宽度
+                leftPanel.style.flex = '0 0 ' + newLeftWidth + 'px';
+                leftPanel.style.width = newLeftWidth + 'px';
+                rightPanel.style.width = newRightWidth + 'px';
+
+                console.log('[DEBUG] 拖拽中 - 左侧:', newLeftWidth, 'px, 右侧:', newRightWidth, 'px');
+            });
+
+            // 鼠标释放事件
+            document.addEventListener('mouseup', function() {
+                if (isResizing) {
+                    isResizing = false;
+                    resizer.classList.remove('resizing');
+                    document.body.style.cursor = '';
+                    document.body.style.userSelect = '';
+                    console.log('[DEBUG] 拖拽结束');
+                }
+            });
+        };
     </script>
 </body>
 </html>
