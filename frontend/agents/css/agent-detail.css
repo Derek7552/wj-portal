@@ -535,16 +535,13 @@
 /* 主内容区域 */
 .agent-main-content {
     flex: 1;
-    background: var(--clouditera-neutral-background-white);
-    border-radius: 8px;
-    border: 1px solid var(--clouditera-neutral-border-secondary);
+    /* background 和 border 已移除 */
     min-height: 500px;
 }
 
 /* 空状态页面保持容器样式 */
 .agent-main-content:has(.empty-state-container) {
-    background: var(--clouditera-neutral-background-white);
-    border: 1px solid var(--clouditera-neutral-border-secondary);
+    /* background 和 border 已移除 */
 }
 
 /* ==========================================
