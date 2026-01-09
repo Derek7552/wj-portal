@@ -14,6 +14,7 @@ npm-debug.log*
 # 环境变量
 .env
 .env.local
+.mcp.json
 
 # 临时文件
 *.tmp
