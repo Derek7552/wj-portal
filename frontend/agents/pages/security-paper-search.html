@@ -16,6 +16,29 @@
             background-color: #F8FAFC !important;
         }
 
+        /* 主内容区域 - 恢复白色背景和边框 */
+        .agent-detail-page .agent-main-content {
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+            border-radius: 8px;
+        }
+
+        /* 任务详情页 - 移除主内容区域的背景和边框 */
+        .agent-detail-page .agent-main-content:has(.paper-task-container),
+        .agent-detail-page .agent-main-content:has(.paper-task-container-single),
+        .agent-detail-page .agent-main-content:has(.tasks-list-container),
+        .agent-detail-page .agent-main-content:has(.task-detail-content) {
+            background: none;
+            border: none;
+        }
+
+        /* 错误状态页 - 恢复白色背景和边框 */
+        .agent-detail-page .agent-main-content:has(.error-state-container) {
+            background: var(--clouditera-neutral-background-white) !important;
+            border: 1px solid var(--clouditera-neutral-border-secondary) !important;
+            border-radius: 8px;
+        }
+
         /* ==========================================
            搜索筛选器样式
            ========================================== */
@@ -3364,63 +3387,29 @@
                     }, 10000); // 10秒后显示真实内容
 
                 } else if (taskName === 'Spring Boot应用审计') {
-                    // Spring Boot任务：显示骨架屏，5秒后显示错误状态
+                    // Spring Boot任务：直接显示错误状态
                     var taskContent = document.createElement('div');
                     taskContent.className = 'paper-task-container-single';
 
-                    // 骨架屏HTML结构（与React任务相同）
                     taskContent.innerHTML =
-                        '<div class="paper-search-module skeleton-loading" style="width: 100%;">' +
-                            // 筛选区骨架
-                            '<div class="paper-filters-section">' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
+                        '<div class="error-state-container">' +
+                            '<div class="error-state-content">' +
+                                '<div class="error-state-icon">⚠️</div>' +
+                                '<div class="error-state-title">任务执行失败</div>' +
+                                '<div class="error-state-description">' +
+                                    '抱歉，Spring Boot应用审计任务在执行过程中遇到了问题。<br>' +
+                                    '可能的原因：网络连接超时、资源不可用或服务异常。<br>' +
+                                    '请稍后重试或联系技术支持。' +
                                 '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
+                                '<div class="error-state-actions">' +
+                                    '<button class="btn-error-retry" onclick="handleTaskClick(\'Spring Boot应用审计\')">重试</button>' +
+                                    '<button class="btn-error-back" onclick="clearTaskContent()">返回首页</button>' +
                                 '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 80px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 200px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                                '<div class="filter-group">' +
-                                    '<div class="skeleton-bar" style="width: 100px; height: 14px;"></div>' +
-                                    '<div class="skeleton-bar" style="width: 240px; height: 32px; margin-top: 8px;"></div>' +
-                                '</div>' +
-                            '</div>' +
-                            // 论文卡片骨架（4个）
-                            '<div class="paper-cards-container">' +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
-                                generateSkeletonCard() +
                             '</div>' +
                         '</div>';
 
                     chatArea.appendChild(taskContent);
                     taskContent.style.display = 'flex';
-
-                    // 5秒后显示错误状态
-                    setTimeout(function() {
-                        taskContent.innerHTML =
-                            '<div class="error-state-container">' +
-                                '<div class="error-state-content">' +
-                                    '<div class="error-state-icon">⚠️</div>' +
-                                    '<div class="error-state-title">任务执行失败</div>' +
-                                    '<div class="error-state-description">' +
-                                        '抱歉，Spring Boot应用审计任务在执行过程中遇到了问题。<br>' +
-                                        '可能的原因：网络连接超时、资源不可用或服务异常。<br>' +
-                                        '请稍后重试或联系技术支持。' +
-                                    '</div>' +
-                                    '<div class="error-state-actions">' +
-                                        '<button class="btn-error-retry" onclick="handleTaskClick(\'Spring Boot应用审计\')">重试</button>' +
-                                        '<button class="btn-error-back" onclick="clearTaskContent()">返回首页</button>' +
-                                    '</div>' +
-                                '</div>' +
-                            '</div>';
-                    }, 5000); // 5秒后显示错误状态
 
                 } else {
                     // 其他任务使用原来的布局
