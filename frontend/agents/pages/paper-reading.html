@@ -198,6 +198,13 @@
             border: none;
         }
 
+        /* 为论文研读首页空状态添加白色背景和边框 */
+        .agent-main-content:has(.empty-state-container) {
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+            border-radius: 8px;
+        }
+
         /* 论文研读详情容器 - 左右分栏布局 */
         .paper-reading-detail {
             display: flex;
@@ -947,6 +954,14 @@
             font-size: 14px;
         }
 
+        /* 脑图标签页内容 */
+        .paper-mindmap-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: var(--clouditera-neutral-background-white);
+        }
+
         /* 导读内容样式 */
         .guide-header {
             display: flex;
@@ -1254,24 +1269,6 @@
             </div>
             <!-- 管理功能按钮组 -->
             <div class="agent-header-actions">
-                <button class="btn-agent-action" title="知识库">
-                    <span class="action-icon">📚</span>
-                    <span class="action-text">知识库</span>
-                    <span class="action-count">(12)</span>
-                </button>
-                <button class="btn-agent-action" title="工具插件">
-                    <span class="action-icon">🔧</span>
-                    <span class="action-text">工具插件</span>
-                    <span class="action-count">(3)</span>
-                </button>
-                <button class="btn-agent-action" title="智能体设置">
-                    <span class="action-icon">⚙️</span>
-                    <span class="action-text">设置</span>
-                </button>
-                <button class="btn btn-primary btn-sm">
-                    <span>🔗</span>
-                    <span>分享</span>
-                </button>
             </div>
         </div>
 
@@ -1865,6 +1862,7 @@
                                 '<div class="paper-tabs">' +
                                     '<button class="paper-tab active" data-tab="chat">对话</button>' +
                                     '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                    '<button class="paper-tab" data-tab="mindmap">脑图</button>' +
                                 '</div>' +
                                 '<div class="paper-tab-content active" data-content="chat">' +
                                     '<div class="paper-chat-content">' +
@@ -1893,6 +1891,14 @@
                                             '<div class="loading-text">正在生成论文导读...</div>' +
                                         '</div>' +
                                     '</div>' +
+                                '</div>' +
+                                '<div class="paper-tab-content" data-content="mindmap">' +
+                                    '<div class="paper-mindmap-content">' +
+                                        '<div class="loading-state-container">' +
+                                            '<div class="loading-spinner"></div>' +
+                                            '<div class="loading-text">正在生成论文脑图...</div>' +
+                                        '</div>' +
+                                    '</div>' +
                                 '</div>';
                         } else if (isFailedTask) {
                             // 安全评估方法论文研读 - 对话区保持样式但无内容，导读区显示失败状态
@@ -1900,6 +1906,7 @@
                                 '<div class="paper-tabs">' +
                                     '<button class="paper-tab active" data-tab="chat">对话</button>' +
                                     '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                    '<button class="paper-tab" data-tab="mindmap">脑图</button>' +
                                 '</div>' +
                                 '<div class="paper-tab-content active" data-content="chat">' +
                                     '<div class="paper-chat-content">' +
@@ -1929,6 +1936,15 @@
                                             '<div class="error-description">论文导读生成失败，请稍后重试</div>' +
                                         '</div>' +
                                     '</div>' +
+                                '</div>' +
+                                '<div class="paper-tab-content" data-content="mindmap">' +
+                                    '<div class="paper-mindmap-content">' +
+                                        '<div class="error-state-container">' +
+                                            '<div class="error-icon">⚠️</div>' +
+                                            '<div class="error-text">加载失败</div>' +
+                                            '<div class="error-description">论文脑图生成失败，请稍后重试</div>' +
+                                        '</div>' +
+                                    '</div>' +
                                 '</div>';
                         } else {
                             // 网络安全技术论文研读 - 显示完整内容
@@ -1936,6 +1952,7 @@
                                 '<div class="paper-tabs">' +
                                     '<button class="paper-tab active" data-tab="chat">对话</button>' +
                                     '<button class="paper-tab" data-tab="guide">导读</button>' +
+                                    '<button class="paper-tab" data-tab="mindmap">脑图</button>' +
                                 '</div>' +
                                 '<div class="paper-tab-content active" data-content="chat">' +
                                     '<div class="paper-chat-content">' +
@@ -2048,6 +2065,11 @@
                                                 '<div class="guide-keyword-value">SHA-512</div>' +
                                             '</div>' +
                                         '</div>' +
+                                    '</div>' +
+                                '</div>' +
+                                '<div class="paper-tab-content" data-content="mindmap">' +
+                                    '<div class="paper-mindmap-content">' +
+                                        '<div class="paper-mindmap-empty">脑图功能开发中...</div>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>';
@@ -2998,10 +3020,11 @@
                 // 右侧交互面板
                 var paperInteractionPanel = document.createElement('div');
                 paperInteractionPanel.className = 'paper-interaction-panel';
-                paperInteractionPanel.innerHTML = 
+                paperInteractionPanel.innerHTML =
                     '<div class="paper-tabs">' +
                         '<button class="paper-tab active" data-tab="chat">对话</button>' +
                         '<button class="paper-tab" data-tab="guide">导读</button>' +
+                        '<button class="paper-tab" data-tab="mindmap">脑图</button>' +
                     '</div>' +
                     '<div class="paper-tab-content active" data-content="chat">' +
                         '<div class="paper-chat-content">' +
@@ -3115,6 +3138,11 @@
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="paper-tab-content" data-content="mindmap">' +
+                        '<div class="paper-mindmap-content">' +
+                            '<div class="paper-mindmap-empty">脑图功能开发中...</div>' +
                         '</div>' +
                     '</div>';
 

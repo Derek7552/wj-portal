@@ -12,6 +12,17 @@
     <link rel="stylesheet" href="../../components/chat-input.css">
     <style>
         /* ==========================================
+           论文翻译首页空状态样式
+           ========================================== */
+
+        /* 为论文翻译首页空状态添加白色背景和边框 */
+        .agent-main-content:has(.empty-state-container) {
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+            border-radius: 8px;
+        }
+
+        /* ==========================================
            文件上传组件样式
            ========================================== */
         

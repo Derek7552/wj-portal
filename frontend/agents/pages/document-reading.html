@@ -198,6 +198,13 @@
             border: none;
         }
 
+        /* 为文档速读首页空状态添加白色背景和边框 */
+        .agent-main-content:has(.empty-state-container) {
+            background: var(--clouditera-neutral-background-white);
+            border: 1px solid var(--clouditera-neutral-border-secondary);
+            border-radius: 8px;
+        }
+
         /* 文档速读详情容器 - 左右分栏布局 */
         .paper-reading-detail {
             display: flex;
@@ -1358,24 +1365,6 @@
             </div>
             <!-- 管理功能按钮组 -->
             <div class="agent-header-actions">
-                <button class="btn-agent-action" title="知识库">
-                    <span class="action-icon">📚</span>
-                    <span class="action-text">知识库</span>
-                    <span class="action-count">(12)</span>
-                </button>
-                <button class="btn-agent-action" title="工具插件">
-                    <span class="action-icon">🔧</span>
-                    <span class="action-text">工具插件</span>
-                    <span class="action-count">(3)</span>
-                </button>
-                <button class="btn-agent-action" title="智能体设置">
-                    <span class="action-icon">⚙️</span>
-                    <span class="action-text">设置</span>
-                </button>
-                <button class="btn btn-primary btn-sm">
-                    <span>🔗</span>
-                    <span>分享</span>
-                </button>
             </div>
         </div>
 
