@@ -2054,16 +2054,32 @@
     gap: 8px;
 }
 
-/* 任务时间 */
+/* 任务时间 - Hover 时隐藏 */
 .da-task-record-time {
     font-size: 13px;
     color: var(--clouditera-neutral-text-secondary);
+    opacity: 1;
+    transition: opacity 0.2s ease;
 }
 
-/* 任务操作按钮 */
+/* Hover 时隐藏时间 */
+.da-task-record-card:hover .da-task-record-time {
+    opacity: 0;
+}
+
+/* 任务操作按钮 - 默认隐藏 */
 .da-task-record-actions {
     display: flex;
     gap: 8px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+/* Hover 时显示操作按钮 */
+.da-task-record-card:hover .da-task-record-actions {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .da-task-action-btn {
