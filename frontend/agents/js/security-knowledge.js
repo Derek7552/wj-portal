@@ -1,5 +1,19 @@
 // 安全智库智能体页面交互逻辑
 
+// 模拟对话数据
+const mockConversations = [
+    { id: '1', title: 'OWASP Top 10 漏洞咨询', status: 'running', messageCount: 8, lastReply: '刚刚', time: '2025-12-19 14:30' },
+    { id: '2', title: '零信任架构咨询', status: 'running', messageCount: 15, lastReply: '2小时前', time: '2025-12-19 12:15' },
+    { id: '3', title: 'API安全最佳实践', status: 'completed', messageCount: 23, lastReply: '昨天', time: '2025-12-18 16:20' },
+    { id: '4', title: 'DevSecOps实施方案', status: 'completed', messageCount: 18, lastReply: '2天前', time: '2025-12-17 10:30' },
+    { id: '5', title: '容器安全加固指南', status: 'completed', messageCount: 12, lastReply: '3天前', time: '2025-12-16 15:45' },
+    { id: '6', title: 'Web应用渗透测试', status: 'completed', messageCount: 31, lastReply: '5天前', time: '2025-12-14 09:20' },
+    { id: '7', title: '等保2.0合规咨询', status: 'completed', messageCount: 27, lastReply: '1周前', time: '2025-12-12 14:10' },
+    { id: '8', title: '云安全架构设计', status: 'completed', messageCount: 19, lastReply: '1周前', time: '2025-12-11 11:30' },
+    { id: '9', title: '数据加密方案选型', status: 'completed', messageCount: 14, lastReply: '2周前', time: '2025-12-05 16:00' },
+    { id: '10', title: '安全监控体系建设', status: 'completed', messageCount: 22, lastReply: '2周前', time: '2025-12-04 13:45' }
+];
+
 document.addEventListener('DOMContentLoaded', function() {
     // 初始化侧边栏展开/收起功能
     initSidebarToggle();
@@ -19,6 +33,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 初始化近期任务列表
     initRecentTasks();
+
+    // 初始化查看全部对话记录按钮
+    initViewAllButton();
 
     // 初始化聊天输入
     initChatInput();
@@ -80,6 +97,115 @@ function initRecentTasks() {
             showChatContent(taskName);
         });
     });
+}
+
+// 初始化查看全部对话记录按钮
+function initViewAllButton() {
+    const viewAllBtn = document.querySelector('.view-all-tasks');
+    if (!viewAllBtn) return;
+
+    viewAllBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('查看全部对话记录');
+        showAllConversations();
+    });
+}
+
+// 显示全部对话记录
+function showAllConversations() {
+    const mainContent = document.querySelector('.agent-main-content');
+    if (!mainContent) return;
+
+    // 生成对话列表HTML
+    let conversationsHtml = '';
+    for (let i = 0; i < mockConversations.length; i++) {
+        const conv = mockConversations[i];
+        const statusIcon = conv.status === 'running' ? '⏳' : '✅';
+        const statusClass = conv.status;
+
+        conversationsHtml += '<div class="task-record-card" data-conv-id="' + conv.id + '">' +
+            '<div class="task-record-left">' +
+                '<div class="task-record-header">' +
+                    '<div class="task-record-status">' +
+                        '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
+                    '</div>' +
+                    '<div class="task-record-name">' + conv.title + '</div>' +
+                '</div>' +
+                '<div class="task-record-statistics">' +
+                    '<span class="statistics-label">消息数</span>' +
+                    '<span class="statistics-value">' + conv.messageCount + ' 条</span>' +
+                '</div>' +
+            '</div>' +
+            '<div class="task-record-right">' +
+                '<div class="task-record-time">' + conv.time + '</div>' +
+                '<div class="task-record-actions">' +
+                    '<button class="task-action-btn">查看</button>' +
+                    '<button class="task-action-btn">删除</button>' +
+                '</div>' +
+            '</div>' +
+        '</div>';
+    }
+
+    if (mockConversations.length === 0) {
+        conversationsHtml = '<div class="tasks-empty">暂无对话记录</div>';
+    }
+
+    // 替换内容
+    mainContent.innerHTML = '<div class="tasks-list-container">' +
+        '<div class="tasks-list-header">' +
+            '<h2 class="tasks-list-title">历史对话记录</h2>' +
+        '</div>' +
+        '<div class="tasks-list-content">' +
+            conversationsHtml +
+        '</div>' +
+    '</div>';
+
+    // 绑定对话项点击事件
+    const convItems = mainContent.querySelectorAll('.task-record-card');
+    for (let i = 0; i < convItems.length; i++) {
+        convItems[i].addEventListener('click', function(e) {
+            // 如果点击的是按钮，不触发卡片点击
+            if (e.target.classList.contains('task-action-btn')) {
+                e.stopPropagation();
+                const btnText = e.target.textContent;
+                const convId = this.getAttribute('data-conv-id');
+
+                if (btnText === '查看') {
+                    // 查找对应的对话并显示详情
+                    let selectedConv = null;
+                    for (let j = 0; j < mockConversations.length; j++) {
+                        if (mockConversations[j].id === convId) {
+                            selectedConv = mockConversations[j];
+                            break;
+                        }
+                    }
+
+                    if (selectedConv) {
+                        showChatContent(selectedConv.title);
+                    }
+                } else if (btnText === '删除') {
+                    if (confirm('确定要删除此对话吗？')) {
+                        console.log('删除对话:', convId);
+                    }
+                }
+                return;
+            }
+
+            // 点击卡片其他区域，显示对话详情
+            const convId = this.getAttribute('data-conv-id');
+            let selectedConv = null;
+            for (let j = 0; j < mockConversations.length; j++) {
+                if (mockConversations[j].id === convId) {
+                    selectedConv = mockConversations[j];
+                    break;
+                }
+            }
+
+            if (selectedConv) {
+                showChatContent(selectedConv.title);
+            }
+        });
+    }
 }
 
 // 显示空状态页面
