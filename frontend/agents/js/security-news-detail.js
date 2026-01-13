@@ -1,174 +1,220 @@
 /**
  * 安全资讯详情页交互逻辑
- * 包括：对话功能、收藏功能、分享导出等
+ * 包括：日期导航、收藏功能、分享导出等
  */
 
 // ================================
 // DOM 元素
 // ================================
-const chatInput = document.getElementById('chatInput');
-const chatSend = document.getElementById('chatSend');
-const chatMessages = document.getElementById('chatMessages');
-const clearChat = document.getElementById('clearChat');
+const dateNavList = document.getElementById('dateNavList');
 const collectBtn = document.getElementById('collectBtn');
 
 // ================================
-// 对话功能
+// 模拟数据：15天的资讯数据
 // ================================
+const mockNewsData = generateMockData();
 
 /**
- * 发送消息
+ * 生成模拟数据（15天）
  */
-function sendMessage() {
-    const message = chatInput.value.trim();
+function generateMockData() {
+    const data = [];
+    const today = new Date();
 
-    if (!message) {
-        return;
+    // 文章标题池
+    const titles = [
+        '2024年第一季度网络安全威胁报告：APT攻击趋势分析',
+        '新型勒索软件LockBit 3.0技术分析及防护建议',
+        '零信任架构在云安全中的应用实践',
+        'CVE-2024-1234漏洞详情及修复方案',
+        'AI驱动的安全运营中心（SOC）建设指南',
+        '全球最大数据泄露事件：影响超过5亿用户',
+        '2024年网络钓鱼攻击趋势与防护策略',
+        '工业控制系统安全防护最佳实践',
+        '云原生安全：容器与Kubernetes安全指南',
+        '移动端恶意软件分析与检测技术',
+        '供应链攻击案例分析与防范措施',
+        '密码学在区块链安全中的应用',
+        '红队演练：模拟APT攻击的实战技巧',
+        '安全意识培训：企业员工防护指南',
+        '物联网设备安全漏洞挖掘方法',
+        '威胁情报共享平台建设与运营',
+        'Web应用防火墙(WAF)配置优化指南',
+        '数据加密技术选型与实施方案',
+        '安全事件响应流程与工具推荐',
+        '渗透测试报告撰写规范与模板',
+    ];
+
+    // 为每一天生成随机数量的文章
+    for (let i = 0; i < 15; i++) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+
+        const dateStr = formatDate(date);
+        const articleCount = Math.floor(Math.random() * 5) + 1; // 1-5篇文章
+        const articles = [];
+
+        for (let j = 0; j < articleCount; j++) {
+            const titleIndex = Math.floor(Math.random() * titles.length);
+            articles.push({
+                id: `${dateStr}-${j + 1}`,
+                title: titles[titleIndex],
+                time: `${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`
+            });
+        }
+
+        data.push({
+            date: dateStr,
+            displayDate: formatDisplayDate(date, i === 0),
+            isToday: i === 0,
+            articles: articles
+        });
     }
 
-    // 添加用户消息
-    addUserMessage(message);
-
-    // 清空输入框
-    chatInput.value = '';
-
-    // 模拟AI回复（实际应该是API调用）
-    setTimeout(() => {
-        addAIMessage('感谢您的提问！让我帮您分析一下这篇资讯中的关键信息...');
-    }, 1000);
+    return data;
 }
 
 /**
- * 添加用户消息
+ * 格式化日期为 YYYY-MM-DD
  */
-function addUserMessage(text) {
-    const messageHtml = `
-        <div class="message message-user">
-            <div class="message-avatar">👤</div>
-            <div class="message-content">
-                <div class="message-time">${getCurrentTime()}</div>
-                <div class="message-bubble">
-                    <p>${escapeHtml(text)}</p>
+function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
+
+/**
+ * 格式化显示日期
+ */
+function formatDisplayDate(date, isToday) {
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const weekday = weekdays[date.getDay()];
+
+    if (isToday) {
+        return `${month}月${day}日 ${weekday}`;
+    }
+    return `${month}月${day}日 ${weekday}`;
+}
+
+// ================================
+// 日期导航功能
+// ================================
+
+/**
+ * 渲染日期导航列表
+ */
+function renderDateNavigation() {
+    if (!dateNavList) return;
+
+    // 获取当前文章ID（从URL参数或默认第一篇）
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentArticleId = urlParams.get('id') || mockNewsData[0]?.articles[0]?.id;
+
+    let html = '';
+
+    mockNewsData.forEach((dayData, index) => {
+        // 检查当前文章是否在这一天
+        const hasCurrentArticle = dayData.articles.some(a => a.id === currentArticleId);
+        const isExpanded = hasCurrentArticle || index === 0; // 包含当前文章或第一天默认展开
+
+        html += `
+            <div class="date-nav-item ${isExpanded ? 'expanded' : ''}" data-date="${dayData.date}">
+                <div class="date-nav-date ${isExpanded ? 'expanded' : ''} ${dayData.isToday ? 'today' : ''}" onclick="toggleDateExpand(this)">
+                    <div class="date-nav-date-left">
+                        <span class="date-nav-arrow">›</span>
+                        <span class="date-nav-date-text">${dayData.displayDate}</span>
+                    </div>
+                    <div class="date-nav-date-right">
+                        <span class="date-nav-count">${dayData.articles.length}篇</span>
+                        ${dayData.isToday ? '<span class="date-nav-today-badge">今天</span>' : ''}
+                    </div>
+                </div>
+                <div class="date-nav-articles">
+                    ${dayData.articles.map(article => `
+                        <a href="?id=${article.id}"
+                           class="date-nav-article ${article.id === currentArticleId ? 'active' : ''}"
+                           data-id="${article.id}"
+                           onclick="selectArticle(event, '${article.id}')">
+                            <span class="date-nav-article-indicator"></span>
+                            <span class="date-nav-article-title">${article.title}</span>
+                        </a>
+                    `).join('')}
                 </div>
             </div>
-        </div>
-    `;
-
-    chatMessages.insertAdjacentHTML('beforeend', messageHtml);
-    scrollToBottom();
-}
-
-/**
- * 添加AI消息
- */
-function addAIMessage(text) {
-    const messageHtml = `
-        <div class="message message-ai">
-            <div class="message-avatar">🤖</div>
-            <div class="message-content">
-                <div class="message-time">${getCurrentTime()}</div>
-                <div class="message-bubble">
-                    <p>${escapeHtml(text)}</p>
-                </div>
-                <div class="message-actions">
-                    <button class="btn-icon" title="复制" onclick="copyMessage(this)">📋</button>
-                    <button class="btn-icon" title="点赞" onclick="likeMessage(this)">👍</button>
-                    <button class="btn-icon" title="反馈" onclick="feedbackMessage(this)">💬</button>
-                </div>
-            </div>
-        </div>
-    `;
-
-    chatMessages.insertAdjacentHTML('beforeend', messageHtml);
-    scrollToBottom();
-}
-
-/**
- * 清空对话
- */
-function clearChatMessages() {
-    // 确认对话框
-    if (!confirm('确定要清空所有对话记录吗？')) {
-        return;
-    }
-
-    // 清空消息，保留欢迎消息
-    const welcomeMessage = chatMessages.querySelector('.message-ai');
-    chatMessages.innerHTML = '';
-    if (welcomeMessage) {
-        chatMessages.appendChild(welcomeMessage.cloneNode(true));
-    }
-}
-
-/**
- * 滚动到底部
- */
-function scrollToBottom() {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-}
-
-/**
- * 获取当前时间
- */
-function getCurrentTime() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-
-    return `${year}-${month}-${day} ${hours}:${minutes}`;
-}
-
-/**
- * HTML转义
- */
-function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-}
-
-// ================================
-// 消息操作
-// ================================
-
-/**
- * 复制消息
- */
-function copyMessage(button) {
-    const messageBubble = button.closest('.message-content').querySelector('.message-bubble');
-    const text = messageBubble.innerText;
-
-    navigator.clipboard.writeText(text).then(() => {
-        showToast('已复制到剪贴板');
-    }).catch(() => {
-        showToast('复制失败，请重试');
+        `;
     });
+
+    dateNavList.innerHTML = html;
 }
 
 /**
- * 点赞消息
+ * 切换日期展开/折叠
  */
-function likeMessage(button) {
-    // 切换点赞状态
-    if (button.classList.contains('liked')) {
-        button.classList.remove('liked');
-        button.textContent = '👍';
-        showToast('已取消点赞');
+function toggleDateExpand(element) {
+    const dateItem = element.closest('.date-nav-item');
+    const isExpanded = dateItem.classList.contains('expanded');
+
+    if (isExpanded) {
+        dateItem.classList.remove('expanded');
+        element.classList.remove('expanded');
     } else {
-        button.classList.add('liked');
-        button.textContent = '👍';
-        showToast('点赞成功');
+        dateItem.classList.add('expanded');
+        element.classList.add('expanded');
     }
 }
 
 /**
- * 反馈消息
+ * 选择文章
  */
-function feedbackMessage(button) {
-    showToast('感谢您的反馈！');
+function selectArticle(event, articleId) {
+    event.preventDefault();
+
+    // 更新URL（不刷新页面）
+    const newUrl = `${window.location.pathname}?id=${articleId}`;
+    history.pushState({ articleId }, '', newUrl);
+
+    // 更新选中状态
+    document.querySelectorAll('.date-nav-article').forEach(el => {
+        el.classList.remove('active');
+    });
+    document.querySelector(`.date-nav-article[data-id="${articleId}"]`)?.classList.add('active');
+
+    // 加载文章内容（这里是模拟，实际应该是API调用）
+    loadArticleContent(articleId);
+
+    // 更新页面标题
+    const article = findArticleById(articleId);
+    if (article) {
+        document.querySelector('.detail-title-main').textContent = article.title;
+    }
+}
+
+/**
+ * 根据ID查找文章
+ */
+function findArticleById(articleId) {
+    for (const dayData of mockNewsData) {
+        const article = dayData.articles.find(a => a.id === articleId);
+        if (article) return article;
+    }
+    return null;
+}
+
+/**
+ * 加载文章内容（模拟）
+ */
+function loadArticleContent(articleId) {
+    // 实际应该是API调用，这里只是更新标题
+    const article = findArticleById(articleId);
+    if (article) {
+        // 滚动到顶部
+        document.querySelector('.detail-content')?.scrollTo(0, 0);
+
+        showToast('已切换到: ' + article.title.substring(0, 20) + '...');
+    }
 }
 
 // ================================
@@ -270,24 +316,6 @@ function showToast(message, duration = 2000) {
 // 事件监听
 // ================================
 
-// 发送消息
-chatSend?.addEventListener('click', sendMessage);
-
-// 回车发送（Shift+Enter换行）
-chatInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && e.shiftKey) {
-        // Shift+Enter 换行，默认行为
-        return;
-    } else if (e.key === 'Enter') {
-        // 单独Enter发送
-        e.preventDefault();
-        sendMessage();
-    }
-});
-
-// 清空对话
-clearChat?.addEventListener('click', clearChatMessages);
-
 // 收藏按钮
 collectBtn?.addEventListener('click', toggleCollect);
 
@@ -312,10 +340,8 @@ document.addEventListener('click', (e) => {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('安全资讯详情页加载完成');
 
-    // 自动滚动到消息底部
-    if (chatMessages) {
-        scrollToBottom();
-    }
+    // 渲染日期导航
+    renderDateNavigation();
 
     // 添加toast样式（如果不存在）
     if (!document.querySelector('style[data-toast-style]')) {
@@ -351,11 +377,9 @@ document.addEventListener('DOMContentLoaded', () => {
 // 导出函数供HTML调用
 // ================================
 
-window.sendMessage = sendMessage;
-window.clearChatMessages = clearChatMessages;
+window.toggleDateExpand = toggleDateExpand;
+window.selectArticle = selectArticle;
 window.toggleCollect = toggleCollect;
 window.shareNews = shareNews;
 window.exportNews = exportNews;
-window.copyMessage = copyMessage;
-window.likeMessage = likeMessage;
-window.feedbackMessage = feedbackMessage;
+
