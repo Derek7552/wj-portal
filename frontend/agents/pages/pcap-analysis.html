@@ -1626,17 +1626,18 @@
                                 task.status === 'completed' ? '✅' : '❌';
                 var statusClass = task.status;
 
+                // 为任务名称添加随机的 PCAP 文件扩展名
+                var extensions = ['.pcap', '.pcapng', '.cap'];
+                var randomExt = extensions[i % extensions.length];
+                var taskNameWithExt = task.name + randomExt;
+
                 tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
                     '<div class="task-record-left">' +
                         '<div class="task-record-header">' +
                             '<div class="task-record-status">' +
                                 '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
                             '</div>' +
-                            '<div class="task-record-name">' + task.name + '</div>' +
-                        '</div>' +
-                        '<div class="task-record-statistics">' +
-                            '<span class="statistics-label">消息数</span>' +
-                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                            '<div class="task-record-name">' + taskNameWithExt + '</div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="task-record-right">' +

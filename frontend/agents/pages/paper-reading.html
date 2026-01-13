@@ -1579,16 +1579,16 @@
         // ==========================================
         // 模拟任务数据
         const mockTasks = [
-            { id: '1', name: '网络安全技术论文研读', status: 'running', active: false },
-            { id: '2', name: '系统架构设计论文研读', status: 'running', active: false },
-            { id: '3', name: '安全评估方法论文研读', status: 'failed', active: false },
-            { id: '4', name: '密码学算法论文研读', status: 'completed', active: false },
-            { id: '5', name: '漏洞挖掘技术论文研读', status: 'completed', active: false },
-            { id: '6', name: '访问控制策略论文研读', status: 'completed', active: false },
-            { id: '7', name: '隐私保护技术论文研读', status: 'completed', active: false },
-            { id: '8', name: '区块链安全论文研读', status: 'completed', active: false },
-            { id: '9', name: '入侵检测技术论文研读', status: 'completed', active: false },
-            { id: '10', name: '威胁情报分析论文研读', status: 'completed', active: false }
+            { id: '1', name: '网络安全技术论文研读', status: 'running', active: false, fileType: 'pdf' },
+            { id: '2', name: '系统架构设计论文研读', status: 'running', active: false, fileType: 'docx' },
+            { id: '3', name: '安全评估方法论文研读', status: 'failed', active: false, fileType: 'pdf' },
+            { id: '4', name: '密码学算法论文研读', status: 'completed', active: false, fileType: 'pdf' },
+            { id: '5', name: '漏洞挖掘技术论文研读', status: 'completed', active: false, fileType: 'docx' },
+            { id: '6', name: '访问控制策略论文研读', status: 'completed', active: false, fileType: 'pdf' },
+            { id: '7', name: '隐私保护技术论文研读', status: 'completed', active: false, fileType: 'pdf' },
+            { id: '8', name: '区块链安全论文研读', status: 'completed', active: false, fileType: 'docx' },
+            { id: '9', name: '入侵检测技术论文研读', status: 'completed', active: false, fileType: 'pdf' },
+            { id: '10', name: '威胁情报分析论文研读', status: 'completed', active: false, fileType: 'pdf' }
         ];
 
         // 初始化
@@ -2852,17 +2852,16 @@
                                 task.status === 'completed' ? '✅' : '❌';
                 var statusClass = task.status;
 
+                // 获取文件扩展名
+                var fileExtension = task.fileType ? '.' + task.fileType : '.pdf';
+
                 tasksHtml += '<div class="task-record-card" data-task-id="' + task.id + '">' +
                     '<div class="task-record-left">' +
                         '<div class="task-record-header">' +
                             '<div class="task-record-status">' +
                                 '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
                             '</div>' +
-                            '<div class="task-record-name">' + task.name + '</div>' +
-                        '</div>' +
-                        '<div class="task-record-statistics">' +
-                            '<span class="statistics-label">消息数</span>' +
-                            '<span class="statistics-value">' + (4 + Math.floor(Math.random() * 6)) + ' 条</span>' +
+                            '<div class="task-record-name">' + task.name + fileExtension + '</div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="task-record-right">' +

@@ -1152,7 +1152,9 @@
     height: 100%;
     padding: 24px;
     overflow-y: auto;
-    background: var(--clouditera-neutral-background-primary);
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
 }
 
 .tasks-list-header {
@@ -1175,8 +1177,8 @@
 
 /* 任务记录卡片 */
 .task-record-card {
-    background: var(--clouditera-neutral-background-white);
-    border: 1px solid var(--clouditera-neutral-border-primary);
+    background: #f6f7f8;
+    border: none;
     border-radius: 8px;
     padding: 16px;
     transition: all 0.2s;
@@ -1188,8 +1190,8 @@
 }
 
 .task-record-card:hover {
+    background: var(--clouditera-palette-blue-0);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    border-color: var(--clouditera-brand-primary);
 }
 
 /* 左侧：任务信息和统计 */
