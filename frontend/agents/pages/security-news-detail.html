@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../css/agent-detail.css">
     <link rel="stylesheet" href="../css/security-news-detail.css">
 </head>
-<body class="agent-detail-page agent-news-detail-page agent-news-detail-v2">
+<body class="agent-detail-page agent-news-detail-page agent-news-detail-v3">
     <!-- 左侧导航栏 - 智能体详情页使用折叠模式 -->
     <aside class="sidebar collapsed" id="sidebar">
         <!-- Logo 区 -->
@@ -97,7 +97,7 @@
             <span class="agent-separator">·</span>
             <span class="agent-type-text">基础类</span>
             <span class="agent-separator">·</span>
-            <span class="agent-version-text">v1.1.0</span>
+            <span class="agent-version-text">v1.2.0</span>
         </div>
 
         <!-- 返回列表按钮和信息标题 -->
@@ -105,50 +105,51 @@
             <button class="btn-back-to-list" onclick="window.location.href='security-news.html';" title="返回列表">
                 <span class="back-icon">←</span>
             </button>
-            <h1 class="detail-title-main">2024年第一季度网络安全威胁报告：APT攻击趋势分析</h1>
+            <h1 class="detail-title-main" id="articleTitle">2024年第一季度网络安全威胁报告：APT攻击趋势分析</h1>
             <div class="detail-actions">
                 <button class="btn-action" id="collectBtn" title="收藏">
                     <span>⭐</span>
                     <span>收藏</span>
                 </button>
-                <button class="btn-action" title="分享">
+                <button class="btn-action" title="分享" onclick="shareNews()">
                     <span>🔗</span>
                     <span>分享</span>
                 </button>
-                <button class="btn-action" title="导出">
+                <button class="btn-action" title="导出" onclick="exportNews()">
                     <span>📥</span>
                     <span>导出</span>
                 </button>
             </div>
         </div>
 
-        <!-- 主内容容器：左右布局 -->
-        <div class="detail-container">
-            <!-- 左侧：日期导航面板 -->
-            <aside class="date-nav-panel">
-                <div class="date-nav-header">
-                    <span class="date-nav-icon">📅</span>
-                    <span class="date-nav-title">每日更新</span>
+        <!-- 主内容容器：三栏布局 -->
+        <div class="detail-container-v3">
+            <!-- 左侧：文章列表 -->
+            <aside class="article-list-panel">
+                <div class="article-list-header">
+                    <span class="article-list-icon">📰</span>
+                    <span class="article-list-title" id="articleListTitle">今天</span>
+                    <span class="article-list-count" id="articleCount">0篇</span>
                 </div>
-                <div class="date-nav-list" id="dateNavList">
-                    <!-- 日期项会通过 JS 动态生成 -->
+                <div class="article-list-content" id="articleListContent">
+                    <!-- 文章列表由JS动态生成 -->
                 </div>
             </aside>
 
-            <!-- 右侧：信息详情 -->
-            <div class="detail-content">
+            <!-- 中间：文章阅读区 -->
+            <div class="detail-content-main">
                 <!-- 详情页头部 -->
                 <div class="detail-header">
                     <div class="detail-meta">
-                        <span class="meta-item">
+                        <span class="meta-item" id="articleDate">
                             <span class="meta-icon">📅</span>
                             <span>2024-03-15 14:30</span>
                         </span>
-                        <span class="meta-item">
+                        <span class="meta-item" id="articleSource">
                             <span class="meta-icon">📰</span>
                             <span>FreeBuf</span>
                         </span>
-                        <span class="meta-item">
+                        <span class="meta-item" id="articleCategory">
                             <span class="detail-tag tag-threat">威胁情报</span>
                         </span>
                     </div>
@@ -157,11 +158,11 @@
                 <!-- 内容摘要 -->
                 <div class="detail-summary">
                     <div class="summary-label">📋 内容摘要</div>
-                    <p class="summary-text">本报告深入分析了2024年第一季度的APT攻击趋势，包括主要攻击组织、攻击手法和目标行业。报告显示，金融、能源和政府部门仍然是攻击者的主要目标，同时新型攻击手段不断涌现，企业需要加强防护措施。</p>
+                    <p class="summary-text" id="articleSummary">本报告深入分析了2024年第一季度的APT攻击趋势，包括主要攻击组织、攻击手法和目标行业。报告显示，金融、能源和政府部门仍然是攻击者的主要目标，同时新型攻击手段不断涌现，企业需要加强防护措施。</p>
                 </div>
 
                 <!-- 文章内容 -->
-                <article class="detail-article">
+                <article class="detail-article" id="articleContent">
                     <h2>一、APT攻击概述</h2>
                     <p>2024年第一季度，高级持续性威胁（APT, Advanced Persistent Threat）攻击活动呈现显著增长态势。根据安全机构的监测数据，相比2023年同期，APT攻击事件数量增长了23%，攻击手段更加隐蔽和复杂。</p>
 
@@ -179,7 +180,7 @@
                     <ul>
                         <li><strong>APT28（Fancy Bear）</strong>：针对政府和国防部门</li>
                         <li><strong>APT29（Cozy Bear）</strong>：情报收集型攻击</li>
-                        <li><strong>Lazarus Group</strong>：朝鉴相关的攻击组织</li>
+                        <li><strong>Lazarus Group</strong>：朝鲜相关的攻击组织</li>
                         <li><strong>APT41</strong>：中国关联的双重目的攻击</li>
                     </ul>
 
@@ -270,6 +271,24 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 右侧：日期导航（分类内嵌在日期下方） -->
+            <aside class="filter-nav-panel">
+                <div class="filter-section date-section">
+                    <div class="filter-section-header">
+                        <span class="filter-section-icon">📅</span>
+                        <span class="filter-section-title">日期选择</span>
+                    </div>
+                    <div class="date-list" id="dateList">
+                        <!-- 日期列表（含内嵌分类）由JS动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 收起/展开按钮 -->
+                <button class="filter-panel-toggle" id="filterPanelToggle" title="收起面板">
+                    <span class="toggle-icon">›</span>
+                </button>
+            </aside>
         </div>
     </main>
 

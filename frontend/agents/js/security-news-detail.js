@@ -1,18 +1,30 @@
 /**
- * 安全资讯详情页交互逻辑
- * 包括：日期导航、收藏功能、分享导出等
+ * 安全资讯详情页 V3 交互逻辑
+ * 三栏布局：左侧文章列表 | 中间阅读区 | 右侧日期+分类筛选
  */
 
 // ================================
 // DOM 元素
 // ================================
-const dateNavList = document.getElementById('dateNavList');
+const articleListContent = document.getElementById('articleListContent');
+const articleCount = document.getElementById('articleCount');
+const articleListTitle = document.getElementById('articleListTitle');
+const dateList = document.getElementById('dateList');
 const collectBtn = document.getElementById('collectBtn');
+const filterPanelToggle = document.getElementById('filterPanelToggle');
+const filterNavPanel = document.querySelector('.filter-nav-panel');
 
 // ================================
-// 模拟数据：15天的资讯数据
+// 全局状态
 // ================================
-const mockNewsData = generateMockData();
+let currentDate = null;
+let currentCategory = '全部';
+let allArticles = [];
+let filteredArticles = [];
+
+// ================================
+// 模拟数据生成
+// ================================
 
 /**
  * 生成模拟数据（15天）
@@ -21,58 +33,114 @@ function generateMockData() {
     const data = [];
     const today = new Date();
 
-    // 文章标题池
-    const titles = [
-        '2024年第一季度网络安全威胁报告：APT攻击趋势分析',
-        '新型勒索软件LockBit 3.0技术分析及防护建议',
-        '零信任架构在云安全中的应用实践',
-        'CVE-2024-1234漏洞详情及修复方案',
-        'AI驱动的安全运营中心（SOC）建设指南',
-        '全球最大数据泄露事件：影响超过5亿用户',
-        '2024年网络钓鱼攻击趋势与防护策略',
-        '工业控制系统安全防护最佳实践',
-        '云原生安全：容器与Kubernetes安全指南',
-        '移动端恶意软件分析与检测技术',
-        '供应链攻击案例分析与防范措施',
-        '密码学在区块链安全中的应用',
-        '红队演练：模拟APT攻击的实战技巧',
-        '安全意识培训：企业员工防护指南',
-        '物联网设备安全漏洞挖掘方法',
-        '威胁情报共享平台建设与运营',
-        'Web应用防火墙(WAF)配置优化指南',
-        '数据加密技术选型与实施方案',
-        '安全事件响应流程与工具推荐',
-        '渗透测试报告撰写规范与模板',
+    // 分类列表
+    const categories = [
+        { id: 'all', name: '全部', icon: '📑' },
+        { id: 'tech', name: '技术研究', icon: '🔬' },
+        { id: 'threat', name: '安全威胁', icon: '⚠️' },
+        { id: 'activity', name: '重要活动', icon: '📅' },
+        { id: 'policy', name: '政策法规', icon: '📜' },
+        { id: 'industry', name: '行业动态', icon: '📊' },
+        { id: 'vulnerability', name: '漏洞通告', icon: '🔓' },
+        { id: 'product', name: '产品方案', icon: '📦' },
+        { id: 'analysis', name: '深度分析', icon: '🔍' },
+        { id: 'news', name: '安全快讯', icon: '📰' }
     ];
 
-    // 为每一天生成随机数量的文章
+    // 文章标题池（按分类）
+    const articlesByCategory = {
+        tech: [
+            '零信任架构在云安全中的应用实践',
+            'AI驱动的安全运营中心（SOC）建设指南',
+            '云原生安全：容器与Kubernetes安全指南',
+            '密码学在区块链安全中的应用',
+            'Web应用防火墙(WAF)配置优化指南'
+        ],
+        threat: [
+            '2024年第一季度网络安全威胁报告：APT攻击趋势分析',
+            '新型勒索软件LockBit 3.0技术分析及防护建议',
+            '全球最大数据泄露事件：影响超过5亿用户',
+            '2024年网络钓鱼攻击趋势与防护策略',
+            '移动端恶意软件分析与检测技术'
+        ],
+        activity: [
+            '2024网络安全大会即将召开',
+            'RSA 2024大会精彩回顾',
+            '国家网络安全宣传周活动启动',
+            '第十届互联网安全大会（ISC）议程发布'
+        ],
+        vulnerability: [
+            'CVE-2024-1234漏洞详情及修复方案',
+            '物联网设备安全漏洞挖掘方法',
+            'Apache Struts2高危漏洞预警',
+            'Windows最新安全补丁发布'
+        ],
+        industry: [
+            '工业控制系统安全防护最佳实践',
+            '供应链攻击案例分析与防范措施',
+            '威胁情报共享平台建设与运营',
+            '数据加密技术选型与实施方案'
+        ],
+        analysis: [
+            '红队演练：模拟APT攻击的实战技巧',
+            '安全事件响应流程与工具推荐',
+            '渗透测试报告撰写规范与模板',
+            'SIEM系统建设与运营指南'
+        ],
+        news: [
+            '某知名企业遭受DDoS攻击',
+            '新型钓鱼网站大量出现',
+            '国际黑客组织被成功打击',
+            '金融行业安全事件通报'
+        ]
+    };
+
+    // 为每一天生成文章
     for (let i = 0; i < 15; i++) {
         const date = new Date(today);
         date.setDate(date.getDate() - i);
-
         const dateStr = formatDate(date);
-        const articleCount = Math.floor(Math.random() * 5) + 1; // 1-5篇文章
-        const articles = [];
-
-        for (let j = 0; j < articleCount; j++) {
-            const titleIndex = Math.floor(Math.random() * titles.length);
-            articles.push({
-                id: `${dateStr}-${j + 1}`,
-                title: titles[titleIndex],
-                time: `${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`
-            });
-        }
 
         data.push({
             date: dateStr,
             displayDate: formatDisplayDate(date, i === 0),
-            isToday: i === 0,
-            articles: articles
+            isToday: i === 0
         });
     }
 
-    return data;
+    // 生成文章列表（每天约50+篇）
+    const articles = [];
+    let articleId = 1;
+
+    for (let i = 0; i < 15; i++) {
+        const dateStr = data[i].date;
+        const articlesPerDay = Math.floor(Math.random() * 15) + 50;
+
+        for (let j = 0; j < articlesPerDay; j++) {
+            const categoryKeys = Object.keys(articlesByCategory);
+            const randomCatKey = categoryKeys[Math.floor(Math.random() * categoryKeys.length)];
+            const categoryTitles = articlesByCategory[randomCatKey];
+            const randomTitle = categoryTitles[Math.floor(Math.random() * categoryTitles.length)];
+            const category = categories.find(c => c.id === randomCatKey);
+
+            articles.push({
+                id: articleId++,
+                title: randomTitle,
+                date: dateStr,
+                time: `${String(Math.floor(Math.random() * 12) + 8).padStart(2, '0')}:${String(Math.floor(Math.random() * 60)).padStart(2, '0')}`,
+                category: category.name,
+                categoryId: category.id,
+                categoryIcon: category.icon,
+                source: ['FreeBuf', '安全牛', '安全客', '奇安信', '360安全'][Math.floor(Math.random() * 5)]
+            });
+        }
+    }
+
+    return { dates: data, categories, articles };
 }
+
+const mockData = generateMockData();
+allArticles = mockData.articles;
 
 /**
  * 格式化日期为 YYYY-MM-DD
@@ -88,82 +156,183 @@ function formatDate(date) {
  * 格式化显示日期
  */
 function formatDisplayDate(date, isToday) {
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
-    const weekday = weekdays[date.getDay()];
-
-    if (isToday) {
-        return `${month}月${day}日 ${weekday}`;
-    }
-    return `${month}月${day}日 ${weekday}`;
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
 
 // ================================
-// 日期导航功能
+// 渲染函数
 // ================================
 
 /**
- * 渲染日期导航列表
+ * 渲染日期列表（含内嵌分类）
  */
-function renderDateNavigation() {
-    if (!dateNavList) return;
-
-    // 获取当前文章ID（从URL参数或默认第一篇）
-    const urlParams = new URLSearchParams(window.location.search);
-    const currentArticleId = urlParams.get('id') || mockNewsData[0]?.articles[0]?.id;
+function renderDateList() {
+    if (!dateList) return;
 
     let html = '';
 
-    mockNewsData.forEach((dayData, index) => {
-        // 检查当前文章是否在这一天
-        const hasCurrentArticle = dayData.articles.some(a => a.id === currentArticleId);
-        const isExpanded = hasCurrentArticle || index === 0; // 包含当前文章或第一天默认展开
+    mockData.dates.forEach((dateData) => {
+        const articlesInDate = allArticles.filter(a => a.date === dateData.date);
+        const isActive = currentDate === dateData.date;
+        const isExpanded = currentDate === dateData.date;
+
+        let categoryHtml = '';
+        mockData.categories.forEach(category => {
+            let count = 0;
+            if (category.id === 'all') {
+                count = articlesInDate.length;
+            } else {
+                count = articlesInDate.filter(a => a.categoryId === category.id).length;
+            }
+            const isCatActive = currentCategory === category.name && isActive;
+
+            categoryHtml += `
+                <div class="date-category-item ${isCatActive ? 'active' : ''}"
+                     data-category="${category.name}"
+                     onclick="selectCategory('${category.name}', event)">
+                    <span class="date-category-item-icon">${category.icon}</span>
+                    <span class="date-category-item-text">${category.name}</span>
+                    <span class="date-category-item-count">${count}</span>
+                </div>
+            `;
+        });
 
         html += `
-            <div class="date-nav-item ${isExpanded ? 'expanded' : ''}" data-date="${dayData.date}">
-                <div class="date-nav-date ${isExpanded ? 'expanded' : ''} ${dayData.isToday ? 'today' : ''}" onclick="toggleDateExpand(this)">
-                    <div class="date-nav-date-left">
-                        <span class="date-nav-arrow">›</span>
-                        <span class="date-nav-date-text">${dayData.displayDate}</span>
-                    </div>
-                    <div class="date-nav-date-right">
-                        <span class="date-nav-count">${dayData.articles.length}篇</span>
-                        ${dayData.isToday ? '<span class="date-nav-today-badge">今天</span>' : ''}
+            <div class="date-item-wrapper ${isExpanded ? 'expanded' : ''}" data-date="${dateData.date}">
+                <div class="date-item ${isActive ? 'active' : ''}" onclick="selectDate('${dateData.date}')">
+                    <span class="date-item-expand">▶</span>
+                    <span class="date-item-text">${dateData.displayDate}</span>
+                    <div>
+                        ${dateData.isToday ? '<span class="date-item-today">今</span>' : ''}
+                        <span class="date-item-badge">${articlesInDate.length}</span>
                     </div>
                 </div>
-                <div class="date-nav-articles">
-                    ${dayData.articles.map(article => `
-                        <a href="?id=${article.id}"
-                           class="date-nav-article ${article.id === currentArticleId ? 'active' : ''}"
-                           data-id="${article.id}"
-                           onclick="selectArticle(event, '${article.id}')">
-                            <span class="date-nav-article-indicator"></span>
-                            <span class="date-nav-article-title">${article.title}</span>
-                        </a>
-                    `).join('')}
+                <div class="date-category-list">
+                    ${categoryHtml}
                 </div>
             </div>
         `;
     });
 
-    dateNavList.innerHTML = html;
+    dateList.innerHTML = html;
 }
 
 /**
- * 切换日期展开/折叠
+ * 渲染文章列表
  */
-function toggleDateExpand(element) {
-    const dateItem = element.closest('.date-nav-item');
-    const isExpanded = dateItem.classList.contains('expanded');
+function renderArticleList() {
+    if (!articleListContent) return;
 
-    if (isExpanded) {
-        dateItem.classList.remove('expanded');
-        element.classList.remove('expanded');
-    } else {
-        dateItem.classList.add('expanded');
-        element.classList.add('expanded');
+    filteredArticles = allArticles.filter(article => {
+        let matchDate = true;
+        let matchCategory = true;
+
+        if (currentDate) {
+            matchDate = article.date === currentDate;
+        }
+
+        if (currentCategory !== '全部') {
+            matchCategory = article.category === currentCategory;
+        }
+
+        return matchDate && matchCategory;
+    });
+
+    if (articleCount) {
+        articleCount.textContent = `${filteredArticles.length}篇`;
     }
+
+    if (filteredArticles.length === 0) {
+        articleListContent.innerHTML = `
+            <div style="padding: 40px 20px; text-align: center; color: #8c8c8c;">
+                <div style="font-size: 48px; margin-bottom: 12px;">📭</div>
+                <div>暂无文章</div>
+            </div>
+        `;
+        return;
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentArticleId = parseInt(urlParams.get('id')) || filteredArticles[0]?.id;
+
+    let html = '';
+
+    filteredArticles.forEach(article => {
+        const isActive = article.id === currentArticleId;
+
+        html += `
+            <a href="?id=${article.id}" class="article-item ${isActive ? 'active' : ''}" data-id="${article.id}" onclick="selectArticle(event, ${article.id})">
+                <div class="article-item-title">${article.title}</div>
+                <div class="article-item-meta">
+                    <span class="article-item-time">🕒 ${article.time}</span>
+                    <span class="article-item-category">${article.categoryIcon} ${article.category}</span>
+                </div>
+            </a>
+        `;
+    });
+
+    articleListContent.innerHTML = html;
+}
+
+// ================================
+// 交互函数
+// ================================
+
+/**
+ * 更新左栏标题（根据选中日期）
+ */
+function updateArticleListTitle() {
+    if (!articleListTitle) return;
+
+    if (!currentDate) {
+        articleListTitle.textContent = '全部';
+        return;
+    }
+
+    const dateData = mockData.dates.find(d => d.date === currentDate);
+    if (dateData) {
+        articleListTitle.textContent = dateData.displayDate;
+    } else {
+        articleListTitle.textContent = currentDate;
+    }
+}
+
+/**
+ * 选择日期（展开/收起分类）
+ */
+function selectDate(date) {
+    if (currentDate === date) {
+        currentDate = null;
+        currentCategory = '全部';
+    } else {
+        currentDate = date;
+        currentCategory = '全部';
+    }
+
+    updateArticleListTitle();
+    renderDateList();
+    renderArticleList();
+
+    showToast(`已筛选：${currentDate || '全部日期'}`);
+}
+
+/**
+ * 选择分类
+ */
+function selectCategory(category, event) {
+    if (event) {
+        event.stopPropagation();
+    }
+
+    currentCategory = category;
+
+    renderDateList();
+    renderArticleList();
+
+    showToast(`已切换到：${category}`);
 }
 
 /**
@@ -172,57 +341,30 @@ function toggleDateExpand(element) {
 function selectArticle(event, articleId) {
     event.preventDefault();
 
-    // 更新URL（不刷新页面）
     const newUrl = `${window.location.pathname}?id=${articleId}`;
     history.pushState({ articleId }, '', newUrl);
 
-    // 更新选中状态
-    document.querySelectorAll('.date-nav-article').forEach(el => {
+    const article = allArticles.find(a => a.id === articleId);
+    if (!article) return;
+
+    document.querySelectorAll('.article-item').forEach(el => {
         el.classList.remove('active');
     });
-    document.querySelector(`.date-nav-article[data-id="${articleId}"]`)?.classList.add('active');
+    document.querySelector(`.article-item[data-id="${articleId}"]`)?.classList.add('active');
 
-    // 加载文章内容（这里是模拟，实际应该是API调用）
-    loadArticleContent(articleId);
+    document.getElementById('articleTitle').textContent = article.title;
 
-    // 更新页面标题
-    const article = findArticleById(articleId);
-    if (article) {
-        document.querySelector('.detail-title-main').textContent = article.title;
-    }
+    document.querySelector('#articleDate span:last-child').textContent = `${article.date} ${article.time}`;
+    document.querySelector('#articleSource span:last-child').textContent = article.source;
+    document.querySelector('#articleCategory .detail-tag').textContent = article.category;
+
+    document.querySelector('.detail-content-main')?.scrollTo(0, 0);
+
+    showToast('已切换到: ' + article.title.substring(0, 20) + '...');
 }
 
 /**
- * 根据ID查找文章
- */
-function findArticleById(articleId) {
-    for (const dayData of mockNewsData) {
-        const article = dayData.articles.find(a => a.id === articleId);
-        if (article) return article;
-    }
-    return null;
-}
-
-/**
- * 加载文章内容（模拟）
- */
-function loadArticleContent(articleId) {
-    // 实际应该是API调用，这里只是更新标题
-    const article = findArticleById(articleId);
-    if (article) {
-        // 滚动到顶部
-        document.querySelector('.detail-content')?.scrollTo(0, 0);
-
-        showToast('已切换到: ' + article.title.substring(0, 20) + '...');
-    }
-}
-
-// ================================
-// 收藏功能
-// ================================
-
-/**
- * 切换收藏状态
+ * 收藏功能
  */
 function toggleCollect() {
     if (collectBtn.classList.contains('active')) {
@@ -236,15 +378,10 @@ function toggleCollect() {
     }
 }
 
-// ================================
-// 分享和导出
-// ================================
-
 /**
  * 分享资讯
  */
 function shareNews() {
-    // 复制链接到剪贴板
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
         showToast('链接已复制，可以分享给好友了');
@@ -257,14 +394,10 @@ function shareNews() {
  * 导出资讯
  */
 function exportNews() {
-    // 获取文章内容
-    const title = document.querySelector('.detail-title').textContent;
-    const article = document.querySelector('.detail-article').innerText;
-
-    // 创建文本内容
+    const title = document.getElementById('articleTitle').textContent;
+    const article = document.getElementById('articleContent').innerText;
     const content = `${title}\n\n${article}`;
 
-    // 创建并下载文件
     const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -278,32 +411,34 @@ function exportNews() {
     showToast('导出成功');
 }
 
-// ================================
-// 工具函数
-// ================================
+/**
+ * 切换右侧筛选面板
+ */
+function toggleFilterPanel() {
+    filterNavPanel.classList.toggle('collapsed');
+
+    const isCollapsed = filterNavPanel.classList.contains('collapsed');
+    filterPanelToggle.title = isCollapsed ? '展开面板' : '收起面板';
+}
 
 /**
  * 显示提示信息
  */
 function showToast(message, duration = 2000) {
-    // 移除已存在的toast
     const existingToast = document.querySelector('.toast');
     if (existingToast) {
         existingToast.remove();
     }
 
-    // 创建toast元素
     const toast = document.createElement('div');
     toast.className = 'toast';
     toast.textContent = message;
     document.body.appendChild(toast);
 
-    // 显示动画
     setTimeout(() => {
         toast.classList.add('show');
     }, 10);
 
-    // 自动隐藏
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => {
@@ -316,34 +451,32 @@ function showToast(message, duration = 2000) {
 // 事件监听
 // ================================
 
-// 收藏按钮
 collectBtn?.addEventListener('click', toggleCollect);
-
-// 分享和导出按钮（通过事件委托）
-document.addEventListener('click', (e) => {
-    const target = e.target.closest('button');
-    if (!target) return;
-
-    const buttonText = target.textContent.trim();
-
-    if (buttonText.includes('分享')) {
-        shareNews();
-    } else if (buttonText.includes('导出')) {
-        exportNews();
-    }
-});
+filterPanelToggle?.addEventListener('click', toggleFilterPanel);
 
 // ================================
-// 页面加载完成
+// 页面加载
 // ================================
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('安全资讯详情页加载完成');
+    console.log('安全资讯详情页 V3 加载完成');
 
-    // 渲染日期导航
-    renderDateNavigation();
+    const urlParams = new URLSearchParams(window.location.search);
+    const articleId = parseInt(urlParams.get('id'));
 
-    // 添加toast样式（如果不存在）
+    if (articleId) {
+        const article = allArticles.find(a => a.id === articleId);
+        if (article) {
+            currentDate = article.date;
+        }
+    } else {
+        currentDate = null;
+    }
+
+    updateArticleListTitle();
+    renderDateList();
+    renderArticleList();
+
     if (!document.querySelector('style[data-toast-style]')) {
         const style = document.createElement('style');
         style.setAttribute('data-toast-style', 'true');
@@ -377,9 +510,10 @@ document.addEventListener('DOMContentLoaded', () => {
 // 导出函数供HTML调用
 // ================================
 
-window.toggleDateExpand = toggleDateExpand;
+window.selectDate = selectDate;
+window.selectCategory = selectCategory;
 window.selectArticle = selectArticle;
 window.toggleCollect = toggleCollect;
 window.shareNews = shareNews;
 window.exportNews = exportNews;
-
+window.toggleFilterPanel = toggleFilterPanel;
