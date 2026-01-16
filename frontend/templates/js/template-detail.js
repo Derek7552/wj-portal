@@ -14,7 +14,7 @@ const defaultTaskMessages = [
     { type: 'ai', avatar: '🤖', text: '收到！开始分析Flask应用...\n\n✅ 已检查数据库操作代码\n✅ 已检查模板渲染逻辑\n✅ 已检查表单处理流程\n\n初步发现 3 个需要关注的地方，正在生成详细报告...' },
     { type: 'ai', avatar: '🤖', text: '分析完成！发现以下安全问题：\n\n🔴 高危 (1个)\n- 用户登录模块存在SQL注入风险\n  位置：/app/auth.py:45\n\n🟡 中危 (2个)\n- 评论功能未对HTML标签进行转义\n  位置：/app/comment.py:78\n- 搜索结果页面直接输出用户输入\n  位置：/templates/search.html:23' },
     { type: 'user', avatar: '👤', text: '明白了，请给出具体的修复建议。' },
-    { type: 'ai', avatar: '🤖', text: '针对发现的问题，建议如下：\n\n1. SQL注入修复：\n   使用参数化查询替代字符串拼接\n   ```python\n   # 错误方式\n   query = f"SELECT * FROM users WHERE username=\'{username}\\'"\n   \n   # 正确方式\n   query = "SELECT * FROM users WHERE username=%s"\n   cursor.execute(query, (username,))\n   ```\n\n2. XSS防护：\n   使用Flask的escape()函数或Jinja2自动转义\n   ```python\n   from markupsafe import escape\n   safe_comment = escape(user_comment)\n   ```\n\n需要我帮你生成完整的修复代码吗？' }
+    { type: 'ai', avatar: '🤖', text: '针对发现的问题，建议如下：\n\n1. SQL注入修复：\n   使用参数化查询替代字符串拼接\n   ```python\n   # 错误方式\n   query = f"SELECT * FROM users WHERE username=\'{username}\'"\n   \n   # 正确方式\n   query = "SELECT * FROM users WHERE username=%s"\n   cursor.execute(query, (username,))\n   ```\n\n2. XSS防护：\n   使用Flask的escape()函数或Jinja2自动转义\n   ```python\n   from markupsafe import escape\n   safe_comment = escape(user_comment)\n   ```\n\n需要我帮你生成完整的修复代码吗？' }
 ];
 
 // ==========================================

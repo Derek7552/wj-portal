@@ -114,98 +114,100 @@ function initViewAllButton() {
 // 显示全部对话记录
 function showAllConversations() {
     const mainContent = document.querySelector('.agent-main-content');
-    if (!mainContent) return;
-
-    // 生成对话列表HTML
-    let conversationsHtml = '';
-    for (let i = 0; i < mockConversations.length; i++) {
-        const conv = mockConversations[i];
-        const statusIcon = conv.status === 'running' ? '⏳' : '✅';
-        const statusClass = conv.status;
-
-        conversationsHtml += '<div class="task-record-card" data-conv-id="' + conv.id + '">' +
-            '<div class="task-record-left">' +
-                '<div class="task-record-header">' +
-                    '<div class="task-record-status">' +
-                        '<span class="task-status-badge ' + statusClass + '">' + statusIcon + '</span>' +
-                    '</div>' +
-                    '<div class="task-record-name">' + conv.title + '</div>' +
-                '</div>' +
-                '<div class="task-record-statistics">' +
-                    '<span class="statistics-label">消息数</span>' +
-                    '<span class="statistics-value">' + conv.messageCount + ' 条</span>' +
-                '</div>' +
-            '</div>' +
-            '<div class="task-record-right">' +
-                '<div class="task-record-time">' + conv.time + '</div>' +
-                '<div class="task-record-actions">' +
-                    '<button class="task-action-btn">查看</button>' +
-                    '<button class="task-action-btn">删除</button>' +
-                '</div>' +
-            '</div>' +
-        '</div>';
+    if (!mainContent) {
+        console.error('找不到 .agent-main-content 容器');
+        return;
     }
 
-    if (mockConversations.length === 0) {
-        conversationsHtml = '<div class="tasks-empty">暂无对话记录</div>';
+    // 检查 TaskRecordList 是否已定义
+    if (typeof TaskRecordList === 'undefined') {
+        console.error('TaskRecordList 组件未定义！');
+        return;
     }
 
-    // 替换内容
-    mainContent.innerHTML = '<div class="tasks-list-container">' +
-        '<div class="tasks-list-header">' +
-            '<h2 class="tasks-list-title">历史对话记录</h2>' +
-        '</div>' +
-        '<div class="tasks-list-content">' +
-            conversationsHtml +
-        '</div>' +
-    '</div>';
+    // 转换数据格式以适配 Type-A 布局
+    // Type-A: 状态 + 标题 + 时间 + 删除
+    const tasks = mockConversations.map(function(conv) {
+        return {
+            id: conv.id,
+            name: conv.title,
+            status: conv.status,
+            time: formatTaskTime(conv.time)
+        };
+    });
 
-    // 绑定对话项点击事件
-    const convItems = mainContent.querySelectorAll('.task-record-card');
-    for (let i = 0; i < convItems.length; i++) {
-        convItems[i].addEventListener('click', function(e) {
-            // 如果点击的是按钮，不触发卡片点击
-            if (e.target.classList.contains('task-action-btn')) {
-                e.stopPropagation();
-                const btnText = e.target.textContent;
-                const convId = this.getAttribute('data-conv-id');
-
-                if (btnText === '查看') {
-                    // 查找对应的对话并显示详情
-                    let selectedConv = null;
-                    for (let j = 0; j < mockConversations.length; j++) {
-                        if (mockConversations[j].id === convId) {
-                            selectedConv = mockConversations[j];
-                            break;
-                        }
-                    }
-
-                    if (selectedConv) {
-                        showChatContent(selectedConv.title);
-                    }
-                } else if (btnText === '删除') {
-                    if (confirm('确定要删除此对话吗？')) {
-                        console.log('删除对话:', convId);
-                    }
-                }
-                return;
+    // 使用通用组件渲染任务列表
+    new TaskRecordList({
+        container: '.agent-main-content',
+        preset: 'security-knowledge',
+        tasks: tasks,
+        onCardClick: function(task) {
+            showChatContent(task.name);
+        },
+        onDelete: function(task) {
+            if (confirm('确定要删除此对话吗？')) {
+                console.log('删除对话:', task.id);
             }
+        }
+    });
+}
 
-            // 点击卡片其他区域，显示对话详情
-            const convId = this.getAttribute('data-conv-id');
-            let selectedConv = null;
-            for (let j = 0; j < mockConversations.length; j++) {
-                if (mockConversations[j].id === convId) {
-                    selectedConv = mockConversations[j];
-                    break;
-                }
-            }
+// 格式化任务时间（按照规范）
+function formatTaskTime(timeStr) {
+    if (!timeStr) return '';
 
-            if (selectedConv) {
-                showChatContent(selectedConv.title);
-            }
-        });
+    const now = new Date();
+    const date = new Date(timeStr);
+
+    // 今天：显示 HH:mm
+    if (isSameDay(now, date)) {
+        return formatTime(date, 'HH:mm');
     }
+
+    // 昨天：显示 昨天 HH:mm
+    if (isYesterday(now, date)) {
+        return '昨天 ' + formatTime(date, 'HH:mm');
+    }
+
+    // 本年内：显示 MM-DD HH:mm
+    if (now.getFullYear() === date.getFullYear()) {
+        return formatTime(date, 'MM-DD HH:mm');
+    }
+
+    // 跨年：显示 YYYY-MM-DD HH:mm
+    return formatTime(date, 'YYYY-MM-DD HH:mm');
+}
+
+// 判断是否同一天
+function isSameDay(d1, d2) {
+    return d1.getFullYear() === d2.getFullYear() &&
+           d1.getMonth() === d2.getMonth() &&
+           d1.getDate() === d2.getDate();
+}
+
+// 判断是否昨天
+function isYesterday(now, date) {
+    const yesterday = new Date(now);
+    yesterday.setDate(yesterday.getDate() - 1);
+    return isSameDay(yesterday, date);
+}
+
+// 格式化时间
+function formatTime(date, format) {
+    const pad = function(n) { return n < 10 ? '0' + n : n; };
+
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+
+    return format
+        .replace('YYYY', year)
+        .replace('MM', month)
+        .replace('DD', day)
+        .replace('HH', hours)
+        .replace('mm', minutes);
 }
 
 // 显示空状态页面

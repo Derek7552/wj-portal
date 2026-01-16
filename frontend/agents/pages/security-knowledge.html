@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/agent-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
     <style>
         /* ==========================================
            安全智库首页空状态样式
@@ -171,181 +172,6 @@
 
             .knowledge-base-dropdown-menu {
                 min-width: 140px;
-            }
-        }
-
-        /* ==========================================
-           对话记录列表样式
-           ========================================== */
-
-        /* 对话记录列表容器 - 白色背景 + 边框 + 圆角 */
-        .tasks-list-container {
-            background: var(--clouditera-neutral-background-white);
-            border: 1px solid var(--clouditera-neutral-border-secondary);
-            border-radius: 8px;
-            padding: 24px;
-        }
-
-        /* 对话记录列表标题 */
-        .tasks-list-header {
-            margin-bottom: 24px;
-        }
-
-        .tasks-list-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--clouditera-neutral-text-title);
-            margin: 0;
-        }
-
-        /* 对话记录列表内容区 */
-        .tasks-list-content {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        /* 任务记录卡片 - 浅灰色背景，无边框 */
-        .task-record-card {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px;
-            background: #f6f7f8;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .task-record-card:hover {
-            background: var(--clouditera-palette-blue-0);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        /* 任务记录左侧 */
-        .task-record-left {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        /* 任务记录头部 */
-        .task-record-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* 任务状态 */
-        .task-record-status {
-            flex-shrink: 0;
-        }
-
-        .task-status-badge {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
-            font-size: 14px;
-        }
-
-        /* 任务名称 */
-        .task-record-name {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--clouditera-neutral-text-primary);
-        }
-
-        /* 任务统计信息 */
-        .task-record-statistics {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding-left: 36px;
-        }
-
-        .statistics-label {
-            font-size: 13px;
-            color: var(--clouditera-neutral-text-secondary);
-        }
-
-        .statistics-value {
-            font-size: 13px;
-            font-weight: 500;
-            color: var(--clouditera-neutral-text-primary);
-        }
-
-        /* 任务记录右侧 */
-        .task-record-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 8px;
-        }
-
-        /* 任务时间 */
-        .task-record-time {
-            font-size: 13px;
-            color: var(--clouditera-neutral-text-secondary);
-        }
-
-        /* 任务操作按钮 */
-        .task-record-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .task-action-btn {
-            padding: 6px 12px;
-            font-size: 13px;
-            color: var(--clouditera-brand-primary);
-            background: transparent;
-            border: 1px solid var(--clouditera-brand-primary);
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .task-action-btn:hover {
-            background: var(--clouditera-brand-primary);
-            color: var(--clouditera-neutral-background-white);
-            border-color: var(--clouditera-brand-primary);
-        }
-
-        .task-action-btn:active {
-            background: var(--clouditera-brand-primary);
-            color: var(--clouditera-neutral-background-white);
-            border-color: var(--clouditera-brand-primary);
-        }
-
-        /* 空状态 */
-        .tasks-empty {
-            text-align: center;
-            padding: 48px 24px;
-            color: var(--clouditera-neutral-text-secondary);
-            font-size: 14px;
-        }
-
-        /* 响应式调整 */
-        @media (max-width: 768px) {
-            .task-record-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
-            }
-
-            .task-record-right {
-                width: 100%;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-            }
-
-            .task-record-statistics {
-                padding-left: 0;
             }
         }
     </style>
@@ -609,6 +435,7 @@
     </main>
 
     <script src="../../js/dashboard.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script src="../js/security-knowledge.js"></script>
 </body>
 </html>

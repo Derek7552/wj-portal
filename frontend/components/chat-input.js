@@ -1,223 +1,181 @@
-/* ==========================================
-   聊天输入框组件 - JavaScript
-   ========================================== */
-
 /**
- * 初始化聊天输入框组件
- * @param {Object} options - 配置选项
- * @param {string} options.selector - 组件选择器，默认 '.chat-input-container'
- * @param {Function} options.onSend - 发送消息的回调函数
- * @param {number} options.maxHeight - 输入框最大高度，默认 200px
- * @param {boolean} options.autoFocus - 是否自动聚焦，默认 false
+ * 通用聊天输入框组件
+ * Chat Input Component
  */
-function initChatInput(options = {}) {
-    const {
-        selector = '.chat-input-container',
-        onSend = null,
-        maxHeight = 200,
-        autoFocus = false
-    } = options;
 
-    // 查找组件容器
-    const container = document.querySelector(selector);
-    if (!container) {
-        console.warn(`聊天输入框组件未找到: ${selector}`);
-        return null;
-    }
+(function() {
+    'use strict';
 
-    // 获取子元素
-    const chatInput = container.querySelector('.chat-input');
-    const chatSend = container.querySelector('.chat-send');
-    const actionButtons = container.querySelectorAll('.chat-input-actions .btn-icon');
+    /**
+     * 初始化聊天输入框
+     * @param {Object} options - 配置选项
+     * @param {string} options.selector - 容器选择器，默认 '.chat-input-container'
+     * @param {boolean} options.autoFocus - 是否自动聚焦，默认 false
+     * @param {Function} options.onSend - 发送回调函数
+     * @returns {Object|null} 输入框实例
+     */
+    function initChatInput(options) {
+        options = options || {};
+        var selector = options.selector || '.chat-input-container';
+        var container = document.querySelector(selector);
 
-    if (!chatInput || !chatSend) {
-        console.warn('聊天输入框组件缺少必要的子元素');
-        return null;
-    }
-
-    // 自动聚焦
-    if (autoFocus) {
-        chatInput.focus();
-    }
-
-    // 自动调整高度
-    chatInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = Math.min(this.scrollHeight, maxHeight) + 'px';
-    });
-
-    // Shift+Enter 发送消息
-    chatInput.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' && e.shiftKey) {
-            e.preventDefault();
-            sendMessage();
+        if (!container) {
+            console.warn('Chat input container not found:', selector);
+            return null;
         }
-    });
 
-    // 发送按钮点击
-    chatSend.addEventListener('click', function(e) {
-        e.preventDefault();
-        sendMessage();
-    });
+        var textarea = container.querySelector('.chat-input');
+        var sendBtn = container.querySelector('.chat-send, #chatSend');
 
-    // 工具按钮点击事件
-    actionButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            const action = this.dataset.action;
-            handleToolAction(action);
+        if (!textarea) {
+            console.warn('Chat input textarea not found in container');
+            return null;
+        }
+
+        // 自动调整高度
+        function autoResize() {
+            textarea.style.height = 'auto';
+            var maxHeight = 200; // 最大高度
+            var newHeight = Math.min(textarea.scrollHeight, maxHeight);
+            textarea.style.height = newHeight + 'px';
+
+            // 如果超过最大高度，显示滚动条
+            if (textarea.scrollHeight > maxHeight) {
+                textarea.style.overflowY = 'auto';
+            } else {
+                textarea.style.overflowY = 'hidden';
+            }
+        }
+
+        // 发送消息
+        function send() {
+            var message = textarea.value.trim();
+            if (!message) {
+                return;
+            }
+
+            if (typeof options.onSend === 'function') {
+                options.onSend(message);
+            }
+
+            // 清空输入框
+            textarea.value = '';
+            autoResize();
+        }
+
+        // 绑定输入事件 - 自动调整高度
+        textarea.addEventListener('input', autoResize);
+
+        // 绑定键盘事件 - Shift+Enter 发送
+        textarea.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.shiftKey) {
+                e.preventDefault();
+                send();
+            }
         });
-    });
 
-    // 发送消息函数
-    function sendMessage() {
-        const message = chatInput.value.trim();
-
-        if (!message) {
-            return;
+        // 绑定发送按钮点击事件
+        if (sendBtn) {
+            sendBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                send();
+            });
         }
 
-        // 调用回调函数
-        if (onSend && typeof onSend === 'function') {
-            onSend(message);
-        } else {
-            console.log('发送消息:', message);
+        // 绑定工具栏按钮事件
+        var toolbarBtns = container.querySelectorAll('.chat-input-actions .btn-icon');
+        toolbarBtns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var action = btn.getAttribute('data-action') || btn.getAttribute('title');
+                console.log('工具栏按钮点击:', action);
+
+                // 根据不同的 action 执行不同操作
+                switch (action) {
+                    case 'upload':
+                    case '上传文件':
+                        console.log('上传文件功能待实现');
+                        break;
+                    case 'image':
+                    case '插入图片':
+                        console.log('插入图片功能待实现');
+                        break;
+                    case 'code':
+                    case '插入代码':
+                        insertAtCursor(textarea, '\n```\n\n```\n');
+                        break;
+                    case 'table':
+                    case '插入表格':
+                        insertAtCursor(textarea, '\n| 列1 | 列2 | 列3 |\n| --- | --- | --- |\n| 内容 | 内容 | 内容 |\n');
+                        break;
+                    default:
+                        break;
+                }
+            });
+        });
+
+        // 自动聚焦
+        if (options.autoFocus) {
+            setTimeout(function() {
+                textarea.focus();
+            }, 100);
         }
 
-        // 清空输入框
-        chatInput.value = '';
-        chatInput.style.height = 'auto';
+        // 初始化高度
+        autoResize();
 
-        // 触发 input 事件以更新高度
-        chatInput.dispatchEvent(new Event('input'));
-    }
-
-    // 工具按钮处理函数
-    function handleToolAction(action) {
-        console.log('工具按钮点击:', action);
-
-        switch (action) {
-            case 'upload':
-                // 触发文件上传
-                handleFileUpload();
-                break;
-            case 'image':
-                // 触发图片上传
-                handleImageUpload();
-                break;
-            case 'code':
-                // 插入代码块
-                insertCodeBlock();
-                break;
-            case 'table':
-                // 插入表格
-                insertTable();
-                break;
-            default:
-                console.log('未知的工具操作:', action);
-        }
-    }
-
-    // 文件上传处理
-    function handleFileUpload() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.onchange = function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                console.log('选择了文件:', file.name);
-                // 这里可以处理文件上传逻辑
+        // 返回实例对象
+        var instance = {
+            getValue: function() {
+                return textarea.value;
+            },
+            setValue: function(value) {
+                textarea.value = value;
+                autoResize();
+            },
+            appendValue: function(value) {
+                var current = textarea.value;
+                if (current && current.trim().length > 0) {
+                    textarea.value = current.trim() + ' ' + value;
+                } else {
+                    textarea.value = value;
+                }
+                autoResize();
+            },
+            focus: function() {
+                textarea.focus();
+            },
+            clear: function() {
+                textarea.value = '';
+                autoResize();
+            },
+            send: send,
+            getContainer: function() {
+                return container;
+            },
+            getTextarea: function() {
+                return textarea;
             }
         };
-        input.click();
+
+        return instance;
     }
 
-    // 图片上传处理
-    function handleImageUpload() {
-        const input = document.createElement('input');
-        input.type = 'file';
-        input.accept = 'image/*';
-        input.onchange = function(e) {
-            const file = e.target.files[0];
-            if (file) {
-                console.log('选择了图片:', file.name);
-                // 这里可以处理图片上传逻辑
-            }
-        };
-        input.click();
+    function insertAtCursor(textarea, text) {
+        var startPos = textarea.selectionStart;
+        var endPos = textarea.selectionEnd;
+        var before = textarea.value.substring(0, startPos);
+        var after = textarea.value.substring(endPos);
+
+        textarea.value = before + text + after;
+
+        var newPos = startPos + text.length;
+        textarea.setSelectionRange(newPos, newPos);
+        textarea.focus();
+        textarea.dispatchEvent(new Event('input'));
     }
 
-    // 插入代码块
-    function insertCodeBlock() {
-        const codeTemplate = '```\n\n```';
-        insertTextAtCursor(chatInput, codeTemplate);
-        // 将光标移到代码块中间
-        const cursorPos = chatInput.selectionStart - 4;
-        chatInput.setSelectionRange(cursorPos, cursorPos);
-        chatInput.focus();
-    }
+    // 暴露到全局
+    window.initChatInput = initChatInput;
 
-    // 插入表格
-    function insertTable() {
-        const tableTemplate = '| 列1 | 列2 | 列3 |\n|-----|-----|-----|\n| 内容 | 内容 | 内容 |\n';
-        insertTextAtCursor(chatInput, tableTemplate);
-        chatInput.focus();
-    }
-
-    // 在光标位置插入文本
-    function insertTextAtCursor(input, text) {
-        const start = input.selectionStart;
-        const end = input.selectionEnd;
-        const before = input.value.substring(0, start);
-        const after = input.value.substring(end);
-
-        input.value = before + text + after;
-        input.setSelectionRange(start + text.length, start + text.length);
-
-        // 触发 input 事件以更新高度
-        input.dispatchEvent(new Event('input'));
-    }
-
-    // 返回组件实例，提供公共方法
-    return {
-        element: container,
-        input: chatInput,
-        sendButton: chatSend,
-
-        // 获取输入内容
-        getValue: () => chatInput.value,
-
-        // 设置输入内容
-        setValue: (value) => {
-            chatInput.value = value;
-            chatInput.dispatchEvent(new Event('input'));
-        },
-
-        // 清空输入
-        clear: () => {
-            chatInput.value = '';
-            chatInput.style.height = 'auto';
-        },
-
-        // 聚焦输入框
-        focus: () => chatInput.focus(),
-
-        // 禁用/启用
-        setDisabled: (disabled) => {
-            chatInput.disabled = disabled;
-            chatSend.disabled = disabled;
-            actionButtons.forEach(btn => btn.disabled = disabled);
-        },
-
-        // 销毁组件
-        destroy: () => {
-            // 移除事件监听器（如需要的话）
-            console.log('聊天输入框组件已销毁');
-        }
-    };
-}
-
-// 支持模块化导出
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { initChatInput };
-}
+})();
