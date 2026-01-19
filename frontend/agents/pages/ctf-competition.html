@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../templates/css/template-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
     <style>
         /* ==========================================
            CTF竞赛首页空状态样式
@@ -262,20 +263,21 @@
     <script src="../../js/dashboard.js"></script>
     <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script src="../../templates/js/template-detail.js"></script>
     <script>
-        // 模拟任务数据
+        // 模拟任务数据 - 符合 Type-A 规范（状态 + 标题 + 时间 + 终止/删除互斥）
         const mockTasks = [
-            { id: '1', name: 'Web题目：SQL注入分析', status: 'running', active: false },
-            { id: '2', name: 'Crypto题目：RSA解密', status: 'running', active: false },
-            { id: '3', name: 'Reverse题目：代码逆向', status: 'completed', active: false },
-            { id: '4', name: 'Pwn题目：栈溢出利用', status: 'completed', active: false },
-            { id: '5', name: 'Misc题目：隐写术分析', status: 'completed', active: false },
-            { id: '6', name: 'Web题目：XSS漏洞利用', status: 'completed', active: false },
-            { id: '7', name: 'Crypto题目：Base64解码', status: 'completed', active: false },
-            { id: '8', name: 'Reverse题目：ELF文件分析', status: 'completed', active: false },
-            { id: '9', name: 'Pwn题目：格式化字符串', status: 'completed', active: false },
-            { id: '10', name: 'Misc题目：流量包分析', status: 'completed', active: false }
+            { id: '1', name: 'Web题目：SQL注入分析', status: 'running', time: '14:30' },
+            { id: '2', name: 'Crypto题目：RSA解密', status: 'running', time: '13:45' },
+            { id: '3', name: 'Reverse题目：代码逆向', status: 'completed', time: '01-18 16:20' },
+            { id: '4', name: 'Pwn题目：栈溢出利用', status: 'completed', time: '01-18 14:15' },
+            { id: '5', name: 'Misc题目：隐写术分析', status: 'completed', time: '01-17 20:30' },
+            { id: '6', name: 'Web题目：XSS漏洞利用', status: 'terminated', time: '01-17 10:45' },
+            { id: '7', name: 'Crypto题目：Base64解码', status: 'completed', time: '01-16 09:20' },
+            { id: '8', name: 'Reverse题目：ELF文件分析', status: 'completed', time: '01-15 18:35' },
+            { id: '9', name: 'Pwn题目：格式化字符串', status: 'error', time: '01-15 11:50' },
+            { id: '10', name: 'Misc题目：流量包分析', status: 'completed', time: '01-14 15:25' }
         ];
 
         // 初始化
@@ -453,9 +455,29 @@
                 onView: function(task) {
                     showTaskDetailById(task.id, task);
                 },
+                onTerminate: function(task) {
+                    if (confirm('确定要终止此任务吗？')) {
+                        console.log('终止任务:', task.id);
+                        // 更新任务状态为已终止
+                        task.status = 'terminated';
+                        // 重新渲染列表
+                        if (taskRecordListInstance) {
+                            taskRecordListInstance.updateTasks(mockTasks);
+                        }
+                    }
+                },
                 onDelete: function(task) {
                     if (confirm('确定要删除此任务吗？')) {
                         console.log('删除任务:', task.id);
+                        // 从列表中移除任务
+                        var index = mockTasks.findIndex(function(t) { return t.id === task.id; });
+                        if (index > -1) {
+                            mockTasks.splice(index, 1);
+                        }
+                        // 重新渲染列表
+                        if (taskRecordListInstance) {
+                            taskRecordListInstance.updateTasks(mockTasks);
+                        }
                     }
                 }
             });

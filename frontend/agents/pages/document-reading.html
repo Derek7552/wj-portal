@@ -1395,7 +1395,7 @@
                                 <div class="task-name">产品需求文档摘要</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon failed">❌</span>
+                                <span class="task-status-icon error">❌</span>
                                 <div class="task-name">安全评估报告速读</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -1676,10 +1676,11 @@
         // 原有代码
         // ==========================================
         // 模拟任务数据
+        // 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
         const mockTasks = [
             { id: '1', name: '安全技术白皮书速读', status: 'running', active: false, fileType: 'pdf', time: '2025-01-16 14:30' },
             { id: '2', name: '产品需求文档摘要', status: 'running', active: false, fileType: 'docx', time: '2025-01-16 14:15' },
-            { id: '3', name: '安全评估报告速读', status: 'failed', active: false, fileType: 'pdf', time: '2025-01-16 13:45' },
+            { id: '3', name: '安全评估报告速读', status: 'error', active: false, fileType: 'pdf', time: '2025-01-16 13:45' },
             { id: '4', name: '技术规范文档速读', status: 'completed', active: false, fileType: 'pdf', time: '2025-01-16 11:20' },
             { id: '5', name: '漏洞分析报告速读', status: 'completed', active: false, fileType: 'docx', time: '2025-01-15 16:30' },
             { id: '6', name: '安全策略文档速读', status: 'completed', active: false, fileType: 'pdf', time: '2025-01-15 14:00' },
@@ -2141,7 +2142,7 @@
                         questionsTablePanel.className = 'questions-table-panel';
                         questionsTablePanel.innerHTML =
                             '<div class="error-state-container">' +
-                                '<div class="error-icon">⚠️</div>' +
+                                '<div class="error-icon">❌</div>' +
                                 '<div class="error-text">加载失败</div>' +
                                 '<div class="error-description">文档内容加载失败，请稍后重试</div>' +
                             '</div>';
@@ -2177,7 +2178,7 @@
                             '<div class="paper-tab-content" data-content="guide">' +
                                 '<div class="paper-guide-content">' +
                                     '<div class="error-state-container">' +
-                                        '<div class="error-icon">⚠️</div>' +
+                                        '<div class="error-icon">❌</div>' +
                                         '<div class="error-text">加载失败</div>' +
                                         '<div class="error-description">文档导读生成失败，请稍后重试</div>' +
                                     '</div>' +
@@ -3078,7 +3079,7 @@
                 questionsTablePanel.className = 'questions-table-panel';
                 questionsTablePanel.innerHTML =
                     '<div class="error-state-container">' +
-                        '<div class="error-icon">⚠️</div>' +
+                        '<div class="error-icon">❌</div>' +
                         '<div class="error-text">加载失败</div>' +
                         '<div class="error-description">文档内容加载失败，请稍后重试</div>' +
                     '</div>';
@@ -3114,7 +3115,7 @@
                     '<div class="paper-tab-content" data-content="guide">' +
                         '<div class="paper-guide-content">' +
                             '<div class="error-state-container">' +
-                                '<div class="error-icon">⚠️</div>' +
+                                '<div class="error-icon">❌</div>' +
                                 '<div class="error-text">加载失败</div>' +
                                 '<div class="error-description">文档导读生成失败，请稍后重试</div>' +
                             '</div>' +

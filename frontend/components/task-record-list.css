@@ -144,6 +144,89 @@
 }
 
 /* ==========================================
+   Type-B 双行布局卡片样式（缺陷研判专用）
+   第一行：状态图标 + 标题
+   第二行：时间 + 下载/删除按钮(hover)
+   ========================================== */
+
+.trl-card.trl-card-type-b {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 4px;
+    padding: 12px 16px;
+    height: 64px;
+    box-sizing: border-box;
+}
+
+/* 主行：状态图标 + 标题，左对齐 */
+.trl-card.trl-card-type-b .trl-card-main-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    height: 20px;
+    width: 100%;
+}
+
+.trl-card.trl-card-type-b .trl-card-main-row .trl-status {
+    width: 16px;
+    height: 16px;
+    font-size: 14px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trl-card.trl-card-type-b .trl-card-main-row .trl-task-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--clouditera-neutral-text-primary, #374151);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+}
+
+/* 副行：时间(左) + 下载/删除按钮(右，hover显示) */
+.trl-card.trl-card-type-b .trl-card-sub-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    width: calc(100% - 24px);
+    margin-left: 24px;
+}
+
+.trl-card.trl-card-type-b .trl-card-sub-row .trl-time {
+    font-size: 12px;
+    color: var(--clouditera-neutral-text-secondary, #6b7280);
+    line-height: 20px;
+    position: static;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+.trl-card.trl-card-type-b .trl-card-sub-row .trl-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    position: static;
+    pointer-events: none;
+}
+
+.trl-card.trl-card-type-b:hover .trl-card-sub-row .trl-actions {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ==========================================
    Type-C 双行布局卡片样式（AI漏洞猎人专用）
    第一行：状态图标 + 标题
    第二行：标签 · 统计 · 时间 + 操作按钮(hover)

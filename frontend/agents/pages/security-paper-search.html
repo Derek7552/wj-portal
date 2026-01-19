@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../templates/css/template-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
     <style>
         /* 页面背景色 */
         body.agent-detail-page {
@@ -1908,7 +1909,7 @@
                                 <div class="task-name">Python代码安全审计</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon failed">❌</span>
+                                <span class="task-status-icon error">❌</span>
                                 <div class="task-name">Spring Boot应用审计</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -2227,17 +2228,19 @@
     <script src="../../js/dashboard.js"></script>
     <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script src="../../templates/js/template-detail.js"></script>
     <script>
         // 模拟任务数据
+        // 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
         const mockTasks = [
-            { id: '1', name: '可信高效任务', status: 'running', active: false },
-            { id: '2', name: 'React应用漏洞扫描', status: 'running', active: false },
-            { id: '3', name: 'Python代码安全审计', status: 'completed', active: false },
-            { id: '4', name: 'Spring Boot应用审计', status: 'failed', active: false },
-            { id: '5', name: 'Node.js安全咨询', status: 'completed', active: false },
-            { id: '6', name: 'Django项目代码审查', status: 'completed', active: false },
-            { id: '7', name: 'Vue.js安全扫描', status: 'completed', active: false }
+            { id: '1', name: '可信高效任务', status: 'running', time: '14:30', active: false },
+            { id: '2', name: 'React应用漏洞扫描', status: 'running', time: '昨天 16:45', active: false },
+            { id: '3', name: 'Python代码安全审计', status: 'completed', time: '01-15 14:30', active: false },
+            { id: '4', name: 'Spring Boot应用审计', status: 'error', time: '01-14 09:20', active: false },
+            { id: '5', name: 'Node.js安全咨询', status: 'completed', time: '01-13 11:45', active: false },
+            { id: '6', name: 'Django项目代码审查', status: 'completed', time: '01-12 16:30', active: false },
+            { id: '7', name: 'Vue.js安全扫描', status: 'completed', time: '2024-12-20 14:30', active: false }
         ];
 
         // 生成骨架屏论文卡片
@@ -3376,7 +3379,7 @@
                     taskContent.innerHTML =
                         '<div class="error-state-container">' +
                             '<div class="error-state-content">' +
-                                '<div class="error-state-icon">⚠️</div>' +
+                                '<div class="error-state-icon">❌</div>' +
                                 '<div class="error-state-title">任务执行失败</div>' +
                                 '<div class="error-state-description">' +
                                     '抱歉，Spring Boot应用审计任务在执行过程中遇到了问题。<br>' +
@@ -3664,9 +3667,32 @@
                 onView: function(task) {
                     showTaskDetailById(task.id, task);
                 },
+                onTerminate: function(task) {
+                    if (confirm('确定要终止此任务吗？')) {
+                        console.log('终止任务:', task.id);
+                        // 更新任务状态
+                        var taskIndex = mockTasks.findIndex(function(t) {
+                            return t.id === task.id;
+                        });
+                        if (taskIndex !== -1) {
+                            mockTasks[taskIndex].status = 'terminated';
+                            // 刷新列表
+                            showAllTasks();
+                        }
+                    }
+                },
                 onDelete: function(task) {
                     if (confirm('确定要删除此任务吗？')) {
                         console.log('删除任务:', task.id);
+                        // 从列表中移除任务
+                        var taskIndex = mockTasks.findIndex(function(t) {
+                            return t.id === task.id;
+                        });
+                        if (taskIndex !== -1) {
+                            mockTasks.splice(taskIndex, 1);
+                            // 刷新列表
+                            showAllTasks();
+                        }
                     }
                 }
             });

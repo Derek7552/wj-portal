@@ -1299,7 +1299,7 @@
                                 <div class="task-name">系统架构设计论文研读</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon failed">❌</span>
+                                <span class="task-status-icon error">❌</span>
                                 <div class="task-name">安全评估方法论文研读</div>
                             </a>
                             <a href="#" class="recent-task-item">
@@ -1580,10 +1580,11 @@
         // 原有代码
         // ==========================================
         // 模拟任务数据
+        // 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
         const mockTasks = [
             { id: '1', name: '网络安全技术论文研读', status: 'running', active: false, fileType: 'pdf' },
             { id: '2', name: '系统架构设计论文研读', status: 'running', active: false, fileType: 'docx' },
-            { id: '3', name: '安全评估方法论文研读', status: 'failed', active: false, fileType: 'pdf' },
+            { id: '3', name: '安全评估方法论文研读', status: 'error', active: false, fileType: 'pdf' },
             { id: '4', name: '密码学算法论文研读', status: 'completed', active: false, fileType: 'pdf' },
             { id: '5', name: '漏洞挖掘技术论文研读', status: 'completed', active: false, fileType: 'docx' },
             { id: '6', name: '访问控制策略论文研读', status: 'completed', active: false, fileType: 'pdf' },
@@ -1646,7 +1647,7 @@
                             // 安全评估方法论文研读 - 显示失败状态（不显示标签页）
                             questionsTablePanel.innerHTML =
                                 '<div class="error-state-container">' +
-                                    '<div class="error-icon">⚠️</div>' +
+                                    '<div class="error-icon">❌</div>' +
                                     '<div class="error-text">加载失败</div>' +
                                     '<div class="error-description">论文内容加载失败，请稍后重试</div>' +
                                 '</div>';
@@ -1933,7 +1934,7 @@
                                 '<div class="paper-tab-content" data-content="guide">' +
                                     '<div class="paper-guide-content">' +
                                         '<div class="error-state-container">' +
-                                            '<div class="error-icon">⚠️</div>' +
+                                            '<div class="error-icon">❌</div>' +
                                             '<div class="error-text">加载失败</div>' +
                                             '<div class="error-description">论文导读生成失败，请稍后重试</div>' +
                                         '</div>' +
@@ -1942,7 +1943,7 @@
                                 '<div class="paper-tab-content" data-content="mindmap">' +
                                     '<div class="paper-mindmap-content">' +
                                         '<div class="error-state-container">' +
-                                            '<div class="error-icon">⚠️</div>' +
+                                            '<div class="error-icon">❌</div>' +
                                             '<div class="error-text">加载失败</div>' +
                                             '<div class="error-description">论文脑图生成失败，请稍后重试</div>' +
                                         '</div>' +

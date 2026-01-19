@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../templates/css/template-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
     <link rel="stylesheet" href="../css/attack-surface-detail.css">
 </head>
 <body class="agent-detail-page">
@@ -148,43 +149,43 @@
                         <div class="recent-tasks-list">
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">Web应用攻击面扫描</div>
+                                <div class="task-name">example.com</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">服务器端口暴露检查</div>
+                                <div class="task-name">192.168.1.1</div>
                             </a>
                             <a href="#" class="recent-task-item">
-                                <span class="task-status-icon failed">❌</span>
-                                <div class="task-name">API接口安全审计</div>
-                            </a>
-                            <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">云服务配置检查</div>
+                                <span class="task-status-icon error">❌</span>
+                                <div class="task-name">api.example.com</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">域名资产发现</div>
+                                <div class="task-name">test.clouditera.com</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">子域名安全检查</div>
+                                <div class="task-name">admin.example.org</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">暴露服务识别</div>
+                                <div class="task-name">10.0.0.100</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon terminated">⏹️</span>
+                                <div class="task-name">staging.example.com</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">网络资产扫描</div>
+                                <div class="task-name">dev.example.net</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">安全配置评估</div>
+                                <div class="task-name">cdn.example.com</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">漏洞扫描结果分析</div>
+                                <div class="task-name">mail.example.org</div>
                             </a>
                         </div>
 
@@ -251,20 +252,23 @@
     <script src="../../js/dashboard.js"></script>
     <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script src="../../templates/js/template-detail.js"></script>
     <script>
         // 模拟任务数据
+        // 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
+        // Type-A 布局：状态 + 标题 + 时间 + 终止/删除（互斥）
         const mockTasks = [
-            { id: '1', name: 'Web应用攻击面扫描', status: 'running', active: false },
-            { id: '2', name: '服务器端口暴露检查', status: 'running', active: false },
-            { id: '3', name: 'API接口安全审计', status: 'failed', active: false },
-            { id: '4', name: '云服务配置检查', status: 'completed', active: false },
-            { id: '5', name: '域名资产发现', status: 'completed', active: false },
-            { id: '6', name: '子域名安全检查', status: 'completed', active: false },
-            { id: '7', name: '暴露服务识别', status: 'completed', active: false },
-            { id: '8', name: '网络资产扫描', status: 'completed', active: false },
-            { id: '9', name: '安全配置评估', status: 'completed', active: false },
-            { id: '10', name: '漏洞扫描结果分析', status: 'completed', active: false }
+            { id: '1', name: 'example.com', status: 'running', time: '14:30' },
+            { id: '2', name: '192.168.1.1', status: 'running', time: '14:25' },
+            { id: '3', name: 'api.example.com', status: 'error', time: '01-15 10:20' },
+            { id: '4', name: 'test.clouditera.com', status: 'completed', time: '01-15 09:30' },
+            { id: '5', name: 'admin.example.org', status: 'completed', time: '01-14 16:45' },
+            { id: '6', name: '10.0.0.100', status: 'completed', time: '01-14 14:20' },
+            { id: '7', name: 'staging.example.com', status: 'terminated', time: '01-13 11:30' },
+            { id: '8', name: 'dev.example.net', status: 'completed', time: '01-12 09:15' },
+            { id: '9', name: 'cdn.example.com', status: 'completed', time: '01-11 17:40' },
+            { id: '10', name: 'mail.example.org', status: 'completed', time: '2024-12-20 14:30' }
         ];
 
         // 初始化
@@ -564,7 +568,8 @@
                 // 更新任务项的active状态
                 var taskItems = document.querySelectorAll('.recent-task-item');
                 var taskName = (taskData && taskData.name) ? taskData.name : '未知任务';
-                
+                var taskStatus = (taskData && taskData.status) ? taskData.status : 'completed';
+
                 taskItems.forEach(function(item) {
                     var itemTaskName = item.querySelector('.task-name');
                     if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
@@ -580,78 +585,21 @@
                     return;
                 }
 
-                // 如果是"Web应用攻击面扫描"任务，显示详情页面
-                if (taskName === 'Web应用攻击面扫描') {
-                    showAttackSurfaceDetail(chatArea);
-                    return;
-                }
-
-                // 如果是"服务器端口暴露检查"任务，显示加载中状态
-                if (taskName === '服务器端口暴露检查') {
+                // 根据任务状态显示不同的详情页面
+                if (taskStatus === 'running') {
+                    // 分析中状态 - 显示加载中
                     showAttackSurfaceDetailWithLoading(chatArea, taskName);
                     return;
                 }
 
-                // 如果是"API接口安全审计"任务，显示失败状态
-                if (taskName === 'API接口安全审计') {
+                if (taskStatus === 'error') {
+                    // 错误状态 - 显示失败页面
                     showAttackSurfaceDetailWithError(chatArea, taskName);
                     return;
                 }
 
-                // 其他任务显示聊天界面
-                chatArea.innerHTML = '';
-
-                var taskContent = document.createElement('div');
-                taskContent.className = 'task-detail-content';
-
-                taskContent.innerHTML = '<div class="chat-header">' +
-                    '<div class="chat-title">' + taskName + '</div>' +
-                    '<div class="chat-time">刚刚</div>' +
-                '</div>' +
-                '<div class="chat-messages">' +
-                    '<div class="message message-user">' +
-                        '<div class="message-avatar">👤</div>' +
-                        '<div class="message-content">' +
-                            '<div class="message-time">刚刚</div>' +
-                            '<div class="message-text">请帮我检查一个Web应用的攻击面，重点关注暴露的端口和服务。</div>' +
-                        '</div>' +
-                    '</div>' +
-                    '<div class="message message-ai">' +
-                        '<div class="message-avatar">🤖</div>' +
-                        '<div class="message-content">' +
-                            '<div class="message-time">刚刚</div>' +
-                            '<div class="message-text">你好！我将协助你进行攻击面检查。请提供目标域名或IP地址，我将全面扫描暴露的服务、端口和潜在安全风险。</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="chat-input-container" data-container-mode="fixed">' +
-                    '<div class="chat-input-wrapper">' +
-                        '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
-                        '<div class="chat-input-toolbar">' +
-                            '<div class="chat-input-actions">' +
-                                '<button class="btn-icon" title="上传文件">📎</button>' +
-                                '<button class="btn-icon" title="插入图片">🖼️</button>' +
-                                '<button class="btn-icon" title="插入代码">💻</button>' +
-                                '<button class="btn-icon" title="插入表格">📊</button>' +
-                            '</div>' +
-                            '<button class="btn btn-primary chat-send">' +
-                                '<span>发送</span>' +
-                                '<span class="send-shortcut">Shift+Enter</span>' +
-                            '</button>' +
-                        '</div>' +
-                    '</div>' +
-                '</div>';
-
-                chatArea.appendChild(taskContent);
-                taskContent.style.display = 'flex';
-
-                // 滚动到底部
-                setTimeout(function() {
-                    var chatMessages = taskContent.querySelector('.chat-messages');
-                    if (chatMessages) {
-                        chatMessages.scrollTop = chatMessages.scrollHeight;
-                    }
-                }, 100);
+                // 已完成/已终止状态 - 显示详情页面
+                showAttackSurfaceDetail(chatArea, taskName);
             } catch (error) {
                 console.error('[DEBUG] 错误:', error);
             }
@@ -665,6 +613,12 @@
             var chatArea = document.querySelector('.agent-main-content');
             if (!chatArea) return;
 
+            // 清除左侧任务项的active状态
+            var taskItems = document.querySelectorAll('.recent-task-item');
+            taskItems.forEach(function(item) {
+                item.classList.remove('active');
+            });
+
             // 使用通用组件渲染任务列表
             taskRecordListInstance = new TaskRecordList({
                 container: chatArea,
@@ -676,9 +630,29 @@
                 onView: function(task) {
                     showTaskDetailById(task.id, task);
                 },
+                onTerminate: function(task) {
+                    if (confirm('确定要终止任务「' + task.name + '」吗？')) {
+                        console.log('终止任务:', task.id, task.name);
+                        // 更新任务状态
+                        task.status = 'terminated';
+                        // 重新渲染列表
+                        if (taskRecordListInstance) {
+                            taskRecordListInstance.render();
+                        }
+                    }
+                },
                 onDelete: function(task) {
-                    if (confirm('确定要删除此任务吗？')) {
-                        console.log('删除任务:', task.id);
+                    if (confirm('确定要删除任务「' + task.name + '」吗？')) {
+                        console.log('删除任务:', task.id, task.name);
+                        // 从列表中移除任务
+                        var index = mockTasks.findIndex(function(t) { return t.id === task.id; });
+                        if (index > -1) {
+                            mockTasks.splice(index, 1);
+                        }
+                        // 重新渲染列表
+                        if (taskRecordListInstance) {
+                            taskRecordListInstance.updateTasks(mockTasks);
+                        }
                     }
                 }
             });
@@ -689,7 +663,8 @@
             // 更新任务项的active状态
             var taskItems = document.querySelectorAll('.recent-task-item');
             var taskName = taskData ? taskData.name : '未知任务';
-            
+            var taskStatus = taskData ? taskData.status : 'completed';
+
             taskItems.forEach(function(item) {
                 var itemTaskName = item.querySelector('.task-name');
                 if (itemTaskName && itemTaskName.textContent.trim() === taskName) {
@@ -702,94 +677,26 @@
             var chatArea = document.querySelector('.agent-main-content');
             if (!chatArea) return;
 
-            // 如果是"Web应用攻击面扫描"任务，显示详情页面
-            if (taskName === 'Web应用攻击面扫描') {
-                showAttackSurfaceDetail(chatArea);
-                return;
-            }
-
-            // 如果是"服务器端口暴露检查"任务，显示加载中状态
-            if (taskName === '服务器端口暴露检查') {
+            // 根据任务状态显示不同的详情页面
+            if (taskStatus === 'running') {
+                // 分析中状态 - 显示加载中
                 showAttackSurfaceDetailWithLoading(chatArea, taskName);
                 return;
             }
 
-            // 如果是"API接口安全审计"任务，显示失败状态
-            if (taskName === 'API接口安全审计') {
+            if (taskStatus === 'error') {
+                // 错误状态 - 显示失败页面
                 showAttackSurfaceDetailWithError(chatArea, taskName);
                 return;
             }
 
-            var taskContent = document.createElement('div');
-            taskContent.className = 'task-detail-content';
-
-            taskContent.innerHTML = '<div class="chat-header">' +
-                '<div class="chat-title">' + taskName + '</div>' +
-                '<div class="chat-time">刚刚</div>' +
-            '</div>' +
-            '<div class="chat-messages">' +
-                '<div class="message message-user">' +
-                    '<div class="message-avatar">👤</div>' +
-                    '<div class="message-content">' +
-                        '<div class="message-time">刚刚</div>' +
-                        '<div class="message-text">请帮我检查一个Web应用的攻击面，重点关注暴露的端口和服务。</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="message message-ai">' +
-                    '<div class="message-avatar">🤖</div>' +
-                    '<div class="message-content">' +
-                        '<div class="message-time">刚刚</div>' +
-                        '<div class="message-text">你好！我将协助你进行攻击面检查。请提供目标域名或IP地址，我将全面扫描暴露的服务、端口和潜在安全风险。</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="message message-user">' +
-                    '<div class="message-avatar">👤</div>' +
-                    '<div class="message-content">' +
-                        '<div class="message-time">刚刚</div>' +
-                        '<div class="message-text">具体会检查哪些方面？</div>' +
-                    '</div>' +
-                '</div>' +
-                '<div class="message message-ai">' +
-                    '<div class="message-avatar">🤖</div>' +
-                    '<div class="message-content">' +
-                        '<div class="message-time">刚刚</div>' +
-                        '<div class="message-text">我将重点检查以下方面：<br>1. 开放端口和服务识别<br>2. 子域名和资产发现<br>3. API接口暴露情况<br>4. 安全配置和加固建议</div>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-            '<div class="chat-input-container" data-container-mode="fixed">' +
-                '<div class="chat-input-wrapper">' +
-                    '<textarea class="chat-input" placeholder="输入您的问题或粘贴代码..." rows="3"></textarea>' +
-                    '<div class="chat-input-toolbar">' +
-                        '<div class="chat-input-actions">' +
-                            '<button class="btn-icon" title="上传文件">📎</button>' +
-                            '<button class="btn-icon" title="插入图片">🖼️</button>' +
-                            '<button class="btn-icon" title="插入代码">💻</button>' +
-                            '<button class="btn-icon" title="插入表格">📊</button>' +
-                        '</div>' +
-                        '<button class="btn btn-primary chat-send">' +
-                            '<span>发送</span>' +
-                            '<span class="send-shortcut">Shift+Enter</span>' +
-                        '</button>' +
-                    '</div>' +
-                '</div>' +
-            '</div>';
-
-            chatArea.innerHTML = '';
-            chatArea.appendChild(taskContent);
-            taskContent.style.display = 'flex';
-
-            // 滚动到底部
-            setTimeout(function() {
-                var chatMessages = taskContent.querySelector('.chat-messages');
-                if (chatMessages) {
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }
-            }, 100);
+            // 已完成/已终止状态 - 显示详情页面
+            showAttackSurfaceDetail(chatArea, taskName);
         }
 
         // 显示攻击面扫描详情页面
-        function showAttackSurfaceDetail(chatArea) {
+        function showAttackSurfaceDetail(chatArea, taskName) {
+            taskName = taskName || '攻击面检查';
             chatArea.innerHTML = '<div class="attack-surface-detail">' +
                 // 左侧面板
                 '<div class="attack-surface-left">' +
@@ -1359,7 +1266,7 @@
                     '<div class="exposure-section">' +
                         '<h3 class="exposure-section-title">扫描失败</h3>' +
                         '<div class="error-placeholder">' +
-                            '<div class="error-icon">⚠️</div>' +
+                            '<div class="error-icon">❌</div>' +
                             '<h3 class="error-title">API接口安全审计失败</h3>' +
                             '<p class="error-text">扫描过程中遇到错误，无法完成安全审计任务。可能的原因：目标服务不可达、权限不足或网络连接异常。</p>' +
                             '<button class="btn btn-primary btn-retry" onclick="handleRetry()">' +

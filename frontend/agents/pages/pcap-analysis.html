@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../../templates/css/template-detail.css">
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
     <style>
         /* ==========================================
            Pcap包分析首页空状态样式
@@ -877,43 +878,43 @@
                         <div class="recent-tasks-list">
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">网络流量分析</div>
+                                <div class="task-name">network_capture_20250115.pcap</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon running">⏳</span>
-                                <div class="task-name">异常流量检测</div>
+                                <div class="task-name">traffic_analysis_prod.pcapng</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">DDoS攻击分析</div>
+                                <div class="task-name">ddos_attack_sample.pcap</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">恶意软件通信分析</div>
+                                <div class="task-name">malware_traffic.pcapng</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">网络协议分析</div>
+                                <div class="task-name">protocol_test_20250113.pcap</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon terminated">⏹️</span>
+                                <div class="task-name">data_leak_detection.cap</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">数据泄露检测</div>
+                                <div class="task-name">port_scan_capture.pcap</div>
+                            </a>
+                            <a href="#" class="recent-task-item">
+                                <span class="task-status-icon error">❌</span>
+                                <div class="task-name">intrusion_analysis.pcapng</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">端口扫描检测</div>
+                                <div class="task-name">feature_extraction_test.pcap</div>
                             </a>
                             <a href="#" class="recent-task-item">
                                 <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">网络入侵分析</div>
-                            </a>
-                            <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">流量特征提取</div>
-                            </a>
-                            <a href="#" class="recent-task-item">
-                                <span class="task-status-icon completed">✅</span>
-                                <div class="task-name">安全事件关联分析</div>
+                                <div class="task-name">security_event_corr.pcap</div>
                             </a>
                         </div>
 
@@ -979,6 +980,7 @@
     <script src="../../js/dashboard.js"></script>
     <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script>
         // ==========================================
         // 文件上传功能
@@ -1305,18 +1307,18 @@
         // ==========================================
         // 原有代码
         // ==========================================
-        // 模拟任务数据
+        // 模拟任务数据（符合 Type-A 规范：状态+标题+时间+终止/删除互斥）
         const mockTasks = [
-            { id: '1', name: '网络流量分析', status: 'running', active: false },
-            { id: '2', name: '异常流量检测', status: 'running', active: false },
-            { id: '3', name: 'DDoS攻击分析', status: 'completed', active: false },
-            { id: '4', name: '恶意软件通信分析', status: 'completed', active: false },
-            { id: '5', name: '网络协议分析', status: 'completed', active: false },
-            { id: '6', name: '数据泄露检测', status: 'completed', active: false },
-            { id: '7', name: '端口扫描检测', status: 'completed', active: false },
-            { id: '8', name: '网络入侵分析', status: 'completed', active: false },
-            { id: '9', name: '流量特征提取', status: 'completed', active: false },
-            { id: '10', name: '安全事件关联分析', status: 'completed', active: false }
+            { id: '1', name: 'network_capture_20250115.pcap', status: 'running', time: '01-15 14:30', active: false },
+            { id: '2', name: 'traffic_analysis_prod.pcapng', status: 'running', time: '01-15 13:45', active: false },
+            { id: '3', name: 'ddos_attack_sample.pcap', status: 'completed', time: '01-14 16:20', active: false },
+            { id: '4', name: 'malware_traffic.pcapng', status: 'completed', time: '01-14 10:15', active: false },
+            { id: '5', name: 'protocol_test_20250113.pcap', status: 'completed', time: '01-13 09:30', active: false },
+            { id: '6', name: 'data_leak_detection.cap', status: 'terminated', time: '01-12 14:50', active: false },
+            { id: '7', name: 'port_scan_capture.pcap', status: 'completed', time: '01-11 11:20', active: false },
+            { id: '8', name: 'intrusion_analysis.pcapng', status: 'error', time: '01-10 08:45', active: false },
+            { id: '9', name: 'feature_extraction_test.pcap', status: 'completed', time: '01-09 15:10', active: false },
+            { id: '10', name: 'security_event_corr.pcap', status: 'completed', time: '01-08 17:30', active: false }
         ];
 
         // 处理任务点击的通用函数
@@ -1621,7 +1623,7 @@
             var chatArea = document.querySelector('.agent-main-content');
             if (!chatArea) return;
 
-            // 使用通用组件渲染任务列表
+            // 使用通用组件渲染任务列表（Type-A 布局：状态+标题+时间+终止/删除互斥）
             taskRecordListInstance = new TaskRecordList({
                 container: chatArea,
                 preset: 'pcap-analysis',
@@ -1632,9 +1634,28 @@
                 onView: function(task) {
                     showTaskDetailById(task.id, task);
                 },
+                onTerminate: function(task) {
+                    if (confirm('确定要终止此任务吗？')) {
+                        console.log('终止任务:', task.id);
+                        // 更新任务状态为已终止
+                        var taskIndex = mockTasks.findIndex(function(t) { return t.id === task.id; });
+                        if (taskIndex !== -1) {
+                            mockTasks[taskIndex].status = 'terminated';
+                            // 重新渲染列表
+                            showAllTasks();
+                        }
+                    }
+                },
                 onDelete: function(task) {
                     if (confirm('确定要删除此任务吗？')) {
                         console.log('删除任务:', task.id);
+                        // 从列表中移除任务
+                        var taskIndex = mockTasks.findIndex(function(t) { return t.id === task.id; });
+                        if (taskIndex !== -1) {
+                            mockTasks.splice(taskIndex, 1);
+                            // 重新渲染列表
+                            showAllTasks();
+                        }
                     }
                 }
             });

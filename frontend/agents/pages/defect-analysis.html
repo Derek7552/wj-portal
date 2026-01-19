@@ -896,7 +896,7 @@
                         <div class="result-card error-card error-card-fullwidth">
                             <div class="result-card-body">
                                 <div class="error-content">
-                                    <div class="error-icon">⚠️</div>
+                                    <div class="error-icon">❌</div>
                                     <div class="error-text">
                                         工具暂未适配，查看 <a href="#" class="error-link" id="viewSastToolsError">已适配SAST工具</a>，请重新上传
                                     </div>
@@ -937,10 +937,11 @@
         });
 
         // 模拟任务数据
+        // 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
         const mockTasks = [
             { id: '1', name: 'Python代码缺陷研判', status: 'running', active: false },
             { id: '2', name: 'Java安全缺陷评估', status: 'running', active: false },
-            { id: '3', name: 'PHP代码风险分析', status: 'completed', active: false },
+            { id: '3', name: 'PHP代码风险分析', status: 'error', active: false },
             { id: '4', name: 'Node.js安全缺陷研判', status: 'completed', active: false },
             { id: '5', name: 'Go语言代码评估', status: 'completed', active: false },
             { id: '6', name: 'C++安全缺陷分析', status: 'completed', active: false },

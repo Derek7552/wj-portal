@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../../components/agent-sidebar.css">
     <link rel="stylesheet" href="../../components/chat-input.css">
     <link rel="stylesheet" href="../css/phishing-detail.css">
+    <link rel="stylesheet" href="../../components/task-record-list.css">
 </head>
 <body class="agent-detail-page">
     <!-- 左侧主导航栏 - 智能体详情页模式（收起） -->
@@ -303,20 +304,23 @@
     <script src="../../js/dashboard.js"></script>
     <script src="../../components/agent-sidebar.js"></script>
     <script src="../../components/chat-input.js"></script>
+    <script src="../../components/task-record-list.js"></script>
     <script src="../../templates/js/template-detail.js"></script>
     <script>
-        // 模拟任务数据
+        // 模拟任务数据 - 基于任务记录spec规范
+        // 社工钓鱼属于 Type-A 基础型：状态 + 标题 + 时间 + 终止/删除（互斥）
+        // 数据类型：自然语言类，标题来源为内容摘要
         const mockTasks = [
-            { id: '1', name: '可疑邮件分析', status: 'running', active: false },
-            { id: '2', name: '钓鱼链接检测', status: 'running', active: false },
-            { id: '3', name: '社交工程攻击识别', status: 'completed', active: false },
-            { id: '4', name: '钓鱼网站分析', status: 'completed', active: false },
-            { id: '5', name: '邮件安全培训', status: 'completed', active: false },
-            { id: '6', name: '钓鱼防护建议', status: 'completed', active: false },
-            { id: '7', name: '可疑域名检测', status: 'completed', active: false },
-            { id: '8', name: '社交工程手段分析', status: 'completed', active: false },
-            { id: '9', name: '钓鱼邮件特征识别', status: 'completed', active: false },
-            { id: '10', name: '安全防护策略咨询', status: 'completed', active: false }
+            { id: '1', name: '可疑邮件分析', status: 'running', time: '14:30' },
+            { id: '2', name: '钓鱼链接检测', status: 'running', time: '14:15' },
+            { id: '3', name: '社交工程攻击识别', status: 'completed', time: '01-18 16:45' },
+            { id: '4', name: '钓鱼网站分析', status: 'completed', time: '01-18 15:20' },
+            { id: '5', name: '邮件安全培训', status: 'completed', time: '01-17 11:30' },
+            { id: '6', name: '钓鱼防护建议', status: 'completed', time: '01-16 09:45' },
+            { id: '7', name: '可疑域名检测', status: 'terminated', time: '01-15 14:30' },
+            { id: '8', name: '社交工程手段分析', status: 'completed', time: '01-14 10:20' },
+            { id: '9', name: '钓鱼邮件特征识别', status: 'error', time: '01-13 08:15' },
+            { id: '10', name: '安全防护策略咨询', status: 'completed', time: '2024-12-28 16:00' }
         ];
 
         // 初始化
@@ -608,6 +612,10 @@
             }
 
             // 使用通用组件渲染任务列表
+            // 社工钓鱼属于 Type-A 基础型
+            // 配置规则：
+            // - 分析中(running) → 显示终止按钮
+            // - 已完成(completed)/已终止(terminated)/错误(error) → 显示删除按钮
             taskRecordListInstance = new TaskRecordList({
                 container: chatArea,
                 preset: 'phishing-detection',
@@ -618,9 +626,17 @@
                 onView: function(task) {
                     showTaskDetailById(task.id, task);
                 },
+                onTerminate: function(task) {
+                    if (confirm('确定要终止此任务吗？')) {
+                        console.log('终止任务:', task.id);
+                        // 实际项目中调用API终止任务
+                        // 终止后状态变为 terminated
+                    }
+                },
                 onDelete: function(task) {
                     if (confirm('确定要删除此任务吗？')) {
                         console.log('删除任务:', task.id);
+                        // 实际项目中调用API删除任务
                     }
                 }
             });

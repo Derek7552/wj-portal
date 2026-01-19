@@ -56,11 +56,12 @@ let currentKbId = 'kb-1';
 const MAX_KB_COUNT = 3;
 
 // 模拟文件数据
+// 状态值按照 spec.md 规范：running(分析中), completed(已完成/success), terminated(已终止), error(错误)
 let fileData = [
     {
         id: 1,
         name: 'FuzzEnFuzz.no_watermark.zh-CN.pdf',
-        status: 'failed',
+        status: 'error',
         time: '2026-01-04 16:29:02',
         size: '9B',
         timestamp: new Date('2026-01-04 16:29:02').getTime(),
@@ -208,11 +209,14 @@ function renderFileTable() {
     tbody.innerHTML = '';
 
     fileData.forEach(function(file) {
+        // 状态值按照 spec.md 规范：success(已完成), error(错误), processing(处理中)
         const statusClass = file.status === 'success' ? 'status-success' :
+                           file.status === 'error' ? 'status-failed' :
                            file.status === 'failed' ? 'status-failed' :
                            'status-processing';
 
         const statusText = file.status === 'success' ? '成功' :
+                          file.status === 'error' ? '失败' :
                           file.status === 'failed' ? '失败' :
                           '处理中';
 

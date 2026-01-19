@@ -1,6 +1,7 @@
 // 安全智库智能体页面交互逻辑
 
 // 模拟对话数据
+// 状态值按照 spec.md 规范：running(分析中), completed(已完成), terminated(已终止), error(错误)
 const mockConversations = [
     { id: '1', title: 'OWASP Top 10 漏洞咨询', status: 'running', messageCount: 8, lastReply: '刚刚', time: '2025-12-19 14:30' },
     { id: '2', title: '零信任架构咨询', status: 'running', messageCount: 15, lastReply: '2小时前', time: '2025-12-19 12:15' },
