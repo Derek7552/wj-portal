@@ -26,3 +26,7 @@ dist/
 build/
 *.min.js
 *.min.css
+
+# 测试相关
+test-results/
+.playwright-mcp/
