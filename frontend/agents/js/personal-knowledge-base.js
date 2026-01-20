@@ -14,6 +14,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // 渲染知识库列表
     renderKbList();
 
+    // 渲染我管理的知识库
+    renderManagedKbList();
+
+    // 渲染已收藏的知识库
+    renderFavoriteKbList();
+
     // 初始化中间栏标题
     updateMiddleColumnTitle();
 
@@ -49,25 +55,54 @@ let knowledgeBases = [
     }
 ];
 
+// 我管理的知识库(团队共享)
+let managedKnowledgeBases = [
+    {
+        id: 'managed-1',
+        name: '团队安全规范',
+        description: '公司安全开发规范文档',
+        createdAt: '2026-01-10 14:30:00'
+    },
+    {
+        id: 'managed-2',
+        name: '漏洞库',
+        description: '历史漏洞案例收集',
+        createdAt: '2026-01-12 09:15:00'
+    }
+];
+
+// 已收藏的知识库(从localStorage加载)
+let favoriteKnowledgeBases = JSON.parse(localStorage.getItem('favoriteKnowledgeBasesData') || '[]');
+
 // 当前选中的知识库ID
 let currentKbId = 'kb-1';
 
 // 知识库最大数量
 const MAX_KB_COUNT = 3;
 
-// 模拟文件数据
+// 模拟文件数据 - 按知识库ID存储
 // 状态值按照 spec.md 规范：running(分析中), completed(已完成/success), terminated(已终止), error(错误)
-let fileData = [
-    {
-        id: 1,
-        name: 'FuzzEnFuzz.no_watermark.zh-CN.pdf',
-        status: 'error',
-        time: '2026-01-04 16:29:02',
-        size: '9B',
-        timestamp: new Date('2026-01-04 16:29:02').getTime(),
-        sizeBytes: 9
+let fileDataByKb = {
+    'kb-1': [
+        {
+            id: 1,
+            name: 'FuzzEnFuzz.no_watermark.zh-CN.pdf',
+            status: 'error',
+            time: '2026-01-04 16:29:02',
+            size: '9B',
+            timestamp: new Date('2026-01-04 16:29:02').getTime(),
+            sizeBytes: 9
+        }
+    ]
+};
+
+// 获取当前知识库的文件数据
+function getCurrentFileData() {
+    if (!fileDataByKb[currentKbId]) {
+        fileDataByKb[currentKbId] = [];
     }
-];
+    return fileDataByKb[currentKbId];
+}
 
 // 渲染知识库列表
 function renderKbList() {
@@ -120,6 +155,116 @@ function renderKbList() {
     initKnowledgeBaseSwitch();
 }
 
+// 渲染我管理的知识库列表
+function renderManagedKbList() {
+    const section = document.querySelector('#managedKbSection');
+    if (!section) return;
+
+    // 查找或创建列表容器
+    let listContainer = section.querySelector('.kb-list');
+    if (!listContainer) {
+        // 移除空状态
+        const emptyState = section.querySelector('.kb-empty-state');
+        if (emptyState) emptyState.remove();
+
+        // 创建列表容器
+        listContainer = document.createElement('div');
+        listContainer.className = 'kb-list';
+        section.appendChild(listContainer);
+    }
+
+    listContainer.innerHTML = '';
+
+    // 如果没有数据,显示空状态
+    if (managedKnowledgeBases.length === 0) {
+        const emptyState = document.createElement('div');
+        emptyState.className = 'kb-empty-state';
+        emptyState.innerHTML = '<p class="empty-text">暂无管理的知识库</p>';
+        listContainer.appendChild(emptyState);
+        return;
+    }
+
+    // 渲染知识库列表
+    managedKnowledgeBases.forEach(function(kb) {
+        const isActive = kb.id === currentKbId;
+        const item = document.createElement('div');
+        item.className = `kb-item ${isActive ? 'active' : ''}`;
+        item.setAttribute('data-kb-id', kb.id);
+        item.innerHTML = `
+            <span class="kb-item-icon">📦</span>
+            <div class="kb-item-name">${kb.name}</div>
+        `;
+        listContainer.appendChild(item);
+    });
+
+    // 绑定点击事件
+    initKnowledgeBaseSwitch();
+}
+
+// 渲染已收藏的知识库列表
+function renderFavoriteKbList() {
+    const section = document.querySelector('#favoriteKbSection');
+    if (!section) return;
+
+    // 查找或创建列表容器
+    let listContainer = section.querySelector('.kb-list');
+    if (!listContainer) {
+        // 移除空状态
+        const emptyState = section.querySelector('.kb-empty-state');
+        if (emptyState) emptyState.remove();
+
+        // 创建列表容器
+        listContainer = document.createElement('div');
+        listContainer.className = 'kb-list';
+        section.appendChild(listContainer);
+    }
+
+    listContainer.innerHTML = '';
+
+    // 如果没有数据,显示空状态
+    if (favoriteKnowledgeBases.length === 0) {
+        const emptyState = document.createElement('div');
+        emptyState.className = 'kb-empty-state with-icon';
+        emptyState.innerHTML = `
+            <div class="empty-icon">
+                <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <circle cx="40" cy="40" r="35" fill="#E8F4FF"/>
+                    <path d="M40 25L45 35H55L47 42L50 52L40 45L30 52L33 42L25 35H35L40 25Z" fill="#D0E8FF"/>
+                    <rect x="30" y="50" width="20" height="15" rx="2" fill="#B8DBFF"/>
+                </svg>
+            </div>
+            <p class="empty-text">您还未有收藏的知识库，快去收藏吧~</p>
+            <button class="btn-collect-kb" id="goToKnowledgeSquareBtn2">⭐ 知识库广场</button>
+        `;
+        listContainer.appendChild(emptyState);
+
+        // 绑定按钮事件
+        const btn = listContainer.querySelector('#goToKnowledgeSquareBtn2');
+        if (btn) {
+            btn.addEventListener('click', function() {
+                window.location.href = 'knowledge-square.html';
+            });
+        }
+        return;
+    }
+
+    // 渲染知识库列表
+    favoriteKnowledgeBases.forEach(function(kb) {
+        const isActive = kb.id === currentKbId;
+        const item = document.createElement('div');
+        item.className = `kb-item ${isActive ? 'active' : ''}`;
+        item.setAttribute('data-kb-id', kb.id);
+        item.innerHTML = `
+            <span class="kb-item-icon">⭐</span>
+            <div class="kb-item-name">${kb.name}</div>
+        `;
+        listContainer.appendChild(item);
+    });
+
+    // 绑定点击事件
+    initKnowledgeBaseSwitch();
+}
+
 // 初始化知识库切换
 function initKnowledgeBaseSwitch() {
     const kbItems = document.querySelectorAll('.kb-item');
@@ -141,8 +286,8 @@ function initKnowledgeBaseSwitch() {
             // 更新中间栏标题
             updateMiddleColumnTitle();
 
-            // 这里可以根据kbId加载不同的文件列表
-            // loadKnowledgeBaseFiles(kbId);
+            // 刷新文件列表
+            renderFileTable();
         });
     });
 }
@@ -179,6 +324,7 @@ function initTableSort() {
 
 // 排序文件数据
 function sortFileData(sortType, order) {
+    const fileData = getCurrentFileData();
     fileData.sort(function(a, b) {
         let compareA, compareB;
 
@@ -206,7 +352,32 @@ function renderFileTable() {
     const tbody = document.getElementById('fileTableBody');
     if (!tbody) return;
 
+    const fileData = getCurrentFileData();
     tbody.innerHTML = '';
+
+    // 如果没有文件,显示空状态
+    if (fileData.length === 0) {
+        const emptyRow = document.createElement('tr');
+        emptyRow.className = 'empty-state-row';
+        emptyRow.innerHTML = `
+            <td colspan="5" class="empty-state-cell">
+                <div class="kb-empty-state">
+                    <div class="empty-icon">
+                        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                            <circle cx="40" cy="40" r="35" fill="#F3F4F6"/>
+                            <path d="M30 25H50C51.1 25 52 25.9 52 27V53C52 54.1 51.1 55 50 55H30C28.9 55 28 54.1 28 53V27C28 25.9 28.9 25 30 25Z" fill="#D1D5DB"/>
+                            <rect x="33" y="30" width="14" height="2" rx="1" fill="#9CA3AF"/>
+                            <rect x="33" y="35" width="10" height="2" rx="1" fill="#9CA3AF"/>
+                            <rect x="33" y="40" width="12" height="2" rx="1" fill="#9CA3AF"/>
+                        </svg>
+                    </div>
+                    <p class="empty-text">暂无文件,点击上方"上传文档"按钮添加文件</p>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(emptyRow);
+        return;
+    }
 
     fileData.forEach(function(file) {
         // 状态值按照 spec.md 规范：success(已完成), error(错误), processing(处理中)
@@ -269,6 +440,7 @@ function initFileActions() {
 
 // 下载文件
 function downloadFile(fileId) {
+    const fileData = getCurrentFileData();
     const file = fileData.find(f => f.id === fileId);
     if (!file) return;
 
@@ -278,11 +450,15 @@ function downloadFile(fileId) {
 
 // 删除文件
 function deleteFile(fileId) {
+    const fileData = getCurrentFileData();
     const file = fileData.find(f => f.id === fileId);
     if (!file) return;
 
     if (confirm(`确定要删除文件 "${file.name}" 吗？`)) {
-        fileData = fileData.filter(f => f.id !== fileId);
+        const index = fileData.findIndex(f => f.id === fileId);
+        if (index !== -1) {
+            fileData.splice(index, 1);
+        }
         renderFileTable();
         console.log('删除文件:', file.name);
     }
@@ -430,10 +606,12 @@ function initUploadModal() {
 
             console.log('上传文件:', selectedFiles);
 
+            const fileData = getCurrentFileData();
+
             // 模拟上传
             selectedFiles.forEach(function(file) {
                 const newFile = {
-                    id: fileData.length + 1,
+                    id: Date.now() + Math.random(),
                     name: file.name,
                     status: 'processing',
                     time: new Date().toLocaleString('zh-CN', {
@@ -688,6 +866,12 @@ function initCreateKbModal() {
             // 刷新知识库列表
             renderKbList();
 
+            // 更新中间栏标题
+            updateMiddleColumnTitle();
+
+            // 显示空状态
+            renderFileTable();
+
             console.log('创建知识库:', newKb);
             alert(`成功创建知识库：${name}`);
             closeModal();
@@ -928,15 +1112,33 @@ function initDirectoryMenu() {
 }
 
 // ==========================================
-// 辅助函数：更新中间栏标题
+// 辅助函数:更新中间栏标题
 // ==========================================
 
 function updateMiddleColumnTitle() {
     const titleElement = document.querySelector('.kb-content-title');
-    const currentKb = knowledgeBases.find(function(kb) { return kb.id === currentKbId; });
+    const descElement = document.querySelector('.kb-content-description');
+
+    // 查找当前知识库(从三个数据源中查找)
+    let currentKb = knowledgeBases.find(function(kb) { return kb.id === currentKbId; });
+    if (!currentKb) {
+        currentKb = managedKnowledgeBases.find(function(kb) { return kb.id === currentKbId; });
+    }
+    if (!currentKb) {
+        currentKb = favoriteKnowledgeBases.find(function(kb) { return kb.id === currentKbId; });
+    }
 
     if (titleElement && currentKb) {
         titleElement.textContent = currentKb.name;
+    }
+
+    if (descElement && currentKb) {
+        if (currentKb.description && currentKb.description.trim()) {
+            descElement.textContent = currentKb.description;
+            descElement.style.display = 'block';
+        } else {
+            descElement.style.display = 'none';
+        }
     }
 }
 

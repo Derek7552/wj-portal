@@ -238,16 +238,33 @@ function createKnowledgeBaseCard(kb, isFavorited) {
 function toggleFavorite(kbId) {
     const index = favoriteIds.indexOf(kbId);
 
+    // 获取知识库完整信息
+    const allKbs = [...industryKnowledgeBases, ...enterpriseKnowledgeBases];
+    const kb = allKbs.find(function(k) { return k.id === kbId; });
+
+    // 获取已存储的完整收藏数据
+    let favoriteKbsData = JSON.parse(localStorage.getItem('favoriteKnowledgeBasesData') || '[]');
+
     if (index > -1) {
         // 已收藏，取消收藏
         favoriteIds.splice(index, 1);
+        favoriteKbsData = favoriteKbsData.filter(function(k) { return k.id !== kbId; });
     } else {
         // 未收藏，添加收藏
         favoriteIds.push(kbId);
+        if (kb) {
+            favoriteKbsData.push({
+                id: kb.id,
+                name: kb.name,
+                description: kb.description,
+                createdAt: kb.createdAt
+            });
+        }
     }
 
     // 保存到localStorage
     localStorage.setItem('favoriteKnowledgeBases', JSON.stringify(favoriteIds));
+    localStorage.setItem('favoriteKnowledgeBasesData', JSON.stringify(favoriteKbsData));
 
     // 重新渲染
     renderKnowledgeBases();

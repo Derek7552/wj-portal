@@ -706,8 +706,8 @@ body.personal-kb-page .main-content-area {
     height: 100%;
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* 对话头部 */
@@ -715,8 +715,9 @@ body.personal-kb-page .main-content-area {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 16px 20px;
+    background: var(--clouditera-neutral-background-white);
+    border-bottom: 1px solid var(--clouditera-neutral-border-secondary);
     flex-shrink: 0;
 }
 
@@ -733,13 +734,12 @@ body.personal-kb-page .main-content-area {
 .chat-title {
     font-size: 16px;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--clouditera-neutral-text-primary);
     margin: 0;
 }
 
 .chat-header .btn-icon {
-    color: #ffffff;
-    opacity: 0.8;
+    color: var(--clouditera-neutral-gray-6);
     font-size: 16px;
     padding: 6px;
     background: transparent;
@@ -750,8 +750,8 @@ body.personal-kb-page .main-content-area {
 }
 
 .chat-header .btn-icon:hover {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--clouditera-neutral-gray-9);
+    background: var(--clouditera-neutral-background-primary);
 }
 
 /* 消息列表 */
@@ -778,7 +778,7 @@ body.personal-kb-page .main-content-area {
     justify-content: center;
     font-size: 20px;
     flex-shrink: 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: var(--clouditera-palette-blue-1);
 }
 
 .message-content {
@@ -1408,4 +1408,43 @@ body.personal-kb-page .main-content-area {
     .file-table {
         min-width: 600px;
     }
+}
+
+/* ==========================================
+   文件列表空状态样式
+   ========================================== */
+
+.empty-state-row {
+    background: transparent;
+}
+
+.empty-state-row:hover {
+    background: transparent;
+}
+
+.empty-state-cell {
+    padding: 80px 24px !important;
+    text-align: center;
+    border: none !important;
+}
+
+.empty-state-cell .kb-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.empty-state-cell .empty-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state-cell .empty-text {
+    font-size: 14px;
+    color: var(--clouditera-neutral-gray-6);
+    margin: 0;
 }
