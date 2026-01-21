@@ -19,6 +19,23 @@
     margin-right: 24px;
 }
 
+/* 当包含任务记录列表时，添加白色背景、边框和滚动 */
+.agent-detail-page .agent-main-content:has(.trl-container) {
+    background: var(--clouditera-neutral-background-white);
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    border-radius: 8px;
+    overflow-y: auto;
+    max-height: calc(100vh - 72px);
+}
+
+/* 当 phishing-chat-panel 包含任务记录列表时的特殊样式 */
+.phishing-chat-panel:has(.trl-container) {
+    box-shadow: none !important;
+    border: 1px solid var(--clouditera-neutral-border-secondary);
+    overflow-y: auto;
+    height: 100%;
+}
+
 /* ==========================================
    左侧：社工配置面板
    ========================================== */
