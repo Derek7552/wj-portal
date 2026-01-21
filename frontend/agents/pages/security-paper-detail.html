@@ -122,10 +122,10 @@
             </div>
         </div>
 
-        <!-- 主内容容器：左右布局 -->
+        <!-- 主内容容器 -->
         <div class="detail-container">
-            <!-- 左侧：论文详情 -->
-            <div class="detail-content">
+            <!-- 论文详情 -->
+            <div class="detail-content detail-content-full">
                 <!-- 详情页头部 -->
                 <div class="detail-header">
                     <div class="detail-meta">
@@ -216,65 +216,6 @@
                             <span class="related-icon">📄</span>
                             <span class="related-text">可信网络架构下的零信任安全通信协议</span>
                         </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 右侧：对话区域 -->
-            <div class="detail-chat">
-                <div class="chat-container">
-                    <!-- 对话头部 -->
-                    <div class="chat-header">
-                        <div class="chat-header-main">
-                            <span class="chat-icon">🤖</span>
-                            <span class="chat-title">AI 学术助手</span>
-                        </div>
-                        <button class="btn-icon" id="clearChat" title="清空对话">
-                            🗑️
-                        </button>
-                    </div>
-
-                    <!-- 对话消息区域 -->
-                    <div class="chat-messages" id="chatMessages">
-                        <!-- 欢迎消息 -->
-                        <div class="message message-ai">
-                            <div class="message-avatar">🤖</div>
-                            <div class="message-content">
-                                <div class="message-time">2024-12-30 10:00</div>
-                                <div class="message-bubble">
-                                    <p>您好！我是AI学术助手，我可以帮助您深入理解这篇学术论文。</p>
-                                    <p>您可以向我提问，例如：</p>
-                                    <ul>
-                                        <li>这篇论文的核心贡献是什么？</li>
-                                        <li>实验方法有哪些优缺点？</li>
-                                        <li>如何应用到实际场景中？</li>
-                                        <li>有哪些相关的研究方向？</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 输入区域 -->
-                    <div class="chat-input-container">
-                        <div class="chat-input-wrapper">
-                            <textarea
-                                class="chat-input"
-                                id="chatInput"
-                                placeholder="向AI提问关于这篇论文的问题..."
-                                rows="3"
-                            ></textarea>
-                            <div class="chat-input-toolbar">
-                                <div class="chat-input-actions">
-                                    <button class="btn-icon" title="上传文件">📎</button>
-                                    <button class="btn-icon" title="插入图片">🖼️</button>
-                                </div>
-                                <button class="btn btn-primary chat-send" id="chatSend">
-                                    <span>发送</span>
-                                    <span class="send-shortcut">Shift+Enter</span>
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -545,78 +486,6 @@
 
         // 页面加载时初始化
         loadPaperData();
-
-        // 聊天功能（简化版）
-        document.getElementById('chatSend').addEventListener('click', function() {
-            const input = document.getElementById('chatInput');
-            const message = input.value.trim();
-            if (message) {
-                addUserMessage(message);
-                input.value = '';
-                // 模拟AI回复
-                setTimeout(() => {
-                    addAIMessage('这是一个很好的问题！关于这篇论文的' + message.substring(0, 20) + '...，我需要更详细地分析论文内容才能给出准确的答案。');
-                }, 1000);
-            }
-        });
-
-        // 支持Shift+Enter发送
-        document.getElementById('chatInput').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && e.shiftKey) {
-                e.preventDefault();
-                document.getElementById('chatSend').click();
-            }
-        });
-
-        function addUserMessage(message) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageHtml = `
-                <div class="message message-user">
-                    <div class="message-content">
-                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
-                        <div class="message-bubble">
-                            <p>${message}</p>
-                        </div>
-                    </div>
-                    <div class="message-avatar">👤</div>
-                </div>
-            `;
-            messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        function addAIMessage(message) {
-            const messagesDiv = document.getElementById('chatMessages');
-            const messageHtml = `
-                <div class="message message-ai">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">
-                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
-                        <div class="message-bubble">
-                            <p>${message}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-            messagesDiv.insertAdjacentHTML('beforeend', messageHtml);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        }
-
-        // 清空对话
-        document.getElementById('clearChat').addEventListener('click', function() {
-            const messagesDiv = document.getElementById('chatMessages');
-            messagesDiv.innerHTML = `
-                <div class="message message-ai">
-                    <div class="message-avatar">🤖</div>
-                    <div class="message-content">
-                        <div class="message-time">${new Date().toLocaleString('zh-CN', { hour12: false }).replace(/\//g, '-')}</div>
-                        <div class="message-bubble">
-                            <p>对话已清空。有什么我可以帮您的吗？</p>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
 
         // 收藏功能
         document.getElementById('collectBtn').addEventListener('click', function() {
