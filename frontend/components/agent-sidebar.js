@@ -97,8 +97,10 @@ function renderTasks(tasks, container, maxTasks) {
     const displayTasks = tasks.slice(0, maxTasks);
     const statusIcons = {
         'completed': '✅',
+        'error': '❌',
         'failed': '❌',
         'running': '⏳',
+        'terminated': '⏹️',
         'pending': '⏸️'
     };
 

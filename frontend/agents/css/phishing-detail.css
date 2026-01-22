@@ -42,8 +42,8 @@
 
 .phishing-config-panel {
     flex: 0 0 400px; /* 初始宽度 400px，可拖拽调整 */
-    min-width: 300px; /* 最小宽度限制 */
-    max-width: 600px; /* 最大宽度限制 */
+    min-width: 20%; /* 最小宽度 20% */
+    max-width: 80%; /* 最大宽度 80% */
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -58,69 +58,50 @@
    拖拽分隔条
    ========================================== */
 
-.panel-resizer {
-    width: 4px;
-    height: 100%;
-    background: transparent;
+/* 可拖拽的分隔条 */
+.resizer {
+    width: 16px;
     cursor: col-resize;
-    position: relative;
     flex-shrink: 0;
-    margin: 0 10px; /* 左右各 10px，总间距 24px (10px + 4px + 10px) */
-    transition: background 0.2s;
-    user-select: none;
-}
-
-.panel-resizer:hover {
-    background: var(--clouditera-brand-primary);
-}
-
-/* 拖拽把手（中间的三条竖线） */
-.panel-resizer-handle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 4px;
-    height: 40px;
+    background: transparent;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    pointer-events: none;
+    transition: background 0.2s;
 }
 
-.panel-resizer-handle::before {
+/* 分隔条中间的视觉指示线 */
+.resizer::after {
     content: '';
+    position: absolute;
     width: 2px;
-    height: 100%;
-    background: var(--clouditera-neutral-border-primary);
-    border-radius: 1px;
-    opacity: 0;
-    transition: opacity 0.2s;
+    height: 40px;
+    background: var(--clouditera-neutral-border-secondary);
+    border-radius: 2px;
+    transition: all 0.2s;
 }
 
-.panel-resizer:hover .panel-resizer-handle::before {
-    opacity: 1;
+/* 鼠标悬停效果 */
+.resizer:hover {
+    background: var(--clouditera-neutral-background-secondary);
 }
 
-/* 拖拽状态 */
-.panel-resizer.resizing {
+.resizer:hover::after {
     background: var(--clouditera-brand-primary);
+    height: 60px;
+    box-shadow: 0 0 8px rgba(41, 140, 255, 0.3);
 }
 
-.panel-resizer.resizing .panel-resizer-handle::before {
-    opacity: 1;
-    background: white;
+/* 拖拽中的状态 */
+.resizer.resizing {
+    background: var(--clouditera-neutral-background-secondary);
 }
 
-/* 全局拖拽光标 */
-body.resizing {
-    cursor: col-resize !important;
-    user-select: none;
-}
-
-body.resizing * {
-    cursor: col-resize !important;
-    user-select: none;
+.resizer.resizing::after {
+    background: var(--clouditera-brand-primary);
+    height: 100%;
+    box-shadow: 0 0 12px rgba(41, 140, 255, 0.5);
 }
 
 /* ==========================================
@@ -129,7 +110,7 @@ body.resizing * {
 
 .phishing-chat-panel {
     flex: 1;
-    min-width: 400px; /* 最小宽度限制 */
+    min-width: 20%; /* 最小宽度 20% */
     background: var(--clouditera-neutral-background-white);
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -487,7 +468,7 @@ body.resizing * {
     }
 
     /* 隐藏拖拽分隔条 */
-    .panel-resizer {
+    .resizer {
         display: none;
     }
 

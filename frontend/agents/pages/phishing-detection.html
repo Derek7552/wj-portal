@@ -258,9 +258,7 @@
             </aside>
 
             <!-- 拖拽分隔条 -->
-            <div class="panel-resizer" id="panelResizer">
-                <div class="panel-resizer-handle"></div>
-            </div>
+            <div class="resizer" id="panelResizer"></div>
 
             <!-- 右侧：对话区域 -->
             <div class="phishing-chat-panel">
@@ -547,7 +545,6 @@
 
                 // 添加拖拽状态类
                 resizer.classList.add('resizing');
-                document.body.classList.add('resizing');
             });
 
             // 鼠标移动时调整宽度
@@ -557,16 +554,20 @@
                 const deltaX = e.clientX - startX;
                 const newWidth = startWidth + deltaX;
 
-                // 限制最小和最大宽度
-                const minWidth = 300;
-                const maxWidth = 600;
+                // 获取容器总宽度
                 const containerWidth = configPanel.parentElement.offsetWidth;
-                const chatMinWidth = 400;
-                const maxAllowedWidth = containerWidth - chatMinWidth - 24 - 24 - 4; // 减去间距和分隔条
+                const resizerWidth = 16; // 分隔条宽度
+                const availableWidth = containerWidth - resizerWidth;
+
+                // 基于 20% 百分比的限制
+                const minWidthPercent = 0.2; // 20%
+                const maxWidthPercent = 0.8; // 80%
+                const minWidth = availableWidth * minWidthPercent;
+                const maxWidth = availableWidth * maxWidthPercent;
 
                 const finalWidth = Math.min(
                     Math.max(newWidth, minWidth),
-                    Math.min(maxWidth, maxAllowedWidth)
+                    maxWidth
                 );
 
                 configPanel.style.flexBasis = finalWidth + 'px';
@@ -578,7 +579,6 @@
 
                 isResizing = false;
                 resizer.classList.remove('resizing');
-                document.body.classList.remove('resizing');
 
                 // 保存当前宽度到 localStorage
                 const currentWidth = configPanel.offsetWidth;
